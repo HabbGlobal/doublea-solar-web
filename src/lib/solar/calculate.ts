@@ -198,6 +198,18 @@ const WALLBOX_CHF = 1950;
 const PRONOVO_CHF_PER_KWP = 360;
 
 /**
+ * Modul-Footprint pro kWp (m²). Kalibriert für moderne hocheffiziente Panels
+ * wie AIKO Neostar G3 480 Wp (24 % Wirkungsgrad, ~1.87 m² pro Modul):
+ * - 1 Modul = 480 Wp / 1.87 m² → 3.9 m²/kWp
+ * - Validiert gegen alle 3 DoubleA-Offerten (Sanmugam, Navaratnam, Yogarajah)
+ *   die jeweils auf den Cent genau dasselbe Verhältnis ergeben.
+ *
+ * Frühere Annahme (5 m²/kWp) entsprach veralteten 200-W/m² Panels und gab
+ * 22 % zu kleine Anlagen.
+ */
+const M2_PER_KWP = 3.9;
+
+/**
  * Hauptberechnung. Gibt Spannen ("Range") zurück, weil eine seriöse
  * Erstschätzung ohne Standortbegehung keine Punktwerte liefern kann.
  *
@@ -224,8 +236,7 @@ export function calculateSolar(input: SolarCalculatorInput): SolarCalculatorResu
 
   if (sonnendach) {
     usableAreaM2 = round(sonnendach.usableAreaM2, 1);
-    // 1 kWp ~ 5 m² Modulfläche (≈200 W/m²).
-    recommendedKwp = round(sonnendach.usableAreaM2 / 5, 1);
+    recommendedKwp = round(sonnendach.usableAreaM2 / M2_PER_KWP, 1);
     // BFE-Modellwert verwenden + leichte Spanne für Modul-Effizienz-Variation.
     realistic = round(sonnendach.totalElectricityYieldKwhYear);
     conservative = round(realistic * 0.92);
@@ -234,13 +245,12 @@ export function calculateSolar(input: SolarCalculatorInput): SolarCalculatorResu
   } else {
     const usablePercent = clamp(input.usableRoofPercent, 30, 100) / 100;
     usableAreaM2 = round(input.roofAreaM2 * usablePercent, 1);
-    recommendedKwp = round(usableAreaM2 / 5, 1);
+    recommendedKwp = round(usableAreaM2 / M2_PER_KWP, 1);
     const canton = getCanton(input.canton);
     specificYield = canton?.specificYield ?? 1000;
 
-    const yieldArea = usableAreaM2 * 200 * fO * fT * fS;
-    const yieldKwp = recommendedKwp * specificYield * fO * fT * fS;
-    realistic = round((yieldArea + yieldKwp) / 2);
+    // kWp × spezifischer Kantons-Ertrag × Korrekturfaktoren.
+    realistic = round(recommendedKwp * specificYield * fO * fT * fS);
     conservative = round(realistic * 0.88);
     optimistic = round(realistic * 1.08);
   }

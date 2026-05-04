@@ -55,20 +55,23 @@ function useDebounced<T>(value: T, delay = 300): T {
 }
 
 /**
- * Default-Auswahl-Filter: nur Segmente, die für PV ernsthaft Sinn ergeben.
- * Klasse ≥ 3 (Gut, Sehr gut, Hervorragend) UND keine reine Nord-Ausrichtung.
- * Pure Nordflächen (135° bis 225°, also -135° bis 135° gespiegelt um Süd)
- * sowie sehr kleine Segmente (< 10 m²) werden nicht vorausgewählt.
+ * Default-Auswahl-Filter: alle Segmente, die für PV in Frage kommen.
+ * Inkl. Klasse 2 (Mittel) — Real-Installateure nutzen die auch, vor allem
+ * bei Ost-/Westausrichtung (geringere Mittagsspitzen, höherer Eigenverbrauch).
+ *
+ * Ausgeschlossen sind nur:
+ * - Klasse 1 (Gering) — nicht wirtschaftlich
+ * - Pure Nord-Ausrichtungen (>135° / <-135°) bei geneigten Dächern
+ * - Segmente unter 5 m² — zu klein für sinnvolle Modulanordnung
  */
 function isWorthSelecting(s: SonnendachSegment): boolean {
-  if (s.suitabilityClass < 3) return false;
-  if (s.areaM2 < 10) return false;
-  // Bei Flachdach (tilt < 5°) ist die Ausrichtung egal.
+  if (s.suitabilityClass < 2) return false;
+  if (s.areaM2 < 5) return false;
+  // Bei Flachdach (tilt < 5°) ist die Ausrichtung irrelevant.
   if (s.tiltDeg < 5) return true;
   // Sonnendach-Konvention: 0° = Süd, ±180° = Nord. Akzeptiere -135° bis +135°.
   const a = s.orientationDeg;
-  if (a >= -135 && a <= 135) return true;
-  return false;
+  return a >= -135 && a <= 135;
 }
 
 function classToColor(klasse: number): string {
