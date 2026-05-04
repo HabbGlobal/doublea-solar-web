@@ -32,9 +32,31 @@ pnpm dev                     # http://localhost:3000
 | `SUPABASE_SERVICE_ROLE_KEY`       | Server-only key for inserts in route handlers    |
 | `NEXT_PUBLIC_COMPANY_PHONE`       | Phone shown in header / footer                   |
 | `NEXT_PUBLIC_COMPANY_EMAIL`       | E-mail shown in header / footer                  |
+| `RESEND_API_KEY`                  | Resend API key for transactional notifications   |
+| `LEAD_NOTIFY_TO`                  | Inbox that receives every form submission        |
+| `LEAD_NOTIFY_FROM`                | Verified `Name <addr@verified-domain>` for sending |
 
 **Never expose `SUPABASE_SERVICE_ROLE_KEY` to the client.** It is only used in
 `/src/lib/supabase/server.ts` and consumed by API route handlers.
+
+## E-Mail-Benachrichtigungen (Resend)
+
+Jede Anfrage über `/api/leads` und `/api/solar-calculation` löst nach
+erfolgreichem Insert eine Notification an `LEAD_NOTIFY_TO` aus. Setup:
+
+1. Account auf [resend.com](https://resend.com) anlegen.
+2. Domain (z.B. `notifications.doubleasolutions.ch`) hinzufügen → Resend
+   gibt dir DNS-Records (SPF + DKIM, optional MX). Diese bei Hostpoint
+   einfügen. Bewusst **Subdomain** wählen, damit der bestehende Zoho-MX
+   für `@doubleasolutions.ch` unangetastet bleibt.
+3. Domain im Resend-Dashboard verifizieren (kann ein paar Minuten dauern).
+4. API-Key generieren → in Vercel als `RESEND_API_KEY` eintragen.
+5. `LEAD_NOTIFY_FROM` auf eine Adresse der verifizierten Domain setzen, z.B.
+   `DoubleA Solar <noreply@notifications.doubleasolutions.ch>`.
+6. Redeploy auslösen.
+
+Ohne `RESEND_API_KEY` werden Mails geräuschlos übersprungen — Form-Submissions
+funktionieren weiterhin und werden in Supabase persistiert.
 
 ## Supabase Setup
 
