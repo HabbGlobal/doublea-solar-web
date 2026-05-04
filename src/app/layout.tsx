@@ -52,6 +52,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: {
+    icon: "/icon",
+    apple: [{ url: "/logo.png", type: "image/png" }],
+  },
   openGraph: {
     type: "website",
     locale: siteConfig.locale,
@@ -80,6 +84,8 @@ const localBusinessJsonLd = {
   alternateName: siteConfig.name,
   description: siteConfig.description,
   url: siteConfig.url,
+  logo: `${siteConfig.url}/logo.png`,
+  image: `${siteConfig.url}/logo.png`,
   telephone: siteConfig.contact.phone,
   email: siteConfig.contact.email,
   areaServed: { "@type": "Country", name: "Schweiz" },

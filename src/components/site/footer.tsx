@@ -1,8 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { siteConfig } from "@/lib/site-config";
-import { Logo } from "./logo";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -12,7 +12,14 @@ export function SiteFooter() {
     <footer className="surface-navy relative mt-24 overflow-hidden">
       <div className="container-page relative grid gap-12 py-16 lg:grid-cols-12 lg:gap-8 lg:py-20">
         <div className="lg:col-span-5">
-          <Logo variant="light" className="text-white" />
+          <Image
+            src="/logo.png"
+            alt="DoubleA Solar Solutions"
+            width={220}
+            height={220}
+            className="-ml-4 size-auto w-44"
+            priority={false}
+          />
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/70">
             DoubleA Solar Solutions plant, installiert und betreut Photovoltaikanlagen
             in der Schweiz. Unser Anspruch: präzise Auslegung, transparente Offerten
