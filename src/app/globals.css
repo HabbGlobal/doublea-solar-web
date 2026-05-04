@@ -1,0 +1,241 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+
+  --color-solar-navy: var(--solar-navy);
+  --color-solar-navy-foreground: var(--solar-navy-foreground);
+  --color-solar-emerald: var(--solar-emerald);
+  --color-solar-gold: var(--solar-gold);
+  --color-solar-cream: var(--solar-cream);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  /* Brand palette — DoubleA Solar */
+  --background: #f8faf7;
+  --foreground: #101828;
+  --card: rgba(255, 255, 255, 0.78);
+  --card-foreground: #101828;
+  --popover: #ffffff;
+  --popover-foreground: #101828;
+  --primary: #0b1f33;
+  --primary-foreground: #f8faf7;
+  --secondary: #eef2ee;
+  --secondary-foreground: #0b1f33;
+  --muted: #eef2ee;
+  --muted-foreground: #667085;
+  --accent: #0e7a5f;
+  --accent-foreground: #ffffff;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: rgba(11, 31, 51, 0.08);
+  --input: rgba(11, 31, 51, 0.12);
+  --ring: rgba(14, 122, 95, 0.35);
+
+  --solar-navy: #0b1f33;
+  --solar-navy-foreground: #f8faf7;
+  --solar-emerald: #0e7a5f;
+  --solar-gold: #f5b841;
+  --solar-cream: #fdf6e3;
+
+  --chart-1: #0e7a5f;
+  --chart-2: #f5b841;
+  --chart-3: #0b1f33;
+  --chart-4: #6ab187;
+  --chart-5: #c2862e;
+
+  --radius: 0.75rem;
+  --font-heading: var(--font-sans);
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #101828;
+  --sidebar-primary: #0b1f33;
+  --sidebar-primary-foreground: #f8faf7;
+  --sidebar-accent: #eef2ee;
+  --sidebar-accent-foreground: #0b1f33;
+  --sidebar-border: rgba(11, 31, 51, 0.08);
+  --sidebar-ring: rgba(14, 122, 95, 0.35);
+}
+
+.dark {
+  --background: #07111d;
+  --foreground: #e7eef5;
+  --card: rgba(255, 255, 255, 0.04);
+  --card-foreground: #e7eef5;
+  --popover: #0b1f33;
+  --popover-foreground: #e7eef5;
+  --primary: #f5b841;
+  --primary-foreground: #0b1f33;
+  --secondary: rgba(255, 255, 255, 0.06);
+  --secondary-foreground: #e7eef5;
+  --muted: rgba(255, 255, 255, 0.06);
+  --muted-foreground: #94a3b8;
+  --accent: #0e7a5f;
+  --accent-foreground: #ffffff;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: rgba(245, 184, 65, 0.35);
+
+  --solar-navy: #0b1f33;
+  --solar-navy-foreground: #f8faf7;
+  --solar-emerald: #0e7a5f;
+  --solar-gold: #f5b841;
+  --solar-cream: #fdf6e3;
+
+  --chart-1: #f5b841;
+  --chart-2: #0e7a5f;
+  --chart-3: #94a3b8;
+  --chart-4: #6ab187;
+  --chart-5: #c2862e;
+
+  --sidebar: #07111d;
+  --sidebar-foreground: #e7eef5;
+  --sidebar-primary: #f5b841;
+  --sidebar-primary-foreground: #0b1f33;
+  --sidebar-accent: rgba(255, 255, 255, 0.06);
+  --sidebar-accent-foreground: #e7eef5;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: rgba(245, 184, 65, 0.35);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--solar-gold) 38%, transparent);
+    color: var(--solar-navy);
+  }
+  h1, h2, h3, h4 {
+    @apply tracking-tight;
+    font-family: var(--font-heading);
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8 lg:px-12;
+  }
+
+  .surface-glass {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.6) 100%
+    );
+    backdrop-filter: saturate(140%) blur(14px);
+    -webkit-backdrop-filter: saturate(140%) blur(14px);
+    border: 1px solid rgba(11, 31, 51, 0.08);
+  }
+
+  .surface-navy {
+    background:
+      radial-gradient(120% 120% at 0% 0%, rgba(14, 122, 95, 0.18) 0%, transparent 55%),
+      radial-gradient(80% 80% at 100% 100%, rgba(245, 184, 65, 0.18) 0%, transparent 55%),
+      linear-gradient(180deg, #0b1f33 0%, #07111d 100%);
+    color: var(--solar-navy-foreground);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .grain-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px
+      );
+    background-size: 3px 3px;
+    mix-blend-mode: overlay;
+    opacity: 0.55;
+  }
+
+  .ring-focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--solar-emerald)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  .gold-underline {
+    background-image: linear-gradient(
+      120deg,
+      var(--solar-gold) 0%,
+      color-mix(in oklab, var(--solar-gold) 60%, transparent) 100%
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 0.32em;
+    background-position: 0 88%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
