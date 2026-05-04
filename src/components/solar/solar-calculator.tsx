@@ -150,6 +150,7 @@ export function SolarCalculator() {
   const leadValid =
     lead.name.trim().length >= 2 &&
     /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(lead.email.trim()) &&
+    /^[+0-9 ()/-]{6,30}$/.test(lead.phone.trim()) &&
     lead.consent;
 
   const form = useForm<SolarCalculatorFormInput>({
@@ -693,7 +694,7 @@ export function SolarCalculator() {
                         />
                       </Field>
                       <Field>
-                        <FieldLabel htmlFor="lead-phone">Telefon (optional)</FieldLabel>
+                        <FieldLabel htmlFor="lead-phone">Telefon *</FieldLabel>
                         <Input
                           id="lead-phone"
                           type="tel"

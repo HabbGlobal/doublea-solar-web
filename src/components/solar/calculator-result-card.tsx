@@ -23,7 +23,6 @@ import {
 } from "@/lib/solar/format";
 import type { SolarCalculatorResult } from "@/lib/solar/calculate";
 import { SavingsChart } from "./savings-chart";
-import { LeadForm } from "@/components/forms/lead-form";
 
 type Props = {
   result: SolarCalculatorResult;
@@ -174,28 +173,24 @@ export function CalculatorResultCard({ result, onReset }: Props) {
           </p>
         </div>
 
-        <div className="rounded-3xl border border-border bg-card p-6 shadow-[0_22px_60px_-40px_rgba(11,31,51,0.5)]">
-          <h3 className="text-base font-semibold text-foreground">
-            Persönliche Analyse anfordern
-          </h3>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            Senden Sie uns Ihre Auswertung – wir bereiten ein massgeschneidertes
-            Angebot mit Förderprüfung vor.
+        <div className="rounded-3xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/8 p-6">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[color:var(--solar-emerald)]">
+            Anfrage erfolgreich
           </p>
-          <div className="mt-4">
-            <LeadForm
-              source="solarrechner"
-              context={{ result }}
-              successCta={
-                <a
-                  href="/services"
-                  className="ring-focus inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--solar-emerald)]"
-                >
-                  Unsere Leistungen ansehen <ArrowRight className="size-4" />
-                </a>
-              }
-            />
-          </div>
+          <p className="mt-2 text-base font-semibold text-foreground">
+            Wir haben Ihre Anfrage erhalten.
+          </p>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Diese Auswertung ging soeben auch an unser Team. Wir prüfen Ihre Angaben,
+            klären Förderoptionen und melden uns innert eines Werktags persönlich für
+            die nächsten Schritte.
+          </p>
+          <a
+            href="/services"
+            className="ring-focus mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--solar-emerald)]"
+          >
+            Wie wir vorgehen <ArrowRight className="size-4" />
+          </a>
         </div>
       </div>
     </motion.div>
