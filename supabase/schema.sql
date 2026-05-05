@@ -94,3 +94,32 @@ create policy "solar_calculations_anon_insert"
 -- 4. Comments / status enum (kept lightweight as text, validated in app layer)
 comment on column public.leads.status is
     'new | contacted | qualified | offer_sent | won | lost (validated in app)';
+
+-- 4. site_content (für den Admin-Editor)
+-- Key-Value-Store für editierbare Inhalte: Hero-Headline, Kontaktdaten,
+-- FAQ-Items etc. Frontend liest mit Fallback auf hardcoded Defaults.
+create table if not exists public.site_content (
+    key         text primary key,
+    value       jsonb not null,
+    updated_at  timestamptz not null default now(),
+    updated_by  text
+);
+
+alter table public.site_content enable row level security;
+
+-- Public READ erlauben, damit das Frontend Inhalte ohne Auth lesen kann.
+drop policy if exists "site_content_anon_read" on public.site_content;
+create policy "site_content_anon_read"
+    on public.site_content
+    for select
+    to anon
+    using (true);
+
+-- Schreibzugriff nur für authentifizierte User (Admin-Login).
+drop policy if exists "site_content_auth_write" on public.site_content;
+create policy "site_content_auth_write"
+    on public.site_content
+    for all
+    to authenticated
+    using (true)
+    with check (true);

@@ -20,6 +20,9 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Im Admin-Bereich verstecken wir den Public-Header.
+  if (pathname?.startsWith("/admin")) return null;
+
   return (
     <header
       className={cn(

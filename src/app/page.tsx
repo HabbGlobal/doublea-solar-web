@@ -7,18 +7,24 @@ import { FinancingSection } from "@/components/sections/financing-section";
 import { ProjectShowcase } from "@/components/sections/project-showcase";
 import { FaqSection } from "@/components/sections/faq-section";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
+import { getSiteContent } from "@/lib/content/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const content = await getSiteContent();
+  const phoneHref = `tel:${content.contact.phone.replace(/[^+0-9]/g, "")}`;
   return (
     <>
-      <HeroSection />
+      <HeroSection
+        content={content.hero}
+        contact={{ phone: content.contact.phone, phoneHref }}
+      />
       <TrustSection />
       <ServicesSection />
       <SolarCalculatorSection />
       <ProcessSection />
       <FinancingSection />
       <ProjectShowcase />
-      <FaqSection />
+      <FaqSection items={content.faq} email={content.contact.email} />
       <FinalCtaSection />
     </>
   );

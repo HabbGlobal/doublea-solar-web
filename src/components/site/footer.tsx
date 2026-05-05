@@ -1,12 +1,41 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { siteConfig } from "@/lib/site-config";
 
-export function SiteFooter() {
+type Props = {
+  contact?: {
+    phone: string;
+    email: string;
+    addressStreet: string;
+    addressPostalCode: string;
+    addressCity: string;
+  };
+};
+
+export function SiteFooter({ contact: dynamicContact }: Props = {}) {
   const year = new Date().getFullYear();
-  const { contact } = siteConfig;
+  const pathname = usePathname();
+  const contact = dynamicContact
+    ? {
+        phone: dynamicContact.phone,
+        phoneHref: `tel:${dynamicContact.phone.replace(/[^+0-9]/g, "")}`,
+        email: dynamicContact.email,
+        address: {
+          street: dynamicContact.addressStreet,
+          postalCode: dynamicContact.addressPostalCode,
+          city: dynamicContact.addressCity,
+          country: siteConfig.contact.address.country,
+        },
+      }
+    : siteConfig.contact;
+
+  // Im Admin-Bereich verstecken wir den Public-Footer.
+  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <footer className="surface-navy relative mt-24 overflow-hidden">

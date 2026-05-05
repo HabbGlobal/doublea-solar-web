@@ -5,10 +5,18 @@ import { ArrowRight, Calculator, Phone } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { siteConfig } from "@/lib/site-config";
+import type { SiteContent } from "@/lib/content/schema";
 import { HeroVisual } from "./hero-visual";
 
-export function HeroSection() {
+type Props = {
+  content: SiteContent["hero"];
+  contact?: { phone: string; phoneHref: string };
+};
+
+export function HeroSection({ content, contact }: Props) {
   const reduce = useReducedMotion();
+  const phoneDisplay = contact?.phone ?? siteConfig.contact.phone;
+  const phoneHref = contact?.phoneHref ?? siteConfig.contact.phoneHref;
   const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 14 },
     animate: { opacity: 1, y: 0 },
@@ -29,25 +37,24 @@ export function HeroSection() {
             className="inline-flex items-center gap-2 rounded-full border border-[color:var(--solar-emerald)]/25 bg-[color:var(--solar-emerald)]/8 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--solar-emerald)]"
           >
             <span className="size-1.5 rounded-full bg-[color:var(--solar-emerald)]" />
-            Schweizer Photovoltaik · Sitz in Grenchen
+            {content.eyebrow}
           </motion.div>
 
           <motion.h1
             {...fadeUp(0.05)}
             className="mt-6 text-balance text-[40px] leading-[1.05] font-semibold text-foreground sm:text-5xl lg:text-[60px]"
           >
-            Solarenergie für{" "}
-            <span className="gold-underline">Schweizer Dächer</span>
-            {" "}– präzise geplant, sauber umgesetzt.
+            {content.headlineLeading}
+            {content.headlineLeading.endsWith(" ") ? "" : " "}
+            <span className="gold-underline">{content.headlineHighlight}</span>
+            {content.headlineTrailing}
           </motion.h1>
 
           <motion.p
             {...fadeUp(0.12)}
             className="mt-6 max-w-xl text-[17px] leading-relaxed text-muted-foreground"
           >
-            {siteConfig.name} begleitet Sie von der ersten Standortanalyse bis zur
-            langfristigen Wartung Ihrer Photovoltaikanlage – transparent,
-            persönlich und schweizweit professionell.
+            {content.subheadline}
           </motion.p>
 
           <motion.div
@@ -59,13 +66,13 @@ export function HeroSection() {
               className="ring-focus inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-[color:var(--solar-navy)] px-5 text-sm font-semibold text-[color:var(--solar-navy-foreground)] shadow-[0_18px_36px_-22px_rgba(11,31,51,0.6)] transition-transform hover:-translate-y-0.5"
             >
               <Calculator className="size-4" />
-              Solarpotenzial berechnen
+              {content.primaryCtaLabel}
             </Link>
             <Link
               href="/angebote"
               className="ring-focus inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card px-5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
             >
-              Kostenloses Angebot erhalten
+              {content.secondaryCtaLabel}
               <ArrowRight className="size-4" />
             </Link>
           </motion.div>
@@ -80,11 +87,11 @@ export function HeroSection() {
             </span>
             <span className="hidden sm:inline text-border">·</span>
             <a
-              href={siteConfig.contact.phoneHref}
+              href={phoneHref}
               className="ring-focus inline-flex items-center gap-2 rounded-md text-foreground hover:underline"
             >
               <Phone className="size-3.5" />
-              {siteConfig.contact.phone}
+              {phoneDisplay}
             </a>
           </motion.div>
         </div>

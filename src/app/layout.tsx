@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { siteConfig } from "@/lib/site-config";
+import { getSiteContent } from "@/lib/content/server";
 
 import "./globals.css";
 
@@ -76,39 +77,45 @@ export const metadata: Metadata = {
   },
 };
 
-const localBusinessJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${siteConfig.url}#business`,
-  name: siteConfig.legalName,
-  alternateName: siteConfig.name,
-  description: siteConfig.description,
-  url: siteConfig.url,
-  logo: `${siteConfig.url}/logo.png`,
-  image: `${siteConfig.url}/logo.png`,
-  telephone: siteConfig.contact.phone,
-  email: siteConfig.contact.email,
-  areaServed: { "@type": "Country", name: "Schweiz" },
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: siteConfig.contact.address.street,
-    postalCode: siteConfig.contact.address.postalCode,
-    addressLocality: siteConfig.contact.address.city,
-    addressRegion: siteConfig.contact.address.canton,
-    addressCountry: siteConfig.contact.address.countryCode,
-  },
-  knowsAbout: [
-    "Photovoltaik",
-    "Solaranlagen",
-    "Batteriespeicher",
-    "Eigenverbrauchsoptimierung",
-    "Förderberatung Pronovo",
-  ],
-};
+function buildLocalBusinessJsonLd(
+  contact: Awaited<ReturnType<typeof getSiteContent>>["contact"],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${siteConfig.url}#business`,
+    name: siteConfig.legalName,
+    alternateName: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    logo: `${siteConfig.url}/logo.png`,
+    image: `${siteConfig.url}/logo.png`,
+    telephone: contact.phone,
+    email: contact.email,
+    areaServed: { "@type": "Country", name: "Schweiz" },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: contact.addressStreet,
+      postalCode: contact.addressPostalCode,
+      addressLocality: contact.addressCity,
+      addressRegion: siteConfig.contact.address.canton,
+      addressCountry: siteConfig.contact.address.countryCode,
+    },
+    knowsAbout: [
+      "Photovoltaik",
+      "Solaranlagen",
+      "Batteriespeicher",
+      "Eigenverbrauchsoptimierung",
+      "Förderberatung Pronovo",
+    ],
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const content = await getSiteContent();
+  const localBusinessJsonLd = buildLocalBusinessJsonLd(content.contact);
   return (
     <html
       lang="de-CH"
@@ -120,7 +127,7 @@ export default function RootLayout({
           <main id="content" className="flex-1">
             {children}
           </main>
-          <SiteFooter />
+          <SiteFooter contact={content.contact} />
         </TooltipProvider>
         <Toaster position="top-right" richColors closeButton />
         <script
