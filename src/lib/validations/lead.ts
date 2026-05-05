@@ -38,6 +38,8 @@ export const leadSchema = z.object({
   address: z.string().trim().max(240).optional().or(z.literal("")),
   /** Aktuelle Heizart — Pflicht auf der Offerten-Seite. */
   heatingType: z.enum(heatingTypes).optional(),
+  /** Anzahl Personen im Haushalt — Pflicht bei Offerten/Beratungs-Anfragen. */
+  householdSize: z.number().int().min(1).max(30).optional(),
   message: z.string().trim().max(2000).optional().or(z.literal("")),
   consent: z
     .boolean()
@@ -107,8 +109,47 @@ export const solarCalculationRequestSchema = z.object({
   contact: leadSchema.partial().optional(),
 });
 
-export const contactFormSchema = leadSchema.extend({
-  topic: z.enum(["allgemein", "offerte", "service", "andere"]),
-});
+/**
+ * Kontaktformular: Topic ist immer Pflicht. Wenn topic === "offerte"
+ * (Offerten- oder Beratungs-Anfrage) werden Telefon, Adresse, Heizart
+ * und Haushaltsgrösse zusätzlich zu Pflichtfeldern.
+ */
+const swissPhoneRequired = /^[+0-9 ()/-]{6,30}$/;
+
+export const contactFormSchema = leadSchema
+  .extend({
+    topic: z.enum(["allgemein", "offerte", "service", "andere"]),
+  })
+  .superRefine((data, ctx) => {
+    if (data.topic !== "offerte") return;
+    if (!data.phone || !swissPhoneRequired.test(data.phone)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["phone"],
+        message: "Telefon ist Pflicht für Offerten- und Beratungsanfragen.",
+      });
+    }
+    if (!data.address || data.address.trim().length < 5) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["address"],
+        message: "Wohnadresse ist Pflicht für Offerten- und Beratungsanfragen.",
+      });
+    }
+    if (!data.heatingType) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["heatingType"],
+        message: "Bitte wählen Sie Ihre aktuelle Heizart.",
+      });
+    }
+    if (!data.householdSize || data.householdSize < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["householdSize"],
+        message: "Bitte geben Sie die Anzahl Personen im Haushalt an.",
+      });
+    }
+  });
 
 export type ContactFormInput = z.infer<typeof contactFormSchema>;

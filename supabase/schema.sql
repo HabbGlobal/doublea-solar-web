@@ -27,6 +27,7 @@ create table if not exists public.leads (
 -- Migration: Spalten ergänzen (idempotent, nutzt IF NOT EXISTS)
 alter table public.leads add column if not exists address text;
 alter table public.leads add column if not exists heating_type text;
+alter table public.leads add column if not exists household_size integer;
 
 create index if not exists leads_created_at_idx on public.leads (created_at desc);
 create index if not exists leads_email_idx on public.leads (email);

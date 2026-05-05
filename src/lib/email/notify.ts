@@ -18,6 +18,7 @@ type LeadPayload = {
   phone?: string | null;
   address?: string | null;
   heatingType?: string | null;
+  householdSize?: number | null;
   message?: string | null;
   source?: string;
   topic?: string;
@@ -95,6 +96,10 @@ function leadHeaderRows(lead: LeadPayload): { html: string; text: string } {
     [
       "Heizart",
       lead.heatingType ? heatingLabels[lead.heatingType] ?? lead.heatingType : null,
+    ],
+    [
+      "Personen im Haushalt",
+      lead.householdSize != null ? String(lead.householdSize) : null,
     ],
     ["Anliegen", lead.topic || null],
     ["Quelle", lead.source || null],

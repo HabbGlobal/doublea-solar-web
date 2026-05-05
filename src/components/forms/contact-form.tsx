@@ -18,9 +18,13 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
 import {
   contactFormSchema,
+  heatingTypes,
+  heatingTypeLabels,
   type ContactFormInput,
+  type HeatingType,
 } from "@/lib/validations/lead";
 
 const topics: { value: ContactFormInput["topic"]; label: string }[] = [
@@ -46,6 +50,9 @@ export function ContactForm() {
       name: "",
       email: "",
       phone: "",
+      address: "",
+      heatingType: undefined,
+      householdSize: undefined,
       message: "",
       topic: "allgemein",
       consent: false,
@@ -56,6 +63,8 @@ export function ContactForm() {
 
   const consent = watch("consent");
   const topic = watch("topic");
+  const heatingType = watch("heatingType");
+  const requireOffer = topic === "offerte";
 
   async function onSubmit(values: ContactFormInput) {
     try {
@@ -73,6 +82,9 @@ export function ContactForm() {
         name: "",
         email: "",
         phone: "",
+        address: "",
+        heatingType: undefined,
+        householdSize: undefined,
         message: "",
         topic: "allgemein",
         consent: false,
@@ -133,9 +145,20 @@ export function ContactForm() {
           </div>
         </Field>
 
+        {requireOffer && (
+          <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/5 p-4 text-sm">
+            <p className="font-medium text-foreground">
+              Für eine fundierte Offerte oder Beratung brauchen wir ein paar
+              Eckdaten — bitte ergänzen Sie unten Adresse, Telefon, Heizart und
+              Personen im Haushalt. So können wir gleich beim ersten Anruf
+              konkret werden.
+            </p>
+          </div>
+        )}
+
         <div className="grid gap-4 sm:grid-cols-2">
           <Field>
-            <FieldLabel htmlFor="contact-name">Name</FieldLabel>
+            <FieldLabel htmlFor="contact-name">Name *</FieldLabel>
             <Input
               id="contact-name"
               autoComplete="name"
@@ -146,7 +169,7 @@ export function ContactForm() {
             <FieldError errors={errors.name ? [errors.name] : undefined} />
           </Field>
           <Field>
-            <FieldLabel htmlFor="contact-email">E-Mail</FieldLabel>
+            <FieldLabel htmlFor="contact-email">E-Mail *</FieldLabel>
             <Input
               id="contact-email"
               type="email"
@@ -160,11 +183,14 @@ export function ContactForm() {
         </div>
 
         <Field>
-          <FieldLabel htmlFor="contact-phone">Telefon (optional)</FieldLabel>
+          <FieldLabel htmlFor="contact-phone">
+            Telefon {requireOffer ? "*" : "(optional)"}
+          </FieldLabel>
           <Input
             id="contact-phone"
             type="tel"
             autoComplete="tel"
+            placeholder="+41 …"
             aria-invalid={!!errors.phone}
             {...register("phone")}
             className="h-11"
@@ -172,12 +198,96 @@ export function ContactForm() {
           <FieldError errors={errors.phone ? [errors.phone] : undefined} />
         </Field>
 
+        {requireOffer && (
+          <>
+            <Field>
+              <FieldLabel htmlFor="contact-address">Wohnadresse *</FieldLabel>
+              <Input
+                id="contact-address"
+                autoComplete="street-address"
+                placeholder="Strasse, PLZ, Ort"
+                aria-invalid={!!errors.address}
+                {...register("address")}
+                className="h-11"
+              />
+              <FieldError
+                errors={errors.address ? [errors.address] : undefined}
+              />
+            </Field>
+
+            <div className="grid gap-4 sm:grid-cols-[1.6fr_1fr]">
+              <Field>
+                <FieldLabel>Aktuelle Heizart *</FieldLabel>
+                <FieldDescription>
+                  Hilft uns, Wärmepumpe und Eigenverbrauch realistisch
+                  einzuplanen.
+                </FieldDescription>
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {heatingTypes.map((h) => (
+                    <button
+                      key={h}
+                      type="button"
+                      onClick={() =>
+                        setValue("heatingType", h as HeatingType, {
+                          shouldValidate: true,
+                        })
+                      }
+                      aria-pressed={heatingType === h}
+                      className={cn(
+                        "ring-focus rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors",
+                        heatingType === h
+                          ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                          : "border-border bg-card hover:bg-secondary",
+                      )}
+                    >
+                      {heatingTypeLabels[h as HeatingType]}
+                    </button>
+                  ))}
+                </div>
+                <FieldError
+                  errors={
+                    errors.heatingType ? [errors.heatingType] : undefined
+                  }
+                />
+              </Field>
+
+              <Field>
+                <FieldLabel htmlFor="contact-household">
+                  Personen im Haushalt *
+                </FieldLabel>
+                <FieldDescription>
+                  Z. B. 4 Personen — wir leiten daraus den typischen Verbrauch ab.
+                </FieldDescription>
+                <Input
+                  id="contact-household"
+                  type="number"
+                  inputMode="numeric"
+                  min={1}
+                  max={30}
+                  step={1}
+                  placeholder="4"
+                  aria-invalid={!!errors.householdSize}
+                  {...register("householdSize", { valueAsNumber: true })}
+                  className="h-11"
+                />
+                <FieldError
+                  errors={
+                    errors.householdSize ? [errors.householdSize] : undefined
+                  }
+                />
+              </Field>
+            </div>
+          </>
+        )}
+
         <Field>
-          <FieldLabel htmlFor="contact-message">Ihre Nachricht</FieldLabel>
+          <FieldLabel htmlFor="contact-message">
+            Ihre Nachricht {requireOffer ? "(optional)" : ""}
+          </FieldLabel>
           <Textarea
             id="contact-message"
             rows={5}
-            placeholder="Erzählen Sie uns kurz, worum es geht – Adresse, Dachgrösse, Strom­verbrauch helfen uns enorm."
+            placeholder="Erzählen Sie uns kurz, worum es geht – Dachgrösse, Strom­verbrauch, Wünsche helfen uns enorm."
             aria-invalid={!!errors.message}
             {...register("message")}
           />
@@ -209,7 +319,7 @@ export function ContactForm() {
               <a href="/datenschutz" className="underline underline-offset-4">
                 Datenschutzerklärung
               </a>{" "}
-              einverstanden.
+              einverstanden. *
             </FieldLabel>
             <FieldDescription>
               Wir nutzen Ihre Daten ausschliesslich zur Bearbeitung Ihrer Anfrage.
