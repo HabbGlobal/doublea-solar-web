@@ -89,8 +89,9 @@ function PreviewVisual({ reduce }: { reduce: boolean }) {
         <div className="grid grid-cols-2 gap-3">
           <Stat label="Jahresproduktion" value="≈ 9'400 kWh" />
           <Stat label="Eigenverbrauch" value="≈ 38 %" />
-          <Stat label="Ersparnis / Jahr" value="≈ CHF 1'700" />
-          <Stat label="Amortisation" value="≈ 11 Jahre" />
+          <div className="col-span-2">
+            <Stat label="Ersparnis / Jahr" value="≈ CHF 1'700" />
+          </div>
         </div>
         <motion.div
           initial={{ opacity: 0 }}
