@@ -21,8 +21,8 @@ export const heatingTypeLabels: Record<HeatingType, string> = {
   waermepumpe: "Wärmepumpe",
   fernwaerme: "Fernwärme",
   holz: "Holz / Pellet",
-  elektro: "Elektroheizung",
-  andere: "Andere / unbekannt",
+  elektro: "Elektro",
+  andere: "Andere",
 };
 
 export const leadSchema = z.object({

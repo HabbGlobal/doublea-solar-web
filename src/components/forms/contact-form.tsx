@@ -215,7 +215,7 @@ export function ContactForm() {
               />
             </Field>
 
-            <div className="grid gap-4 sm:grid-cols-[1.6fr_1fr]">
+            <div className="grid gap-4 md:grid-cols-[1.6fr_1fr]">
               <Field>
                 <FieldLabel>Aktuelle Heizart *</FieldLabel>
                 <FieldDescription>
@@ -234,7 +234,7 @@ export function ContactForm() {
                       }
                       aria-pressed={heatingType === h}
                       className={cn(
-                        "ring-focus rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors",
+                        "ring-focus flex min-h-12 items-center justify-center rounded-xl border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
                         heatingType === h
                           ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
                           : "border-border bg-card hover:bg-secondary",
