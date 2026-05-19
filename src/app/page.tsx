@@ -12,8 +12,21 @@ import { getSiteContent } from "@/lib/content/server";
 export default async function HomePage() {
   const content = await getSiteContent();
   const phoneHref = `tel:${content.contact.phone.replace(/[^+0-9]/g, "")}`;
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: content.faq.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <HeroSection
         content={content.hero}
         contact={{ phone: content.contact.phone, phoneHref }}

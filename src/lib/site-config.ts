@@ -21,7 +21,32 @@ export const siteConfig = {
       country: "Schweiz",
       countryCode: "CH",
     },
+    /** Koordinaten Grenchen — für LocalBusiness-Geo (lokale Google-Suche). */
+    geo: { latitude: 47.1924, longitude: 7.3958 },
   },
+  /** Preisspanne für LocalBusiness-Schema (Google bevorzugt gesetztes Feld). */
+  priceRange: "$$",
+  /**
+   * Einzugsgebiet für lokale SEO. Bewusst auf Region + grössere Orte
+   * fokussiert — dort ist die Konkurrenz tiefer und Rankings kommen
+   * schneller als bei nationalen Begriffen.
+   */
+  serviceAreas: [
+    "Grenchen",
+    "Solothurn",
+    "Biel/Bienne",
+    "Bettlach",
+    "Selzach",
+    "Lengnau BE",
+    "Pieterlen",
+    "Zuchwil",
+    "Bellach",
+    "Bern",
+    "Burgdorf",
+    "Lyss",
+    "Aarau",
+    "Olten",
+  ],
   primaryNav: [
     { href: "/services", label: "Leistungen" },
     { href: "/solarrechner", label: "Solarrechner" },

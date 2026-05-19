@@ -5,9 +5,9 @@ import { ContactForm } from "@/components/forms/contact-form";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Kontakt – Solarberatung in der Schweiz",
+  title: "Kontakt – Solarberatung Grenchen, Solothurn & Bern",
   description:
-    "Kontaktieren Sie DoubleA Solar Solutions in Grenchen. Persönliche Beratung, transparente Offerten, schweizweite Umsetzung.",
+    "Solaranlage geplant? Kontaktieren Sie DoubleA Solar Solutions in Grenchen. Persönliche Photovoltaik-Beratung für Solothurn, Bern und die ganze Schweiz – Antwort innert eines Werktags.",
 };
 
 export default function KontaktPage() {

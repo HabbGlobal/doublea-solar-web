@@ -13,9 +13,9 @@ import {
 import { CtaBand } from "@/components/site/cta-band";
 
 export const metadata: Metadata = {
-  title: "Leistungen – Photovoltaik von der Analyse bis zur Wartung",
+  title: "Photovoltaik-Leistungen: Planung, Installation & Wartung",
   description:
-    "Standortanalyse, Planung, Förderberatung, Installation, Batteriespeicher und Monitoring – DoubleA Solar Solutions begleitet Schweizer Anlagen über den gesamten Lebenszyklus.",
+    "Standortanalyse, Planung, Förderberatung, Installation, Batteriespeicher und Monitoring – DoubleA Solar Solutions plant und baut Photovoltaikanlagen in Grenchen, Solothurn, Bern und der ganzen Schweiz.",
 };
 
 const services = [

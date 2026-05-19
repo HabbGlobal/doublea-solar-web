@@ -4,9 +4,9 @@ import { SolarCalculator } from "@/components/solar/solar-calculator";
 import { CtaBand } from "@/components/site/cta-band";
 
 export const metadata: Metadata = {
-  title: "Solarrechner – Schweizer Photovoltaik in 60 Sekunden",
+  title: "Solarrechner – Photovoltaik-Potenzial Ihres Dachs in 60 Sek.",
   description:
-    "Schätzen Sie Anlagengrösse, Produktion, Eigenverbrauch und Investition für Ihre Photovoltaikanlage. Schweizweit, kantonsspezifisch und unverbindlich.",
+    "Kostenloser Solarrechner: Anlagengrösse, Produktion, Eigenverbrauch, Kosten und Amortisation Ihrer Photovoltaikanlage – mit echten Schweizer Dachdaten, kantonsspezifisch und unverbindlich.",
 };
 
 export default function SolarrechnerPage() {

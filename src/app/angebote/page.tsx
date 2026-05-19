@@ -5,9 +5,9 @@ import { ArrowRight, Calculator } from "lucide-react";
 import { LeadForm } from "@/components/forms/lead-form";
 
 export const metadata: Metadata = {
-  title: "Kostenloses Solarangebot – Photovoltaik in der Schweiz",
+  title: "Kostenloses Solar-Angebot – Grenchen, Solothurn & Bern",
   description:
-    "Fordern Sie ein kostenloses und unverbindliches Solarangebot an. Wir prüfen Ihr Projekt, klären Förderungen und erstellen eine transparente Offerte.",
+    "Fordern Sie ein kostenloses, unverbindliches Solar-Angebot an. Wir prüfen Ihr Photovoltaik-Projekt in Grenchen, Solothurn, Bern und Umgebung, klären Förderungen und erstellen eine transparente Offerte.",
 };
 
 const inclusions = [
