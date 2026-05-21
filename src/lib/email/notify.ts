@@ -174,11 +174,12 @@ function shellHtml(args: {
 }
 
 /**
- * Sende eine Benachrichtigung über einen neuen Lead. Wird im Hintergrund
- * vom API-Handler aufgerufen; failure führt nicht zum Abbruch der Anfrage.
+ * Sende eine Benachrichtigung über einen neuen Lead. Gibt `true` zurück,
+ * wenn die Mail erfolgreich versendet wurde — der API-Handler nutzt das
+ * als Sicherheitsnetz, falls die Datenbank-Speicherung scheitert.
  */
-export async function sendLeadNotification(lead: LeadPayload): Promise<void> {
-  if (!isEmailConfigured()) return;
+export async function sendLeadNotification(lead: LeadPayload): Promise<boolean> {
+  if (!isEmailConfigured()) return false;
 
   const { html: rowsHtml, text: rowsText } = leadHeaderRows(lead);
   const subject = `Neue Anfrage: ${lead.name || lead.email}${lead.topic ? ` (${lead.topic})` : ""}`;
@@ -204,7 +205,7 @@ export async function sendLeadNotification(lead: LeadPayload): Promise<void> {
     lead.message ? `\n\nNachricht:\n${lead.message}` : ""
   }\n\n— ${siteConfig.url}`;
 
-  await sendNotification({
+  return sendNotification({
     subject,
     html,
     text,
@@ -339,7 +340,7 @@ async function sendNotification(args: {
   html: string;
   text: string;
   replyTo?: string;
-}): Promise<void> {
+}): Promise<boolean> {
   const to = process.env.LEAD_NOTIFY_TO ?? siteConfig.contact.email;
   const from = process.env.LEAD_NOTIFY_FROM!;
   const result = await sendViaResend({
@@ -352,5 +353,7 @@ async function sendNotification(args: {
   });
   if (!result.ok) {
     console.warn("[email] notification failed:", result.error);
+    return false;
   }
+  return true;
 }

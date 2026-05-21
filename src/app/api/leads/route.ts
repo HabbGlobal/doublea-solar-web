@@ -57,46 +57,53 @@ export async function POST(request: Request) {
     ipHash,
   };
 
-  if (!isSupabaseConfigured()) {
-    console.warn("[leads] Supabase nicht konfiguriert – Lead nur geloggt.");
-    // Wir versuchen die Mail trotzdem zu senden, damit keine Anfrage verloren geht.
-    await sendLeadNotification(notificationPayload);
-    return NextResponse.json({ ok: true, persisted: false }, { status: 200 });
+  // Datenbank-Speicherung versuchen — ein Fehler darf die Anfrage NICHT
+  // abbrechen. Die Mail-Benachrichtigung unten ist das Sicherheitsnetz,
+  // damit niemals ein Lead verloren geht (z. B. bei fehlender Spalte
+  // oder pausiertem Supabase-Projekt).
+  let persisted = false;
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createServiceClient();
+      const { error } = await supabase.from("leads").insert({
+        name: parsed.data.name,
+        email: parsed.data.email,
+        phone: parsed.data.phone || null,
+        address: parsed.data.address || null,
+        heating_type: parsed.data.heatingType || null,
+        household_size: parsed.data.householdSize || null,
+        message: parsed.data.message || null,
+        consent: parsed.data.consent,
+        source: parsed.data.source ?? "website",
+        ip_hash: ipHash,
+        user_agent: userAgent ?? null,
+      });
+      if (error) {
+        console.error("[leads] supabase error", error);
+      } else {
+        persisted = true;
+      }
+    } catch (e) {
+      console.error("[leads] supabase exception", e);
+    }
+  } else {
+    console.warn("[leads] Supabase nicht konfiguriert – Lead nur per Mail.");
   }
 
-  try {
-    const supabase = createServiceClient();
-    const { error } = await supabase.from("leads").insert({
-      name: parsed.data.name,
-      email: parsed.data.email,
-      phone: parsed.data.phone || null,
-      address: parsed.data.address || null,
-      heating_type: parsed.data.heatingType || null,
-      household_size: parsed.data.householdSize || null,
-      message: parsed.data.message || null,
-      consent: parsed.data.consent,
-      source: parsed.data.source ?? "website",
-      ip_hash: ipHash,
-      user_agent: userAgent ?? null,
-    });
-    if (error) {
-      console.error("[leads] supabase error", error);
-      return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
-        { status: 502 },
-      );
-    }
+  // Mail immer senden — auch wenn die DB-Speicherung gescheitert ist.
+  const emailed = await sendLeadNotification(notificationPayload);
 
-    // Mail-Notify in einer eigenen Try-Säule: Mail-Fehler darf den
-    // erfolgreichen Insert nicht überschreiben.
-    await sendLeadNotification(notificationPayload);
-
-    return NextResponse.json({ ok: true, persisted: true }, { status: 201 });
-  } catch (e) {
-    console.error("[leads] unexpected", e);
+  // Echten Fehler nur zeigen, wenn die Anfrage WIRKLICH nirgends ankam.
+  if (!persisted && !emailed) {
+    console.error("[leads] Lead konnte weder gespeichert noch gemailt werden.");
     return NextResponse.json(
-      { error: "Unbekannter Fehler." },
-      { status: 500 },
+      { error: "Anfrage konnte nicht übermittelt werden." },
+      { status: 502 },
     );
   }
+
+  return NextResponse.json(
+    { ok: true, persisted },
+    { status: persisted ? 201 : 200 },
+  );
 }
