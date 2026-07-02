@@ -44,7 +44,7 @@ export const defaultContent: SiteContent = {
     eyebrow: "Schweizer Photovoltaik · Sitz in Grenchen",
     headlineLeading: "Solarenergie für",
     headlineHighlight: "Schweizer Dächer",
-    headlineTrailing: " – präzise geplant, sauber umgesetzt.",
+    headlineTrailing: ".",
     subheadline:
       "DoubleA Solar Solutions begleitet Sie von der ersten Standortanalyse bis zur langfristigen Wartung Ihrer Photovoltaikanlage – transparent, persönlich und schweizweit professionell.",
     primaryCtaLabel: "Solarpotenzial berechnen",
