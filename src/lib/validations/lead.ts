@@ -34,8 +34,13 @@ export const leadSchema = z.object({
     .regex(swissPhoneRegex, "Telefonnummer ungültig.")
     .optional()
     .or(z.literal("")),
-  /** Hausadresse (Strasse + PLZ + Ort) — Pflicht auf der Offerten-Seite. */
+  /** Zusammengesetzte Hausadresse (aus den Einzelfeldern generiert). */
   address: z.string().trim().max(240).optional().or(z.literal("")),
+  /** Strukturierte Adresse — Einzelfelder, in allen Lead-Formularen Pflicht. */
+  street: z.string().trim().max(120).optional().or(z.literal("")),
+  houseNumber: z.string().trim().max(20).optional().or(z.literal("")),
+  postalCode: z.string().trim().max(10).optional().or(z.literal("")),
+  city: z.string().trim().max(80).optional().or(z.literal("")),
   /** Aktuelle Heizart — Pflicht auf der Offerten-Seite. */
   heatingType: z.enum(heatingTypes).optional(),
   /** Anzahl Personen im Haushalt — Pflicht bei Offerten/Beratungs-Anfragen. */
@@ -50,6 +55,52 @@ export const leadSchema = z.object({
 });
 
 export type LeadInput = z.infer<typeof leadSchema>;
+
+const swissPostalRegex = /^\d{4}$/;
+
+/**
+ * Fügt Pflichtfeld-Fehler für die strukturierte Adresse hinzu (Strasse, Nr.,
+ * PLZ, Ort). Wird von Kontakt- und Angebots-Formular geteilt, damit in allen
+ * Formularen eine vollständige, exakte Adresse verlangt wird.
+ */
+export function addAddressIssues(
+  data: {
+    street?: string;
+    houseNumber?: string;
+    postalCode?: string;
+    city?: string;
+  },
+  ctx: z.RefinementCtx,
+) {
+  if (!data.street || data.street.trim().length < 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["street"],
+      message: "Bitte geben Sie die Strasse an.",
+    });
+  }
+  if (!data.houseNumber || data.houseNumber.trim().length < 1) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["houseNumber"],
+      message: "Nr. fehlt.",
+    });
+  }
+  if (!data.postalCode || !swissPostalRegex.test(data.postalCode.trim())) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["postalCode"],
+      message: "Gültige PLZ angeben (4-stellig).",
+    });
+  }
+  if (!data.city || data.city.trim().length < 2) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["city"],
+      message: "Bitte geben Sie den Ort an.",
+    });
+  }
+}
 
 export const cantonEnum = z.enum(cantonCodes as readonly [string, ...string[]]);
 
@@ -110,9 +161,9 @@ export const solarCalculationRequestSchema = z.object({
 });
 
 /**
- * Kontaktformular: Topic ist immer Pflicht. Wenn topic === "offerte"
- * (Offerten- oder Beratungs-Anfrage) werden Telefon, Adresse, Heizart
- * und Haushaltsgrösse zusätzlich zu Pflichtfeldern.
+ * Kontaktformular: Die vollständige Adresse (Strasse, Nr., PLZ, Ort) ist
+ * immer Pflicht. Wenn topic === "offerte" (Offerten- oder Beratungs-Anfrage)
+ * werden Telefon, Heizart und Haushaltsgrösse zusätzlich zu Pflichtfeldern.
  */
 const swissPhoneRequired = /^[+0-9 ()/-]{6,30}$/;
 
@@ -128,19 +179,15 @@ export const contactFormSchema = leadSchema
     ]),
   })
   .superRefine((data, ctx) => {
+    // Exakte Adresse in jedem Fall Pflicht.
+    addAddressIssues(data, ctx);
+    // Offerte/Beratung: zusätzlich Telefon, Heizart, Haushaltsgrösse.
     if (data.topic !== "offerte") return;
     if (!data.phone || !swissPhoneRequired.test(data.phone)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["phone"],
         message: "Telefon ist Pflicht für Offerten- und Beratungsanfragen.",
-      });
-    }
-    if (!data.address || data.address.trim().length < 5) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["address"],
-        message: "Wohnadresse ist Pflicht für Offerten- und Beratungsanfragen.",
       });
     }
     if (!data.heatingType) {

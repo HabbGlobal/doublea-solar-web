@@ -19,6 +19,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import {
+  AddressFields,
+  composeSwissAddress,
+} from "@/components/forms/address-fields";
+import {
   contactFormSchema,
   heatingTypes,
   heatingTypeLabels,
@@ -52,6 +56,10 @@ export function ContactForm() {
       email: "",
       phone: "",
       address: "",
+      street: "",
+      houseNumber: "",
+      postalCode: "",
+      city: "",
       heatingType: undefined,
       householdSize: undefined,
       message: "",
@@ -72,7 +80,11 @@ export function ContactForm() {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, source: `kontakt:${values.topic}` }),
+        body: JSON.stringify({
+          ...values,
+          address: composeSwissAddress(values),
+          source: `kontakt:${values.topic}`,
+        }),
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -84,6 +96,10 @@ export function ContactForm() {
         email: "",
         phone: "",
         address: "",
+        street: "",
+        houseNumber: "",
+        postalCode: "",
+        city: "",
         heatingType: undefined,
         householdSize: undefined,
         message: "",
@@ -150,10 +166,9 @@ export function ContactForm() {
         {requireOffer && (
           <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/5 p-4 text-sm">
             <p className="font-medium leading-relaxed text-foreground">
-              Für eine fundierte Offerte oder Beratung brauchen wir ein paar
-              Eckdaten — bitte ergänzen Sie unten Adresse, Telefon, Heizart und
-              Personen im Haushalt. So können wir gleich beim ersten Anruf
-              konkret werden.
+              Für eine fundierte Offerte oder Beratung brauchen wir zusätzlich
+              Telefon, Heizart und Personen im Haushalt — so können wir gleich
+              beim ersten Anruf konkret werden.
             </p>
           </div>
         )}
@@ -200,23 +215,21 @@ export function ContactForm() {
           <FieldError errors={errors.phone ? [errors.phone] : undefined} />
         </Field>
 
+        {/* Exakte Adresse — in jedem Fall Pflicht, mit Adresserkennung */}
+        <AddressFields
+          idPrefix="contact"
+          register={(n) => register(n)}
+          setFieldValue={(n, v) => setValue(n, v, { shouldValidate: true })}
+          errors={{
+            street: errors.street,
+            houseNumber: errors.houseNumber,
+            postalCode: errors.postalCode,
+            city: errors.city,
+          }}
+        />
+
         {requireOffer && (
           <>
-            <Field>
-              <FieldLabel htmlFor="contact-address">Wohnadresse *</FieldLabel>
-              <Input
-                id="contact-address"
-                autoComplete="street-address"
-                placeholder="Strasse, PLZ, Ort"
-                aria-invalid={!!errors.address}
-                {...register("address")}
-                className="h-12 rounded-xl px-4"
-              />
-              <FieldError
-                errors={errors.address ? [errors.address] : undefined}
-              />
-            </Field>
-
             <div className="grid gap-4 md:grid-cols-[1.6fr_1fr]">
               <Field>
                 <FieldLabel>Aktuelle Heizart *</FieldLabel>

@@ -20,6 +20,11 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import {
+  AddressFields,
+  composeSwissAddress,
+} from "@/components/forms/address-fields";
+import {
+  addAddressIssues,
   heatingTypes,
   heatingTypeLabels,
   leadSchema,
@@ -42,29 +47,30 @@ type LeadFormProps = {
 };
 
 /**
- * Erzeugt das Validierungs-Schema dynamisch je nach `requireFullDetails`.
- * So können wir das Lead-Schema teilen und gleichzeitig im Offer-Modus
- * Pflichtfelder erzwingen, ohne den Contact-Form zu brechen.
+ * Erzeugt das Validierungs-Schema. Die vollständige Adresse (Strasse, Nr.,
+ * PLZ, Ort) ist in jedem Fall Pflicht. Bei `requireFull` werden zusätzlich
+ * Telefon und Heizart verlangt.
  */
 function buildSchema(requireFull: boolean) {
-  if (!requireFull) return leadSchema;
   const swissPhone = /^[+0-9 ()/-]{6,30}$/;
-  return leadSchema
-    .extend({
-      phone: z
-        .string()
-        .trim()
-        .min(6, "Telefonnummer ist Pflicht.")
-        .regex(swissPhone, "Telefonnummer ungültig."),
-      address: z
-        .string()
-        .trim()
-        .min(5, "Bitte geben Sie Ihre vollständige Adresse an.")
-        .max(240),
-      heatingType: z.enum(heatingTypes, {
+  return leadSchema.superRefine((data, ctx) => {
+    addAddressIssues(data, ctx);
+    if (!requireFull) return;
+    if (!data.phone || data.phone.trim().length < 6 || !swissPhone.test(data.phone)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["phone"],
+        message: "Telefonnummer ist Pflicht.",
+      });
+    }
+    if (!data.heatingType) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["heatingType"],
         message: "Bitte wählen Sie Ihre aktuelle Heizart.",
-      }),
-    });
+      });
+    }
+  });
 }
 
 export function LeadForm({
@@ -90,6 +96,10 @@ export function LeadForm({
       email: "",
       phone: "",
       address: "",
+      street: "",
+      houseNumber: "",
+      postalCode: "",
+      city: "",
       heatingType: undefined,
       message: "",
       consent: false,
@@ -106,7 +116,12 @@ export function LeadForm({
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, source, context }),
+        body: JSON.stringify({
+          ...values,
+          address: composeSwissAddress(values),
+          source,
+          context,
+        }),
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -118,6 +133,10 @@ export function LeadForm({
         email: "",
         phone: "",
         address: "",
+        street: "",
+        houseNumber: "",
+        postalCode: "",
+        city: "",
         heatingType: undefined,
         message: "",
         consent: false,
@@ -205,20 +224,21 @@ export function LeadForm({
           </Field>
         </div>
 
+        {/* Adresse des Objekts — immer Pflicht, mit Adresserkennung */}
+        <AddressFields
+          idPrefix="lead"
+          register={(n) => register(n)}
+          setFieldValue={(n, v) => setValue(n, v, { shouldValidate: true })}
+          errors={{
+            street: errors.street,
+            houseNumber: errors.houseNumber,
+            postalCode: errors.postalCode,
+            city: errors.city,
+          }}
+        />
+
         {requireFullDetails && (
           <>
-            <Field>
-              <FieldLabel htmlFor="lead-address">Adresse des Objekts *</FieldLabel>
-              <Input
-                id="lead-address"
-                autoComplete="street-address"
-                placeholder="Strasse, PLZ, Ort"
-                aria-invalid={!!errors.address}
-                {...register("address")}
-              />
-              <FieldError errors={errors.address ? [errors.address] : undefined} />
-            </Field>
-
             <Field>
               <FieldLabel>Heizart *</FieldLabel>
               <FieldDescription>
