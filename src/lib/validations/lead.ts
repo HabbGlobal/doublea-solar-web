@@ -118,7 +118,14 @@ const swissPhoneRequired = /^[+0-9 ()/-]{6,30}$/;
 
 export const contactFormSchema = leadSchema
   .extend({
-    topic: z.enum(["allgemein", "offerte", "service", "andere"]),
+    topic: z.enum([
+      "allgemein",
+      "offerte",
+      "solarrechner",
+      "service",
+      "finanzierung",
+      "gewerbe",
+    ]),
   })
   .superRefine((data, ctx) => {
     if (data.topic !== "offerte") return;

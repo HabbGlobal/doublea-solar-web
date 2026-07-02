@@ -5,6 +5,7 @@ import { ProcessSection } from "@/components/sections/process-section";
 import { SolarCalculatorSection } from "@/components/sections/solar-calculator-section";
 import { FinancingSection } from "@/components/sections/financing-section";
 import { ProjectShowcase } from "@/components/sections/project-showcase";
+import { WhyUsSection } from "@/components/sections/why-us-section";
 import { FaqSection } from "@/components/sections/faq-section";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { getSiteContent } from "@/lib/content/server";
@@ -35,8 +36,9 @@ export default async function HomePage() {
       <ServicesSection />
       <SolarCalculatorSection />
       <ProcessSection />
-      <FinancingSection />
       <ProjectShowcase />
+      <FinancingSection />
+      <WhyUsSection />
       <FaqSection items={content.faq} email={content.contact.email} />
       <FinalCtaSection />
     </>

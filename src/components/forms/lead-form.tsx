@@ -3,11 +3,10 @@
 import { useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -134,21 +133,29 @@ export function LeadForm({
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/8 p-5">
-        <p className="text-sm font-semibold text-[color:var(--solar-emerald)]">
-          Anfrage erhalten – herzlichen Dank.
-        </p>
-        <p className="mt-1 text-sm text-foreground/80">
-          Wir prüfen Ihre Angaben und melden uns innert eines Werktags persönlich.
-        </p>
-        {successCta && <div className="mt-3">{successCta}</div>}
-        <button
-          type="button"
-          onClick={() => setSubmitted(false)}
-          className="mt-3 text-xs font-medium text-muted-foreground hover:text-foreground"
-        >
-          Neue Anfrage senden
-        </button>
+      <div className="rounded-2xl border border-[color:var(--solar-emerald)]/25 bg-[color:var(--solar-emerald)]/8 p-5 sm:p-6">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--solar-emerald)]/12 text-[color:var(--solar-emerald)]">
+            <CheckCircle2 className="size-4" />
+          </span>
+          <div>
+            <p className="text-sm font-semibold text-[color:var(--solar-emerald)]">
+              Anfrage erhalten – herzlichen Dank.
+            </p>
+            <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+              Wir prüfen Ihre Angaben und melden uns innert eines Werktags
+              persönlich.
+            </p>
+            {successCta && <div className="mt-3">{successCta}</div>}
+            <button
+              type="button"
+              onClick={() => setSubmitted(false)}
+              className="ring-focus mt-3 inline-flex min-h-9 items-center rounded-full text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              Neue Anfrage senden
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -281,7 +288,10 @@ export function LeadForm({
           <FieldContent>
             <FieldLabel htmlFor="lead-consent">
               Ich bin mit der{" "}
-              <a href="/datenschutz" className="underline underline-offset-4">
+              <a
+                href="/datenschutz"
+                className="ring-focus rounded-sm underline underline-offset-4"
+              >
                 Datenschutzerklärung
               </a>{" "}
               einverstanden. *
@@ -294,20 +304,21 @@ export function LeadForm({
         </Field>
       </FieldGroup>
 
-      <Button
+      <button
         type="submit"
-        size="lg"
         disabled={isSubmitting}
-        className="h-11 w-full rounded-xl bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)] hover:bg-[color:var(--solar-navy)]/95"
+        className="btn-primary w-full disabled:pointer-events-none disabled:opacity-60"
       >
         {isSubmitting ? (
           <>
             <Loader2 className="size-4 animate-spin" /> Wird gesendet …
           </>
         ) : (
-          "Anfrage senden"
+          <>
+            Anfrage senden <ArrowRight className="size-4" />
+          </>
         )}
-      </Button>
+      </button>
     </form>
   );
 }

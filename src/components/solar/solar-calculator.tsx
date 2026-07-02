@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import {
@@ -33,7 +32,6 @@ import {
   FieldLegend,
   FieldSet,
 } from "@/components/ui/field";
-import { Progress } from "@/components/ui/progress";
 import {
   solarCalculatorSchema,
   type SolarCalculatorFormInput,
@@ -314,43 +312,64 @@ export function SolarCalculator() {
   return (
     <div className="flex flex-col gap-6">
       <div className="surface-glass relative overflow-hidden rounded-3xl">
-        <div className="border-b border-border/60 px-6 pt-6 pb-4 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="border-b border-border/60 px-6 pt-6 pb-5 lg:px-8 lg:pt-8">
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--solar-emerald)]">
-                Solarrechner
-              </p>
-              <h2 className="mt-1 text-balance text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+              <p className="eyebrow">Solarrechner</p>
+              <h2 className="mt-2 text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl">
                 Erstauswertung in 60 Sekunden
               </h2>
             </div>
-            <ol className="flex flex-wrap gap-2 text-xs">
+            <ol className="flex flex-wrap items-center gap-y-2">
               {[...stepConfig.map((s) => s.label), "Ergebnis"].map((label, i) => {
-                const isActive = i === step;
-                const isDone = i < step || (result && i === stepConfig.length);
+                const isActive = i === step && !result;
+                const isDone = i < step || Boolean(result);
                 return (
-                  <li
-                    key={label}
-                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1 ${
-                      isActive
-                        ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
-                        : isDone
-                          ? "border-[color:var(--solar-emerald)]/50 bg-[color:var(--solar-emerald)]/10 text-[color:var(--solar-emerald)]"
-                          : "border-border text-muted-foreground"
-                    }`}
-                  >
-                    {isDone ? (
-                      <CheckCircle2 className="size-3" />
-                    ) : (
-                      <span className="font-mono text-[10px]">0{i + 1}</span>
+                  <li key={label} className="flex items-center">
+                    {i > 0 && (
+                      <span
+                        aria-hidden
+                        className={`mx-1.5 hidden h-px w-5 sm:block ${
+                          i <= step || result
+                            ? "bg-[color:var(--solar-emerald)]/50"
+                            : "bg-border"
+                        }`}
+                      />
                     )}
-                    {label}
+                    <span
+                      className={`flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs transition-colors ${
+                        isActive
+                          ? "bg-[color:var(--solar-leaf)]/60 font-medium text-[color:var(--solar-ink)]"
+                          : isDone
+                            ? "text-[color:var(--solar-emerald)]"
+                            : "text-muted-foreground"
+                      }`}
+                    >
+                      {isDone ? (
+                        <CheckCircle2 className="size-3.5 shrink-0" />
+                      ) : (
+                        <span className="stat-mono text-[11px]">0{i + 1}</span>
+                      )}
+                      {label}
+                    </span>
                   </li>
                 );
               })}
             </ol>
           </div>
-          <Progress value={progress} className="mt-4 h-1" />
+          <div
+            role="progressbar"
+            aria-label="Fortschritt im Solarrechner"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={Math.round(progress)}
+            className="mt-5 h-0.5 w-full overflow-hidden rounded-full bg-border/70"
+          >
+            <div
+              className="h-full rounded-full bg-[color:var(--solar-emerald)] transition-[width] duration-500 ease-out"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
         </div>
 
         {!result ? (
@@ -376,8 +395,8 @@ export function SolarCalculator() {
 
                     {/* Sanity-Warnung wenn unrealistisch grosse Anlage */}
                     {hasSonnendach && oversize && (
-                      <div className="flex items-start gap-3 rounded-2xl border border-amber-500/40 bg-amber-500/8 px-4 py-3">
-                        <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-700" />
+                      <div className="flex items-start gap-3 rounded-2xl border border-[color:var(--solar-gold)]/50 bg-[color:var(--solar-gold)]/10 px-4 py-3">
+                        <AlertTriangle className="mt-0.5 size-4 shrink-0 text-[color:var(--solar-orange)]" />
                         <div className="text-sm">
                           <p className="font-medium text-foreground">
                             Sehr grosse Auswahl für ein Einfamilienhaus
@@ -394,13 +413,14 @@ export function SolarCalculator() {
 
                     {/* Manueller Fallback / Override */}
                     {!hasSonnendach && (
-                      <div className="rounded-2xl border border-border bg-card p-5">
+                      <div className="rounded-2xl border border-border bg-white/70 p-5 lg:p-6">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="text-sm font-medium text-foreground">
-                              Dachdaten manuell eingeben
+                            <p className="eyebrow">Manuelle Eingabe</p>
+                            <p className="mt-2 text-sm font-medium text-foreground">
+                              Dachdaten selbst erfassen
                             </p>
-                            <p className="mt-0.5 text-xs text-muted-foreground">
+                            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                               Wenn die Adresse nicht in Sonnendach.ch registriert ist oder Sie
                               die Werte selbst kennen, tragen Sie sie hier ein.
                             </p>
@@ -468,7 +488,9 @@ export function SolarCalculator() {
                     )}
 
                     <FieldSet>
-                      <FieldLegend>Gebäudetyp</FieldLegend>
+                      <FieldLegend>
+                        <span className="eyebrow">Gebäudetyp</span>
+                      </FieldLegend>
                       <FieldDescription>
                         Wählen Sie die Kategorie, die am besten zu Ihrem Objekt passt.
                       </FieldDescription>
@@ -481,9 +503,9 @@ export function SolarCalculator() {
                               setValue("buildingType", b.value, { shouldValidate: true })
                             }
                             aria-pressed={values.buildingType === b.value}
-                            className={`ring-focus flex flex-col items-start gap-0.5 rounded-2xl border p-4 text-left transition-colors ${
+                            className={`ring-focus flex min-h-12 flex-col items-start gap-0.5 rounded-2xl border p-4 text-left transition-colors ${
                               values.buildingType === b.value
-                                ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                                ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                                 : "border-border bg-card hover:bg-secondary"
                             }`}
                           >
@@ -511,7 +533,7 @@ export function SolarCalculator() {
                         step={100}
                         aria-invalid={!!errors.annualConsumptionKwh}
                         {...register("annualConsumptionKwh", { valueAsNumber: true })}
-                        className="h-11"
+                        className="h-12"
                       />
                       <FieldError
                         errors={
@@ -521,7 +543,9 @@ export function SolarCalculator() {
                     </Field>
 
                     <FieldSet>
-                      <FieldLegend variant="label">Elektrische Lasten</FieldLegend>
+                      <FieldLegend variant="label">
+                        <span className="eyebrow">Elektrische Lasten</span>
+                      </FieldLegend>
                       <Field orientation="horizontal">
                         <Switch
                           id="hasHeatPump"
@@ -553,7 +577,9 @@ export function SolarCalculator() {
                     </FieldSet>
 
                     <FieldSet>
-                      <FieldLegend variant="label">Batteriespeicher</FieldLegend>
+                      <FieldLegend variant="label">
+                        <span className="eyebrow">Batteriespeicher</span>
+                      </FieldLegend>
                       <div className="grid grid-cols-3 gap-2">
                         {wantsBatteryOptions.map((o) => (
                           <button
@@ -563,7 +589,7 @@ export function SolarCalculator() {
                               setValue("wantsBattery", o.value, { shouldValidate: true })
                             }
                             aria-pressed={values.wantsBattery === o.value}
-                            className={`ring-focus rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                            className={`ring-focus min-h-12 rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
                               values.wantsBattery === o.value
                                 ? "border-[color:var(--solar-emerald)] bg-[color:var(--solar-emerald)]/10"
                                 : "border-border bg-card hover:bg-secondary"
@@ -602,7 +628,7 @@ export function SolarCalculator() {
                               max={80}
                               step={0.5}
                               {...register("electricityPriceRappen", { valueAsNumber: true })}
-                              className="h-11"
+                              className="h-12"
                             />
                           </Field>
                           <Field>
@@ -617,13 +643,15 @@ export function SolarCalculator() {
                               max={60}
                               step={0.5}
                               {...register("feedInTariffRappen", { valueAsNumber: true })}
-                              className="h-11"
+                              className="h-12"
                             />
                           </Field>
                         </div>
 
                         <FieldSet className="mt-5">
-                          <FieldLegend variant="label">Finanzierung</FieldLegend>
+                          <FieldLegend variant="label">
+                            <span className="eyebrow">Finanzierung</span>
+                          </FieldLegend>
                           <div className="grid grid-cols-3 gap-2">
                             {financingOptions.map((o) => (
                               <button
@@ -635,9 +663,9 @@ export function SolarCalculator() {
                                   })
                                 }
                                 aria-pressed={values.financingInterest === o.value}
-                                className={`ring-focus rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                                className={`ring-focus min-h-12 rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
                                   values.financingInterest === o.value
-                                    ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                                    ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                                     : "border-border bg-card hover:bg-secondary"
                                 }`}
                               >
@@ -653,11 +681,14 @@ export function SolarCalculator() {
 
                 {step === 2 && (
                   <FieldGroup>
-                    <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/5 p-5">
-                      <p className="text-sm font-medium text-foreground">
-                        Letzter Schritt — Ihre Kontaktdaten
+                    <div className="rounded-2xl border border-[color:var(--solar-emerald)]/25 bg-[color:var(--solar-emerald)]/5 p-5">
+                      <p className="eyebrow text-[color:var(--solar-emerald)]">
+                        Letzter Schritt
                       </p>
-                      <p className="mt-1 text-xs text-muted-foreground">
+                      <p className="mt-2 text-sm font-medium text-foreground">
+                        Ihre Kontaktdaten für die persönliche Auswertung
+                      </p>
+                      <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                         Wir senden Ihnen die persönliche Auswertung an Ihre E-Mail und melden
                         uns innert eines Werktags für die nächsten Schritte. Ihre Anfrage wird
                         gleichzeitig in unserem System erfasst.
@@ -674,7 +705,7 @@ export function SolarCalculator() {
                         onChange={(e) =>
                           setLead((prev) => ({ ...prev, name: e.target.value }))
                         }
-                        className="h-11"
+                        className="h-12"
                       />
                     </Field>
 
@@ -690,7 +721,7 @@ export function SolarCalculator() {
                           onChange={(e) =>
                             setLead((prev) => ({ ...prev, email: e.target.value }))
                           }
-                          className="h-11"
+                          className="h-12"
                         />
                       </Field>
                       <Field>
@@ -704,13 +735,13 @@ export function SolarCalculator() {
                           onChange={(e) =>
                             setLead((prev) => ({ ...prev, phone: e.target.value }))
                           }
-                          className="h-11"
+                          className="h-12"
                         />
                       </Field>
                     </div>
 
                     {(values.address || values.postalCode || values.city) && (
-                      <div className="rounded-xl border border-border bg-card/60 px-4 py-3 text-xs text-muted-foreground">
+                      <div className="rounded-2xl border border-border bg-card/60 px-4 py-3 text-xs text-muted-foreground">
                         <p className="font-medium text-foreground">Adresse aus Schritt 1</p>
                         <p className="mt-0.5">
                           {values.address ||
@@ -748,23 +779,25 @@ export function SolarCalculator() {
 
             {/* Live-Quick-Stats */}
             {livePreview && (
-              <div className="mt-6 grid gap-2 rounded-2xl border border-dashed border-border bg-background/40 p-4 text-xs text-muted-foreground sm:grid-cols-3">
-                <span>
-                  Anlage:{" "}
-                  <strong className="text-foreground">{livePreview.recommendedKwp} kWp</strong>
+              <div className="mt-6 grid gap-3 rounded-2xl border border-dashed border-border bg-background/40 p-4 text-xs text-muted-foreground sm:grid-cols-3">
+                <span className="flex items-baseline justify-between gap-2 sm:flex-col sm:gap-0.5">
+                  Anlage
+                  <strong className="stat-mono text-sm font-semibold text-foreground">
+                    {livePreview.recommendedKwp} kWp
+                  </strong>
                 </span>
-                <span>
-                  Jahresproduktion:{" "}
-                  <strong className="text-foreground">
+                <span className="flex items-baseline justify-between gap-2 sm:flex-col sm:gap-0.5">
+                  Jahresproduktion
+                  <strong className="stat-mono text-sm font-semibold text-foreground">
                     {Intl.NumberFormat("de-CH").format(
                       livePreview.annualProductionKwh.realistic,
                     )}{" "}
                     kWh
                   </strong>
                 </span>
-                <span>
-                  Ersparnis:{" "}
-                  <strong className="text-foreground">
+                <span className="flex items-baseline justify-between gap-2 sm:flex-col sm:gap-0.5">
+                  Ersparnis pro Jahr
+                  <strong className="stat-mono text-sm font-semibold text-foreground">
                     CHF{" "}
                     {Intl.NumberFormat("de-CH").format(livePreview.annualSavingsChf.realistic)}
                   </strong>
@@ -772,41 +805,40 @@ export function SolarCalculator() {
               </div>
             )}
 
-            <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-6">
-              <Button
+            <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border/60 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <button
                 type="button"
-                variant="ghost"
                 onClick={prevStep}
                 disabled={step === 0 || submitting}
-                className="h-11 px-3"
+                className="btn-ghost min-h-12 justify-center px-3 disabled:pointer-events-none disabled:opacity-40 sm:justify-start"
               >
                 <ArrowLeft className="size-4" /> Zurück
-              </Button>
+              </button>
 
               {step < stepConfig.length - 1 ? (
-                <Button
+                <button
                   type="button"
                   onClick={nextStep}
-                  className="h-11 rounded-xl bg-[color:var(--solar-navy)] px-5 text-[color:var(--solar-navy-foreground)] hover:bg-[color:var(--solar-navy)]/95"
+                  className="btn-primary w-full sm:w-auto"
                 >
                   Weiter <ArrowRight className="size-4" />
-                </Button>
+                </button>
               ) : (
-                <Button
+                <button
                   type="submit"
                   disabled={submitting || !isValid || !leadValid}
-                  className="h-11 rounded-xl bg-[color:var(--solar-gold)] px-5 text-[color:var(--solar-navy)] hover:bg-[color:var(--solar-gold)]/90"
+                  className="btn-primary w-full disabled:pointer-events-none disabled:opacity-50 sm:w-auto"
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="size-4 animate-spin" /> Sende …
+                      <Loader2 className="size-4 animate-spin" /> Wird gesendet …
                     </>
                   ) : (
                     <>
-                      <Sparkles className="size-4" /> Anfrage senden & Auswertung anzeigen
+                      Anfrage senden & auswerten <ArrowRight className="size-4" />
                     </>
                   )}
-                </Button>
+                </button>
               )}
             </div>
           </form>
@@ -855,7 +887,7 @@ function ManualRoofInputs(props: {
             placeholder="2540"
             aria-invalid={!!errors.postalCode}
             {...register("postalCode")}
-            className="h-11"
+            className="h-12"
           />
           <FieldError errors={errors.postalCode ? [errors.postalCode] : undefined} />
         </Field>

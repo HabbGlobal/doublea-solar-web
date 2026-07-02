@@ -76,14 +76,17 @@ export function RoofInputs({ form }: Props) {
           step={1}
           aria-invalid={!!errors.roofAreaM2}
           {...register("roofAreaM2", { valueAsNumber: true })}
-          className="h-11"
+          className="h-12"
         />
         <FieldError errors={errors.roofAreaM2 ? [errors.roofAreaM2] : undefined} />
       </Field>
 
       <Field>
         <FieldLabel htmlFor="usableRoofPercent">
-          Nutzbarer Anteil: {usable ?? 75} %
+          Nutzbarer Anteil:{" "}
+          <span className="stat-mono text-[color:var(--solar-emerald)]">
+            {usable ?? 75} %
+          </span>
         </FieldLabel>
         <FieldDescription>
           Anteil ohne Dachfenster, Kamine, Lukarnen, Abstandsflächen.
@@ -113,7 +116,7 @@ export function RoofInputs({ form }: Props) {
             });
           }}
         >
-          <SelectTrigger id="orientation" className="h-11 w-full px-3 text-sm">
+          <SelectTrigger id="orientation" className="h-12 w-full px-3 text-sm">
             <SelectValue placeholder="Wählen" />
           </SelectTrigger>
           <SelectContent>
@@ -138,9 +141,9 @@ export function RoofInputs({ form }: Props) {
                 setValue("tilt", t.value, { shouldValidate: true })
               }
               aria-pressed={tilt === t.value}
-              className={`ring-focus rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`ring-focus min-h-12 rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
                 tilt === t.value
-                  ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                  ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                   : "border-border bg-card text-foreground hover:bg-secondary"
               }`}
             >
@@ -162,7 +165,7 @@ export function RoofInputs({ form }: Props) {
                 setValue("shading", s.value, { shouldValidate: true })
               }
               aria-pressed={shading === s.value}
-              className={`ring-focus flex flex-col items-start gap-0.5 rounded-xl border px-4 py-3 text-left transition-colors ${
+              className={`ring-focus flex min-h-12 flex-col items-start gap-0.5 rounded-xl border px-4 py-3 text-left transition-colors ${
                 shading === s.value
                   ? "border-[color:var(--solar-emerald)] bg-[color:var(--solar-emerald)]/8"
                   : "border-border bg-card hover:bg-secondary"

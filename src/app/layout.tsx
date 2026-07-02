@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
 import { SmoothScroll } from "@/components/site/smooth-scroll";
+import { FloatingCta } from "@/components/site/floating-cta";
 import { siteConfig } from "@/lib/site-config";
 import { getSiteContent } from "@/lib/content/server";
 
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description:
-    "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher & Förderberatung in Solothurn, Bern und Umgebung. Gratis Solarrechner und unverbindliche Offerte.",
+    "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner, transparenten Offerten und langfristigem Monitoring.",
   applicationName: siteConfig.name,
   keywords: [
     "Solaranlage Grenchen",
@@ -62,6 +63,11 @@ export const metadata: Metadata = {
     "Pronovo Förderung Photovoltaik",
     "PV Anlage installieren lassen",
     "Solarunternehmen Schweiz",
+    "Wallbox Solar",
+    "Wärmepumpe Photovoltaik",
+    "ZEV Photovoltaik Mehrfamilienhaus",
+    "Gewerbe Solaranlage",
+    "Eigenverbrauch optimieren",
   ],
   authors: [{ name: siteConfig.legalName }],
   category: "energy",
@@ -80,14 +86,14 @@ export const metadata: Metadata = {
     title:
       "Solaranlage & Photovoltaik Grenchen, Solothurn & Bern | DoubleA Solar",
     description:
-      "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Speicher & Förderberatung in Solothurn, Bern und Umgebung. Gratis Solarrechner und unverbindliche Offerte.",
+      "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner und transparenten Offerten.",
   },
   twitter: {
     card: "summary_large_image",
     title:
       "Solaranlage & Photovoltaik Grenchen, Solothurn & Bern | DoubleA Solar",
     description:
-      "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Speicher & Förderberatung in Solothurn, Bern und Umgebung. Gratis Solarrechner und unverbindliche Offerte.",
+      "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner und transparenten Offerten.",
   },
   robots: {
     index: true,
@@ -214,6 +220,7 @@ export default async function RootLayout({
             {children}
           </main>
           <SiteFooter contact={content.contact} />
+          <FloatingCta />
         </TooltipProvider>
         <Toaster position="top-right" richColors closeButton />
         <script

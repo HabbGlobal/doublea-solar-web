@@ -1,64 +1,54 @@
 "use client";
 
-import { Award, FileSignature, Hammer, MapPin, Sparkles } from "lucide-react";
+import {
+  Activity,
+  FileText,
+  Landmark,
+  Languages,
+  Map,
+  MapPin,
+} from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const items = [
-  {
-    icon: MapPin,
-    title: "Sitz in Grenchen",
-    description: "Verankert im Mittelland, schweizweit im Einsatz.",
-  },
-  {
-    icon: FileSignature,
-    title: "Transparente Offerten",
-    description: "Klare Positionen, keine versteckten Kosten.",
-  },
-  {
-    icon: Award,
-    title: "Förderberatung inklusive",
-    description: "Pronovo EIV und kantonale Programme im Blick.",
-  },
-  {
-    icon: Hammer,
-    title: "Eigene Montageteams",
-    description: "Saubere Installation, dokumentierte Abnahme.",
-  },
-  {
-    icon: Sparkles,
-    title: "Monitoring & Wartung",
-    description: "Langfristig betreut, nicht nur installiert.",
-  },
+  { icon: MapPin, label: "Sitz in Grenchen" },
+  { icon: Map, label: "Schweizweit tätig" },
+  { icon: FileText, label: "Transparente Offerten" },
+  { icon: Landmark, label: "Förderberatung inklusive" },
+  { icon: Activity, label: "Monitoring & Wartung" },
+  { icon: Languages, label: "Beratung in Deutsch und Schweizerdeutsch" },
 ];
 
 export function TrustSection() {
   const reduce = useReducedMotion();
   return (
-    <section className="border-y border-border bg-background/40">
-      <div className="container-page py-10 lg:py-14">
-        <p className="text-center text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-          Worauf sich Schweizer Eigentümerinnen und Eigentümer verlassen
-        </p>
-        <ul className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+    <section
+      aria-label="Verlässlichkeit auf einen Blick"
+      className="border-y border-border/70 bg-secondary/50"
+    >
+      <div className="container-page py-6 lg:py-7">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-6">
           {items.map((item, i) => {
             const Icon = item.icon;
             return (
               <motion.li
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
+                key={item.label}
+                initial={{ opacity: 0, y: 8 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
+                viewport={{ once: true, margin: "-40px" }}
                 transition={{
-                  delay: reduce ? 0 : i * 0.05,
-                  duration: reduce ? 0 : 0.5,
+                  delay: reduce ? 0 : i * 0.04,
+                  duration: reduce ? 0 : 0.45,
                 }}
-                className="flex flex-col gap-2 rounded-2xl border border-border/70 bg-card/60 p-4 backdrop-blur-sm"
+                className="flex items-start gap-2.5"
               >
-                <Icon className="size-4 text-[color:var(--solar-emerald)]" />
-                <p className="text-sm font-semibold text-foreground">{item.title}</p>
-                <p className="text-xs leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
+                <Icon
+                  aria-hidden="true"
+                  className="mt-[3px] size-4 shrink-0 text-[color:var(--solar-slate)]"
+                />
+                <span className="text-[13px] font-medium leading-snug text-foreground/80">
+                  {item.label}
+                </span>
               </motion.li>
             );
           })}

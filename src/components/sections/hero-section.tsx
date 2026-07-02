@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Calculator, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { siteConfig } from "@/lib/site-config";
@@ -12,6 +12,13 @@ type Props = {
   content: SiteContent["hero"];
   contact?: { phone: string; phoneHref: string };
 };
+
+/** Sachliche Fakten unter dem Hero-Visual — keine erfundenen Zahlen. */
+const heroFacts = [
+  { label: "Datenbasis", value: "Bundesdaten sonnendach.ch" },
+  { label: "Offerte", value: "Innert eines Werktags" },
+  { label: "Standort", value: "Grenchen — schweizweit tätig" },
+];
 
 export function HeroSection({ content, contact }: Props) {
   const reduce = useReducedMotion();
@@ -31,19 +38,15 @@ export function HeroSection({ content, contact }: Props) {
     <section className="relative overflow-hidden">
       <BackgroundDecor />
       <div className="container-page relative pt-8 pb-12 lg:pt-16 lg:pb-20">
-        {/* Text + CTAs zentriert oben */}
-        <div className="mx-auto max-w-3xl text-center">
-          <motion.div
-            {...fadeUp(0)}
-            className="inline-flex items-center gap-2 rounded-full border border-[color:var(--solar-emerald)]/25 bg-[color:var(--solar-emerald)]/8 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[color:var(--solar-emerald)] sm:text-xs sm:tracking-[0.16em]"
-          >
-            <span className="size-1.5 rounded-full bg-[color:var(--solar-emerald)]" />
+        {/* Editorial-Stack: Eyebrow → H1 → Subline → CTAs → Telefon */}
+        <div className="mx-auto max-w-4xl text-center">
+          <motion.p {...fadeUp(0)} className="eyebrow">
             {content.eyebrow}
-          </motion.div>
+          </motion.p>
 
           <motion.h1
             {...fadeUp(0.05)}
-            className="mt-4 text-balance text-[30px] leading-[1.08] font-semibold text-foreground sm:mt-6 sm:text-5xl sm:leading-[1.05] lg:text-[58px]"
+            className="mt-4 text-balance text-4xl leading-[1.06] font-semibold tracking-tight text-foreground sm:mt-5 sm:text-6xl sm:leading-[1.04] lg:text-7xl"
           >
             {content.headlineLeading}
             {content.headlineLeading.endsWith(" ") ? "" : " "}
@@ -59,50 +62,44 @@ export function HeroSection({ content, contact }: Props) {
           </motion.p>
 
           <motion.div
-            {...fadeUp(0.2)}
-            className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row sm:flex-wrap"
+            {...fadeUp(0.18)}
+            className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row"
           >
-            <Link
-              href="/solarrechner"
-              className="ring-focus inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[color:var(--solar-navy)] px-5 text-sm font-semibold text-[color:var(--solar-navy-foreground)] shadow-[0_18px_36px_-22px_rgba(11,31,51,0.6)] transition-transform hover:-translate-y-0.5 sm:w-auto"
-            >
-              <Calculator className="size-4" />
+            <Link href="/solarrechner" className="btn-primary w-full sm:w-auto">
               {content.primaryCtaLabel}
+              <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
-            <Link
-              href="/angebote"
-              className="ring-focus inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-5 text-sm font-medium text-foreground transition-colors hover:bg-secondary sm:w-auto"
-            >
+            <Link href="/angebote" className="btn-secondary w-full sm:w-auto">
               {content.secondaryCtaLabel}
-              <ArrowRight className="size-4" />
             </Link>
           </motion.div>
 
           <motion.div
-            {...fadeUp(0.28)}
-            className="mt-5 flex flex-col items-center gap-2 text-sm text-muted-foreground sm:mt-6 sm:flex-row sm:justify-center sm:gap-4"
+            {...fadeUp(0.24)}
+            className="mt-3 flex items-center justify-center sm:mt-4"
           >
-            <span className="hidden items-center gap-2 sm:flex">
-              <span className="size-1.5 rounded-full bg-[color:var(--solar-gold)]" />
-              Persönliche Beratung in Deutsch & Schweizerdeutsch
-            </span>
-            <span className="hidden sm:inline text-border">·</span>
             <a
               href={phoneHref}
-              className="ring-focus inline-flex items-center gap-2 rounded-md text-foreground hover:underline"
+              className="ring-focus inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Phone className="size-3.5" />
-              {phoneDisplay}
+              <Phone
+                className="size-3.5 text-[color:var(--solar-slate)]"
+                aria-hidden="true"
+              />
+              <span>
+                Lieber direkt sprechen?{" "}
+                <span className="font-medium text-foreground">{phoneDisplay}</span>
+              </span>
             </a>
           </motion.div>
         </div>
 
-        {/* Energiesystem-Bild full-width direkt unter Headline/CTAs */}
+        {/* Zentrales Visual: Energiesystem, randlos in die Seitenfarbe eingebettet */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: reduce ? 0 : 0.32,
+            delay: reduce ? 0 : 0.3,
             duration: reduce ? 0 : 0.7,
             ease: [0.2, 0.8, 0.2, 1],
           }}
@@ -117,7 +114,7 @@ export function HeroSection({ content, contact }: Props) {
               className="object-contain"
               priority
             />
-            {/* Kanten lösen sich randlos in die exakte Seitenfarbe auf */}
+            {/* Kanten lösen sich vierseitig randlos in die exakte Seitenfarbe auf */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0"
@@ -130,6 +127,23 @@ export function HeroSection({ content, contact }: Props) {
             />
           </div>
         </motion.div>
+
+        {/* Feine Fakten-Leiste unter dem Visual */}
+        <motion.dl
+          {...fadeUp(0.42)}
+          className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-4 border-t border-border pt-6 text-center sm:mt-10 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border"
+        >
+          {heroFacts.map((fact) => (
+            <div key={fact.label} className="px-4">
+              <dt className="text-[11px] font-medium uppercase tracking-[0.16em] text-[color:var(--solar-slate)]">
+                {fact.label}
+              </dt>
+              <dd className="stat-mono mt-1.5 text-[13px] text-foreground/85 sm:text-sm">
+                {fact.value}
+              </dd>
+            </div>
+          ))}
+        </motion.dl>
       </div>
     </section>
   );
@@ -138,8 +152,20 @@ export function HeroSection({ content, contact }: Props) {
 function BackgroundDecor() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      <div className="absolute inset-x-0 top-0 h-[640px] bg-[radial-gradient(60%_60%_at_50%_0%,rgba(107,160,37,0.08)_0%,transparent_70%)]" />
-      <div className="absolute -top-40 right-[-10%] size-[640px] rounded-full bg-[radial-gradient(circle_at_center,rgba(245,184,65,0.10)_0%,transparent_60%)]" />
+      <div
+        className="absolute inset-x-0 top-0 h-[560px]"
+        style={{
+          background:
+            "radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--solar-leaf) 14%, transparent) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute -top-40 right-[-12%] size-[560px] rounded-full"
+        style={{
+          background:
+            "radial-gradient(circle at center, color-mix(in oklab, var(--solar-gold) 12%, transparent) 0%, transparent 62%)",
+        }}
+      />
       <svg
         aria-hidden="true"
         className="absolute inset-0 size-full opacity-[0.04]"

@@ -91,7 +91,7 @@ export function LogoMark({ className }: { className?: string }) {
         />
 
         {/* Zell-Trennlinien */}
-        <g stroke="rgba(11,31,51,0.18)" strokeWidth="0.6" fill="none">
+        <g stroke="rgba(17,19,21,0.18)" strokeWidth="0.6" fill="none">
           <line x1="37.5" y1="28" x2="43" y2="12" />
           <line x1="44.5" y1="28" x2="50" y2="12" />
           <line x1="31.5" y1="50" x2="37.5" y2="28" />

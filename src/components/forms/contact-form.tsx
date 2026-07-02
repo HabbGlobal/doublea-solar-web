@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -29,9 +28,11 @@ import {
 
 const topics: { value: ContactFormInput["topic"]; label: string }[] = [
   { value: "allgemein", label: "Allgemeine Anfrage" },
-  { value: "offerte", label: "Offerte / Beratung" },
-  { value: "service", label: "Service / Bestandsanlage" },
-  { value: "andere", label: "Anderes Thema" },
+  { value: "offerte", label: "Offerte & Beratung" },
+  { value: "solarrechner", label: "Solarrechner-Auswertung" },
+  { value: "service", label: "Service & Bestandsanlage" },
+  { value: "finanzierung", label: "Finanzierung" },
+  { value: "gewerbe", label: "Gewerbeprojekt" },
 ];
 
 export function ContactForm() {
@@ -105,13 +106,13 @@ export function ContactForm() {
         <p className="text-base font-semibold text-[color:var(--solar-emerald)]">
           Vielen Dank für Ihre Nachricht.
         </p>
-        <p className="mt-2 text-sm text-foreground/80">
-          Wir melden uns persönlich – in der Regel innerhalb eines Werktags.
+        <p className="mt-2 text-sm leading-relaxed text-foreground/80">
+          Wir melden uns persönlich – Antwort innert eines Werktags.
         </p>
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="mt-3 text-xs font-medium text-muted-foreground hover:text-foreground"
+          className="ring-focus mt-4 inline-flex min-h-10 items-center rounded-full text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           Neue Nachricht senden
         </button>
@@ -124,7 +125,7 @@ export function ContactForm() {
       <FieldGroup>
         <Field>
           <FieldLabel>Anliegen</FieldLabel>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {topics.map((t) => (
               <button
                 key={t.value}
@@ -133,11 +134,12 @@ export function ContactForm() {
                   setValue("topic", t.value, { shouldValidate: true })
                 }
                 aria-pressed={topic === t.value}
-                className={`ring-focus rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                className={cn(
+                  "ring-focus flex min-h-12 items-center justify-center rounded-xl border px-3 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
                   topic === t.value
                     ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
-                    : "border-border bg-card hover:bg-secondary"
-                }`}
+                    : "border-border bg-card hover:bg-secondary",
+                )}
               >
                 {t.label}
               </button>
@@ -147,7 +149,7 @@ export function ContactForm() {
 
         {requireOffer && (
           <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/5 p-4 text-sm">
-            <p className="font-medium text-foreground">
+            <p className="font-medium leading-relaxed text-foreground">
               Für eine fundierte Offerte oder Beratung brauchen wir ein paar
               Eckdaten — bitte ergänzen Sie unten Adresse, Telefon, Heizart und
               Personen im Haushalt. So können wir gleich beim ersten Anruf
@@ -164,7 +166,7 @@ export function ContactForm() {
               autoComplete="name"
               aria-invalid={!!errors.name}
               {...register("name")}
-              className="h-11"
+              className="h-12 rounded-xl px-4"
             />
             <FieldError errors={errors.name ? [errors.name] : undefined} />
           </Field>
@@ -176,7 +178,7 @@ export function ContactForm() {
               autoComplete="email"
               aria-invalid={!!errors.email}
               {...register("email")}
-              className="h-11"
+              className="h-12 rounded-xl px-4"
             />
             <FieldError errors={errors.email ? [errors.email] : undefined} />
           </Field>
@@ -193,7 +195,7 @@ export function ContactForm() {
             placeholder="+41 …"
             aria-invalid={!!errors.phone}
             {...register("phone")}
-            className="h-11"
+            className="h-12 rounded-xl px-4"
           />
           <FieldError errors={errors.phone ? [errors.phone] : undefined} />
         </Field>
@@ -208,7 +210,7 @@ export function ContactForm() {
                 placeholder="Strasse, PLZ, Ort"
                 aria-invalid={!!errors.address}
                 {...register("address")}
-                className="h-11"
+                className="h-12 rounded-xl px-4"
               />
               <FieldError
                 errors={errors.address ? [errors.address] : undefined}
@@ -268,7 +270,7 @@ export function ContactForm() {
                   placeholder="4"
                   aria-invalid={!!errors.householdSize}
                   {...register("householdSize", { valueAsNumber: true })}
-                  className="h-11"
+                  className="h-12 rounded-xl px-4"
                 />
                 <FieldError
                   errors={
@@ -290,6 +292,7 @@ export function ContactForm() {
             placeholder="Erzählen Sie uns kurz, worum es geht – Dachgrösse, Strom­verbrauch, Wünsche helfen uns enorm."
             aria-invalid={!!errors.message}
             {...register("message")}
+            className="rounded-xl px-4 py-3"
           />
           <FieldError errors={errors.message ? [errors.message] : undefined} />
         </Field>
@@ -329,19 +332,26 @@ export function ContactForm() {
         </Field>
       </FieldGroup>
 
-      <Button
+      <button
         type="submit"
         disabled={isSubmitting}
-        className="h-11 w-full rounded-xl bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)] hover:bg-[color:var(--solar-navy)]/95"
+        className="btn-primary w-full disabled:pointer-events-none disabled:opacity-60"
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="size-4 animate-spin" /> Wird gesendet …
+            <Loader2 className="size-4 animate-spin" aria-hidden />
+            Wird gesendet …
           </>
         ) : (
-          "Nachricht senden"
+          <>
+            Nachricht senden
+            <ArrowRight className="size-4" aria-hidden />
+          </>
         )}
-      </Button>
+      </button>
+      <p className="text-center text-xs leading-relaxed text-muted-foreground">
+        Kostenfrei und unverbindlich – Antwort innert eines Werktags.
+      </p>
     </form>
   );
 }

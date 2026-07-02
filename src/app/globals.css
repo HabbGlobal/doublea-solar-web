@@ -94,7 +94,10 @@
   --solar-cream: #f4f5f2;            /* Warm Light Grey — ruhige Flächen */
 
   /* Erweiterte Relaunch-Töne */
-  --solar-slate: #718e9e;            /* Tech Blue-Grey — Labels, technische Werte */
+  /* Tech Blue-Grey — Labels, technische Werte. Abgedunkelt gegenüber dem
+     Marken-Slate #718E9E, damit kleiner Text auf Off-White WCAG AA
+     (≥4.5:1) erreicht; dunkle Sektionen überschreiben den Wert lokal. */
+  --solar-slate: #546e7a;
   --solar-graphite: #23272a;         /* Graphite — dunkle Sektionen, Footer */
   --solar-sand: #d8d2c4;             /* Sand Grey — feine Linien, Editorial-Flächen */
   --solar-ink: #111315;
@@ -219,6 +222,8 @@
       radial-gradient(80% 80% at 100% 100%, rgba(202, 226, 142, 0.10) 0%, transparent 55%),
       linear-gradient(180deg, #17191c 0%, #0e1011 100%);
     color: var(--solar-navy-foreground);
+    /* Heller Slate für Labels/Eyebrows auf Anthrazit (AA auf dunkel) */
+    --solar-slate: #8ba4b1;
   }
 
   /* Sanfte Sand-/Editorial-Fläche für ruhige Zwischenzonen */

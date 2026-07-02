@@ -4,11 +4,13 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BatteryCharging,
+  CheckCircle2,
   Coins,
   LineChart as LineChartIcon,
   Sparkles,
   Sun,
   TreePine,
+  Wallet,
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -57,7 +59,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
       hint: `Spanne ${formatChfRange(result.annualSavingsChf.conservative, result.annualSavingsChf.optimistic)}`,
     },
     {
-      icon: BatteryCharging,
+      icon: Wallet,
       label: "Investitionsspanne",
       value: formatChfRange(result.investmentChf.low, result.investmentChf.high),
       hint:
@@ -84,9 +86,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <div className="flex flex-wrap items-center gap-2">
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--solar-emerald)]">
-                Ihre Erstauswertung
-              </p>
+              <p className="eyebrow">Ihre Erstauswertung</p>
               {result.dataSource === "sonnendach" && (
                 <span className="inline-flex items-center gap-1 rounded-full border border-[color:var(--solar-emerald)]/40 bg-[color:var(--solar-emerald)]/10 px-2 py-0.5 text-[10px] font-medium text-[color:var(--solar-emerald)]">
                   <Sparkles className="size-3" />
@@ -94,11 +94,15 @@ export function CalculatorResultCard({ result, onReset }: Props) {
                 </span>
               )}
             </div>
-            <h2 className="mt-2 text-balance text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+            <h2 className="mt-2 text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl">
               {result.recommendation.sizing}
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Amortisation indikativ in {formatYearsRange(result.paybackYears.fast, result.paybackYears.slow)}.
+              Amortisation indikativ in{" "}
+              <span className="stat-mono text-foreground">
+                {formatYearsRange(result.paybackYears.fast, result.paybackYears.slow)}
+              </span>
+              .
             </p>
           </div>
           <button
@@ -119,7 +123,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
           <h3 className="text-sm font-semibold text-foreground">
             Kumulierte Ersparnis über 25 Jahre
           </h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="mt-0.5 text-xs text-muted-foreground">
             Lineare Hochrechnung auf Basis der realistischen Jahresersparnis.
             Ohne Strompreis-Anstieg.
           </p>
@@ -132,14 +136,14 @@ export function CalculatorResultCard({ result, onReset }: Props) {
         </div>
 
         {result.recommendation.notes.length > 0 && (
-          <div className="mt-6 rounded-2xl border border-[color:var(--solar-gold)]/40 bg-[color:var(--solar-gold)]/8 p-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[color:var(--solar-navy)]">
+          <div className="mt-6 rounded-2xl border border-[color:var(--solar-gold)]/40 bg-[color:var(--solar-gold)]/8 p-4 lg:p-5">
+            <p className="eyebrow text-[color:var(--solar-ink)]">
               Hinweise zu Ihrer Konstellation
             </p>
-            <ul className="mt-2 space-y-1.5 text-sm text-foreground/80">
+            <ul className="mt-2.5 space-y-1.5 text-sm text-foreground/80">
               {result.recommendation.notes.map((n) => (
                 <li key={n} className="flex gap-2">
-                  <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[color:var(--solar-navy)]" />
+                  <span className="mt-1.5 size-1 shrink-0 rounded-full bg-[color:var(--solar-gold)]" />
                   {n}
                 </li>
               ))}
@@ -147,7 +151,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
           </div>
         )}
 
-        <ul className="mt-6 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
+        <ul className="mt-6 space-y-1.5 border-t border-border/60 pt-4 text-xs leading-relaxed text-muted-foreground">
           {result.disclaimers.map((d) => (
             <li key={d}>· {d}</li>
           ))}
@@ -155,39 +159,50 @@ export function CalculatorResultCard({ result, onReset }: Props) {
       </div>
 
       <div className="flex flex-col gap-4">
-        <div className="rounded-3xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/8 p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[color:var(--solar-emerald)]">
-            Empfehlung Batterie
-          </p>
-          <p className="mt-2 text-base font-semibold text-foreground">
+        <div className="rounded-3xl border border-border bg-white/70 p-6">
+          <div className="flex items-center gap-2">
+            <BatteryCharging className="size-4 shrink-0 text-[color:var(--solar-emerald)]" />
+            <p className="eyebrow">Empfehlung Batterie</p>
+          </div>
+          <p className="mt-3 text-base font-semibold text-foreground">
             {result.recommendation.battery === "empfohlen"
               ? "Speicher empfohlen"
               : result.recommendation.battery === "nicht-empfohlen"
                 ? "Speicher aktuell nicht prioritär"
                 : "Speicher optional"}
           </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            {result.recommendedBatteryKwh > 0
-              ? `Indikative Grösse: ${result.recommendedBatteryKwh} kWh`
-              : "Wir prüfen den Mehrwert in der persönlichen Analyse."}
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            {result.recommendedBatteryKwh > 0 ? (
+              <>
+                Indikative Grösse:{" "}
+                <span className="stat-mono text-foreground/80">
+                  {result.recommendedBatteryKwh} kWh
+                </span>
+              </>
+            ) : (
+              "Wir prüfen den Mehrwert in der persönlichen Analyse."
+            )}
           </p>
         </div>
 
-        <div className="rounded-3xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/8 p-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[color:var(--solar-emerald)]">
-            Anfrage erfolgreich
-          </p>
-          <p className="mt-2 text-base font-semibold text-foreground">
+        <div className="rounded-3xl border border-[color:var(--solar-emerald)]/25 bg-[color:var(--solar-emerald)]/8 p-6">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="size-4 shrink-0 text-[color:var(--solar-emerald)]" />
+            <p className="eyebrow text-[color:var(--solar-emerald)]">
+              Anfrage erhalten
+            </p>
+          </div>
+          <p className="mt-3 text-base font-semibold text-foreground">
             Wir haben Ihre Anfrage erhalten.
           </p>
-          <p className="mt-1.5 text-sm text-muted-foreground">
+          <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
             Diese Auswertung ging soeben auch an unser Team. Wir prüfen Ihre Angaben,
             klären Förderoptionen und melden uns innert eines Werktags persönlich für
             die nächsten Schritte.
           </p>
           <a
             href="/services"
-            className="ring-focus mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-[color:var(--solar-emerald)]"
+            className="ring-focus mt-4 inline-flex min-h-12 items-center gap-1.5 rounded-full text-sm font-medium text-[color:var(--solar-emerald)] transition-colors hover:text-foreground"
           >
             Wie wir vorgehen <ArrowRight className="size-4" />
           </a>
@@ -221,16 +236,16 @@ function StatItem({
 
   return (
     <li
-      className={`rounded-2xl border border-border/70 bg-background/60 p-4 transition-opacity ${shown ? "opacity-100" : "opacity-0"}`}
+      className={`rounded-2xl border border-border/70 bg-white/70 p-4 transition-opacity duration-500 ${shown ? "opacity-100" : "opacity-0"}`}
     >
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <Icon className="size-4 shrink-0 text-[color:var(--solar-emerald)]" />
         <span className="leading-snug">{label}</span>
       </div>
-      <p className="mt-1 text-lg font-semibold tracking-tight text-foreground break-words sm:text-xl">
+      <p className="stat-mono mt-1.5 break-words text-lg font-semibold tracking-tight text-foreground sm:text-xl">
         {value}
       </p>
-      <p className="mt-0.5 text-xs leading-snug text-muted-foreground break-words">
+      <p className="mt-0.5 break-words text-xs leading-snug text-muted-foreground">
         {hint}
       </p>
     </li>

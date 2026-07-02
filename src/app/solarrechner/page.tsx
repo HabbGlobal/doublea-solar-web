@@ -14,17 +14,29 @@ export default function SolarrechnerPage() {
     <>
       <section className="container-page pt-12 pb-6 lg:pt-20">
         <div className="max-w-3xl">
-          <p className="text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--solar-emerald)]">
-            Solarrechner
-          </p>
-          <h1 className="mt-3 text-balance text-4xl font-semibold leading-tight text-foreground sm:text-5xl">
+          <p className="eyebrow">Solarrechner</p>
+          <h1 className="mt-4 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Wie viel Solarpotenzial steckt in Ihrem Dach?
           </h1>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted-foreground">
-            Beantworten Sie wenige Fragen zu Ihrem Gebäude, Dach und Verbrauch –
+          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+            Beantworten Sie wenige Fragen zu Gebäude, Dach und Verbrauch –
             unser Rechner liefert eine fundierte Erstauswertung mit
             Investitionsspanne, Eigenverbrauch und Amortisation.
           </p>
+          <ul className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
+            <li className="flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-[color:var(--solar-leaf)]" aria-hidden />
+              Kostenfrei und unverbindlich
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-[color:var(--solar-leaf)]" aria-hidden />
+              Offizielle Dachdaten des Bundes (Sonnendach.ch)
+            </li>
+            <li className="flex items-center gap-2">
+              <span className="size-1.5 rounded-full bg-[color:var(--solar-leaf)]" aria-hidden />
+              Antwort innert eines Werktags
+            </li>
+          </ul>
         </div>
       </section>
 

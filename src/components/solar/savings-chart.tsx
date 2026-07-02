@@ -41,12 +41,12 @@ export function SavingsChart({
               <stop offset="100%" stopColor="var(--solar-emerald)" stopOpacity={0.02} />
             </linearGradient>
           </defs>
-          <CartesianGrid stroke="rgba(11,31,51,0.08)" strokeDasharray="2 4" />
+          <CartesianGrid stroke="var(--border)" strokeDasharray="2 4" />
           <XAxis
             dataKey="year"
             tickFormatter={(v) => `${v}`}
             tick={{ fontSize: 11, fill: "var(--muted-foreground)" }}
-            axisLine={{ stroke: "rgba(11,31,51,0.12)" }}
+            axisLine={{ stroke: "var(--border)" }}
             tickLine={false}
             label={{
               value: "Jahre",
@@ -65,16 +65,18 @@ export function SavingsChart({
             }
           />
           <Tooltip
-            cursor={{ stroke: "rgba(11,31,51,0.15)" }}
+            cursor={{ stroke: "var(--solar-sand)" }}
             contentStyle={{
-              background: "white",
-              border: "1px solid rgba(11,31,51,0.08)",
-              borderRadius: 12,
+              background: "var(--background)",
+              border: "1px solid var(--border)",
+              borderRadius: 14,
               fontSize: 12,
-              boxShadow: "0 12px 30px -16px rgba(11,31,51,0.25)",
+              fontFamily: "var(--font-mono)",
+              boxShadow: "0 20px 50px -24px rgba(17,19,21,0.18)",
             }}
+            labelStyle={{ color: "var(--muted-foreground)", fontWeight: 500 }}
             formatter={(value, name) => [
-              `${new Intl.NumberFormat("de-CH").format(Number(value) || 0)} CHF`,
+              `CHF ${new Intl.NumberFormat("de-CH").format(Number(value) || 0)}`,
               name === "cumulative" ? "Kumulierte Ersparnis" : "Investition",
             ]}
             labelFormatter={(v) => `Jahr ${v}`}
@@ -89,7 +91,7 @@ export function SavingsChart({
           <Area
             type="step"
             dataKey="investment"
-            stroke="var(--solar-navy)"
+            stroke="var(--solar-ink)"
             strokeDasharray="4 4"
             strokeWidth={1.4}
             fill="transparent"

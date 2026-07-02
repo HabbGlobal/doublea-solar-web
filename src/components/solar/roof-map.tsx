@@ -115,7 +115,7 @@ export function RoofMap({
     } else {
       const el = document.createElement("div");
       el.className =
-        "size-5 rounded-full border-[3px] border-[color:var(--solar-gold)] bg-[color:var(--solar-navy)] shadow-[0_0_0_4px_rgba(245,184,65,0.25)]";
+        "size-5 rounded-full border-[3px] border-[color:var(--solar-gold)] bg-[color:var(--solar-navy)] shadow-[0_0_0_4px_color-mix(in_oklab,var(--solar-gold)_25%,transparent)]";
       markerRef.current = new maplibregl.Marker({ element: el })
         .setLngLat([lon, lat])
         .addTo(mapRef.current);

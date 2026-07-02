@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/services",
     "/solarrechner",
+    "/pakete",
     "/finanzierung",
     "/projekte",
     "/ueber-uns",
@@ -21,6 +22,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${base}${path}`,
     lastModified: now,
     changeFrequency: "monthly",
-    priority: path === "" ? 1 : path === "/solarrechner" ? 0.9 : 0.7,
+    priority:
+      path === ""
+        ? 1
+        : path === "/solarrechner" || path === "/pakete"
+          ? 0.9
+          : 0.7,
   }));
 }

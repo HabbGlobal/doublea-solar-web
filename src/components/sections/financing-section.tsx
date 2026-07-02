@@ -1,87 +1,99 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Banknote, ShieldCheck, Wallet } from "lucide-react";
+import {
+  ArrowRight,
+  FileText,
+  HandCoins,
+  Landmark,
+  Percent,
+} from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
 const points = [
   {
-    icon: Wallet,
-    title: "Planbare Investition",
+    icon: FileText,
+    title: "Transparente Offerte",
     description:
-      "Klare Spanne der Gesamtkosten und Restwerte – Sie wissen, woran Sie sind.",
+      "Eine klare Investitionsspanne, alle Positionen ausgewiesen – von Gerüst und Montage bis Elektriker und Netzanschluss. Keine versteckten Posten.",
   },
   {
-    icon: Banknote,
-    title: "Ratenmodelle möglich",
+    icon: Percent,
+    title: "Eigenfinanzierung mit Steuerabzug",
     description:
-      "Wir besprechen Finanzierungsoptionen über Schweizer Partner – ohne unrealistische Versprechen.",
+      "Investitionen in Photovoltaik lassen sich in den meisten Kantonen vom steuerbaren Einkommen abziehen. Wir weisen den Effekt indikativ in der Offerte aus.",
   },
   {
-    icon: ShieldCheck,
-    title: "Förderungen geprüft",
+    icon: Landmark,
+    title: "Ratenfinanzierung über Schweizer Partner",
     description:
-      "Pronovo EIV und kantonale Beiträge werden tagesaktuell für Ihren Standort beurteilt.",
+      "Auf Wunsch vermitteln wir Finanzierungsmodelle über etablierte Schweizer Partner – nüchtern gerechnet, ohne unrealistische Versprechen.",
+  },
+  {
+    icon: HandCoins,
+    title: "Förderung über Pronovo EIV",
+    description:
+      "Die Einmalvergütung des Bundes senkt die Investition spürbar. Wir prüfen den tagesaktuellen Ansatz für Ihren Standort und übernehmen den Antrag – Werte indikativ.",
   },
 ];
 
 export function FinancingSection() {
   const reduce = useReducedMotion();
   return (
-    <section id="finanzierung" className="container-page py-16 sm:py-24">
-      <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.05fr]">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--solar-emerald)]">
-            Finanzierung
-          </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold leading-tight text-foreground sm:text-4xl lg:text-[42px]">
-            Eine Solaranlage muss ins{" "}
-            <span className="gold-underline">Budget</span> passen – nicht nur aufs Dach.
+    <section id="finanzierung" className="container-page py-16 sm:py-24 lg:py-28">
+      <div className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: reduce ? 0 : 0.6 }}
+          className="lg:sticky lg:top-28"
+        >
+          <p className="eyebrow">Finanzierung</p>
+          <h2 className="mt-3 text-balance text-3xl font-semibold leading-tight text-foreground sm:text-4xl lg:text-[44px]">
+            Eine Solaranlage ist eine{" "}
+            <span className="gold-underline">Investition</span> – keine Ausgabe.
           </h2>
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
-            Wir sprechen offen über Investition, Amortisation und Risiken. Sie erhalten
-            eine ehrliche Einschätzung statt aggressiver Verkaufsargumente.
+          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+            Strom vom eigenen Dach ersetzt über Jahrzehnte eingekauften
+            Netzstrom. Wir rechnen offen vor, was Ihre Anlage kostet, was sie
+            einspart und welche Annahmen dahinterstehen – Wirtschaftlichkeit
+            immer indikativ, nie versprochen.
           </p>
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/finanzierung"
-              className="ring-focus inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[color:var(--solar-navy)] px-5 text-sm font-medium text-[color:var(--solar-navy-foreground)] transition-transform hover:-translate-y-0.5"
-            >
+          <div className="mt-8">
+            <Link href="/finanzierung" className="btn-ghost min-h-12">
               Finanzierung im Detail
               <ArrowRight className="size-4" />
             </Link>
-            <Link
-              href="/kontakt"
-              className="ring-focus inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
-            >
-              Beratung vereinbaren
-            </Link>
           </div>
-        </div>
+        </motion.div>
 
-        <ul className="grid gap-3">
+        <ul className="border-b border-border">
           {points.map((p, i) => {
             const Icon = p.icon;
             return (
               <motion.li
                 key={p.title}
-                initial={{ opacity: 0, x: 16 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
                 transition={{
                   delay: reduce ? 0 : i * 0.06,
-                  duration: reduce ? 0 : 0.5,
+                  duration: reduce ? 0 : 0.6,
                 }}
-                className="surface-glass flex items-start gap-4 rounded-2xl p-5"
+                className="flex items-start gap-5 border-t border-border py-6 lg:py-7"
               >
-                <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-xl bg-[color:var(--solar-gold)]/15 text-[color:var(--solar-navy)]">
-                  <Icon className="size-5" />
+                <span
+                  aria-hidden="true"
+                  className="mt-0.5 inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-[color:var(--solar-gold)]/40 text-foreground"
+                >
+                  <Icon className="size-5" strokeWidth={1.75} />
                 </span>
                 <div>
-                  <h3 className="text-base font-semibold text-foreground">
+                  <h3 className="text-base font-semibold text-foreground sm:text-lg">
                     {p.title}
                   </h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                     {p.description}
                   </p>
                 </div>

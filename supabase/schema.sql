@@ -124,3 +124,74 @@ create policy "site_content_auth_write"
     to authenticated
     using (true)
     with check (true);
+
+-- 5. projects — echte Referenzprojekte (Relaunch-Vorbereitung).
+-- Frontend zeigt Anlagentypen als Fallback, bis hier freigegebene
+-- Projekte (is_public = true) erfasst sind.
+create table if not exists public.projects (
+    id                uuid primary key default gen_random_uuid(),
+    created_at        timestamptz not null default now(),
+    title             text not null,
+    slug              text not null unique,
+    category          text not null, -- efh | mfh_zev | gewerbe | landwirtschaft | nachruestung | erweiterung
+    location          text,          -- Region, keine exakte Kundenadresse
+    kwp               numeric,
+    storage_kwh       numeric,
+    annual_production numeric,
+    self_consumption  numeric,       -- Anteil 0–1
+    description       text,
+    images            jsonb not null default '[]'::jsonb,
+    is_public         boolean not null default false,
+    sort_order        integer not null default 0
+);
+
+alter table public.projects enable row level security;
+
+drop policy if exists "projects_anon_read_public" on public.projects;
+create policy "projects_anon_read_public"
+    on public.projects
+    for select
+    to anon
+    using (is_public = true);
+
+drop policy if exists "projects_auth_write" on public.projects;
+create policy "projects_auth_write"
+    on public.projects
+    for all
+    to authenticated
+    using (true)
+    with check (true);
+
+-- 6. packages — Beispielpakete «Pakete & Preise» (Richtwerte).
+-- Aktuell rendert das Frontend kuratierte Defaults; diese Tabelle
+-- erlaubt spätere Pflege ohne Deployment.
+create table if not exists public.packages (
+    id                uuid primary key default gen_random_uuid(),
+    created_at        timestamptz not null default now(),
+    title             text not null,
+    slug              text not null unique,
+    kwp               numeric,
+    target_group      text,
+    price_from        numeric,
+    price_to          numeric,
+    included_features jsonb not null default '[]'::jsonb,
+    optional_features jsonb not null default '[]'::jsonb,
+    sort_order        integer not null default 0
+);
+
+alter table public.packages enable row level security;
+
+drop policy if exists "packages_anon_read" on public.packages;
+create policy "packages_anon_read"
+    on public.packages
+    for select
+    to anon
+    using (true);
+
+drop policy if exists "packages_auth_write" on public.packages;
+create policy "packages_auth_write"
+    on public.packages
+    for all
+    to authenticated
+    using (true)
+    with check (true);

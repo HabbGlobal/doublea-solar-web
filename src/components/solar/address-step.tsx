@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
-import { Loader2, MapPin, Search } from "lucide-react";
+import { Check, Loader2, MapPin, Search } from "lucide-react";
 
 import type {
   GeocodeResult,
@@ -74,10 +74,13 @@ function isWorthSelecting(s: SonnendachSegment): boolean {
 }
 
 function classToColor(klasse: number): string {
-  if (klasse >= 4.5) return "bg-emerald-500/20 text-emerald-700 border-emerald-500/30";
-  if (klasse >= 3.5) return "bg-emerald-500/15 text-emerald-700 border-emerald-500/25";
-  if (klasse >= 2.5) return "bg-amber-500/15 text-amber-800 border-amber-500/25";
-  return "bg-zinc-500/10 text-zinc-700 border-zinc-500/20";
+  if (klasse >= 4.5)
+    return "border-[color:var(--solar-emerald)]/40 bg-[color:var(--solar-emerald)]/15 text-[color:var(--solar-emerald)]";
+  if (klasse >= 3.5)
+    return "border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/10 text-[color:var(--solar-emerald)]";
+  if (klasse >= 2.5)
+    return "border-[color:var(--solar-gold)]/40 bg-[color:var(--solar-gold)]/15 text-[color:var(--solar-orange)]";
+  return "border-[color:var(--solar-slate)]/30 bg-[color:var(--solar-slate)]/10 text-[color:var(--solar-slate)]";
 }
 
 function classLabel(klasse: number): string {
@@ -225,13 +228,6 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
     });
   }
 
-  function selectBuilding(b: SonnendachBuilding) {
-    setSelectedBuildingId(b.buildingId);
-    setSelectedSegmentIds(
-      new Set(b.segments.filter((s) => isWorthSelecting(s)).map((s) => s.id)),
-    );
-  }
-
   // Auto-Apply: jede Änderung der Auswahl propagiert sofort an den Parent.
   // So muss der User keinen extra Confirm-Button drücken.
   useEffect(() => {
@@ -267,7 +263,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
                 if (selectedAddress) clearAddress();
                 setQuery(e.target.value);
               }}
-              className="h-11 pl-10"
+              className="h-12 pl-10"
             />
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             {searching && (
@@ -284,7 +280,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
                 <button
                   type="button"
                   onClick={() => pickAddress(r)}
-                  className="flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-secondary"
+                  className="ring-focus flex min-h-12 w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-secondary"
                 >
                   <MapPin className="mt-0.5 size-4 shrink-0 text-[color:var(--solar-emerald)]" />
                   <div className="flex flex-col">
@@ -358,7 +354,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
           )}
 
           {!loadingRoofs && roofs && roofs.empty && (
-            <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 px-4 py-4 text-sm text-foreground">
+            <div className="rounded-2xl border border-[color:var(--solar-gold)]/40 bg-[color:var(--solar-gold)]/10 px-4 py-4 text-sm text-foreground">
               <p className="font-medium">Für diese Adresse sind keine Sonnendach-Daten verfügbar.</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Das BFE-Sonnendach.ch-Register deckt nicht jedes Gebäude ab (z. B. Neubauten oder
@@ -370,17 +366,23 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
           {selectedBuilding && selectedAggregate && (
             <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/5 p-5">
               <div className="flex items-start gap-3">
-                <div className="size-8 shrink-0 rounded-full bg-[color:var(--solar-emerald)]/20 text-[color:var(--solar-emerald)] flex items-center justify-center text-base font-bold">
-                  ✓
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--solar-emerald)]/15 text-[color:var(--solar-emerald)]">
+                  <Check className="size-4" strokeWidth={2.5} />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-foreground">
                     Dach erkannt · {classLabel(selectedAggregate.averageSuitabilityClass)} geeignet
                   </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {selectedAggregate.usableAreaM2.toFixed(0)} m² nutzbare Modulfläche · ca.{" "}
-                    {Intl.NumberFormat("de-CH").format(selectedAggregate.totalElectricityYieldKwhYear)}{" "}
-                    kWh Modellertrag pro Jahr · Datenquelle: BFE Sonnendach.ch
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                    <span className="stat-mono text-foreground/80">
+                      {selectedAggregate.usableAreaM2.toFixed(0)} m²
+                    </span>{" "}
+                    nutzbare Modulfläche · ca.{" "}
+                    <span className="stat-mono text-foreground/80">
+                      {Intl.NumberFormat("de-CH").format(selectedAggregate.totalElectricityYieldKwhYear)}{" "}
+                      kWh
+                    </span>{" "}
+                    Modellertrag pro Jahr · Datenquelle: BFE Sonnendach.ch
                   </p>
                 </div>
               </div>
@@ -410,18 +412,6 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
       )}
     </div>
   );
-
-  function Stat({ label, value, hint }: { label: string; value: string; hint: string }) {
-    return (
-      <div>
-        <p className="text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-          {label}
-        </p>
-        <p className="mt-1 text-base font-semibold text-foreground">{value}</p>
-        <p className="text-xs text-muted-foreground">{hint}</p>
-      </div>
-    );
-  }
 }
 
 function SegmentRow({
@@ -449,7 +439,7 @@ function SegmentRow({
   return (
     <label
       className={cn(
-        "ring-focus group flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 transition-colors",
+        "ring-focus group flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 transition-colors",
         checked
           ? "border-[color:var(--solar-emerald)] bg-[color:var(--solar-emerald)]/5"
           : "border-border bg-background hover:bg-secondary",
@@ -463,7 +453,8 @@ function SegmentRow({
       />
       <div className="flex flex-1 flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="text-sm font-medium text-foreground">
-          Segment {segment.segmentNr} · {segment.areaM2.toFixed(0)} m²
+          Segment {segment.segmentNr} ·{" "}
+          <span className="stat-mono">{segment.areaM2.toFixed(0)} m²</span>
         </span>
         <span className="text-xs text-muted-foreground">
           {orientationLabel(segment.orientationDeg, segment.tiltDeg)} ·{" "}
@@ -471,7 +462,7 @@ function SegmentRow({
           {Intl.NumberFormat("de-CH").format(segment.specificIrradiationKwhM2Year)}{" "}
           kWh/m²/J
         </span>
-        <span className="text-xs text-muted-foreground">
+        <span className="stat-mono text-xs text-muted-foreground">
           → {Intl.NumberFormat("de-CH").format(segment.electricityYieldKwhYear)} kWh/J
         </span>
       </div>

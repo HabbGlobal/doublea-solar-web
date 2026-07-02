@@ -143,10 +143,10 @@ function shellHtml(args: {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f8;padding:32px 16px">
       <tr><td align="center">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#ffffff;border:1px solid #e7eaee;border-radius:14px;overflow:hidden">
-          <tr><td style="background:#0b1f33;padding:22px 28px">
+          <tr><td style="background:#111315;padding:22px 28px">
             <div style="display:inline-flex;align-items:center;gap:10px">
-              <div style="width:32px;height:32px;background:#f5b841;border-radius:8px"></div>
-              <div style="color:#f8faf7;font-weight:600;font-size:16px;letter-spacing:-0.01em">DoubleA Solar Solutions</div>
+              <div style="width:32px;height:32px;background:#cae28e;border-radius:8px"></div>
+              <div style="color:#fffdfd;font-weight:600;font-size:16px;letter-spacing:-0.01em">DoubleA Solar Solutions</div>
             </div>
           </td></tr>
           <tr><td style="padding:28px">

@@ -4,12 +4,12 @@ export function FinalCtaSection() {
   return (
     <CtaBand
       eyebrow="Kostenfrei und unverbindlich"
-      title="Bereit für Ihre eigene Solaranlage?"
-      description="In 60 Sekunden zur Erstauswertung – oder direkt persönliches Gespräch buchen. Wir melden uns innerhalb eines Werktags."
+      title="In 60 Sekunden zur Erstauswertung."
+      description="Berechnen Sie das Solarpotenzial Ihres Dachs – oder vereinbaren Sie direkt ein Beratungsgespräch. Antwort innert eines Werktags, persönliche Beratung in Deutsch und Schweizerdeutsch."
       primaryHref="/solarrechner"
       primaryLabel="Solarpotenzial berechnen"
       secondaryHref="/kontakt"
-      secondaryLabel="Persönliche Beratung"
+      secondaryLabel="Beratungsgespräch vereinbaren"
     />
   );
 }
