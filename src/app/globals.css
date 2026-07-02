@@ -58,95 +58,113 @@
 }
 
 :root {
-  /* Brand palette — DoubleA Solar */
-  --background: #f8faf7;
-  --foreground: #101828;
-  --card: rgba(255, 255, 255, 0.78);
-  --card-foreground: #101828;
+  /*
+   * Brand palette — DoubleA Solar Solutions «Premium Energy-Tech»
+   * Off-White · Deep Anthracite · Cool Slate · Soft Solar Green · Sand · Gold
+   * Die --solar-*-Tokennamen sind historisch (navy/emerald) und werden von
+   * allen Komponenten referenziert — nur die Werte wurden auf die neue
+   * Palette umgestellt.
+   */
+  --background: #fffdfd;
+  --foreground: #111315;
+  --card: rgba(255, 255, 255, 0.82);
+  --card-foreground: #111315;
   --popover: #ffffff;
-  --popover-foreground: #101828;
-  --primary: #0b1f33;
-  --primary-foreground: #f8faf7;
-  --secondary: #eef2ee;
-  --secondary-foreground: #0b1f33;
-  --muted: #eef2ee;
-  --muted-foreground: #667085;
-  --accent: #6ba025;
-  --accent-foreground: #ffffff;
+  --popover-foreground: #111315;
+  --primary: #111315;
+  --primary-foreground: #fffdfd;
+  --secondary: #f4f5f2;
+  --secondary-foreground: #111315;
+  --muted: #f4f5f2;
+  --muted-foreground: #5f6b72;
+  --accent: #cae28e;
+  --accent-foreground: #111315;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: rgba(11, 31, 51, 0.08);
-  --input: rgba(11, 31, 51, 0.12);
-  --ring: rgba(107, 160, 37, 0.35);
+  --border: rgba(17, 19, 21, 0.08);
+  --input: rgba(17, 19, 21, 0.12);
+  --ring: rgba(113, 142, 158, 0.4);
 
-  --solar-navy: #0b1f33;
-  --solar-navy-foreground: #f8faf7;
-  --solar-emerald: #6ba025;
-  --solar-leaf: #b5d86c;
-  --solar-gold: #f5b841;
-  --solar-orange: #f5882a;
-  --solar-cream: #fdf6e3;
+  /* Kernmarke */
+  --solar-navy: #111315;             /* Deep Anthracite — Primär-Aktionen, starke Typo */
+  --solar-navy-foreground: #fffdfd;
+  --solar-emerald: #5b7332;          /* Deep Moss — lesbarer Text-Akzent zur Soft-Green */
+  --solar-leaf: #cae28e;             /* Soft Solar Green — Signatur-Akzent, sparsam */
+  --solar-gold: #c8a35d;             /* Dezentes Solar Gold — Premium-Details */
+  --solar-orange: #b3894d;           /* abgedunkeltes Gold — Alt-Nutzungen entschärft */
+  --solar-cream: #f4f5f2;            /* Warm Light Grey — ruhige Flächen */
 
-  --chart-1: #6ba025;
-  --chart-2: #f5b841;
-  --chart-3: #0b1f33;
-  --chart-4: #b5d86c;
-  --chart-5: #f5882a;
+  /* Erweiterte Relaunch-Töne */
+  --solar-slate: #718e9e;            /* Tech Blue-Grey — Labels, technische Werte */
+  --solar-graphite: #23272a;         /* Graphite — dunkle Sektionen, Footer */
+  --solar-sand: #d8d2c4;             /* Sand Grey — feine Linien, Editorial-Flächen */
+  --solar-ink: #111315;
+
+  --chart-1: #5b7332;
+  --chart-2: #c8a35d;
+  --chart-3: #718e9e;
+  --chart-4: #cae28e;
+  --chart-5: #23272a;
 
   --radius: 0.75rem;
   --font-heading: var(--font-sans);
 
   --sidebar: #ffffff;
-  --sidebar-foreground: #101828;
-  --sidebar-primary: #0b1f33;
-  --sidebar-primary-foreground: #f8faf7;
-  --sidebar-accent: #eef2ee;
-  --sidebar-accent-foreground: #0b1f33;
-  --sidebar-border: rgba(11, 31, 51, 0.08);
-  --sidebar-ring: rgba(14, 122, 95, 0.35);
+  --sidebar-foreground: #111315;
+  --sidebar-primary: #111315;
+  --sidebar-primary-foreground: #fffdfd;
+  --sidebar-accent: #f4f5f2;
+  --sidebar-accent-foreground: #111315;
+  --sidebar-border: rgba(17, 19, 21, 0.08);
+  --sidebar-ring: rgba(113, 142, 158, 0.4);
 }
 
 .dark {
-  --background: #07111d;
-  --foreground: #e7eef5;
+  --background: #111315;
+  --foreground: #f4f5f2;
   --card: rgba(255, 255, 255, 0.04);
-  --card-foreground: #e7eef5;
-  --popover: #0b1f33;
-  --popover-foreground: #e7eef5;
-  --primary: #f5b841;
-  --primary-foreground: #0b1f33;
+  --card-foreground: #f4f5f2;
+  --popover: #23272a;
+  --popover-foreground: #f4f5f2;
+  --primary: #cae28e;
+  --primary-foreground: #111315;
   --secondary: rgba(255, 255, 255, 0.06);
-  --secondary-foreground: #e7eef5;
+  --secondary-foreground: #f4f5f2;
   --muted: rgba(255, 255, 255, 0.06);
-  --muted-foreground: #94a3b8;
-  --accent: #6ba025;
-  --accent-foreground: #ffffff;
+  --muted-foreground: #9aa7ae;
+  --accent: #cae28e;
+  --accent-foreground: #111315;
   --destructive: oklch(0.704 0.191 22.216);
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.12);
-  --ring: rgba(245, 184, 65, 0.35);
+  --ring: rgba(202, 226, 142, 0.35);
 
-  --solar-navy: #0b1f33;
-  --solar-navy-foreground: #f8faf7;
-  --solar-emerald: #6ba025;
-  --solar-leaf: #b5d86c;
-  --solar-gold: #f5b841;
-  --solar-orange: #f5882a;
-  --solar-cream: #fdf6e3;
+  --solar-navy: #111315;
+  --solar-navy-foreground: #fffdfd;
+  --solar-emerald: #a8c46b;
+  --solar-leaf: #cae28e;
+  --solar-gold: #c8a35d;
+  --solar-orange: #b3894d;
+  --solar-cream: #23272a;
 
-  --chart-1: #f5b841;
-  --chart-2: #b5d86c;
-  --chart-3: #94a3b8;
-  --chart-4: #6ba025;
-  --chart-5: #f5882a;
+  --solar-slate: #8ba4b1;
+  --solar-graphite: #23272a;
+  --solar-sand: #4a463d;
+  --solar-ink: #f4f5f2;
 
-  --sidebar: #07111d;
-  --sidebar-foreground: #e7eef5;
-  --sidebar-primary: #f5b841;
-  --sidebar-primary-foreground: #0b1f33;
+  --chart-1: #cae28e;
+  --chart-2: #c8a35d;
+  --chart-3: #8ba4b1;
+  --chart-4: #a8c46b;
+  --chart-5: #d8d2c4;
+
+  --sidebar: #111315;
+  --sidebar-foreground: #f4f5f2;
+  --sidebar-primary: #cae28e;
+  --sidebar-primary-foreground: #111315;
   --sidebar-accent: rgba(255, 255, 255, 0.06);
-  --sidebar-accent-foreground: #e7eef5;
+  --sidebar-accent-foreground: #f4f5f2;
   --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: rgba(245, 184, 65, 0.35);
+  --sidebar-ring: rgba(202, 226, 142, 0.35);
 }
 
 @layer base {
@@ -164,8 +182,8 @@
     font-feature-settings: "ss01", "cv11";
   }
   ::selection {
-    background: color-mix(in oklab, var(--solar-gold) 38%, transparent);
-    color: var(--solar-navy);
+    background: color-mix(in oklab, var(--solar-leaf) 55%, transparent);
+    color: var(--solar-ink);
   }
   h1, h2, h3, h4 {
     @apply tracking-tight;
@@ -185,20 +203,27 @@
   .surface-glass {
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.85) 0%,
-      rgba(255, 255, 255, 0.6) 100%
+      rgba(255, 255, 255, 0.88) 0%,
+      rgba(255, 255, 255, 0.64) 100%
     );
     backdrop-filter: saturate(140%) blur(14px);
     -webkit-backdrop-filter: saturate(140%) blur(14px);
-    border: 1px solid rgba(11, 31, 51, 0.08);
+    border: 1px solid rgba(17, 19, 21, 0.08);
   }
 
+  /* Dunkle Feature-Sektion — Deep Anthracite mit feinen Slate/Green-Lichtern.
+     Klassenname historisch («navy»), wird projektweit referenziert. */
   .surface-navy {
     background:
-      radial-gradient(120% 120% at 0% 0%, rgba(14, 122, 95, 0.18) 0%, transparent 55%),
-      radial-gradient(80% 80% at 100% 100%, rgba(245, 184, 65, 0.18) 0%, transparent 55%),
-      linear-gradient(180deg, #0b1f33 0%, #07111d 100%);
+      radial-gradient(120% 120% at 0% 0%, rgba(113, 142, 158, 0.14) 0%, transparent 55%),
+      radial-gradient(80% 80% at 100% 100%, rgba(202, 226, 142, 0.10) 0%, transparent 55%),
+      linear-gradient(180deg, #17191c 0%, #0e1011 100%);
     color: var(--solar-navy-foreground);
+  }
+
+  /* Sanfte Sand-/Editorial-Fläche für ruhige Zwischenzonen */
+  .surface-sand {
+    background: linear-gradient(180deg, #f4f5f2 0%, #efeee9 100%);
   }
 
   .text-balance {
@@ -226,12 +251,48 @@
   .gold-underline {
     background-image: linear-gradient(
       120deg,
-      var(--solar-gold) 0%,
-      color-mix(in oklab, var(--solar-gold) 60%, transparent) 100%
+      var(--solar-leaf) 0%,
+      color-mix(in oklab, var(--solar-leaf) 55%, transparent) 100%
     );
     background-repeat: no-repeat;
     background-size: 100% 0.32em;
     background-position: 0 88%;
+  }
+
+  /* ——— Relaunch-Designsystem: geteilte Idiome ——— */
+
+  /* Editorial-Eyebrow über Section-Headlines */
+  .eyebrow {
+    @apply text-xs font-medium uppercase tracking-[0.18em] text-[color:var(--solar-slate)];
+  }
+
+  /* Technische Werte / grosse Zahlen — Mono, tabellarische Ziffern */
+  .stat-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+
+  /* Pill-Buttons — die drei Button-Stufen des Relaunchs */
+  .btn-primary {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--solar-emerald)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[color:var(--solar-ink)] px-7 text-sm font-semibold text-[color:var(--solar-navy-foreground)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(17,19,21,0.45)];
+  }
+
+  .btn-secondary {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--solar-emerald)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[color:var(--solar-ink)]/15 bg-transparent px-7 text-sm font-medium text-foreground transition-colors duration-200 hover:bg-secondary;
+  }
+
+  .btn-ghost {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--solar-emerald)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex items-center gap-1.5 rounded-full text-sm font-medium text-foreground/80 transition-colors hover:text-foreground;
+  }
+
+  /* Button-Varianten für dunkle Sektionen */
+  .btn-primary-inverse {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--solar-emerald)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[color:var(--solar-leaf)] px-7 text-sm font-semibold text-[color:var(--solar-ink)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgba(202,226,142,0.4)];
+  }
+
+  .btn-secondary-inverse {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--solar-emerald)]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 px-7 text-sm font-medium text-white transition-colors duration-200 hover:bg-white/5;
   }
 }
 

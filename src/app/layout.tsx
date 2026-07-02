@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Inter, Inter_Tight, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
+import { SmoothScroll } from "@/components/site/smooth-scroll";
 import { siteConfig } from "@/lib/site-config";
 import { getSiteContent } from "@/lib/content/server";
 
@@ -16,16 +17,22 @@ const inter = Inter({
   display: "swap",
 });
 
-const manrope = Manrope({
+const interTight = Inter_Tight({
   variable: "--font-heading",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f8faf7" },
-    { media: "(prefers-color-scheme: dark)", color: "#07111d" },
+    { media: "(prefers-color-scheme: light)", color: "#fffdfd" },
+    { media: "(prefers-color-scheme: dark)", color: "#111315" },
   ],
 };
 
@@ -152,6 +159,13 @@ function buildJsonLdGraph(
       latitude: siteConfig.contact.geo.latitude,
       longitude: siteConfig.contact.geo.longitude,
     },
+    openingHoursSpecification: siteConfig.openingHours.schema.map((h) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: h.dayOfWeek,
+      opens: h.opens,
+      closes: h.closes,
+    })),
+    foundingDate: String(siteConfig.founded),
     areaServed: [
       { "@type": "Country", name: "Schweiz" },
       ...siteConfig.serviceAreas.map((name) => ({
@@ -190,9 +204,10 @@ export default async function RootLayout({
   return (
     <html
       lang="de-CH"
-      className={`${inter.variable} ${manrope.variable} h-full antialiased`}
+      className={`${inter.variable} ${interTight.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
+        <SmoothScroll />
         <TooltipProvider>
           <SiteHeader />
           <main id="content" className="flex-1">

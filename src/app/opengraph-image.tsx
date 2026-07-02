@@ -19,8 +19,8 @@ export default async function Image() {
           justifyContent: "space-between",
           padding: 80,
           background:
-            "radial-gradient(120% 80% at 100% 0%, rgba(245,184,65,0.35) 0%, transparent 60%), radial-gradient(80% 60% at 0% 100%, rgba(181,216,108,0.45) 0%, transparent 60%), linear-gradient(180deg, #0b1f33 0%, #07111d 100%)",
-          color: "#f8faf7",
+            "radial-gradient(120% 80% at 100% 0%, rgba(200,163,93,0.28) 0%, transparent 60%), radial-gradient(80% 60% at 0% 100%, rgba(202,226,142,0.32) 0%, transparent 60%), linear-gradient(180deg, #17191c 0%, #0e1011 100%)",
+          color: "#fffdfd",
           fontFamily: "sans-serif",
         }}
       >

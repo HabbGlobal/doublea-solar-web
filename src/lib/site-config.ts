@@ -2,7 +2,8 @@ export const siteConfig = {
   name: "DoubleA Solar Solutions",
   legalName: "DoubleA Solutions GmbH",
   shortName: "DoubleA Solar",
-  tagline: "Saubere Energie. Brillante Zukunft.",
+  tagline: "Solarenergie für Schweizer Dächer. Präzise geplant. Sauber umgesetzt.",
+  founded: 2025,
   description:
     "Photovoltaik präzise geplant und professionell umgesetzt: DoubleA Solar Solutions begleitet Schweizer Kundinnen und Kunden von der Standortanalyse bis zur Wartung.",
   url:
@@ -23,6 +24,19 @@ export const siteConfig = {
     },
     /** Koordinaten Grenchen — für LocalBusiness-Geo (lokale Google-Suche). */
     geo: { latitude: 47.1924, longitude: 7.3958 },
+  },
+  /** Öffnungszeiten — Kontaktseite + LocalBusiness-Schema. */
+  openingHours: {
+    weekdays: "Montag – Freitag, 08:00 – 18:00 Uhr",
+    saturday: "Samstag nach Vereinbarung",
+    /** schema.org openingHoursSpecification */
+    schema: [
+      {
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "08:00",
+        closes: "18:00",
+      },
+    ],
   },
   /** Preisspanne für LocalBusiness-Schema (Google bevorzugt gesetztes Feld). */
   priceRange: "$$",
@@ -50,6 +64,7 @@ export const siteConfig = {
   primaryNav: [
     { href: "/services", label: "Leistungen" },
     { href: "/solarrechner", label: "Solarrechner" },
+    { href: "/pakete", label: "Pakete & Preise" },
     { href: "/finanzierung", label: "Finanzierung" },
     { href: "/projekte", label: "Projekte" },
     { href: "/ueber-uns", label: "Über uns" },
