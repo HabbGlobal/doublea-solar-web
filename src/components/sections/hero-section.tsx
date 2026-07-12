@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { ArrowRight, Phone } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 
@@ -24,6 +24,20 @@ export function HeroSection({ content, contact }: Props) {
   const reduce = useReducedMotion();
   const phoneDisplay = contact?.phone ?? siteConfig.contact.phone;
   const phoneHref = contact?.phoneHref ?? siteConfig.contact.phoneHref;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Respektiert reduzierte Bewegung: pausiert das Video und zeigt das
+  // Standbild (Poster). Sonst läuft die Energiefluss-Animation stumm im Loop.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (reduce) {
+      v.pause();
+    } else {
+      void v.play().catch(() => {});
+    }
+  }, [reduce]);
+
   const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 14 },
     animate: { opacity: 1, y: 0 },
@@ -106,14 +120,19 @@ export function HeroSection({ content, contact }: Props) {
           className="relative mx-auto mt-10 w-full max-w-6xl sm:mt-14"
         >
           <div className="relative aspect-[16/9] w-full">
-            <Image
-              src="/energiesystem.png"
-              alt="Energiesystem eines Schweizer Einfamilienhauses: Photovoltaikanlage, Carport-Solar, Wallbox, Wärmepumpe, Wechselrichter, Batteriespeicher und Energiemanager mit Netzanschluss"
-              fill
-              sizes="(max-width: 1280px) 100vw, 1152px"
-              className="object-contain"
-              priority
-            />
+            <video
+              ref={videoRef}
+              className="absolute inset-0 size-full object-contain"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/energiesystem.png"
+              aria-label="Animiertes Energiesystem eines Schweizer Einfamilienhauses: Photovoltaikanlage, Carport-Solar, Wallbox, Wärmepumpe, Wechselrichter, Batteriespeicher und Energiemanager mit Netzanschluss"
+            >
+              <source src="/energiesystem.mp4" type="video/mp4" />
+            </video>
             {/* Kanten lösen sich vierseitig randlos in die exakte Seitenfarbe auf */}
             <div
               aria-hidden="true"
