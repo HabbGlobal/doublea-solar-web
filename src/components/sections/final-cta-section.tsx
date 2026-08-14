@@ -6,7 +6,7 @@ export function FinalCtaSection() {
       title="Sprechen wir über Ihr Dach."
       description="Senden Sie uns Ihre Eckdaten oder rufen Sie an — wir antworten persönlich, nicht mit Textbausteinen."
       primaryHref="/angebote"
-      primaryLabel="Projekt unverbindlich prüfen"
+      primaryLabel="Angebot einholen"
       secondaryHref="/solarrechner"
       secondaryLabel="Solarpotenzial berechnen"
     />

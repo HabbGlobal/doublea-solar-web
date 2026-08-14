@@ -93,6 +93,6 @@ gemappt — in neuem Code nicht mehr verwenden. Keine Chromatik im Interface.
 
 ## 8. Conversion
 
-- Primär-CTA: «Projekt unverbindlich prüfen» → /angebote (Header + CtaBand).
+- Primär-CTA: «Angebot einholen» → /angebote (Header + CtaBand).
 - Sekundär: «Solarpotenzial berechnen» → /solarrechner.
 - Jede Seite endet mit CtaBand; keine Floating-CTAs, keine CTA-Stapel.

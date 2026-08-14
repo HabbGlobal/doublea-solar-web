@@ -103,7 +103,7 @@ export function MobileNav({ phone }: Props) {
             nativeButton={false}
             render={
               <Link href="/angebote" className="btn-primary mt-4 w-full">
-                Projekt unverbindlich prüfen
+                Angebot einholen
               </Link>
             }
           />

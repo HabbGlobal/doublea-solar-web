@@ -20,7 +20,7 @@ export function CtaBand({
   title,
   description,
   primaryHref = "/angebote",
-  primaryLabel = "Projekt unverbindlich prüfen",
+  primaryLabel = "Angebot einholen",
   secondaryHref = "/solarrechner",
   secondaryLabel = "Solarpotenzial berechnen",
 }: CtaBandProps) {

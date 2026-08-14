@@ -49,7 +49,7 @@ export const defaultContent: SiteContent = {
     subclaim: "Präzise geplant. Sauber umgesetzt.",
     subheadline:
       "Wir planen Photovoltaikanlagen auf der Datenbasis des Bundes (sonnendach.ch), legen jede Position der Offerte offen und übernehmen Förderantrag, Installation und Abnahme. Für Eigenheime, Mehrfamilienhäuser und Gewerbe.",
-    primaryCtaLabel: "Projekt unverbindlich prüfen",
+    primaryCtaLabel: "Angebot einholen",
     secondaryCtaLabel: "Solarpotenzial berechnen",
   },
   contact: {

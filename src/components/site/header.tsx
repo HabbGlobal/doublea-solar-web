@@ -91,7 +91,7 @@ export function SiteHeader({ phone }: Props) {
               href="/angebote"
               className="btn-secondary min-h-11 px-5 text-[13px]"
             >
-              Projekt unverbindlich prüfen
+              Angebot einholen
             </Link>
           </div>
 
