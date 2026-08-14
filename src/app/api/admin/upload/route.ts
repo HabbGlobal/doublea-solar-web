@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/auth-server";
 import { createServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { describeStorageError } from "@/lib/supabase/errors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -79,7 +80,7 @@ export async function POST(request: Request) {
     if (error) {
       console.error("[admin/upload] storage error", error);
       return NextResponse.json(
-        { error: "Upload fehlgeschlagen." },
+        { error: describeStorageError(error, "Upload fehlgeschlagen.") },
         { status: 502 },
       );
     }

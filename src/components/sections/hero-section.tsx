@@ -8,9 +8,24 @@ import { siteConfig } from "@/lib/site-config";
 import type { SiteContent } from "@/lib/content/schema";
 import { SectionHead } from "@/components/site/section-head";
 
+/** Ein Kopf für die Porträt-Reihe unter dem Plankopf. */
+export type HeroFounder = {
+  id: string;
+  name: string;
+  role: string;
+  imageUrl: string | null;
+};
+
 type Props = {
   content: SiteContent["hero"];
   contact?: { phone: string; phoneHref: string };
+  /**
+   * Die ersten beiden publizierten Team-Mitglieder (Gründer). Werden im
+   * Hero als runde Porträts unter dem Plankopf gezeigt — bewusste Ausnahme
+   * von der kantigen Geometrie: Menschen, keine technischen Flächen.
+   * Leer/ohne Bild ⇒ die Reihe entfällt ersatzlos.
+   */
+  founders?: HeroFounder[];
 };
 
 /** Plankopf-Zeilen: sachliche Eckdaten, keine erfundenen Zahlen. */
@@ -33,7 +48,9 @@ const plankopfRows = [
   },
 ];
 
-export function HeroSection({ content, contact }: Props) {
+export function HeroSection({ content, contact, founders = [] }: Props) {
+  // Nur Köpfe mit Bild zeigen — ohne Foto bleibt die Reihe leer statt leerer Kreise.
+  const koepfe = founders.filter((f) => f.imageUrl).slice(0, 2);
   const phoneDisplay = contact?.phone ?? siteConfig.contact.phone;
   const phoneHref = contact?.phoneHref ?? siteConfig.contact.phoneHref;
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -151,6 +168,34 @@ export function HeroSection({ content, contact }: Props) {
                 Blatt 01 · 2540 Grenchen · 47.19° N / 7.40° O
               </p>
             </div>
+
+            {/* Gründer-Porträts: runde Rahmen als bewusste Ausnahme zur
+                kantigen Geometrie — erscheinen automatisch, sobald im Admin
+                Team-Mitglieder mit Bild veröffentlicht sind. */}
+            {koepfe.length > 0 && (
+              <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-6 sm:mt-8 sm:gap-x-8">
+                {koepfe.map((f) => (
+                  <figure key={f.id} className="min-w-0">
+                    <span className="relative block size-20 overflow-hidden rounded-full border border-border bg-card ring-1 ring-[color:var(--solar-line)] ring-offset-4 ring-offset-background sm:size-24 lg:size-[104px]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={f.imageUrl as string}
+                        alt={`${f.name}, ${f.role}`}
+                        loading="lazy"
+                        decoding="async"
+                        className="size-full object-cover"
+                      />
+                    </span>
+                    <figcaption className="mt-4">
+                      <p className="text-sm font-medium leading-snug text-foreground">
+                        {f.name}
+                      </p>
+                      <p className="eyebrow mt-1.5 leading-snug">{f.role}</p>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -169,14 +214,14 @@ export function HeroSection({ content, contact }: Props) {
           >
             <source src="/energiesystem.mp4" type="video/mp4" />
           </video>
-          <div className="mt-2 flex items-center justify-between gap-4 border-t border-border px-1">
-            <p className="eyebrow py-2">
+          <div className="mt-2 flex flex-col gap-1 border-t border-border px-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <p className="eyebrow py-2 leading-relaxed">
               Abb. 01 — Energiesystem eines Einfamilienhauses: PV, Speicher,
               Wallbox, Wärmepumpe
             </p>
             <button
               type="button"
-              className="ring-focus eyebrow inline-flex min-h-9 shrink-0 items-center px-2"
+              className="ring-focus eyebrow inline-flex min-h-11 shrink-0 items-center self-start px-2 underline decoration-[color:var(--solar-line)] underline-offset-4 hover:decoration-[color:var(--solar-ink)] sm:min-h-9 sm:self-auto"
               aria-pressed={!paused}
               onClick={toggleVideo}
             >

@@ -4,19 +4,28 @@ import { z } from "zod";
 
 import { createSupabaseServerClient } from "@/lib/supabase/auth-server";
 import { createServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { describeDbError } from "@/lib/supabase/errors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+
+const statSchema = z.object({
+  label: z.string().max(60),
+  value: z.string().max(60),
+});
 
 const createSchema = z.object({
   title: z.string().min(2).max(200),
   slug: z.string().min(2).max(200).optional(),
   kwp: z.number().nullable().optional(),
   targetGroup: z.string().max(200).nullable().optional(),
+  summary: z.string().max(600).nullable().optional(),
   priceFrom: z.number().nullable().optional(),
   priceTo: z.number().nullable().optional(),
+  stats: z.array(statSchema).optional(),
   includedFeatures: z.array(z.string().max(300)).optional(),
   optionalFeatures: z.array(z.string().max(300)).optional(),
+  isFeatured: z.boolean().optional(),
   sortOrder: z.number().int().optional(),
 });
 
@@ -42,10 +51,13 @@ type PackageRow = {
   slug: string;
   kwp: number | null;
   target_group: string | null;
+  summary: string | null;
   price_from: number | null;
   price_to: number | null;
+  stats: unknown;
   included_features: unknown;
   optional_features: unknown;
+  is_featured: boolean | null;
   sort_order: number;
 };
 
@@ -53,6 +65,18 @@ function toStringArray(value: unknown): string[] {
   return Array.isArray(value)
     ? (value as unknown[]).filter((v): v is string => typeof v === "string")
     : [];
+}
+
+/** Nur vollständige {label,value}-Paare durchlassen — Altdaten bleiben unschädlich. */
+function toStatArray(value: unknown): { label: string; value: string }[] {
+  if (!Array.isArray(value)) return [];
+  return (value as unknown[]).flatMap((entry) => {
+    if (entry === null || typeof entry !== "object") return [];
+    const rec = entry as Record<string, unknown>;
+    return typeof rec.label === "string" && typeof rec.value === "string"
+      ? [{ label: rec.label, value: rec.value }]
+      : [];
+  });
 }
 
 function toPackage(row: PackageRow) {
@@ -63,10 +87,13 @@ function toPackage(row: PackageRow) {
     slug: row.slug,
     kwp: row.kwp === null ? null : Number(row.kwp),
     targetGroup: row.target_group,
+    summary: row.summary ?? null,
     priceFrom: row.price_from === null ? null : Number(row.price_from),
     priceTo: row.price_to === null ? null : Number(row.price_to),
+    stats: toStatArray(row.stats),
     includedFeatures: toStringArray(row.included_features),
     optionalFeatures: toStringArray(row.optional_features),
+    isFeatured: row.is_featured === true,
     sortOrder: row.sort_order,
   };
 }
@@ -105,7 +132,7 @@ export async function GET() {
     if (error) {
       console.error("[admin/packages] supabase error", error);
       return NextResponse.json(
-        { error: "Laden fehlgeschlagen." },
+        { error: describeDbError(error, "Laden fehlgeschlagen.", "packages") },
         { status: 502 },
       );
     }
@@ -164,10 +191,13 @@ export async function POST(request: Request) {
         slug,
         kwp: d.kwp ?? null,
         target_group: d.targetGroup ?? null,
+        summary: d.summary ?? null,
         price_from: d.priceFrom ?? null,
         price_to: d.priceTo ?? null,
+        stats: d.stats ?? [],
         included_features: d.includedFeatures ?? [],
         optional_features: d.optionalFeatures ?? [],
+        is_featured: d.isFeatured ?? false,
         sort_order: d.sortOrder ?? 0,
       })
       .select("*")
@@ -175,7 +205,7 @@ export async function POST(request: Request) {
     if (error || !data) {
       console.error("[admin/packages] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "packages") },
         { status: 502 },
       );
     }
@@ -228,12 +258,15 @@ export async function PATCH(request: Request) {
   }
   if (d.kwp !== undefined) update.kwp = d.kwp;
   if (d.targetGroup !== undefined) update.target_group = d.targetGroup;
+  if (d.summary !== undefined) update.summary = d.summary;
   if (d.priceFrom !== undefined) update.price_from = d.priceFrom;
   if (d.priceTo !== undefined) update.price_to = d.priceTo;
+  if (d.stats !== undefined) update.stats = d.stats ?? [];
   if (d.includedFeatures !== undefined)
     update.included_features = d.includedFeatures ?? [];
   if (d.optionalFeatures !== undefined)
     update.optional_features = d.optionalFeatures ?? [];
+  if (d.isFeatured !== undefined) update.is_featured = d.isFeatured;
   if (d.sortOrder !== undefined) update.sort_order = d.sortOrder;
   if (Object.keys(update).length === 0) {
     return NextResponse.json({ error: "Keine Änderungen." }, { status: 400 });
@@ -250,7 +283,7 @@ export async function PATCH(request: Request) {
     if (error || !data) {
       console.error("[admin/packages] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "packages") },
         { status: 502 },
       );
     }
@@ -291,7 +324,7 @@ export async function DELETE(request: Request) {
     if (error) {
       console.error("[admin/packages] supabase error", error);
       return NextResponse.json(
-        { error: "Löschen fehlgeschlagen." },
+        { error: describeDbError(error, "Löschen fehlgeschlagen.", "packages") },
         { status: 502 },
       );
     }

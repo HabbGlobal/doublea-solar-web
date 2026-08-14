@@ -13,12 +13,22 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Field, FieldLabel } from "@/components/ui/field";
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+
+type ProjectKind = "typ" | "referenz";
+
+type Fact = { label: string; value: string };
 
 type Project = {
   id: string;
   title: string;
   slug: string;
+  kind: ProjectKind;
   category: string;
   location: string | null;
   kwp: number | null;
@@ -26,10 +36,23 @@ type Project = {
   annualProduction: number | null;
   selfConsumption: number | null;
   description: string | null;
+  metricLabel: string | null;
+  metricValue: string | null;
+  facts: Fact[];
+  deliverables: string[];
   images: string[];
   isPublic: boolean;
   sortOrder: number;
 };
+
+const KINDS = [
+  { value: "typ", label: "Anlagentyp (typische Spannweiten)" },
+  { value: "referenz", label: "Referenzprojekt (freigegeben)" },
+] as const;
+
+function kindLabel(kind: ProjectKind): string {
+  return kind === "typ" ? "Anlagentyp" : "Referenz";
+}
 
 const CATEGORIES = [
   { value: "efh", label: "Einfamilienhaus" },
@@ -71,6 +94,20 @@ function toNumberOrNull(value: string): number | null {
   if (trimmed === "") return null;
   const n = Number(trimmed);
   return Number.isFinite(n) ? n : null;
+}
+
+function linesToList(value: string): string[] {
+  return value
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+/** Leere Zeilen werden verworfen, damit keine halben Eckwerte in die DB gelangen. */
+function cleanFacts(facts: Fact[]): Fact[] {
+  return facts
+    .map((f) => ({ label: f.label.trim(), value: f.value.trim() }))
+    .filter((f) => f.label !== "" || f.value !== "");
 }
 
 function ImageField({
@@ -143,22 +180,118 @@ function ImageField({
 /** Gemeinsame Formularfelder für Neu + Bearbeiten. */
 type ProjectFormValues = {
   title: string;
+  kind: ProjectKind;
   category: string;
   location: string;
   kwp: string;
   storageKwh: string;
   description: string;
+  metricLabel: string;
+  metricValue: string;
+  facts: Fact[];
+  deliverables: string;
 };
 
 function emptyValues(): ProjectFormValues {
   return {
     title: "",
+    kind: "referenz",
     category: "efh",
     location: "",
     kwp: "",
     storageKwh: "",
     description: "",
+    metricLabel: "",
+    metricValue: "",
+    facts: [],
+    deliverables: "",
   };
+}
+
+/** Gemeinsamer Payload-Teil für Anlegen und Bearbeiten. */
+function payloadFromValues(values: ProjectFormValues) {
+  return {
+    title: values.title.trim(),
+    kind: values.kind,
+    category: values.category,
+    location: values.location.trim() || null,
+    kwp: toNumberOrNull(values.kwp),
+    storageKwh: toNumberOrNull(values.storageKwh),
+    description: values.description.trim() || null,
+    metricLabel: values.metricLabel.trim() || null,
+    metricValue: values.metricValue.trim() || null,
+    facts: cleanFacts(values.facts),
+    deliverables: linesToList(values.deliverables),
+  };
+}
+
+/** Dynamische Label/Wert-Liste für die Eckwerte eines Projekts. */
+function FactRows({
+  idPrefix,
+  facts,
+  onChange,
+}: {
+  idPrefix: string;
+  facts: Fact[];
+  onChange: (next: Fact[]) => void;
+}) {
+  return (
+    <div className="grid gap-2">
+      {facts.map((fact, index) => (
+        <div
+          // Eckwerte haben keine ID; der Index ist hier der stabile Schlüssel.
+          key={index}
+          className="flex flex-wrap items-center gap-2"
+        >
+          <Input
+            id={`${idPrefix}-fact-label-${index}`}
+            aria-label={`Eckwert ${index + 1} – Bezeichnung`}
+            value={fact.label}
+            onChange={(e) =>
+              onChange(
+                facts.map((f, i) =>
+                  i === index ? { ...f, label: e.target.value } : f,
+                ),
+              )
+            }
+            className="h-11 min-w-0 flex-1"
+            placeholder="z.B. Ausrichtung"
+          />
+          <Input
+            id={`${idPrefix}-fact-value-${index}`}
+            aria-label={`Eckwert ${index + 1} – Wert`}
+            value={fact.value}
+            onChange={(e) =>
+              onChange(
+                facts.map((f, i) =>
+                  i === index ? { ...f, value: e.target.value } : f,
+                ),
+              )
+            }
+            className="h-11 min-w-0 flex-1"
+            placeholder="z.B. Ost/West"
+          />
+          <button
+            type="button"
+            aria-label={`Eckwert ${index + 1} entfernen`}
+            onClick={() => onChange(facts.filter((_, i) => i !== index))}
+            className="ring-focus inline-flex size-11 shrink-0 items-center justify-center border border-border text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-destructive"
+          >
+            <Trash2 className="size-4" aria-hidden />
+          </button>
+        </div>
+      ))}
+      <div>
+        <button
+          type="button"
+          onClick={() => onChange([...facts, { label: "", value: "" }])}
+          className="btn-secondary min-h-10 px-4"
+        >
+          Eckwert hinzufügen
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function ProjectFields({
@@ -172,6 +305,30 @@ function ProjectFields({
 }) {
   return (
     <>
+      <Field>
+        <FieldLabel htmlFor={`${idPrefix}-kind`}>Art</FieldLabel>
+        <select
+          id={`${idPrefix}-kind`}
+          value={values.kind}
+          onChange={(e) =>
+            onChange({
+              ...values,
+              kind: e.target.value === "typ" ? "typ" : "referenz",
+            })
+          }
+          className="ring-focus h-11 w-full border border-input bg-card px-3 text-sm text-foreground"
+        >
+          {KINDS.map((k) => (
+            <option key={k.value} value={k.value}>
+              {k.label}
+            </option>
+          ))}
+        </select>
+        <FieldDescription>
+          Anlagentypen beschreiben typische Anlagen; Referenzprojekte zeigen
+          konkrete, vom Kunden freigegebene Anlagen.
+        </FieldDescription>
+      </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field>
           <FieldLabel htmlFor={`${idPrefix}-title`}>Titel *</FieldLabel>
@@ -245,6 +402,59 @@ function ProjectFields({
           onChange={(e) => onChange({ ...values, description: e.target.value })}
         />
       </Field>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field>
+          <FieldLabel htmlFor={`${idPrefix}-metric-label`}>
+            Kennzahl-Label
+          </FieldLabel>
+          <Input
+            id={`${idPrefix}-metric-label`}
+            value={values.metricLabel}
+            onChange={(e) =>
+              onChange({ ...values, metricLabel: e.target.value })
+            }
+            className="h-11"
+            placeholder="z.B. Typische Anlagengrösse"
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor={`${idPrefix}-metric-value`}>
+            Kennzahl-Wert
+          </FieldLabel>
+          <Input
+            id={`${idPrefix}-metric-value`}
+            value={values.metricValue}
+            onChange={(e) =>
+              onChange({ ...values, metricValue: e.target.value })
+            }
+            className="h-11"
+            placeholder="z.B. 8–12 kWp"
+          />
+        </Field>
+      </div>
+      <Field>
+        <FieldTitle>Eckwerte</FieldTitle>
+        <FactRows
+          idPrefix={idPrefix}
+          facts={values.facts}
+          onChange={(facts) => onChange({ ...values, facts })}
+        />
+        <FieldDescription>
+          Je Zeile ein Label/Wert-Paar, z.B. «Ausrichtung» / «Ost/West».
+        </FieldDescription>
+      </Field>
+      <Field>
+        <FieldLabel htmlFor={`${idPrefix}-deliverables`}>
+          Leistungsumfang
+        </FieldLabel>
+        <Textarea
+          id={`${idPrefix}-deliverables`}
+          rows={5}
+          value={values.deliverables}
+          onChange={(e) => onChange({ ...values, deliverables: e.target.value })}
+        />
+        <FieldDescription>Eine Zeile pro Punkt.</FieldDescription>
+      </Field>
     </>
   );
 }
@@ -275,12 +485,7 @@ function NewProjectForm({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: values.title.trim(),
-          category: values.category,
-          location: values.location.trim() || null,
-          kwp: toNumberOrNull(values.kwp),
-          storageKwh: toNumberOrNull(values.storageKwh),
-          description: values.description.trim() || null,
+          ...payloadFromValues(values),
           images: imagePath ? [imagePath] : [],
           isPublic: false,
           sortOrder: nextSortOrder,
@@ -346,11 +551,16 @@ function EditProjectForm({
 }) {
   const [values, setValues] = useState<ProjectFormValues>({
     title: project.title,
+    kind: project.kind,
     category: project.category,
     location: project.location ?? "",
     kwp: project.kwp != null ? String(project.kwp) : "",
     storageKwh: project.storageKwh != null ? String(project.storageKwh) : "",
     description: project.description ?? "",
+    metricLabel: project.metricLabel ?? "",
+    metricValue: project.metricValue ?? "",
+    facts: project.facts.map((f) => ({ label: f.label, value: f.value })),
+    deliverables: project.deliverables.join("\n"),
   });
   const [file, setFile] = useState<File | null>(null);
   const [saving, setSaving] = useState(false);
@@ -374,12 +584,7 @@ function EditProjectForm({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           id: project.id,
-          title: values.title.trim(),
-          category: values.category,
-          location: values.location.trim() || null,
-          kwp: toNumberOrNull(values.kwp),
-          storageKwh: toNumberOrNull(values.storageKwh),
-          description: values.description.trim() || null,
+          ...payloadFromValues(values),
           ...(images ? { images } : {}),
         }),
       });
@@ -623,6 +828,7 @@ export function ProjekteEditor() {
                     </div>
                   )}
                   <div className="min-w-0 flex-1">
+                    <p className="eyebrow">{kindLabel(p.kind)}</p>
                     <p className="truncate text-sm font-medium text-foreground">
                       {p.title}
                     </p>

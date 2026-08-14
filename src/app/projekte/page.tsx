@@ -1,7 +1,14 @@
 /**
- * Projekte — kuratierte Anlagentypen aus der Praxis (bewusst KEINE erfundenen
- * Kundenprojekte, Standorte oder Namen) plus freigegebene Referenzprojekte
- * aus der Supabase-Tabelle `projects`, sobald vorhanden.
+ * Projekte — datenbankgetrieben aus der Supabase-Tabelle `projects`:
+ *
+ *   kind = 'typ'      → kuratierte Anlagentypen (typische Spannweiten,
+ *                       bewusst KEINE erfundenen Kundenprojekte)
+ *   kind = 'referenz' → echte, ausdrücklich freigegebene Kundenprojekte
+ *
+ * Die Trennung ist inhaltlich zwingend (Ehrlichkeitsregel der Website) und
+ * wird nie vermischt. Solange keine Anlagentypen in der DB liegen, rendern
+ * die weiter unten kuratierten Defaults — die Seite sieht in beiden Fällen
+ * gleich aus.
  */
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -10,7 +17,11 @@ import { ArrowRight } from "lucide-react";
 
 import { CtaBand } from "@/components/site/cta-band";
 import { SectionHead, SectionTitle } from "@/components/site/section-head";
-import { getPublicProjects, type PublicProject } from "@/lib/data/projects";
+import {
+  getPublicProjects,
+  type ProjectFact,
+  type PublicProject,
+} from "@/lib/data/projects";
 
 export const metadata: Metadata = {
   title: "Projekte – Photovoltaik-Anlagentypen & Referenzen Schweiz",
@@ -19,11 +30,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/projekte",
   },
-};
-
-type ProjectFact = {
-  label: string;
-  value: string;
 };
 
 type ProjectType = {
@@ -175,6 +181,75 @@ const erweiterungen: ProjectType[] = [
   },
 ];
 
+/* Anzeigemodell — identisch für kuratierte und DB-Anlagentypen. */
+type TypeView = {
+  key: string;
+  number: string;
+  title: string;
+  description: string | null;
+  /** Kennzahl + Fakten, bereits zu einer Hairline-Liste zusammengeführt. */
+  rows: ProjectFact[];
+  deliverables: string[];
+  image: string | null;
+};
+
+function fromCurated(type: ProjectType): TypeView {
+  return {
+    key: type.number,
+    number: type.number,
+    title: type.title,
+    description: type.description,
+    rows: [
+      {
+        label: type.metricLabel,
+        value: type.metricUnit
+          ? `${type.metricValue} ${type.metricUnit}`
+          : type.metricValue,
+      },
+      ...type.facts,
+    ],
+    deliverables: type.deliverables,
+    image: null,
+  };
+}
+
+function fromDbType(project: PublicProject, index: number): TypeView {
+  const rows: ProjectFact[] = [];
+  if (project.metricLabel && project.metricValue) {
+    rows.push({ label: project.metricLabel, value: project.metricValue });
+  }
+  rows.push(...project.facts);
+  return {
+    key: project.id,
+    number: String(index + 1).padStart(2, "0"),
+    title: project.title,
+    description: project.description,
+    rows,
+    deliverables: project.deliverables,
+    image: project.images[0] ?? null,
+  };
+}
+
+const ZAHLWORT = [
+  "",
+  "Ein",
+  "Zwei",
+  "Drei",
+  "Vier",
+  "Fünf",
+  "Sechs",
+  "Sieben",
+  "Acht",
+  "Neun",
+  "Zehn",
+  "Elf",
+  "Zwölf",
+];
+
+function zahlwort(n: number): string {
+  return n >= 1 && n < ZAHLWORT.length ? ZAHLWORT[n] : String(n);
+}
+
 /* Werkplan-Idiome */
 
 function SquareBullet() {
@@ -203,12 +278,34 @@ function PhotoPlaceholder() {
   );
 }
 
+/* Hairline-Liste aus Label/Wert-Paaren — geteiltes Idiom beider Zeilentypen. */
+function SpecList({ rows }: { rows: ProjectFact[] }) {
+  if (rows.length === 0) return null;
+  return (
+    <dl className="mt-6 max-w-xl">
+      {rows.map((row, i) => (
+        <div
+          key={`${row.label}-${i}`}
+          className={`flex items-baseline justify-between gap-6 border-t border-border py-2.5 ${
+            i === rows.length - 1 ? "border-b" : ""
+          }`}
+        >
+          <dt className="text-[13px] text-muted-foreground">{row.label}</dt>
+          <dd className="stat-mono text-right text-[13px] text-foreground">
+            {row.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 /* Dossier-Zeile: ein Anlagentyp als Werkplan-Eintrag */
 function ProjectTypeRow({
   type,
   last = false,
 }: {
-  type: ProjectType;
+  type: TypeView;
   last?: boolean;
 }) {
   return (
@@ -217,7 +314,19 @@ function ProjectTypeRow({
         last ? "border-b" : ""
       }`}
     >
-      <PhotoPlaceholder />
+      {type.image ? (
+        <div className="relative aspect-[4/3] overflow-hidden border border-border bg-card">
+          <Image
+            src={type.image}
+            alt={`Anlagentyp: ${type.title}`}
+            fill
+            sizes="(min-width: 1024px) 320px, 100vw"
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <PhotoPlaceholder />
+      )}
 
       <div>
         <div className="flex items-baseline justify-between gap-4">
@@ -226,51 +335,30 @@ function ProjectTypeRow({
           </h3>
           <span className="eyebrow">{type.number}</span>
         </div>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {type.description}
-        </p>
+        {type.description && (
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            {type.description}
+          </p>
+        )}
 
-        <dl className="mt-6 max-w-xl">
-          <div className="flex items-baseline justify-between gap-6 border-t border-border py-2.5">
-            <dt className="text-[13px] text-muted-foreground">
-              {type.metricLabel}
-            </dt>
-            <dd className="stat-mono text-[13px] text-foreground">
-              {type.metricValue}
-              {type.metricUnit ? ` ${type.metricUnit}` : ""}
-            </dd>
+        <SpecList rows={type.rows} />
+
+        {type.deliverables.length > 0 && (
+          <div className="mt-6">
+            <p className="eyebrow">Leistungsumfang</p>
+            <ul className="mt-3 space-y-2.5">
+              {type.deliverables.map((item, i) => (
+                <li
+                  key={`${item}-${i}`}
+                  className="flex gap-3 text-sm leading-relaxed text-foreground/80"
+                >
+                  <SquareBullet />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
-          {type.facts.map((fact, i) => (
-            <div
-              key={fact.label}
-              className={`flex items-baseline justify-between gap-6 border-t border-border py-2.5 ${
-                i === type.facts.length - 1 ? "border-b" : ""
-              }`}
-            >
-              <dt className="text-[13px] text-muted-foreground">
-                {fact.label}
-              </dt>
-              <dd className="stat-mono text-right text-[13px] text-foreground">
-                {fact.value}
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        <div className="mt-6">
-          <p className="eyebrow">Leistungsumfang</p>
-          <ul className="mt-3 space-y-2.5">
-            {type.deliverables.map((item) => (
-              <li
-                key={item}
-                className="flex gap-3 text-sm leading-relaxed text-foreground/80"
-              >
-                <SquareBullet />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
+        )}
 
         <div className="mt-6">
           <Link href="/kontakt" className="btn-ghost ring-focus min-h-12">
@@ -292,7 +380,7 @@ function ReferenceRow({
   last?: boolean;
 }) {
   const image = project.images[0] ?? null;
-  const specs: { label: string; value: string }[] = [];
+  const specs: ProjectFact[] = [];
   if (project.location) {
     specs.push({ label: "Standort", value: project.location });
   }
@@ -302,6 +390,7 @@ function ReferenceRow({
   if (project.storageKwh !== null) {
     specs.push({ label: "Speicher", value: `${project.storageKwh} kWh` });
   }
+  specs.push(...project.facts);
 
   return (
     <article
@@ -324,7 +413,7 @@ function ReferenceRow({
       )}
 
       <div>
-        <p className="eyebrow">{project.category}</p>
+        {project.category && <p className="eyebrow">{project.category}</p>}
         <h3 className="mt-2 text-xl font-semibold text-foreground sm:text-2xl">
           {project.title}
         </h3>
@@ -334,24 +423,23 @@ function ReferenceRow({
           </p>
         )}
 
-        {specs.length > 0 && (
-          <dl className="mt-6 max-w-xl">
-            {specs.map((spec, i) => (
-              <div
-                key={spec.label}
-                className={`flex items-baseline justify-between gap-6 border-t border-border py-2.5 ${
-                  i === specs.length - 1 ? "border-b" : ""
-                }`}
-              >
-                <dt className="text-[13px] text-muted-foreground">
-                  {spec.label}
-                </dt>
-                <dd className="stat-mono text-right text-[13px] text-foreground">
-                  {spec.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
+        <SpecList rows={specs} />
+
+        {project.deliverables.length > 0 && (
+          <div className="mt-6">
+            <p className="eyebrow">Leistungsumfang</p>
+            <ul className="mt-3 space-y-2.5">
+              {project.deliverables.map((item, i) => (
+                <li
+                  key={`${item}-${i}`}
+                  className="flex gap-3 text-sm leading-relaxed text-foreground/80"
+                >
+                  <SquareBullet />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
     </article>
@@ -359,13 +447,28 @@ function ReferenceRow({
 }
 
 export default async function ProjektePage() {
-  const referenzen = await getPublicProjects();
-  const hasReferenzen = referenzen.length > 0;
+  const alle = await getPublicProjects();
+  const typen = alle.filter((p) => p.kind === "typ");
+  const referenzen = alle.filter((p) => p.kind === "referenz");
 
-  /* Sektionsnummern verschieben sich, wenn die Referenz-Sektion erscheint. */
-  const nrTypen = hasReferenzen ? "03" : "02";
-  const nrErweiterungen = hasReferenzen ? "04" : "03";
-  const nrReferenzenPanel = "04";
+  const hasReferenzen = referenzen.length > 0;
+  const hasDbTypen = typen.length > 0;
+
+  /* DB-Anlagentypen ersetzen die kuratierten Defaults inkl. Erweiterungen. */
+  const typenViews: TypeView[] = hasDbTypen
+    ? typen.map(fromDbType)
+    : anlagenTypen.map(fromCurated);
+  const typenCount = hasDbTypen
+    ? typen.length
+    : anlagenTypen.length + erweiterungen.length;
+
+  /* Sektionsnummern fortlaufend in Renderreihenfolge; 01 ist das Intro. */
+  let sectionNr = 1;
+  const nextNr = () => String(++sectionNr).padStart(2, "0");
+  const nrReferenzen = hasReferenzen ? nextNr() : null;
+  const nrTypen = nextNr();
+  const nrErweiterungen = hasDbTypen ? null : nextNr();
+  const nrReferenzenPanel = hasReferenzen ? null : nextNr();
 
   return (
     <>
@@ -384,10 +487,13 @@ export default async function ProjektePage() {
             Vom Familiendach bis zur Werkhalle.
           </h1>
           <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-            Sieben Anlagentypen prägen unsere Arbeit – vom Einfamilienhaus über
-            den ZEV im Mehrfamilienhaus bis zur landwirtschaftlichen
-            Grossanlage. Hier zeigen wir, was jeweils typisch ist: Eckwerte,
-            Leistungsumfang und die Punkte, die im Detail entscheiden.
+            {typenCount === 1
+              ? "Ein Anlagentyp prägt unsere Arbeit"
+              : `${zahlwort(typenCount)} Anlagentypen prägen unsere Arbeit`}{" "}
+            – vom Einfamilienhaus über den ZEV im Mehrfamilienhaus bis zur
+            landwirtschaftlichen Grossanlage. Hier zeigen wir, was jeweils
+            typisch ist: Eckwerte, Leistungsumfang und die Punkte, die im Detail
+            entscheiden.
           </p>
           <p className="mt-8 max-w-2xl border-l-2 border-[color:var(--solar-ink)] pl-4 text-sm leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground">Transparenz:</span>{" "}
@@ -399,10 +505,10 @@ export default async function ProjektePage() {
         </div>
       </section>
 
-      {hasReferenzen && (
+      {nrReferenzen !== null && (
         <>
-          {/* 02 — Referenzen (freigegebene Projekte aus der Datenbank) */}
-          <SectionHead nr="02" label="Referenzen" />
+          {/* Referenzen — echte, freigegebene Projekte aus der Datenbank */}
+          <SectionHead nr={nrReferenzen} label="Referenzen" />
           <section
             aria-labelledby="referenzen-h"
             className="container-page py-12 sm:py-16"
@@ -425,7 +531,7 @@ export default async function ProjektePage() {
         </>
       )}
 
-      {/* Anlagentypen 01–04 */}
+      {/* Anlagentypen — aus der DB, sonst die kuratierten Defaults */}
       <SectionHead nr={nrTypen} label="Anlagentypen" />
       <section
         aria-labelledby="anlagentypen-h"
@@ -433,42 +539,57 @@ export default async function ProjektePage() {
       >
         <SectionTitle
           id="anlagentypen-h"
-          title="Vier Gebäudekategorien. Ein Qualitätsstandard."
+          title={
+            hasDbTypen
+              ? `${zahlwort(typenViews.length)} ${
+                  typenViews.length === 1 ? "Anlagentyp" : "Anlagentypen"
+                }. Ein Qualitätsstandard.`
+              : "Vier Gebäudekategorien. Ein Qualitätsstandard."
+          }
+          lead={
+            hasDbTypen
+              ? "Typische Konstellationen aus unserer Praxis – die Spannweiten sind indikativ und beschreiben keine konkreten Kundenprojekte."
+              : undefined
+          }
         />
         <div className="mt-10">
-          {anlagenTypen.map((type, i) => (
+          {typenViews.map((type, i) => (
             <ProjectTypeRow
-              key={type.number}
+              key={type.key}
               type={type}
-              last={i === anlagenTypen.length - 1}
+              last={i === typenViews.length - 1}
             />
           ))}
         </div>
       </section>
 
-      {/* Erweiterungen 05–07 */}
-      <SectionHead nr={nrErweiterungen} label="Erweiterungen" />
-      <section
-        aria-labelledby="erweiterungen-h"
-        className="container-page py-12 sm:py-16"
-      >
-        <SectionTitle
-          id="erweiterungen-h"
-          title="Integration rund um die Anlage."
-          lead="Speicher, Laden und Wärme gehören ins Gesamtsystem – sauber eingebunden statt angebaut."
-        />
-        <div className="mt-10">
-          {erweiterungen.map((type, i) => (
-            <ProjectTypeRow
-              key={type.number}
-              type={type}
-              last={i === erweiterungen.length - 1}
+      {nrErweiterungen !== null && (
+        <>
+          {/* Erweiterungen 05–07 (kuratierter Fallback) */}
+          <SectionHead nr={nrErweiterungen} label="Erweiterungen" />
+          <section
+            aria-labelledby="erweiterungen-h"
+            className="container-page py-12 sm:py-16"
+          >
+            <SectionTitle
+              id="erweiterungen-h"
+              title="Integration rund um die Anlage."
+              lead="Speicher, Laden und Wärme gehören ins Gesamtsystem – sauber eingebunden statt angebaut."
             />
-          ))}
-        </div>
-      </section>
+            <div className="mt-10">
+              {erweiterungen.map((type, i) => (
+                <ProjectTypeRow
+                  key={type.number}
+                  type={fromCurated(type)}
+                  last={i === erweiterungen.length - 1}
+                />
+              ))}
+            </div>
+          </section>
+        </>
+      )}
 
-      {!hasReferenzen && (
+      {nrReferenzenPanel !== null && (
         <>
           {/* Referenzen auf Anfrage */}
           <SectionHead nr={nrReferenzenPanel} label="Referenzen" />

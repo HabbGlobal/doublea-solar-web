@@ -125,9 +125,8 @@ create policy "site_content_auth_write"
     using (true)
     with check (true);
 
--- 5. projects — echte Referenzprojekte (Relaunch-Vorbereitung).
--- Frontend zeigt Anlagentypen als Fallback, bis hier freigegebene
--- Projekte (is_public = true) erfasst sind.
+-- 5. projects — Anlagentypen (kind = 'typ') und freigegebene
+-- Referenzprojekte (kind = 'referenz').
 create table if not exists public.projects (
     id                uuid primary key default gen_random_uuid(),
     created_at        timestamptz not null default now(),
@@ -145,8 +144,36 @@ create table if not exists public.projects (
     sort_order        integer not null default 0
 );
 
+-- Migration: Spalten ergänzen (idempotent). `kind` trennt kuratierte
+-- Anlagentypen ('typ') von echten, freigegebenen Kundenprojekten
+-- ('referenz'). Diese Trennung ist inhaltlich zwingend und darf nicht
+-- vermischt werden.
+alter table public.projects add column if not exists kind text not null default 'referenz';
+alter table public.projects add column if not exists metric_label text;
+alter table public.projects add column if not exists metric_value text;
+alter table public.projects add column if not exists facts jsonb not null default '[]'::jsonb;
+alter table public.projects add column if not exists deliverables jsonb not null default '[]'::jsonb;
+
+do $$
+begin
+    if not exists (
+        select 1 from pg_constraint where conname = 'projects_kind_check'
+    ) then
+        alter table public.projects
+            add constraint projects_kind_check check (kind in ('typ', 'referenz'));
+    end if;
+end $$;
+
+comment on column public.projects.kind is
+    'typ = kuratierter Anlagentyp (Spannweiten, kein Kundenprojekt) | referenz = freigegebenes Kundenprojekt';
+
+create index if not exists projects_kind_sort_idx
+    on public.projects (kind, sort_order);
+
 alter table public.projects enable row level security;
 
+-- Öffentlich lesbar ist alles, was freigegeben ist (Anlagentypen werden
+-- mit is_public = true geseedet).
 drop policy if exists "projects_anon_read_public" on public.projects;
 create policy "projects_anon_read_public"
     on public.projects
@@ -162,9 +189,7 @@ create policy "projects_auth_write"
     using (true)
     with check (true);
 
--- 6. packages — Beispielpakete «Pakete & Preise» (Richtwerte).
--- Aktuell rendert das Frontend kuratierte Defaults; diese Tabelle
--- erlaubt spätere Pflege ohne Deployment.
+-- 6. packages — «Pakete & Preise» (Richtwerte, im Admin pflegbar).
 create table if not exists public.packages (
     id                uuid primary key default gen_random_uuid(),
     created_at        timestamptz not null default now(),
@@ -178,6 +203,14 @@ create table if not exists public.packages (
     optional_features jsonb not null default '[]'::jsonb,
     sort_order        integer not null default 0
 );
+
+-- Migration: Spalten ergänzen (idempotent).
+alter table public.packages add column if not exists summary text;
+alter table public.packages add column if not exists stats jsonb not null default '[]'::jsonb;
+alter table public.packages add column if not exists is_featured boolean not null default false;
+
+comment on column public.packages.stats is
+    'Array von {label, value} — Eckwerte-Tabelle im Paket-Panel';
 
 alter table public.packages enable row level security;
 

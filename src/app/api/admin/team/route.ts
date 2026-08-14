@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { createSupabaseServerClient } from "@/lib/supabase/auth-server";
 import { createServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { describeDbError } from "@/lib/supabase/errors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -81,7 +82,7 @@ export async function GET() {
     if (error) {
       console.error("[admin/team] supabase error", error);
       return NextResponse.json(
-        { error: "Laden fehlgeschlagen." },
+        { error: describeDbError(error, "Laden fehlgeschlagen.", "team_members") },
         { status: 502 },
       );
     }
@@ -138,7 +139,7 @@ export async function POST(request: Request) {
     if (error || !data) {
       console.error("[admin/team] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "team_members") },
         { status: 502 },
       );
     }
@@ -219,7 +220,7 @@ export async function PATCH(request: Request) {
     if (error || !data) {
       console.error("[admin/team] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "team_members") },
         { status: 502 },
       );
     }
@@ -276,7 +277,7 @@ export async function DELETE(request: Request) {
     if (error) {
       console.error("[admin/team] supabase error", error);
       return NextResponse.json(
-        { error: "Löschen fehlgeschlagen." },
+        { error: describeDbError(error, "Löschen fehlgeschlagen.", "team_members") },
         { status: 502 },
       );
     }

@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { createSupabaseServerClient } from "@/lib/supabase/auth-server";
 import { createServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { describeDbError } from "@/lib/supabase/errors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -17,9 +18,17 @@ const categoryEnum = z.enum([
   "erweiterung",
 ]);
 
+const kindEnum = z.enum(["typ", "referenz"]);
+
+const factSchema = z.object({
+  label: z.string().max(60),
+  value: z.string().max(60),
+});
+
 const createSchema = z.object({
   title: z.string().min(2).max(200),
   slug: z.string().min(2).max(200).optional(),
+  kind: kindEnum.optional(),
   category: categoryEnum,
   location: z.string().max(200).nullable().optional(),
   kwp: z.number().nullable().optional(),
@@ -27,6 +36,10 @@ const createSchema = z.object({
   annualProduction: z.number().nullable().optional(),
   selfConsumption: z.number().nullable().optional(),
   description: z.string().max(4000).nullable().optional(),
+  metricLabel: z.string().max(80).nullable().optional(),
+  metricValue: z.string().max(60).nullable().optional(),
+  facts: z.array(factSchema).optional(),
+  deliverables: z.array(z.string().max(300)).optional(),
   images: z.array(z.string().max(500)).optional(),
   isPublic: z.boolean().optional(),
   sortOrder: z.number().int().optional(),
@@ -52,6 +65,7 @@ type ProjectRow = {
   created_at: string;
   title: string;
   slug: string;
+  kind: string | null;
   category: string;
   location: string | null;
   kwp: number | null;
@@ -59,10 +73,32 @@ type ProjectRow = {
   annual_production: number | null;
   self_consumption: number | null;
   description: string | null;
+  metric_label: string | null;
+  metric_value: string | null;
+  facts: unknown;
+  deliverables: unknown;
   images: unknown;
   is_public: boolean;
   sort_order: number;
 };
+
+function toStringArray(value: unknown): string[] {
+  return Array.isArray(value)
+    ? (value as unknown[]).filter((v): v is string => typeof v === "string")
+    : [];
+}
+
+/** Nur vollständige {label,value}-Paare durchlassen — Altdaten bleiben unschädlich. */
+function toFactArray(value: unknown): { label: string; value: string }[] {
+  if (!Array.isArray(value)) return [];
+  return (value as unknown[]).flatMap((entry) => {
+    if (entry === null || typeof entry !== "object") return [];
+    const rec = entry as Record<string, unknown>;
+    return typeof rec.label === "string" && typeof rec.value === "string"
+      ? [{ label: rec.label, value: rec.value }]
+      : [];
+  });
+}
 
 function toProject(row: ProjectRow) {
   return {
@@ -70,6 +106,7 @@ function toProject(row: ProjectRow) {
     createdAt: row.created_at,
     title: row.title,
     slug: row.slug,
+    kind: row.kind === "typ" ? "typ" : "referenz",
     category: row.category,
     location: row.location,
     kwp: row.kwp === null ? null : Number(row.kwp),
@@ -79,11 +116,11 @@ function toProject(row: ProjectRow) {
     selfConsumption:
       row.self_consumption === null ? null : Number(row.self_consumption),
     description: row.description,
-    images: Array.isArray(row.images)
-      ? (row.images as unknown[]).filter(
-          (p): p is string => typeof p === "string",
-        )
-      : [],
+    metricLabel: row.metric_label ?? null,
+    metricValue: row.metric_value ?? null,
+    facts: toFactArray(row.facts),
+    deliverables: toStringArray(row.deliverables),
+    images: toStringArray(row.images),
     isPublic: row.is_public,
     sortOrder: row.sort_order,
   };
@@ -123,7 +160,7 @@ export async function GET() {
     if (error) {
       console.error("[admin/projects] supabase error", error);
       return NextResponse.json(
-        { error: "Laden fehlgeschlagen." },
+        { error: describeDbError(error, "Laden fehlgeschlagen.", "projects") },
         { status: 502 },
       );
     }
@@ -180,6 +217,7 @@ export async function POST(request: Request) {
       .insert({
         title: d.title,
         slug,
+        kind: d.kind ?? "referenz",
         category: d.category,
         location: d.location ?? null,
         kwp: d.kwp ?? null,
@@ -187,6 +225,10 @@ export async function POST(request: Request) {
         annual_production: d.annualProduction ?? null,
         self_consumption: d.selfConsumption ?? null,
         description: d.description ?? null,
+        metric_label: d.metricLabel ?? null,
+        metric_value: d.metricValue ?? null,
+        facts: d.facts ?? [],
+        deliverables: d.deliverables ?? [],
         images: d.images ?? [],
         is_public: d.isPublic ?? false,
         sort_order: d.sortOrder ?? 0,
@@ -196,7 +238,7 @@ export async function POST(request: Request) {
     if (error || !data) {
       console.error("[admin/projects] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "projects") },
         { status: 502 },
       );
     }
@@ -247,6 +289,7 @@ export async function PATCH(request: Request) {
     }
     update.slug = slug;
   }
+  if (d.kind !== undefined) update.kind = d.kind;
   if (d.category !== undefined) update.category = d.category;
   if (d.location !== undefined) update.location = d.location;
   if (d.kwp !== undefined) update.kwp = d.kwp;
@@ -256,6 +299,10 @@ export async function PATCH(request: Request) {
   if (d.selfConsumption !== undefined)
     update.self_consumption = d.selfConsumption;
   if (d.description !== undefined) update.description = d.description;
+  if (d.metricLabel !== undefined) update.metric_label = d.metricLabel;
+  if (d.metricValue !== undefined) update.metric_value = d.metricValue;
+  if (d.facts !== undefined) update.facts = d.facts ?? [];
+  if (d.deliverables !== undefined) update.deliverables = d.deliverables ?? [];
   if (d.images !== undefined) update.images = d.images ?? [];
   if (d.isPublic !== undefined) update.is_public = d.isPublic;
   if (d.sortOrder !== undefined) update.sort_order = d.sortOrder;
@@ -295,7 +342,7 @@ export async function PATCH(request: Request) {
     if (error || !data) {
       console.error("[admin/projects] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "projects") },
         { status: 502 },
       );
     }
@@ -352,7 +399,7 @@ export async function DELETE(request: Request) {
     if (error) {
       console.error("[admin/projects] supabase error", error);
       return NextResponse.json(
-        { error: "Löschen fehlgeschlagen." },
+        { error: describeDbError(error, "Löschen fehlgeschlagen.", "projects") },
         { status: 502 },
       );
     }

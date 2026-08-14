@@ -129,11 +129,20 @@ const optionen = [
   },
 ];
 
-/** CH-Tausendertrennung mit Apostroph, z.B. 12500 → 12'500. */
+const swissNumber = new Intl.NumberFormat("de-CH", {
+  maximumFractionDigits: 0,
+});
+
+/**
+ * CH-Tausendertrennung, z.B. 12500 → 12'500. Intl liefert je nach
+ * ICU-Version das typografische Apostroph (U+2019) oder ein schmales
+ * Leerzeichen als Gruppentrenner — wir normalisieren auf das gerade
+ * Apostroph, das der übrige Seitentext verwendet.
+ */
 function chf(n: number): string {
-  return Math.round(n)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+  return swissNumber
+    .format(Math.round(n))
+    .replace(/[\u2019\u00A0\u202F\u2009]/g, "'");
 }
 
 function priceLabel(p: DbPackage): string {
@@ -150,20 +159,23 @@ function priceLabel(p: DbPackage): string {
 }
 
 function toView(p: DbPackage): PaketView {
-  const stats: PaketStat[] = [];
-  if (p.kwp != null) {
-    stats.push({ label: "Leistung", value: `${p.kwp} kWp` });
-  }
+  /* Gepflegte Stats gewinnen; ohne sie bleibt die Leistung als Minimalzeile. */
+  const stats: PaketStat[] =
+    p.stats.length > 0
+      ? p.stats
+      : p.kwp != null
+        ? [{ label: "Leistung", value: `${p.kwp} kWp` }]
+        : [];
   return {
     id: p.id,
     target: p.targetGroup ?? "Paket",
     name: p.title,
-    summary: null,
+    summary: p.summary,
     stats,
     includes: p.includedFeatures,
     options: p.optionalFeatures,
     price: priceLabel(p),
-    featured: false,
+    featured: p.isFeatured,
   };
 }
 
@@ -247,9 +259,9 @@ export default async function PaketePage() {
 
                 {paket.stats.length > 0 && (
                   <dl className="mt-6">
-                    {paket.stats.map((stat) => (
+                    {paket.stats.map((stat, i) => (
                       <div
-                        key={stat.label}
+                        key={`${stat.label}-${i}`}
                         className="flex items-baseline justify-between gap-4 border-t border-border py-3 last:border-b"
                       >
                         <dt className="text-xs text-muted-foreground">
@@ -264,9 +276,9 @@ export default async function PaketePage() {
                 )}
 
                 <ul className="mt-6 grid gap-2.5">
-                  {paket.includes.map((item) => (
+                  {paket.includes.map((item, i) => (
                     <li
-                      key={item}
+                      key={`${item}-${i}`}
                       className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85"
                     >
                       <span
@@ -282,9 +294,9 @@ export default async function PaketePage() {
                   <div className="mt-5">
                     <p className="eyebrow">Optionen</p>
                     <ul className="mt-3 grid gap-2.5">
-                      {paket.options.map((item) => (
+                      {paket.options.map((item, i) => (
                         <li
-                          key={item}
+                          key={`${item}-${i}`}
                           className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground"
                         >
                           <span

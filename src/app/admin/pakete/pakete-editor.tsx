@@ -11,7 +11,15 @@ import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
+import { Switch } from "@/components/ui/switch";
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+
+type Stat = { label: string; value: string };
 
 type Package = {
   id: string;
@@ -19,10 +27,13 @@ type Package = {
   slug: string;
   kwp: number | null;
   targetGroup: string | null;
+  summary: string | null;
   priceFrom: number | null;
   priceTo: number | null;
+  stats: Stat[];
   includedFeatures: string[];
   optionalFeatures: string[];
+  isFeatured: boolean;
   sortOrder: number;
 };
 
@@ -53,10 +64,13 @@ type PackageFormValues = {
   title: string;
   kwp: string;
   targetGroup: string;
+  summary: string;
   priceFrom: string;
   priceTo: string;
+  stats: Stat[];
   includedFeatures: string;
   optionalFeatures: string;
+  isFeatured: boolean;
 };
 
 function emptyValues(): PackageFormValues {
@@ -64,10 +78,13 @@ function emptyValues(): PackageFormValues {
     title: "",
     kwp: "",
     targetGroup: "",
+    summary: "",
     priceFrom: "",
     priceTo: "",
+    stats: [],
     includedFeatures: "",
     optionalFeatures: "",
+    isFeatured: false,
   };
 }
 
@@ -76,11 +93,21 @@ function valuesFromPackage(pkg: Package): PackageFormValues {
     title: pkg.title,
     kwp: pkg.kwp != null ? String(pkg.kwp) : "",
     targetGroup: pkg.targetGroup ?? "",
+    summary: pkg.summary ?? "",
     priceFrom: pkg.priceFrom != null ? String(pkg.priceFrom) : "",
     priceTo: pkg.priceTo != null ? String(pkg.priceTo) : "",
+    stats: pkg.stats.map((s) => ({ label: s.label, value: s.value })),
     includedFeatures: pkg.includedFeatures.join("\n"),
     optionalFeatures: pkg.optionalFeatures.join("\n"),
+    isFeatured: pkg.isFeatured,
   };
+}
+
+/** Leere Zeilen werden verworfen, damit keine halben Eckwerte in die DB gelangen. */
+function cleanStats(stats: Stat[]): Stat[] {
+  return stats
+    .map((s) => ({ label: s.label.trim(), value: s.value.trim() }))
+    .filter((s) => s.label !== "" || s.value !== "");
 }
 
 function payloadFromValues(values: PackageFormValues) {
@@ -88,11 +115,83 @@ function payloadFromValues(values: PackageFormValues) {
     title: values.title.trim(),
     kwp: toNumberOrNull(values.kwp),
     targetGroup: values.targetGroup.trim() || null,
+    summary: values.summary.trim() || null,
     priceFrom: toNumberOrNull(values.priceFrom),
     priceTo: toNumberOrNull(values.priceTo),
+    stats: cleanStats(values.stats),
     includedFeatures: linesToList(values.includedFeatures),
     optionalFeatures: linesToList(values.optionalFeatures),
+    isFeatured: values.isFeatured,
   };
+}
+
+/** Dynamische Label/Wert-Liste für die Eckwerte eines Pakets. */
+function StatRows({
+  idPrefix,
+  stats,
+  onChange,
+}: {
+  idPrefix: string;
+  stats: Stat[];
+  onChange: (next: Stat[]) => void;
+}) {
+  return (
+    <div className="grid gap-2">
+      {stats.map((stat, index) => (
+        <div
+          // Eckwerte haben keine ID; der Index ist hier der stabile Schlüssel.
+          key={index}
+          className="flex flex-wrap items-center gap-2"
+        >
+          <Input
+            id={`${idPrefix}-stat-label-${index}`}
+            aria-label={`Eckwert ${index + 1} – Bezeichnung`}
+            value={stat.label}
+            onChange={(e) =>
+              onChange(
+                stats.map((s, i) =>
+                  i === index ? { ...s, label: e.target.value } : s,
+                ),
+              )
+            }
+            className="h-11 min-w-0 flex-1"
+            placeholder="z.B. Amortisation"
+          />
+          <Input
+            id={`${idPrefix}-stat-value-${index}`}
+            aria-label={`Eckwert ${index + 1} – Wert`}
+            value={stat.value}
+            onChange={(e) =>
+              onChange(
+                stats.map((s, i) =>
+                  i === index ? { ...s, value: e.target.value } : s,
+                ),
+              )
+            }
+            className="h-11 min-w-0 flex-1"
+            placeholder="z.B. 9–12 Jahre"
+          />
+          <button
+            type="button"
+            aria-label={`Eckwert ${index + 1} entfernen`}
+            onClick={() => onChange(stats.filter((_, i) => i !== index))}
+            className="ring-focus inline-flex size-11 shrink-0 items-center justify-center border border-border text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-destructive"
+          >
+            <Trash2 className="size-4" aria-hidden />
+          </button>
+        </div>
+      ))}
+      <div>
+        <button
+          type="button"
+          onClick={() => onChange([...stats, { label: "", value: "" }])}
+          className="btn-secondary min-h-10 px-4"
+        >
+          Eckwert hinzufügen
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function PackageFields({
@@ -143,6 +242,20 @@ function PackageFields({
           />
         </Field>
       </div>
+      <Field>
+        <FieldLabel htmlFor={`${idPrefix}-summary`}>
+          Zusammenfassung
+        </FieldLabel>
+        <Textarea
+          id={`${idPrefix}-summary`}
+          rows={2}
+          value={values.summary}
+          onChange={(e) => onChange({ ...values, summary: e.target.value })}
+        />
+        <FieldDescription>
+          Ein bis zwei Sätze, die das Paket einordnen.
+        </FieldDescription>
+      </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field>
           <FieldLabel htmlFor={`${idPrefix}-price-from`}>Preis von</FieldLabel>
@@ -173,6 +286,17 @@ function PackageFields({
           <FieldDescription>CHF, Richtpreis inkl. Montage.</FieldDescription>
         </Field>
       </div>
+      <Field>
+        <FieldTitle>Eckwerte</FieldTitle>
+        <StatRows
+          idPrefix={idPrefix}
+          stats={values.stats}
+          onChange={(stats) => onChange({ ...values, stats })}
+        />
+        <FieldDescription>
+          Je Zeile ein Label/Wert-Paar, z.B. «Amortisation» / «9–12 Jahre».
+        </FieldDescription>
+      </Field>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field>
           <FieldLabel htmlFor={`${idPrefix}-included`}>
@@ -200,6 +324,21 @@ function PackageFields({
           />
           <FieldDescription>Eine Zeile pro Option.</FieldDescription>
         </Field>
+      </div>
+      <div className="flex items-center gap-3">
+        <Switch
+          id={`${idPrefix}-featured`}
+          checked={values.isFeatured}
+          onCheckedChange={(checked) =>
+            onChange({ ...values, isFeatured: checked === true })
+          }
+        />
+        <label
+          htmlFor={`${idPrefix}-featured`}
+          className="text-sm font-medium text-foreground"
+        >
+          Meistgewählt hervorheben
+        </label>
       </div>
     </>
   );
@@ -442,7 +581,8 @@ export function PaketeEditor() {
         <p className="eyebrow">Hinweis</p>
         <p className="mt-1 text-sm text-foreground">
           Sind hier Pakete erfasst, ersetzen sie die Standard-Pakete auf /pakete
-          vollständig.
+          vollständig. Diese Angaben erscheinen 1:1 auf der Seite Pakete &
+          Preise.
         </p>
       </div>
 
@@ -505,6 +645,7 @@ export function PaketeEditor() {
                           ? ` · ab ${chf(p.priceFrom)}`
                           : ""}
                       {` · ${p.includedFeatures.length} Leistungspunkte`}
+                      {p.isFeatured ? " · Meistgewählt" : ""}
                     </p>
                   </div>
                   <div className="flex items-center gap-1.5">

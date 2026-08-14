@@ -59,6 +59,10 @@ gemappt — in neuem Code nicht mehr verwenden. Keine Chromatik im Interface.
   mit `.eyebrow`-Label «Projektfotografie in Vorbereitung». Keine Stock-/KI-Bilder.
 - Plankopf-Muster (Hero, Kontakt): weisses Panel als Definition-Tabelle
   (eyebrow-Label-Spalte + Wert), Fusszeile mit Koordinaten «47.19° N / 7.40° O».
+- EINZIGE Radius-Ausnahme: **Personen-Porträts** sind rund (`rounded-full` +
+  Hairline-Ring + `ring-offset`). Menschen sind keine technischen Flächen.
+  Gilt für die Gründer-Porträts im Hero (die ersten beiden publizierten
+  Team-Mitglieder, erscheinen automatisch) — Team-Sektionen bleiben kantig (3:4).
 - Fokus: IMMER `.ring-focus`.
 
 ## 5. Motion

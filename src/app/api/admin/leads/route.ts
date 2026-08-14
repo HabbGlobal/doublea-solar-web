@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { createSupabaseServerClient } from "@/lib/supabase/auth-server";
 import { createServiceClient, isSupabaseConfigured } from "@/lib/supabase/server";
+import { describeDbError } from "@/lib/supabase/errors";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -92,7 +93,7 @@ export async function GET(request: Request) {
     if (error) {
       console.error("[admin/leads] supabase error", error);
       return NextResponse.json(
-        { error: "Laden fehlgeschlagen." },
+        { error: describeDbError(error, "Laden fehlgeschlagen.", "leads") },
         { status: 502 },
       );
     }
@@ -143,7 +144,7 @@ export async function PATCH(request: Request) {
     if (error) {
       console.error("[admin/leads] supabase error", error);
       return NextResponse.json(
-        { error: "Speicherung fehlgeschlagen." },
+        { error: describeDbError(error, "Speicherung fehlgeschlagen.", "leads") },
         { status: 502 },
       );
     }
