@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -6,6 +7,7 @@ import { TeamSection } from "@/components/sections/team-section";
 import { CtaBand } from "@/components/site/cta-band";
 import { SectionHead, SectionTitle } from "@/components/site/section-head";
 import { siteConfig } from "@/lib/site-config";
+import { getPublishedTeamMembers, teamImageUrl } from "@/lib/data/team";
 
 export const metadata: Metadata = {
   title: "Über uns – Schweizer Solarunternehmen aus Grenchen",
@@ -87,7 +89,14 @@ const partnerCriteria = [
    Seite
    ———————————————————————————————————————————————— */
 
-export default function UeberUnsPage() {
+export default async function UeberUnsPage() {
+  // Sobald Porträts erfasst sind, zeigt der Intro-Bereich echte Gesichter
+  // statt der Platzhalter-Schraffur.
+  const team = await getPublishedTeamMembers();
+  const koepfe = team
+    .map((m) => ({ ...m, url: teamImageUrl(m.imagePath) }))
+    .filter((m) => m.url)
+    .slice(0, 2);
   return (
     <>
       {/* 00 · Intro — eyebrow, H1, Haltung, Faktenzeilen */}
@@ -135,18 +144,42 @@ export default function UeberUnsPage() {
             </dl>
           </div>
 
-          {/* Bild-Platzhalter — technische Schraffur, kein Stockfoto */}
-          <div
-            className="relative flex aspect-[4/3] items-center justify-center border border-border bg-card"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(45deg, var(--solar-line) 0 1px, transparent 1px 9px)",
-            }}
-          >
-            <span className="eyebrow bg-card px-3 py-1.5">
-              Teamfotografie in Vorbereitung
-            </span>
-          </div>
+          {/* Gründer-Porträts, sobald erfasst — sonst Platzhalter-Schraffur */}
+          {koepfe.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              {koepfe.map((m) => (
+                <figure key={m.id}>
+                  <div className="relative aspect-[3/4] overflow-hidden border border-border bg-card">
+                    <Image
+                      src={m.url as string}
+                      alt={`${m.name}, ${m.role}`}
+                      fill
+                      sizes="(max-width: 640px) 45vw, (max-width: 1024px) 40vw, 260px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <figcaption className="mt-3">
+                    <p className="text-sm font-medium leading-snug text-foreground">
+                      {m.name}
+                    </p>
+                    <p className="eyebrow mt-1.5">{m.role}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          ) : (
+            <div
+              className="relative flex aspect-[4/3] items-center justify-center border border-border bg-card"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(45deg, var(--solar-line) 0 1px, transparent 1px 9px)",
+              }}
+            >
+              <span className="eyebrow bg-card px-3 py-1.5">
+                Teamfotografie in Vorbereitung
+              </span>
+            </div>
+          )}
         </div>
       </section>
 

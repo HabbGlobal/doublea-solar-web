@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
@@ -177,13 +178,12 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
                 {koepfe.map((f) => (
                   <figure key={f.id} className="min-w-0">
                     <span className="relative block size-20 overflow-hidden rounded-full border border-border bg-card ring-1 ring-[color:var(--solar-line)] ring-offset-4 ring-offset-background sm:size-24 lg:size-[104px]">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                      <Image
                         src={f.imageUrl as string}
                         alt={`${f.name}, ${f.role}`}
-                        loading="lazy"
-                        decoding="async"
-                        className="size-full object-cover"
+                        fill
+                        sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 104px"
+                        className="object-cover"
                       />
                     </span>
                     <figcaption className="mt-4">

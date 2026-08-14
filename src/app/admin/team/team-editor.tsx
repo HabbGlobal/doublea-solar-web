@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Field, FieldLabel } from "@/components/ui/field";
+import { resizeImageFile } from "@/lib/image-resize";
 
 type TeamMember = {
   id: string;
@@ -36,8 +37,10 @@ async function apiError(res: Response): Promise<string> {
 }
 
 async function uploadImage(file: File): Promise<string> {
+  // Grosse Kamerafotos vor dem Upload verkleinern (spart Speicher und Ladezeit).
+  const optimiert = await resizeImageFile(file);
   const fd = new FormData();
-  fd.append("file", file);
+  fd.append("file", optimiert);
   fd.append("folder", "team");
   const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
   if (!res.ok) throw new Error(await apiError(res));
