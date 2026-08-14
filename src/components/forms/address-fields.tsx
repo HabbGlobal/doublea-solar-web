@@ -190,7 +190,7 @@ export function AddressFields({
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             onFocus={() => results.length > 0 && setOpen(true)}
-            className="h-12 rounded-xl pl-10 pr-10"
+            className="h-12 pl-10 pr-10"
           />
           {loading && (
             <Loader2
@@ -203,7 +203,7 @@ export function AddressFields({
           <ul
             id={listId}
             role="listbox"
-            className="absolute z-20 mt-1.5 max-h-64 w-full overflow-auto rounded-xl border border-border bg-popover p-1 shadow-[0_20px_50px_-24px_rgba(17,19,21,0.35)]"
+            className="absolute z-20 mt-1.5 max-h-64 w-full overflow-auto border border-border bg-popover"
           >
             {results.map((s, i) => (
               <li key={`${s.label}-${i}`} role="option" aria-selected={i === active}>
@@ -212,13 +212,13 @@ export function AddressFields({
                   onClick={() => choose(s)}
                   onMouseEnter={() => setActive(i)}
                   className={cn(
-                    "ring-focus flex w-full items-start gap-2.5 rounded-lg px-3 py-2.5 text-left text-sm leading-snug transition-colors",
-                    i === active ? "bg-secondary" : "hover:bg-secondary/70",
+                    "ring-focus flex w-full items-start gap-2.5 px-3 py-2.5 text-left text-sm leading-snug transition-colors",
+                    i === active ? "bg-secondary" : "hover:bg-secondary",
                   )}
                 >
                   <MapPin
                     aria-hidden
-                    className="mt-0.5 size-4 shrink-0 text-[color:var(--solar-emerald)]"
+                    className="mt-0.5 size-4 shrink-0 text-muted-foreground"
                   />
                   <span className="text-foreground">{s.label}</span>
                 </button>
@@ -236,7 +236,7 @@ export function AddressFields({
             id={`${idPrefix}-street`}
             autoComplete="address-line1"
             aria-invalid={!!errors.street}
-            className="h-12 rounded-xl px-4"
+            className="h-12 px-4"
             {...register("street")}
           />
           <FieldError errors={err("street")} />
@@ -247,7 +247,7 @@ export function AddressFields({
             id={`${idPrefix}-houseNumber`}
             inputMode="text"
             aria-invalid={!!errors.houseNumber}
-            className="h-12 rounded-xl px-4"
+            className="h-12 px-4"
             {...register("houseNumber")}
           />
           <FieldError errors={err("houseNumber")} />
@@ -260,7 +260,7 @@ export function AddressFields({
             maxLength={4}
             autoComplete="postal-code"
             aria-invalid={!!errors.postalCode}
-            className="h-12 rounded-xl px-4"
+            className="h-12 px-4"
             {...register("postalCode")}
           />
           <FieldError errors={err("postalCode")} />
@@ -271,7 +271,7 @@ export function AddressFields({
             id={`${idPrefix}-city`}
             autoComplete="address-level2"
             aria-invalid={!!errors.city}
-            className="h-12 rounded-xl px-4"
+            className="h-12 px-4"
             {...register("city")}
           />
           <FieldError errors={err("city")} />

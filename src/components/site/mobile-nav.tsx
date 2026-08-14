@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowUpRight, Mail, Menu, Phone } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,12 +15,18 @@ import {
 import { siteConfig } from "@/lib/site-config";
 import { Logo } from "./logo";
 
+type Props = {
+  phone?: string;
+};
+
 /**
- * Mobiles Menü mit Fullscreen-Feeling: grosse Touch-Ziele, nummerierte
- * Navigation (Gold-Mikrodetail), Kontaktblock und Primär-CTA am unteren Rand.
+ * Mobiles Vollflächen-Menü im Werkplan-Stil: Papierfläche, grosse Typografie,
+ * eine Hairline pro Eintrag, rechteckiger CTA und Kontaktzeilen am Fuss.
  */
-export function MobileNav() {
+export function MobileNav({ phone }: Props) {
   const [open, setOpen] = useState(false);
+  const phoneDisplay = phone ?? siteConfig.contact.phone;
+  const phoneHref = `tel:${phoneDisplay.replace(/[^+\d]/g, "")}`;
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -38,7 +44,7 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="flex w-full! flex-col gap-0 p-0 sm:max-w-md!"
+        className="flex w-full! flex-col gap-0 bg-background p-0 sm:max-w-md!"
       >
         <SheetTitle className="sr-only">Hauptnavigation</SheetTitle>
 
@@ -49,7 +55,7 @@ export function MobileNav() {
               <Link
                 href="/"
                 aria-label="Zur Startseite"
-                className="ring-focus rounded-md"
+                className="ring-focus"
               >
                 <Logo />
               </Link>
@@ -58,46 +64,37 @@ export function MobileNav() {
         </div>
 
         <nav
-          className="flex flex-1 flex-col overflow-y-auto p-3"
+          className="flex flex-1 flex-col overflow-y-auto px-5 py-2"
           aria-label="Mobile Hauptnavigation"
         >
-          {siteConfig.primaryNav.map((item, i) => (
+          {siteConfig.primaryNav.map((item) => (
             <SheetClose
               key={item.href}
               nativeButton={false}
               render={
                 <Link
                   href={item.href}
-                  className="ring-focus group flex min-h-14 items-center gap-4 rounded-2xl px-4 text-lg font-medium text-foreground transition-colors hover:bg-secondary"
+                  className="ring-focus flex min-h-14 items-center border-b border-border text-xl font-medium tracking-tight text-foreground transition-colors hover:text-muted-foreground"
                 >
-                  <span
-                    aria-hidden
-                    className="stat-mono w-6 text-[11px] text-[color:var(--solar-gold)]"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="flex-1">{item.label}</span>
-                  <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  {item.label}
                 </Link>
               }
             />
           ))}
         </nav>
 
-        <div className="mt-auto shrink-0 border-t border-border p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+        <div className="mt-auto shrink-0 border-t border-border p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <div className="flex flex-col gap-1">
             <a
-              href={siteConfig.contact.phoneHref}
-              className="ring-focus flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+              href={phoneHref}
+              className="ring-focus stat-mono flex min-h-11 items-center text-[15px] text-foreground"
             >
-              <Phone className="size-4 text-[color:var(--solar-emerald)]" />
-              {siteConfig.contact.phone}
+              {phoneDisplay}
             </a>
             <a
               href={`mailto:${siteConfig.contact.email}`}
-              className="ring-focus flex min-h-12 items-center gap-3 rounded-xl px-3 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+              className="ring-focus flex min-h-11 items-center text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Mail className="size-4 text-[color:var(--solar-emerald)]" />
               {siteConfig.contact.email}
             </a>
           </div>
@@ -105,13 +102,13 @@ export function MobileNav() {
           <SheetClose
             nativeButton={false}
             render={
-              <Link href="/solarrechner" className="btn-primary mt-3 w-full">
-                Solarpotenzial berechnen
+              <Link href="/angebote" className="btn-primary mt-4 w-full">
+                Projekt unverbindlich prüfen
               </Link>
             }
           />
-          <p className="mt-3 text-center text-xs text-muted-foreground">
-            Kostenfrei und unverbindlich · Antwort innert eines Werktags
+          <p className="eyebrow mt-4 text-center">
+            Kostenfrei · Antwort innert eines Werktags
           </p>
         </div>
       </SheetContent>

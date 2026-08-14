@@ -1,106 +1,120 @@
-"use client";
-
 import Link from "next/link";
-import {
-  ArrowRight,
-  FileText,
-  HandCoins,
-  Landmark,
-  Percent,
-} from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { SectionHead, SectionTitle } from "@/components/site/section-head";
 
-const points = [
+const facts = [
   {
-    icon: FileText,
-    title: "Transparente Offerte",
-    description:
-      "Eine klare Investitionsspanne, alle Positionen ausgewiesen – von Gerüst und Montage bis Elektriker und Netzanschluss. Keine versteckten Posten.",
+    kennzahl: "Einmalvergütung des Bundes (EIV)",
+    wert: "CHF 360/kWp für angebaute Anlagen unter 30 kWp mit Eigenverbrauch (integriert CHF 400/kWp)",
+    quelle: "EnFV Anhang 2.1 (Fedlex)",
+    stand: "1.7.2026",
   },
   {
-    icon: Percent,
-    title: "Eigenfinanzierung mit Steuerabzug",
-    description:
-      "Investitionen in Photovoltaik lassen sich in den meisten Kantonen vom steuerbaren Einkommen abziehen. Wir weisen den Effekt indikativ in der Offerte aus.",
+    kennzahl: "Referenz-Strompreis Haushalte 2026",
+    wert: "27.7 Rp./kWh Median (Profil H4, exkl. MwSt); Region Grenchen ≈ 29.6 Rp./kWh inkl. MwSt",
+    quelle: "ElCom, Strompreisübersicht",
+    stand: "Tarifjahr 2026",
   },
   {
-    icon: Landmark,
-    title: "Ratenfinanzierung über Schweizer Partner",
-    description:
-      "Auf Wunsch vermitteln wir Finanzierungsmodelle über etablierte Schweizer Partner – nüchtern gerechnet, ohne unrealistische Versprechen.",
+    kennzahl: "Vergütung für Überschussstrom",
+    wert: "Seit 1.1.2026 schweizweit nach BFE-Referenz-Marktpreis; Minimum 6.0 Rp./kWh für Anlagen unter 30 kW",
+    quelle: "Art. 15 EnG / BFE",
+    stand: "Q2 2026",
   },
   {
-    icon: HandCoins,
-    title: "Förderung über Pronovo EIV",
-    description:
-      "Die Einmalvergütung des Bundes senkt die Investition spürbar. Wir prüfen den tagesaktuellen Ansatz für Ihren Standort und übernehmen den Antrag – Werte indikativ.",
+    kennzahl: "Leistungsgarantie Module",
+    wert: "30 Jahre Produkt- und Leistungsgarantie (AIKO Neostar; Degradation max. 0.35 %/Jahr ab Jahr 2)",
+    quelle: "Hersteller-Datenblatt",
+    stand: "14.08.2026",
+  },
+  {
+    kennzahl: "Richtpreis Komplettanlage EFH",
+    wert: "CHF 15'500–26'500 je nach Grösse und Speicher",
+    quelle: "Firmen-Richtwert, inkl. Montage, vor Abzug der Einmalvergütung",
+    stand: "14.08.2026",
   },
 ];
 
 export function FinancingSection() {
-  const reduce = useReducedMotion();
   return (
-    <section id="finanzierung" className="container-page py-16 sm:py-24 lg:py-28">
-      <div className="grid items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: reduce ? 0 : 0.6 }}
-          className="lg:sticky lg:top-28"
-        >
-          <p className="eyebrow">Finanzierung</p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold leading-tight text-foreground sm:text-4xl lg:text-[44px]">
-            Eine Solaranlage ist eine{" "}
-            <span className="gold-underline">Investition</span> – keine Ausgabe.
-          </h2>
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-            Strom vom eigenen Dach ersetzt über Jahrzehnte eingekauften
-            Netzstrom. Wir rechnen offen vor, was Ihre Anlage kostet, was sie
-            einspart und welche Annahmen dahinterstehen – Wirtschaftlichkeit
-            immer indikativ, nie versprochen.
-          </p>
-          <div className="mt-8">
-            <Link href="/finanzierung" className="btn-ghost min-h-12">
-              Finanzierung im Detail
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-        </motion.div>
+    <section id="finanzierung" aria-labelledby="finanzierung-titel">
+      <SectionHead nr="07" label="Fakten" />
+      <div className="container-page py-14 sm:py-20">
+        <SectionTitle
+          id="finanzierung-titel"
+          title="Wirtschaftlichkeit — belegte Werte"
+          lead="Nur Werte, die wir belegen können — mit Quelle und Stand. Alles Weitere rechnen wir projektspezifisch."
+        />
 
-        <ul className="border-b border-border">
-          {points.map((p, i) => {
-            const Icon = p.icon;
-            return (
-              <motion.li
-                key={p.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{
-                  delay: reduce ? 0 : i * 0.06,
-                  duration: reduce ? 0 : 0.6,
-                }}
-                className="flex items-start gap-5 border-t border-border py-6 lg:py-7"
-              >
-                <span
-                  aria-hidden="true"
-                  className="mt-0.5 inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-[color:var(--solar-gold)]/40 text-foreground"
-                >
-                  <Icon className="size-5" strokeWidth={1.75} />
-                </span>
-                <div>
-                  <h3 className="text-base font-semibold text-foreground sm:text-lg">
-                    {p.title}
-                  </h3>
-                  <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
-                    {p.description}
-                  </p>
-                </div>
-              </motion.li>
-            );
-          })}
-        </ul>
+        {/* Desktop: echte Tabelle */}
+        <table className="mt-10 hidden w-full border-collapse text-sm sm:table">
+          <thead>
+            <tr className="border-b border-border">
+              <th scope="col" className="eyebrow py-3 pr-6 text-left">
+                Kennzahl
+              </th>
+              <th scope="col" className="eyebrow py-3 pr-6 text-left">
+                Wert
+              </th>
+              <th scope="col" className="eyebrow py-3 pr-6 text-left">
+                Quelle
+              </th>
+              <th scope="col" className="eyebrow py-3 text-left">
+                Stand
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {facts.map((f) => (
+              <tr key={f.kennzahl} className="border-b border-border">
+                <td className="max-w-[26ch] py-4 pr-6 align-top font-medium text-foreground">
+                  {f.kennzahl}
+                </td>
+                <td className="stat-mono max-w-[38ch] py-4 pr-6 align-top">
+                  {f.wert}
+                </td>
+                <td className="py-4 pr-6 align-top text-muted-foreground">
+                  {f.quelle}
+                </td>
+                <td className="py-4 align-top text-muted-foreground">
+                  {f.stand}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Mobile: gestapelte Definitionen statt horizontalem Scrollen */}
+        <dl className="mt-8 border-b border-border sm:hidden">
+          {facts.map((f) => (
+            <div key={f.kennzahl} className="border-t border-border py-5">
+              <dt className="text-sm font-medium text-foreground">
+                {f.kennzahl}
+              </dt>
+              <dd className="stat-mono mt-2 text-sm leading-relaxed">
+                {f.wert}
+              </dd>
+              <dd className="mt-2 text-xs text-muted-foreground">
+                {f.quelle} · Stand {f.stand}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+          Alle Angaben indikativ; massgebend sind die zum Zeitpunkt der
+          Inbetriebnahme gültigen Ansätze. Quellen: Energieförderungsverordnung
+          EnFV (Fedlex, Stand 1.7.2026) · ElCom Strompreisübersicht 2026 ·
+          Art. 15 EnG / BFE-Referenz-Marktpreis · Hersteller-Datenblatt.
+          Geprüft am 14. August 2026.
+        </p>
+
+        <div className="mt-8">
+          <Link href="/finanzierung" className="btn-ghost">
+            Details zur Finanzierung
+            <ArrowRight className="size-4" aria-hidden="true" />
+          </Link>
+        </div>
       </div>
     </section>
   );

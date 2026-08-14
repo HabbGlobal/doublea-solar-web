@@ -35,12 +35,6 @@ export function SavingsChart({
     <div className="h-64 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data} margin={{ top: 12, right: 12, left: 0, bottom: 0 }}>
-          <defs>
-            <linearGradient id="savingsFill" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--solar-emerald)" stopOpacity={0.4} />
-              <stop offset="100%" stopColor="var(--solar-emerald)" stopOpacity={0.02} />
-            </linearGradient>
-          </defs>
           <CartesianGrid stroke="var(--border)" strokeDasharray="2 4" />
           <XAxis
             dataKey="year"
@@ -65,14 +59,13 @@ export function SavingsChart({
             }
           />
           <Tooltip
-            cursor={{ stroke: "var(--solar-sand)" }}
+            cursor={{ stroke: "var(--border)" }}
             contentStyle={{
               background: "var(--background)",
               border: "1px solid var(--border)",
-              borderRadius: 14,
+              borderRadius: 0,
               fontSize: 12,
               fontFamily: "var(--font-mono)",
-              boxShadow: "0 20px 50px -24px rgba(17,19,21,0.18)",
             }}
             labelStyle={{ color: "var(--muted-foreground)", fontWeight: 500 }}
             formatter={(value, name) => [
@@ -84,14 +77,15 @@ export function SavingsChart({
           <Area
             type="monotone"
             dataKey="cumulative"
-            stroke="var(--solar-emerald)"
+            stroke="var(--chart-1)"
             strokeWidth={2.4}
-            fill="url(#savingsFill)"
+            fill="var(--chart-1)"
+            fillOpacity={0.08}
           />
           <Area
             type="step"
             dataKey="investment"
-            stroke="var(--solar-ink)"
+            stroke="var(--chart-2)"
             strokeDasharray="4 4"
             strokeWidth={1.4}
             fill="transparent"

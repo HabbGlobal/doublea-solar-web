@@ -1,14 +1,20 @@
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/sections/hero-section";
 import { TrustSection } from "@/components/sections/trust-section";
 import { ServicesSection } from "@/components/sections/services-section";
-import { ProcessSection } from "@/components/sections/process-section";
 import { SolarCalculatorSection } from "@/components/sections/solar-calculator-section";
-import { FinancingSection } from "@/components/sections/financing-section";
+import { ProcessSection } from "@/components/sections/process-section";
 import { ProjectShowcase } from "@/components/sections/project-showcase";
+import { FinancingSection } from "@/components/sections/financing-section";
 import { WhyUsSection } from "@/components/sections/why-us-section";
 import { FaqSection } from "@/components/sections/faq-section";
+import { TeamSection } from "@/components/sections/team-section";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { getSiteContent } from "@/lib/content/server";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const content = await getSiteContent();
@@ -40,6 +46,7 @@ export default async function HomePage() {
       <FinancingSection />
       <WhyUsSection />
       <FaqSection items={content.faq} email={content.contact.email} />
+      <TeamSection variant="home" nr="10" label="Team" />
       <FinalCtaSection />
     </>
   );

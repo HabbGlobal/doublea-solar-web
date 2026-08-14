@@ -1,212 +1,190 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { ArrowRight, Phone } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight } from "lucide-react";
 
 import { siteConfig } from "@/lib/site-config";
 import type { SiteContent } from "@/lib/content/schema";
+import { SectionHead } from "@/components/site/section-head";
 
 type Props = {
   content: SiteContent["hero"];
   contact?: { phone: string; phoneHref: string };
 };
 
-/** Sachliche Fakten unter dem Hero-Visual — keine erfundenen Zahlen. */
-const heroFacts = [
-  { label: "Datenbasis", value: "Bundesdaten sonnendach.ch" },
-  { label: "Offerte", value: "Innert eines Werktags" },
-  { label: "Standort", value: "Grenchen — schweizweit tätig" },
+/** Plankopf-Zeilen: sachliche Eckdaten, keine erfundenen Zahlen. */
+const plankopfRows = [
+  {
+    label: "Planungsbasis",
+    value: "Bundesdaten sonnendach.ch, je Gebäude ausgewertet",
+  },
+  {
+    label: "Offerte",
+    value: "Jede Position einzeln ausgewiesen, Antwort innert eines Werktags",
+  },
+  {
+    label: "Administration",
+    value: "Pronovo-Antrag, Meldewesen und Sicherheitsnachweis inklusive",
+  },
+  {
+    label: "Standort",
+    value: "Oelirain 1A, 2540 Grenchen; Projekte in der ganzen Schweiz",
+  },
 ];
 
 export function HeroSection({ content, contact }: Props) {
-  const reduce = useReducedMotion();
   const phoneDisplay = contact?.phone ?? siteConfig.contact.phone;
   const phoneHref = contact?.phoneHref ?? siteConfig.contact.phoneHref;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [paused, setPaused] = useState(false);
 
   // Respektiert reduzierte Bewegung: pausiert das Video und zeigt das
   // Standbild (Poster). Sonst läuft die Energiefluss-Animation stumm im Loop.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
-    if (reduce) {
-      v.pause();
-    } else {
-      void v.play().catch(() => {});
-    }
-  }, [reduce]);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () => {
+      if (mq.matches) {
+        v.pause();
+        setPaused(true);
+      } else {
+        setPaused(false);
+        void v.play().catch(() => {});
+      }
+    };
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
 
-  const fadeUp = (delay = 0) => ({
-    initial: { opacity: 0, y: 14 },
-    animate: { opacity: 1, y: 0 },
-    transition: {
-      delay: reduce ? 0 : delay,
-      duration: reduce ? 0 : 0.6,
-      ease: [0.2, 0.8, 0.2, 1] as const,
-    },
-  });
+  // Manueller Pausier-Mechanismus für die Loop-Animation (WCAG 2.2.2).
+  const toggleVideo = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (paused) {
+      void v.play().catch(() => {});
+      setPaused(false);
+    } else {
+      v.pause();
+      setPaused(true);
+    }
+  };
 
   return (
-    <section className="relative overflow-hidden">
-      <BackgroundDecor />
-      <div className="container-page relative pt-8 pb-12 lg:pt-16 lg:pb-20">
-        {/* Editorial-Stack: Eyebrow → H1 → Subline → CTAs → Telefon */}
-        <div className="mx-auto max-w-4xl text-center">
-          <motion.p {...fadeUp(0)} className="eyebrow">
-            {content.eyebrow}
-          </motion.p>
+    <section aria-labelledby="hero-h">
+      <SectionHead nr="01" label="Übersicht" />
 
-          <motion.h1
-            {...fadeUp(0.05)}
-            className="mt-4 text-balance text-4xl leading-[1.06] font-semibold tracking-tight text-foreground sm:mt-5 sm:text-6xl sm:leading-[1.04] lg:text-7xl"
-          >
-            {content.headlineLeading}
-            {content.headlineLeading.endsWith(" ") ? "" : " "}
-            <span className="gold-underline">{content.headlineHighlight}</span>
-            {content.headlineTrailing}
-          </motion.h1>
+      <div className="container-page pt-10 pb-12 lg:pt-14 lg:pb-16">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Textblock: Eyebrow → H1 + Subclaim → Subline → CTAs → Telefon */}
+          <div className="lg:col-span-7">
+            <p className="eyebrow">{content.eyebrow}</p>
 
-          <motion.p
-            {...fadeUp(0.12)}
-            className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:mt-6 sm:text-[17px]"
-          >
-            {content.subheadline}
-          </motion.p>
-
-          <motion.div
-            {...fadeUp(0.18)}
-            className="mt-7 flex flex-col items-center justify-center gap-3 sm:mt-8 sm:flex-row"
-          >
-            <Link href="/solarrechner" className="btn-primary w-full sm:w-auto">
-              {content.primaryCtaLabel}
-              <ArrowRight className="size-4" aria-hidden="true" />
-            </Link>
-            <Link href="/angebote" className="btn-secondary w-full sm:w-auto">
-              {content.secondaryCtaLabel}
-            </Link>
-          </motion.div>
-
-          <motion.div
-            {...fadeUp(0.24)}
-            className="mt-3 flex items-center justify-center sm:mt-4"
-          >
-            <a
-              href={phoneHref}
-              className="ring-focus inline-flex min-h-11 items-center gap-2 rounded-full px-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            <h1
+              id="hero-h"
+              className="mt-5 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
             >
-              <Phone
-                className="size-3.5 text-[color:var(--solar-slate)]"
-                aria-hidden="true"
-              />
-              <span>
-                Lieber direkt sprechen?{" "}
-                <span className="font-medium text-foreground">{phoneDisplay}</span>
+              {content.headlineLeading}
+              {content.headlineLeading.endsWith(" ") ? "" : " "}
+              {content.headlineHighlight}
+              {content.headlineTrailing}
+              <span className="mt-2 block text-muted-foreground">
+                {content.subclaim}
               </span>
-            </a>
-          </motion.div>
+            </h1>
+
+            <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+              {content.subheadline}
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/angebote" className="btn-primary w-full sm:w-auto">
+                {content.primaryCtaLabel}
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/solarrechner"
+                className="btn-secondary w-full sm:w-auto"
+              >
+                {content.secondaryCtaLabel}
+              </Link>
+            </div>
+
+            <p className="mt-5 text-sm text-muted-foreground">
+              Direkter Draht:{" "}
+              <a
+                href={phoneHref}
+                className="ring-focus stat-mono text-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)]"
+              >
+                {phoneDisplay}
+              </a>
+            </p>
+          </div>
+
+          {/* Plankopf: Eckdaten als Definitionstabelle im Werkplan-Panel */}
+          <div className="lg:col-span-5">
+            <div
+              role="group"
+              aria-label="Plankopf: Eckdaten DoubleA Solutions"
+              className="surface-glass p-5 sm:p-6"
+            >
+              <div className="flex items-center justify-between gap-4 border-b border-border pb-3">
+                <span className="eyebrow">Plankopf</span>
+                <span className="eyebrow">DoubleA Solutions GmbH</span>
+              </div>
+              <dl>
+                {plankopfRows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="grid grid-cols-[110px_1fr] gap-4 border-b border-border py-3"
+                  >
+                    <dt className="eyebrow pt-0.5">{row.label}</dt>
+                    <dd className="text-sm leading-relaxed text-foreground">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="eyebrow pt-3">
+                Blatt 01 · 2540 Grenchen · 47.19° N / 7.40° O
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Zentrales Visual: Energiesystem, randlos in die Seitenfarbe eingebettet */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: reduce ? 0 : 0.3,
-            duration: reduce ? 0 : 0.7,
-            ease: [0.2, 0.8, 0.2, 1],
-          }}
-          className="relative mx-auto mt-10 w-full max-w-6xl sm:mt-14"
-        >
-          <div className="relative aspect-[16/9] w-full">
-            <video
-              ref={videoRef}
-              className="absolute inset-0 size-full object-contain"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              poster="/energiesystem.png"
-              aria-label="Animiertes Energiesystem eines Schweizer Einfamilienhauses: Photovoltaikanlage, Carport-Solar, Wallbox, Wärmepumpe, Wechselrichter, Batteriespeicher und Energiemanager mit Netzanschluss"
+        {/* Energiefluss-Video im Werkplan-Rahmen */}
+        <div className="mt-12 border border-border bg-card p-2 sm:mt-16">
+          <video
+            ref={videoRef}
+            className="w-full"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="/energiesystem-poster.jpg"
+            aria-label="Animiertes Energiesystem eines Schweizer Einfamilienhauses: Photovoltaikanlage, Carport-Solar, Wallbox, Wärmepumpe, Wechselrichter, Batteriespeicher und Energiemanager mit Netzanschluss"
+          >
+            <source src="/energiesystem.mp4" type="video/mp4" />
+          </video>
+          <div className="mt-2 flex items-center justify-between gap-4 border-t border-border px-1">
+            <p className="eyebrow py-2">
+              Abb. 01 — Energiesystem eines Einfamilienhauses: PV, Speicher,
+              Wallbox, Wärmepumpe
+            </p>
+            <button
+              type="button"
+              className="ring-focus eyebrow inline-flex min-h-9 shrink-0 items-center px-2"
+              aria-pressed={!paused}
+              onClick={toggleVideo}
             >
-              <source src="/energiesystem.mp4" type="video/mp4" />
-            </video>
-            {/* Kanten lösen sich vierseitig randlos in die exakte Seitenfarbe auf */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background: [
-                  "linear-gradient(to right, var(--background) 0%, transparent 13%, transparent 87%, var(--background) 100%)",
-                  "linear-gradient(to bottom, var(--background) 0%, transparent 12%, transparent 84%, var(--background) 100%)",
-                ].join(","),
-              }}
-            />
+              {paused ? "Animation abspielen" : "Animation anhalten"}
+            </button>
           </div>
-        </motion.div>
-
-        {/* Feine Fakten-Leiste unter dem Visual */}
-        <motion.dl
-          {...fadeUp(0.42)}
-          className="mx-auto mt-8 grid max-w-4xl grid-cols-1 gap-4 border-t border-border pt-6 text-center sm:mt-10 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border"
-        >
-          {heroFacts.map((fact) => (
-            <div key={fact.label} className="px-4">
-              <dt className="text-[11px] font-medium uppercase tracking-[0.16em] text-[color:var(--solar-slate)]">
-                {fact.label}
-              </dt>
-              <dd className="stat-mono mt-1.5 text-[13px] text-foreground/85 sm:text-sm">
-                {fact.value}
-              </dd>
-            </div>
-          ))}
-        </motion.dl>
+        </div>
       </div>
     </section>
-  );
-}
-
-function BackgroundDecor() {
-  return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      <div
-        className="absolute inset-x-0 top-0 h-[560px]"
-        style={{
-          background:
-            "radial-gradient(60% 60% at 50% 0%, color-mix(in oklab, var(--solar-leaf) 14%, transparent) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute -top-40 right-[-12%] size-[560px] rounded-full"
-        style={{
-          background:
-            "radial-gradient(circle at center, color-mix(in oklab, var(--solar-gold) 12%, transparent) 0%, transparent 62%)",
-        }}
-      />
-      <svg
-        aria-hidden="true"
-        className="absolute inset-0 size-full opacity-[0.04]"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <pattern
-            id="hero-grid"
-            width="36"
-            height="36"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 36 0 L 0 0 0 36"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.6"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#hero-grid)" />
-      </svg>
-    </div>
   );
 }

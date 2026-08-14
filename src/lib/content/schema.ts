@@ -16,6 +16,7 @@ export const contentSchema = z.object({
     headlineLeading: z.string().max(120),
     headlineHighlight: z.string().max(60),
     headlineTrailing: z.string().max(120),
+    subclaim: z.string().max(160),
     subheadline: z.string().max(400),
     primaryCtaLabel: z.string().max(60),
     secondaryCtaLabel: z.string().max(60),
@@ -41,14 +42,15 @@ export type SiteContent = z.infer<typeof contentSchema>;
 
 export const defaultContent: SiteContent = {
   hero: {
-    eyebrow: "Schweizer Photovoltaik · Sitz in Grenchen",
+    eyebrow: "Planung · Installation · Betrieb",
     headlineLeading: "Solarenergie für",
     headlineHighlight: "Schweizer Dächer",
     headlineTrailing: ".",
+    subclaim: "Präzise geplant. Sauber umgesetzt.",
     subheadline:
-      "DoubleA Solar Solutions begleitet Sie von der ersten Standortanalyse bis zur langfristigen Wartung Ihrer Photovoltaikanlage – transparent, persönlich und schweizweit professionell.",
-    primaryCtaLabel: "Solarpotenzial berechnen",
-    secondaryCtaLabel: "Kostenloses Angebot erhalten",
+      "Wir planen Photovoltaikanlagen auf der Datenbasis des Bundes (sonnendach.ch), legen jede Position der Offerte offen und übernehmen Förderantrag, Installation und Abnahme. Für Eigenheime, Mehrfamilienhäuser und Gewerbe.",
+    primaryCtaLabel: "Projekt unverbindlich prüfen",
+    secondaryCtaLabel: "Solarpotenzial berechnen",
   },
   contact: {
     phone: siteConfig.contact.phone,

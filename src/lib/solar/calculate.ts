@@ -97,8 +97,9 @@ const orientationFactor: Record<Orientation, number> = {
   sued: 1.0,
   suedost: 0.95,
   suedwest: 0.95,
-  ost: 0.85,
-  west: 0.85,
+  // PVGIS Region Grenchen: O/W 30° ≈ 0.81 relativ zu Süd
+  ost: 0.82,
+  west: 0.82,
   flachdach: 0.92,
   gemischt: 0.9,
 };
@@ -194,20 +195,23 @@ function pricePerKwpRange(kwp: number): { low: number; high: number } {
 const BATTERY_CHF_PER_KWH = 350;
 /** Pauschal Wallbox 11 kW (GoodWe HCA Gen2a) inkl. Installation. */
 const WALLBOX_CHF = 1950;
-/** Pronovo EIV 2026: ca. CHF 360/kWp Grundbeitrag (auch im Datenfall belegt). */
+/**
+ * Pronovo-Einmalvergütung (KLEIV): LEISTUNGSBEITRAG CHF 360/kWp für
+ * angebaute/freistehende Anlagen <30 kWp mit Eigenverbrauch (EnFV Anhang 2.1,
+ * Stand 1.7.2026; Grundbeitrag seit 1.4.2024 abgeschafft; integriert 400/kWp,
+ * HEIV 450/kWp; ab 30 kWp anteilig 300/kWp).
+ */
 const PRONOVO_CHF_PER_KWP = 360;
 
 /**
- * Modul-Footprint pro kWp (m²). Kalibriert für moderne hocheffiziente Panels
- * wie AIKO Neostar G3 480 Wp (24 % Wirkungsgrad, ~1.87 m² pro Modul):
- * - 1 Modul = 480 Wp / 1.87 m² → 3.9 m²/kWp
- * - Validiert gegen alle 3 DoubleA-Offerten (Sanmugam, Navaratnam, Yogarajah)
- *   die jeweils auf den Cent genau dasselbe Verhältnis ergeben.
- *
- * Frühere Annahme (5 m²/kWp) entsprach veralteten 200-W/m² Panels und gab
- * 22 % zu kleine Anlagen.
+ * Modulfläche pro kWp: AIKO Neostar 480 Wp misst laut Original-Datenblatt
+ * 1762×1134 mm = 1.998 m² → 1.998/0.480 = 4.16 m²/kWp reine Modulfläche
+ * (24.0 % Wirkungsgrad). Benötigte Dachfläche inkl. Rand-/Firstabstände liegt
+ * höher (~4.5–5 m²/kWp) — bewusst konservativ die reine Modulfläche verwendet,
+ * damit Flächenangaben nachrechenbar bleiben. Korrigiert 08/2026 (früherer
+ * Wert 3.9 beruhte auf falscher Modulfläche 1.87 m²).
  */
-const M2_PER_KWP = 3.9;
+const M2_PER_KWP = 4.16;
 
 /**
  * Hauptberechnung. Gibt Spannen ("Range") zurück, weil eine seriöse
@@ -280,15 +284,28 @@ export function calculateSolar(input: SolarCalculatorInput): SolarCalculatorResu
     hasEv: input.hasEv,
   });
 
-  const directlyUsable = Math.min(realistic, input.annualConsumptionKwh);
-  const selfConsumedKwh = round(directlyUsable * selfConsumptionShare);
+  // Eigenverbrauchsquote = Anteil der Produktion (so kalibriert: 37/47/71 %
+  // aus realen Offerten); Deckel = Jahresverbrauch. Fix 08/2026: vorher wurde
+  // die Quote fälschlich auf min(Produktion, Verbrauch) angewendet.
+  const selfConsumedKwh = round(
+    Math.min(realistic * selfConsumptionShare, input.annualConsumptionKwh),
+  );
   const fedInKwh = Math.max(0, round(realistic - selfConsumedKwh));
 
-  const electricityPrice = (input.electricityPriceRappen ?? 30) / 100;
-  const feedInTariff = (input.feedInTariffRappen ?? 10) / 100;
+  // 27 Rp./kWh ≈ ElCom-Median H4 2026 (27.7 exkl. MwSt); als
+  // Gesamtpreis-Näherung — fixe Grundgebühren sind nicht vermeidbar und
+  // werden bewusst nicht eingerechnet.
+  const electricityPrice = (input.electricityPriceRappen ?? 27) / 100;
+  // 7 Rp./kWh ≈ produktionsgewichteter Energie-Tarif 2026 der Region
+  // (SWG Grenchen 6.2 So/8.7 Wi) OHNE HKN-Vergütung; seit 1.1.2026 gilt
+  // schweizweit der vierteljährliche BFE-Referenz-Marktpreis mit
+  // Minimalvergütung 6.0 Rp. für <30 kW.
+  const feedInTariff = (input.feedInTariffRappen ?? 7) / 100;
 
   function savings(production: number): number {
-    const sc = round(Math.min(production, input.annualConsumptionKwh) * selfConsumptionShare);
+    // Quote = Anteil der Produktion, gedeckelt durch den Jahresverbrauch
+    // (gleiche Methodik wie oben, Fix 08/2026).
+    const sc = round(Math.min(production * selfConsumptionShare, input.annualConsumptionKwh));
     const fi = Math.max(0, production - sc);
     return round(sc * electricityPrice + fi * feedInTariff);
   }
@@ -313,8 +330,11 @@ export function calculateSolar(input: SolarCalculatorInput): SolarCalculatorResu
     high: round(recommendedKwp * pvPriceRange.high + batteryCost + wallboxCost),
   };
 
-  // Pronovo EIV 2026: ~CHF 360/kWp Grundbeitrag (DoubleA-Offerten validiert
-  // exakt mit 360 CHF/kWp). Spanne dünn, weil der Wert sehr stabil ist.
+  // Pronovo-Einmalvergütung (KLEIV): LEISTUNGSBEITRAG CHF 360/kWp für
+  // angebaute/freistehende Anlagen <30 kWp mit Eigenverbrauch (EnFV Anhang
+  // 2.1, Stand 1.7.2026; Grundbeitrag seit 1.4.2024 abgeschafft; integriert
+  // 400/kWp, HEIV 450/kWp; ab 30 kWp anteilig 300/kWp). Spanne dünn, weil
+  // der Wert sehr stabil ist; DoubleA-Offerten validieren 360 CHF/kWp exakt.
   const subsidyLow = round(recommendedKwp * (PRONOVO_CHF_PER_KWP - 30));
   const subsidyHigh = round(recommendedKwp * (PRONOVO_CHF_PER_KWP + 30));
 
@@ -325,8 +345,11 @@ export function calculateSolar(input: SolarCalculatorInput): SolarCalculatorResu
     slow: round(investNetHigh / Math.max(annualSavingsChf.conservative, 1), 1),
   };
 
-  // CO2-Faktor Schweiz-Mix grob ~0.12 kg/kWh; substituierter Strom konservativ.
-  const co2SavedKgPerYear = round(realistic * 0.12);
+  // Netto-CO₂-Einsparung: Schweizer Verbrauchermix 0.125 kg CO₂e/kWh (KBOB
+  // Ökobilanzdaten V9.0, 07/2026, Datensatz 45.020) minus PV-Lebenszyklus
+  // ~0.043 (KBOB 46.009) ≈ 0.08 kg CO₂e/kWh. Vorher 0.12 brutto ohne
+  // PV-Rucksack.
+  const co2SavedKgPerYear = round(realistic * 0.08);
 
   const notes: string[] = [];
   if (input.hasHeatPump) {
@@ -386,11 +409,15 @@ export function calculateSolar(input: SolarCalculatorInput): SolarCalculatorResu
           "Eine technische Standortbegehung bleibt für die endgültige Auslegung empfohlen — z. B. zur Beurteilung Statik, Verschattung durch Vegetation und elektrischer Anschlusspunkte.",
           "Mögliche Förderungen (z. B. Pronovo EIV) müssen tagesaktuell geprüft werden und sind nicht garantiert.",
           "Investitionsspannen sind Schweizer Marktrichtwerte und keine verbindliche Offerte.",
+          "CO₂-Angabe: Netto-Einsparung auf Basis Schweizer Verbrauchermix (KBOB V9.0, Lebenszyklus) abzüglich Herstellungs-Emissionen der PV-Anlage.",
+          "Ersparnis basiert auf dem variablen Strompreis; fixe Grund- und Messgebühren des Netzbetreibers bleiben bestehen.",
         ]
       : [
           "Diese Auswertung ist eine fundierte Erstschätzung und ersetzt keine technische Standortanalyse.",
           "Mögliche Förderungen (z. B. Pronovo EIV) müssen tagesaktuell geprüft werden und sind nicht garantiert.",
           "Investitionsspannen sind Schweizer Marktrichtwerte und keine verbindliche Offerte.",
+          "CO₂-Angabe: Netto-Einsparung auf Basis Schweizer Verbrauchermix (KBOB V9.0, Lebenszyklus) abzüglich Herstellungs-Emissionen der PV-Anlage.",
+          "Ersparnis basiert auf dem variablen Strompreis; fixe Grund- und Messgebühren des Netzbetreibers bleiben bestehen.",
         ],
   };
 }

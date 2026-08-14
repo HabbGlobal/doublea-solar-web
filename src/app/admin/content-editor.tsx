@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Loader2, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -105,7 +104,7 @@ export function ContentEditor({ initialContent }: Props) {
                 }
                 className="h-11"
               />
-              <FieldDescription>Wird mit Gold unterstrichen.</FieldDescription>
+              <FieldDescription>Teil der Headline (eine Zeile).</FieldDescription>
             </Field>
             <Field>
               <FieldLabel htmlFor="hero-h-trailing">Headline – Schluss</FieldLabel>
@@ -122,6 +121,19 @@ export function ContentEditor({ initialContent }: Props) {
               />
             </Field>
           </div>
+          <Field>
+            <FieldLabel htmlFor="hero-subclaim">
+              Subclaim (zweite Zeile unter der Headline)
+            </FieldLabel>
+            <Input
+              id="hero-subclaim"
+              value={content.hero.subclaim}
+              onChange={(e) =>
+                patch("hero", { ...content.hero, subclaim: e.target.value })
+              }
+              className="h-11"
+            />
+          </Field>
           <Field>
             <FieldLabel htmlFor="hero-sub">Subheadline</FieldLabel>
             <Textarea
@@ -256,14 +268,9 @@ export function ContentEditor({ initialContent }: Props) {
       >
         <FieldGroup>
           {content.faq.map((item, i) => (
-            <div
-              key={i}
-              className="rounded-2xl border border-border bg-card p-4"
-            >
+            <div key={i} className="border border-border bg-card p-4">
               <div className="flex items-start justify-between gap-3">
-                <span className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
-                  Eintrag {i + 1}
-                </span>
+                <span className="eyebrow">Eintrag {String(i + 1).padStart(2, "0")}</span>
                 <button
                   type="button"
                   onClick={() =>
@@ -272,9 +279,10 @@ export function ContentEditor({ initialContent }: Props) {
                       content.faq.filter((_, idx) => idx !== i),
                     )
                   }
-                  className="ring-focus inline-flex items-center gap-1 rounded-md text-xs text-muted-foreground hover:text-destructive"
+                  aria-label={`FAQ-Eintrag ${i + 1} entfernen`}
+                  className="ring-focus inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors duration-150 hover:text-destructive"
                 >
-                  <Trash2 className="size-3.5" /> Entfernen
+                  <Trash2 className="size-3.5" aria-hidden /> Entfernen
                 </button>
               </div>
               <div className="mt-3 grid gap-3">
@@ -318,9 +326,9 @@ export function ContentEditor({ initialContent }: Props) {
             onClick={() =>
               patch("faq", [...content.faq, { q: "Neue Frage", a: "Antwort …" }])
             }
-            className="ring-focus inline-flex items-center gap-2 self-start rounded-xl border border-dashed border-border px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+            className="ring-focus inline-flex items-center gap-2 self-start border border-dashed border-border px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground"
           >
-            <Plus className="size-4" /> Neuen Eintrag hinzufügen
+            <Plus className="size-4" aria-hidden /> Neuen Eintrag hinzufügen
           </button>
         </FieldGroup>
       </SectionCard>
@@ -342,28 +350,28 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="rounded-3xl border border-border bg-background p-6 lg:p-8">
-      <div className="flex flex-wrap items-start justify-between gap-3">
+    <section className="surface-glass">
+      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border px-5 py-4 sm:px-6">
         <div>
-          <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
         </div>
-        <Button
+        <button
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="h-11 rounded-xl bg-[color:var(--solar-navy)] px-5 text-[color:var(--solar-navy-foreground)] hover:bg-[color:var(--solar-navy)]/95"
+          className="btn-primary disabled:pointer-events-none disabled:opacity-60"
         >
           {saving ? (
             <>
-              <Loader2 className="size-4 animate-spin" /> Speichere …
+              <Loader2 className="size-4 animate-spin" aria-hidden /> Speichere …
             </>
           ) : (
             "Speichern & veröffentlichen"
           )}
-        </Button>
+        </button>
       </div>
-      <div className="mt-6">{children}</div>
+      <div className="px-5 py-6 sm:px-6">{children}</div>
     </section>
   );
 }

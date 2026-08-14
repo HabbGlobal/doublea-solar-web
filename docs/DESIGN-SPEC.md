@@ -1,84 +1,98 @@
-# DoubleA Solar Solutions — Relaunch-Designsystem (verbindlich)
+# DoubleA Solar Solutions — Designsystem «Architectural Precision» (verbindlich, Stand 08/2026)
 
-Premium Swiss Energy-Tech: Apple/Tesla-Energy-Ruhe, Schweizer Präzision, Editorial-Look.
-Nicht: Handwerker-Optik, grelle Solarfarben, SaaS-Template, überladene Verläufe.
+Werkplan-Ästhetik eines Schweizer Ingenieurbüros: mineralisches Papier, Tinte,
+sichtbare Hairlines, Mono-Beschriftung, kantige Geometrie. Vertrauen entsteht
+aus dokumentarischer Präzision — nicht aus Effekten.
+Nicht: SaaS-Template, Karten-Flut, Pills, Gradients, Glow, Gold-Dekor,
+Logofarben im Interface.
 
-## 1. Farben (nur über Tokens, nie Hex im Component-Code)
+## 1. Farben (nur über Tokens; Logofarben NUR im Logo-SVG)
 
 | Token | Wert | Verwendung |
 |---|---|---|
-| `--background` | #FFFDFD | Seitenhintergrund (Off-White) |
-| `--solar-ink` / `--solar-navy` | #111315 | Deep Anthracite: starke Typo, Primär-Buttons, dunkle Flächen |
-| `--solar-graphite` | #23272A | Zweite Dunkelstufe (Footer-Nuancen, Karten auf dunkel) |
-| `--solar-slate` | #718E9E | Tech Blue-Grey: Eyebrows, Labels, technische Werte |
-| `--solar-emerald` | #5B7332 | Deep Moss: lesbarer Grün-Textakzent auf hell (AA) |
-| `--solar-leaf` | #CAE28E | Soft Solar Green: Signatur-Akzent — SPARSAM (Badges, Marker, CTA auf dunkel) |
-| `--solar-gold` | #C8A35D | Dezentes Gold: Premium-Mikrodetails (feine Linien, Nummern) |
-| `--solar-sand` | #D8D2C4 | Sand: feine Trennlinien, Editorial-Flächen |
-| `--solar-cream` / `--secondary` | #F4F5F2 | Warm Light Grey: ruhige Zwischenflächen |
+| `--background` / `--solar-paper` | #F7F7F4 | Seitengrund (Papier) |
+| `--secondary` / `.surface-sand` | #EFEFEA | Wechselflächen |
+| `--card` / `.surface-glass` | #FFFFFF | Panels mit Hairline-Rahmen |
+| `--border` / `--solar-line` | #D8D8D0 | Hairlines — sichtbar, 1px, tragendes Ordnungselement |
+| `--muted-foreground` / `--solar-stone` | #65665F | Sekundärtext, Labels (AA 5.4:1) |
+| `--foreground` / `--solar-ink` / `--solar-navy` | #1A1C1C | Text, Buttons, starke Typo |
+| `--solar-graphite` / `.surface-navy` | #252827 | Dunkle Sektionen — FLACH und matt |
+| auf Graphit | #F2F2EE / #A9ABA3 / #3A3D3B | Text / Sekundär / Hairline |
 
-Regeln: Weissraum dominiert. Grün nie als grosse Fläche auf hell. Gold nur als Detail.
-Dunkle Sektionen gezielt: Hero-Zone nein (bleibt hell mit Bild), Prozess/CTA-Band/Footer ja.
+Historische Tokennamen (`--solar-emerald/leaf/gold`) sind auf Neutraltöne
+gemappt — in neuem Code nicht mehr verwenden. Keine Chromatik im Interface.
 
 ## 2. Typografie
 
-- Headlines: `var(--font-heading)` = Inter Tight (automatisch auf h1–h4).
-- Body: Inter. Technische Werte/Zahlen: Klasse `stat-mono` (Geist Mono, tabular-nums).
+- Alles Redaktionelle: Archivo (`--font-sans` = `--font-heading`), 400/500/600.
+- Labels, Nummern, Werte, Meta: IBM Plex Mono via `.eyebrow` (11px uppercase
+  tracking 0.16em Stone) und `.stat-mono` (tabular-nums).
 - H1: `text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight`
-- H2 (Section): `text-3xl sm:text-4xl lg:text-[44px] font-semibold leading-tight`
-- Eyebrow über jeder Section-Headline: Klasse `eyebrow` (uppercase, Slate).
-- Body: `text-[15px] sm:text-base leading-relaxed text-muted-foreground`, max-w-xl/2xl.
-- Kurze, starke Aussagen. Keine Textwände. Magazine-Rhythmus.
+- H2: `text-3xl sm:text-4xl font-semibold leading-tight` (via `SectionTitle`)
+- Fliesstext: `text-[15px] sm:text-base leading-relaxed text-muted-foreground`,
+  max-w-xl/2xl (55–75 Zeichen).
 
-## 3. Buttons (fertige Klassen aus globals.css — verwenden, nicht neu erfinden)
+## 3. Sektions-Grammatik
 
-- `btn-primary` — Anthrazit-Pill, heller Text (Haupt-CTA auf hell)
-- `btn-secondary` — Outline-Pill (Sekundär-CTA auf hell)
-- `btn-ghost` — Textlink mit Pfeil
-- `btn-primary-inverse` — Soft-Green-Pill auf dunklen Sektionen
-- `btn-secondary-inverse` — weisse Outline-Pill auf dunkel
-- Icons: lucide, `size-4`, Pfeil `ArrowRight` rechts.
+- JEDE Sektion beginnt mit `<SectionHead nr="0X" label="…" />`
+  (`@/components/site/section-head`) — vollbreite Hairline, Mono-Nr links,
+  Mono-Label rechts. Das ist das EINZIGE Nummern-Ornament.
+- Startseiten-Nummern: 01 Übersicht · 02 Haltung · 03 Leistungen ·
+  04 Solarrechner · 05 Prozess · 06 Anlagentypen · 07 Fakten · 08 Grundsätze ·
+  09 Fragen · 10 Team.
+- Rhythmus: `container-page py-14 sm:py-20`; Seite steht im `.site-sheet`
+  (sichtbare Aussenkanten ab 1024px).
 
-## 4. Flächen & Karten
+## 4. Komponenten
 
-- `container-page` für jede Section; vertikaler Rhythmus `py-16 sm:py-24 lg:py-28`.
-- Helle Karten: `rounded-3xl border border-border bg-white/70 p-6 lg:p-8` mit
-  `transition hover:-translate-y-1 hover:shadow-[0_20px_50px_-24px_rgba(17,19,21,0.18)]`.
-- `surface-glass` für hervorgehobene Panels, `surface-sand` für ruhige Zwischenzonen,
-  `surface-navy` für dunkle Feature-Sektionen (ist jetzt Anthrazit).
-- Auf dunkel: Karten `rounded-2xl border border-white/10 bg-white/[0.04]`.
-- Radius-Sprache: aussen `rounded-3xl`, innen `rounded-2xl`, Buttons Pill.
-- Fokus: IMMER `ring-focus` auf interaktiven Elementen.
+- KEINE Karten: Inhalte als Index-Zeilen/Tabellen mit `border-t`-Hairlines;
+  Hover = Flächenwechsel (`hover:bg-card` / `hover:bg-secondary`), NIE
+  translate/Schatten.
+- Buttons: `btn-primary` (Tinte, Hover invertiert), `btn-secondary` (Outline),
+  `btn-ghost` (unterstrichener Textlink); auf Graphit `-inverse`-Varianten.
+  Rechteckig — `--radius` ist global 0.
+- Aufzählungen: Quadrat-Bullet `size-1.5 bg-[color:var(--solar-ink)]` statt
+  Check-Icons. Lucide-Icons nur funktional (Menü, Spinner, Formulare,
+  ArrowRight in Buttons) — nie als Inhalts-Dekor.
+- Bild-Platzhalter: Schraffur-Fläche
+  (`repeating-linear-gradient(45deg, var(--solar-line) 0 1px, transparent 1px 9px)`)
+  mit `.eyebrow`-Label «Projektfotografie in Vorbereitung». Keine Stock-/KI-Bilder.
+- Plankopf-Muster (Hero, Kontakt): weisses Panel als Definition-Tabelle
+  (eyebrow-Label-Spalte + Wert), Fusszeile mit Koordinaten «47.19° N / 7.40° O».
+- Fokus: IMMER `.ring-focus`.
 
-## 5. Motion (framer-motion, restraint)
+## 5. Motion
 
-- Jede Section: `initial={{opacity:0,y:20}} whileInView={{opacity:1,y:0}} viewport={{once:true,margin:"-80px"}} transition={{duration:reduce?0:0.6}}`.
-- IMMER `useReducedMotion()` respektieren (Muster im Bestand).
-- Erlaubt: Fade/Reveal, Count-up bei Zahlen, Hover-Lift, Stagger (0.04–0.08s).
-- Verboten: Bounce, grosse Parallax, Dauer-Loops, Layout-Shift durch Animation.
+- Kein framer-motion in Inhalts-Sektionen, keine Scroll-Reveals, kein Lenis.
+- Erlaubt: Farb-/Flächen-Transitions 150ms; Wizard-Schritt-Übergänge im
+  Solarrechner. `prefers-reduced-motion` neutralisiert alles (globals.css).
 
 ## 6. Copy-Regeln
 
-- Schweizer Hochdeutsch, IMMER ss statt ß. CHF-Beträge: `CHF 12'500` (Apostroph).
-- Hauptclaim: «Solarenergie für Schweizer Dächer. Präzise geplant. Sauber umgesetzt.»
-- Ton: präzise, ruhig, ehrlich, beratend. Keine Superlative, keine Renditeversprechen,
-  keine Fake-Testimonials/-Logos/-Zahlen. Förderung/Wirtschaftlichkeit immer «indikativ».
-- Microcopy-Bausteine: «Kostenfrei und unverbindlich», «Antwort innert eines Werktags»,
-  «Wir empfehlen nur, was technisch und wirtschaftlich Sinn ergibt»,
-  «Persönliche Beratung in Deutsch und Schweizerdeutsch».
+- Schweizer Hochdeutsch, ss statt ß, `CHF 12'500`, `10 kWp`, `12'500 kWh/Jahr`.
+- Hauptclaim: «Solarenergie für Schweizer Dächer.» + Subclaim «Präzise geplant.
+  Sauber umgesetzt.» (editierbar via Admin).
+- Zahlen nur belegt oder als Richtwert gekennzeichnet; Förderung/Steuern
+  indikativ; Quellen+Stand im Faktenblock (Startseite 07). NIE «emissionsfrei/
+  klimaneutral»; CO₂ immer netto mit KBOB-Fussnote.
+- Floskel-Diät: «Kostenfrei und unverbindlich · Antwort innert eines Werktags»
+  steht in Header/CtaBand/Footer — nicht zusätzlich in Sektionstexten.
 
 ## 7. Technische Leitplanken
 
-- TypeScript strict; bestehende Props-Interfaces & Exporte NICHT brechen.
-- Nur eigene zugewiesene Dateien anfassen. Keine neuen Dependencies.
-- `next/image` für Bilder; lucide-react Icons; keine Emojis im UI.
-- Mobile-first: 360px muss perfekt sein; grosse Touch-Ziele (min-h-12).
-- Bestehende Funktionalität (Formulare, Rechner-Logik, APIs) unangetastet.
-- Bild-Platzhalter: NICHT einbauen; wo ein Foto fehlt, hochwertige Token-Fläche
-  (surface-sand/navy mit feiner Grafik) + im Code-Kommentar den AI-Bildprompt notieren.
+- TypeScript strict; Props-APIs stabil; keine neuen Dependencies ohne Freigabe.
+- `next/image` für echte Bilder (Team/Projekte aus Supabase Storage
+  `site-images`, `remotePatterns **.supabase.co`).
+- Editierbare Inhalte via `site_content` (Hero inkl. Subclaim, Kontakt, FAQ)
+  + Tabellen `team_members`, `projects`, `packages` — Admin unter `/admin`.
+  Frontend fällt bei leeren Tabellen IMMER auf kuratierte Defaults zurück.
+- Mobile-first: 360px muss sitzen; Touch-Ziele ≥44px; Tabellen stapeln unter
+  `sm` als Definitionen (nie horizontal scrollen).
+- Rechner: Spannen statt Punktwerte; Kernkonstanten sind faktengeprüft
+  (siehe design-proposals/claim-register.md) — Änderungen nur mit Quelle.
 
 ## 8. Conversion
 
-- Primär-CTA jeder Seite: «Solarpotenzial berechnen» → /solarrechner.
-- Sekundär: «Kostenloses Angebot erhalten» → /angebote.
-- Jede Seite endet mit CtaBand. CTAs nie doppelt direkt untereinander stapeln.
+- Primär-CTA: «Projekt unverbindlich prüfen» → /angebote (Header + CtaBand).
+- Sekundär: «Solarpotenzial berechnen» → /solarrechner.
+- Jede Seite endet mit CtaBand; keine Floating-CTAs, keine CTA-Stapel.

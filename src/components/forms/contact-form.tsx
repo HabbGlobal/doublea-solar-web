@@ -118,8 +118,8 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/8 p-6">
-        <p className="text-base font-semibold text-[color:var(--solar-emerald)]">
+      <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-5">
+        <p className="text-base font-semibold text-foreground">
           Vielen Dank für Ihre Nachricht.
         </p>
         <p className="mt-2 text-sm leading-relaxed text-foreground/80">
@@ -128,7 +128,7 @@ export function ContactForm() {
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="ring-focus mt-4 inline-flex min-h-10 items-center rounded-full text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          className="ring-focus mt-4 inline-flex min-h-10 items-center text-sm font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors hover:text-foreground"
         >
           Neue Nachricht senden
         </button>
@@ -151,9 +151,9 @@ export function ContactForm() {
                 }
                 aria-pressed={topic === t.value}
                 className={cn(
-                  "ring-focus flex min-h-12 items-center justify-center rounded-xl border px-3 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
+                  "ring-focus flex min-h-12 items-center justify-center border px-3 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
                   topic === t.value
-                    ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                    ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                     : "border-border bg-card hover:bg-secondary",
                 )}
               >
@@ -164,7 +164,7 @@ export function ContactForm() {
         </Field>
 
         {requireOffer && (
-          <div className="rounded-2xl border border-[color:var(--solar-emerald)]/30 bg-[color:var(--solar-emerald)]/5 p-4 text-sm">
+          <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-4 text-sm">
             <p className="font-medium leading-relaxed text-foreground">
               Für eine fundierte Offerte oder Beratung brauchen wir zusätzlich
               Telefon, Heizart und Personen im Haushalt — so können wir gleich
@@ -181,7 +181,7 @@ export function ContactForm() {
               autoComplete="name"
               aria-invalid={!!errors.name}
               {...register("name")}
-              className="h-12 rounded-xl px-4"
+              className="h-12 px-4"
             />
             <FieldError errors={errors.name ? [errors.name] : undefined} />
           </Field>
@@ -193,7 +193,7 @@ export function ContactForm() {
               autoComplete="email"
               aria-invalid={!!errors.email}
               {...register("email")}
-              className="h-12 rounded-xl px-4"
+              className="h-12 px-4"
             />
             <FieldError errors={errors.email ? [errors.email] : undefined} />
           </Field>
@@ -210,7 +210,7 @@ export function ContactForm() {
             placeholder="+41 …"
             aria-invalid={!!errors.phone}
             {...register("phone")}
-            className="h-12 rounded-xl px-4"
+            className="h-12 px-4"
           />
           <FieldError errors={errors.phone ? [errors.phone] : undefined} />
         </Field>
@@ -249,9 +249,9 @@ export function ContactForm() {
                       }
                       aria-pressed={heatingType === h}
                       className={cn(
-                        "ring-focus flex min-h-12 items-center justify-center rounded-xl border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
+                        "ring-focus flex min-h-12 items-center justify-center border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
                         heatingType === h
-                          ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                          ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                           : "border-border bg-card hover:bg-secondary",
                       )}
                     >
@@ -283,7 +283,7 @@ export function ContactForm() {
                   placeholder="4"
                   aria-invalid={!!errors.householdSize}
                   {...register("householdSize", { valueAsNumber: true })}
-                  className="h-12 rounded-xl px-4"
+                  className="h-12 px-4"
                 />
                 <FieldError
                   errors={
@@ -305,7 +305,7 @@ export function ContactForm() {
             placeholder="Erzählen Sie uns kurz, worum es geht – Dachgrösse, Strom­verbrauch, Wünsche helfen uns enorm."
             aria-invalid={!!errors.message}
             {...register("message")}
-            className="rounded-xl px-4 py-3"
+            className="px-4 py-3"
           />
           <FieldError errors={errors.message ? [errors.message] : undefined} />
         </Field>
@@ -362,9 +362,6 @@ export function ContactForm() {
           </>
         )}
       </button>
-      <p className="text-center text-xs leading-relaxed text-muted-foreground">
-        Kostenfrei und unverbindlich – Antwort innert eines Werktags.
-      </p>
     </form>
   );
 }

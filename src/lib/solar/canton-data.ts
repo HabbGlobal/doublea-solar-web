@@ -1,11 +1,10 @@
 /**
- * Konservative Richtwerte für den spezifischen Jahresertrag (kWh/kWp/Jahr)
- * pro Schweizer Kanton. Werte sind Mittelland-/Höhenlagen-Schätzungen und
- * dienen ausschliesslich als Erstindikation. Verbindliche Werte ergeben
- * sich erst aus einer Standortanalyse vor Ort.
- *
- * Quellen-orientiert an publizierten Spannweiten von ca. 900–1'150 kWh/kWp
- * für Schweizer Standorte (Plateau bis Alpenrand).
+ * Konservative Praxis-Richtwerte kWh/kWp/Jahr bei guter Südausrichtung
+ * (typische reale Anlagen). Echte Optimalwerte liegen laut
+ * BFE-Sonnendach/PVGIS 10–17 % höher (Region Grenchen ~1'170–1'190,
+ * Lugano ~1'330). Spannweite Mittelland ~900–1'100; alpine Lagen/Südtessin
+ * bis ~1'330. Werte dienen ausschliesslich als Erstindikation —
+ * verbindliche Werte ergeben sich erst aus einer Standortanalyse vor Ort.
  */
 export type CantonCode =
   | "AG" | "AI" | "AR" | "BE" | "BL" | "BS" | "FR" | "GE" | "GL"
@@ -15,7 +14,7 @@ export type CantonCode =
 export type CantonInfo = {
   code: CantonCode;
   name: string;
-  /** Konservativer spezifischer Ertrag in kWh/kWp/Jahr (Süd, optimal). */
+  /** Konservativer spezifischer Ertrag in kWh/kWp/Jahr (typischer Praxiswert, gute Südausrichtung). */
   specificYield: number;
 };
 

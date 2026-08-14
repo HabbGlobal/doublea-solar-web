@@ -15,11 +15,9 @@ export default async function AdminDashboardPage() {
   const [user, content] = await Promise.all([getCurrentUser(), getSiteContent()]);
   return (
     <section className="container-page py-10">
-      <header className="mb-8">
-        <p className="text-xs font-medium uppercase tracking-[0.16em] text-[color:var(--solar-emerald)]">
-          Editor
-        </p>
-        <h1 className="mt-2 text-balance text-3xl font-semibold text-foreground">
+      <header className="mb-8 border-b border-border pb-6">
+        <p className="eyebrow">Inhalte</p>
+        <h1 className="mt-3 text-balance text-3xl font-semibold text-foreground">
           Inhalte der Website bearbeiten
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">

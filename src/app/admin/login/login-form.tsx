@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { Loader2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { createClient } from "@/lib/supabase/client";
@@ -78,20 +77,19 @@ export function LoginForm({ redirectTo, initialError }: Props) {
         )}
       </FieldGroup>
 
-      <Button
+      <button
         type="submit"
-        size="lg"
         disabled={loading}
-        className="h-11 w-full rounded-xl bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)] hover:bg-[color:var(--solar-navy)]/95"
+        className="btn-primary w-full disabled:pointer-events-none disabled:opacity-60"
       >
         {loading ? (
           <>
-            <Loader2 className="size-4 animate-spin" /> Anmelden …
+            <Loader2 className="size-4 animate-spin" aria-hidden /> Anmelden …
           </>
         ) : (
           "Anmelden"
         )}
-      </Button>
+      </button>
     </form>
   );
 }

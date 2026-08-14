@@ -3,7 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -152,29 +152,22 @@ export function LeadForm({
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-[color:var(--solar-emerald)]/25 bg-[color:var(--solar-emerald)]/8 p-5 sm:p-6">
-        <div className="flex items-start gap-3">
-          <span className="mt-0.5 inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[color:var(--solar-emerald)]/12 text-[color:var(--solar-emerald)]">
-            <CheckCircle2 className="size-4" />
-          </span>
-          <div>
-            <p className="text-sm font-semibold text-[color:var(--solar-emerald)]">
-              Anfrage erhalten – herzlichen Dank.
-            </p>
-            <p className="mt-1 text-sm leading-relaxed text-foreground/80">
-              Wir prüfen Ihre Angaben und melden uns innert eines Werktags
-              persönlich.
-            </p>
-            {successCta && <div className="mt-3">{successCta}</div>}
-            <button
-              type="button"
-              onClick={() => setSubmitted(false)}
-              className="ring-focus mt-3 inline-flex min-h-9 items-center rounded-full text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Neue Anfrage senden
-            </button>
-          </div>
-        </div>
+      <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-5">
+        <p className="text-sm font-semibold text-foreground">
+          Anfrage erhalten – herzlichen Dank.
+        </p>
+        <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+          Wir prüfen Ihre Angaben und melden uns innert eines Werktags
+          persönlich.
+        </p>
+        {successCta && <div className="mt-3">{successCta}</div>}
+        <button
+          type="button"
+          onClick={() => setSubmitted(false)}
+          className="ring-focus mt-3 inline-flex min-h-9 items-center text-xs font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors hover:text-foreground"
+        >
+          Neue Anfrage senden
+        </button>
       </div>
     );
   }
@@ -256,9 +249,9 @@ export function LeadForm({
                     }
                     aria-pressed={heatingType === h}
                     className={cn(
-                      "ring-focus flex min-h-12 items-center justify-center rounded-xl border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
+                      "ring-focus flex min-h-12 items-center justify-center border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
                       heatingType === h
-                        ? "border-[color:var(--solar-navy)] bg-[color:var(--solar-navy)] text-[color:var(--solar-navy-foreground)]"
+                        ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                         : "border-border bg-card hover:bg-secondary",
                     )}
                   >
@@ -310,7 +303,7 @@ export function LeadForm({
               Ich bin mit der{" "}
               <a
                 href="/datenschutz"
-                className="ring-focus rounded-sm underline underline-offset-4"
+                className="ring-focus underline underline-offset-4"
               >
                 Datenschutzerklärung
               </a>{" "}

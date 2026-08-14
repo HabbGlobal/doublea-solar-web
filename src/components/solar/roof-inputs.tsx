@@ -84,7 +84,7 @@ export function RoofInputs({ form }: Props) {
       <Field>
         <FieldLabel htmlFor="usableRoofPercent">
           Nutzbarer Anteil:{" "}
-          <span className="stat-mono text-[color:var(--solar-emerald)]">
+          <span className="stat-mono text-foreground">
             {usable ?? 75} %
           </span>
         </FieldLabel>
@@ -141,7 +141,7 @@ export function RoofInputs({ form }: Props) {
                 setValue("tilt", t.value, { shouldValidate: true })
               }
               aria-pressed={tilt === t.value}
-              className={`ring-focus min-h-12 rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`ring-focus min-h-12 border px-3 py-2.5 text-sm font-medium transition-colors ${
                 tilt === t.value
                   ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
                   : "border-border bg-card text-foreground hover:bg-secondary"
@@ -165,14 +165,14 @@ export function RoofInputs({ form }: Props) {
                 setValue("shading", s.value, { shouldValidate: true })
               }
               aria-pressed={shading === s.value}
-              className={`ring-focus flex min-h-12 flex-col items-start gap-0.5 rounded-xl border px-4 py-3 text-left transition-colors ${
+              className={`ring-focus flex min-h-12 flex-col items-start gap-0.5 border px-4 py-3 text-left transition-colors ${
                 shading === s.value
-                  ? "border-[color:var(--solar-emerald)] bg-[color:var(--solar-emerald)]/8"
-                  : "border-border bg-card hover:bg-secondary"
+                  ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
+                  : "border-border bg-card text-foreground hover:bg-secondary"
               }`}
             >
-              <span className="text-sm font-medium text-foreground">{s.label}</span>
-              <span className="text-xs text-muted-foreground">{s.description}</span>
+              <span className="text-sm font-medium">{s.label}</span>
+              <span className="text-xs opacity-80">{s.description}</span>
             </button>
           ))}
         </div>

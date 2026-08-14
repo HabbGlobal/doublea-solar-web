@@ -1,39 +1,35 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Inter_Tight, Geist_Mono } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
-import { SmoothScroll } from "@/components/site/smooth-scroll";
-import { FloatingCta } from "@/components/site/floating-cta";
 import { siteConfig } from "@/lib/site-config";
 import { getSiteContent } from "@/lib/content/server";
 
 import "./globals.css";
 
-const inter = Inter({
+/* Werkplan-Typografie: Archivo trägt alles Redaktionelle, IBM Plex Mono
+   alle Labels, Nummern und technischen Werte. (--font-geist-mono ist der
+   historische Variablenname für die Mono-Rolle.) */
+const archivo = Archivo({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const interTight = Inter_Tight({
-  variable: "--font-heading",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
+const plexMono = IBM_Plex_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fffdfd" },
-    { media: "(prefers-color-scheme: dark)", color: "#111315" },
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#1a1c1c" },
   ],
 };
 
@@ -41,11 +37,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default:
-      "Solaranlage & Photovoltaik Grenchen, Solothurn & Bern | DoubleA Solar",
+      "Photovoltaik Grenchen & Solothurn — präzise geplant | DoubleA Solar",
     template: `%s | ${siteConfig.name}`,
   },
   description:
-    "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner, transparenten Offerten und langfristigem Monitoring.",
+    "Schweizer Photovoltaik-Fachbetrieb aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner, transparenten Offerten und langfristigem Monitoring.",
   applicationName: siteConfig.name,
   keywords: [
     "Solaranlage Grenchen",
@@ -84,16 +80,16 @@ export const metadata: Metadata = {
     url: siteConfig.url,
     siteName: siteConfig.name,
     title:
-      "Solaranlage & Photovoltaik Grenchen, Solothurn & Bern | DoubleA Solar",
+      "Photovoltaik Grenchen & Solothurn — präzise geplant | DoubleA Solar",
     description:
-      "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner und transparenten Offerten.",
+      "Schweizer Photovoltaik-Fachbetrieb aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner und transparenten Offerten.",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "Solaranlage & Photovoltaik Grenchen, Solothurn & Bern | DoubleA Solar",
+      "Photovoltaik Grenchen & Solothurn — präzise geplant | DoubleA Solar",
     description:
-      "Ihr Solarunternehmen aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner und transparenten Offerten.",
+      "Schweizer Photovoltaik-Fachbetrieb aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner und transparenten Offerten.",
   },
   robots: {
     index: true,
@@ -160,6 +156,8 @@ function buildJsonLdGraph(
       addressRegion: siteConfig.contact.address.canton,
       addressCountry: siteConfig.contact.address.countryCode,
     },
+    hasMap:
+      "https://www.google.com/maps/search/?api=1&query=Oelirain%201A%2C%202540%20Grenchen",
     geo: {
       "@type": "GeoCoordinates",
       latitude: siteConfig.contact.geo.latitude,
@@ -210,17 +208,25 @@ export default async function RootLayout({
   return (
     <html
       lang="de-CH"
-      className={`${inter.variable} ${interTight.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${archivo.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-background">
-        <SmoothScroll />
+      <body className="min-h-full bg-background">
+        {/* Skip-Link: erstes fokussierbares Element (WCAG 2.4.1) */}
+        <a
+          href="#content"
+          className="ring-focus sr-only z-50 border border-[color:var(--solar-ink)] bg-background px-4 py-3 text-sm font-medium text-foreground focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4"
+        >
+          Zum Inhalt springen
+        </a>
         <TooltipProvider>
-          <SiteHeader />
-          <main id="content" className="flex-1">
-            {children}
-          </main>
-          <SiteFooter contact={content.contact} />
-          <FloatingCta />
+          {/* Zeichenblatt: Inhalt steht zwischen zwei sichtbaren Hairlines */}
+          <div className="site-sheet flex min-h-screen flex-col">
+            <SiteHeader phone={content.contact.phone} />
+            <main id="content" className="flex-1">
+              {children}
+            </main>
+            <SiteFooter contact={content.contact} />
+          </div>
         </TooltipProvider>
         <Toaster position="top-right" richColors closeButton />
         <script

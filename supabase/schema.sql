@@ -195,3 +195,37 @@ create policy "packages_auth_write"
     to authenticated
     using (true)
     with check (true);
+
+-- 7. team_members — Team-Seite (Admin-gepflegt, Portraits im Storage).
+create table if not exists public.team_members (
+    id           uuid primary key default gen_random_uuid(),
+    created_at   timestamptz not null default now(),
+    name         text not null,
+    role         text not null,
+    image_path   text,
+    sort_order   integer not null default 0,
+    is_published boolean not null default false
+);
+
+alter table public.team_members enable row level security;
+
+drop policy if exists "team_anon_read_published" on public.team_members;
+create policy "team_anon_read_published"
+    on public.team_members
+    for select
+    to anon
+    using (is_published = true);
+
+drop policy if exists "team_auth_write" on public.team_members;
+create policy "team_auth_write"
+    on public.team_members
+    for all
+    to authenticated
+    using (true)
+    with check (true);
+
+-- 8. Storage-Bucket für Website-Bilder (öffentlich lesbar; Uploads laufen
+-- server-seitig über den Service-Role-Key).
+insert into storage.buckets (id, name, public)
+values ('site-images', 'site-images', true)
+on conflict (id) do nothing;

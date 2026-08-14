@@ -243,7 +243,7 @@ export async function sendSolarCalculationNotification(args: {
     ["Batterie gewünscht", input.wantsBattery],
     [
       "Strompreis / Einspeisung",
-      `${input.electricityPriceRappen ?? 30} / ${input.feedInTariffRappen ?? 10} Rp./kWh`,
+      `${input.electricityPriceRappen ?? 27} / ${input.feedInTariffRappen ?? 7} Rp./kWh`,
     ],
     ["Finanzierung", input.financingInterest ?? "–"],
   ];

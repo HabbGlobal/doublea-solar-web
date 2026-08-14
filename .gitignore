@@ -46,3 +46,6 @@ yarn-error.log*
 # IDE
 .vscode/
 .idea/
+
+# Lokale QA-Artefakte (Screenshots der Design-Reviews)
+/artifacts/
