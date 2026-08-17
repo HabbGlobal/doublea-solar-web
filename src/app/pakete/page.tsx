@@ -39,7 +39,7 @@ const kuratiertePakete: PaketView[] = [
     target: "Einfamilienhaus",
     name: "Basis 8.2 kWp",
     summary:
-      "Der solide Einstieg für das typische Einfamilienhaus – vollständig montiert, angeschlossen und abgenommen.",
+      "Der solide Einstieg für das typische Einfamilienhaus – montiert, angeschlossen, abgenommen.",
     stats: [
       { label: "Leistung", value: "8.2 kWp" },
       { label: "Modulfläche (ca.)", value: "~35 m²" },
@@ -92,7 +92,7 @@ const kuratiertePakete: PaketView[] = [
     ],
     includes: [
       "Alles aus «Basis 8.2 kWp»",
-      "Wärmepumpen-Integration und Energiemanagement im Preis eingerechnet",
+      "Wärmepumpen-Integration und Energiemanagement inklusive",
       "Lastmanagement und Eigenverbrauchsoptimierung",
       "Speicher-Option 16 kWh",
     ],
@@ -106,26 +106,22 @@ const optionen = [
   {
     title: "Batteriespeicher",
     value: "ab CHF 350/kWh",
-    note: "im Bündel mit einer PV-Installation",
-    text: "Erhöht den Eigenverbrauch deutlich. Ob sich ein Speicher rechnet, prüfen wir anhand Ihres Lastprofils – nicht pauschal. Marktüblich sind gemäss BFE-Preisbeobachtung 2025 rund CHF 500–750/kWh — unser Richtwert gilt im Rahmen einer Gesamtinstallation.",
+    note: "im Bündel mit einer PV-Installation; marktüblich CHF 500–750/kWh (BFE-Preisbeobachtung 2025)",
   },
   {
     title: "Wallbox",
     value: "ab CHF 1'950",
-    note: "im Rahmen einer PV-Installation; bei langen Kabelwegen oder Verteiler-Ausbau Mehrkosten",
-    text: "Anschluss und Lastmanagement-Anbindung abgestimmt auf Ihre Hausinstallation und die Anlagengrösse.",
+    note: "im Rahmen einer PV-Installation; Mehrkosten bei langen Kabelwegen",
   },
   {
     title: "Monitoring",
     value: "inklusive",
-    note: "bei jedem Paket",
-    text: "Online-Überwachung von Ertrag und Anlagenzustand – Abweichungen erkennen wir, bevor sie Ertrag kosten.",
+    note: "Online-Überwachung von Ertrag und Anlagenzustand",
   },
   {
     title: "Förderberatung",
     value: "inklusive",
-    note: "bei jedem Paket",
-    text: "Pronovo-EIV und kantonale Programme: Wir berechnen indikativ und übernehmen die Antragstellung.",
+    note: "Pronovo-EIV und kantonale Programme für Ihren Standort",
   },
 ];
 
@@ -201,14 +197,12 @@ export default async function PaketePage() {
           </h1>
           <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
             Diese Pakete zeigen, was eine Photovoltaikanlage in der Schweiz
-            realistisch kostet – als Richtwerte, nie als verbindliche Offerte.
-            Die definitive Auslegung entsteht nach der Standortanalyse Ihres
-            Dachs.
+            realistisch kostet. Die definitive Auslegung entsteht nach der
+            Standortanalyse Ihres Dachs.
           </p>
           <ul className="mt-6 grid gap-2.5">
             {[
-              "Richtpreise inkl. Montage",
-              "Definitive Offerte nach Standortanalyse",
+              "Richtpreise inkl. Montage und Inbetriebnahme",
               "Preise vor Abzug der Pronovo-Einmalvergütung",
             ].map((zeile) => (
               <li
@@ -311,12 +305,9 @@ export default async function PaketePage() {
                 )}
 
                 <div className="mt-auto border-t border-border pt-6">
-                  <p className="eyebrow">Richtpreis inkl. Montage</p>
+                  <p className="eyebrow">Richtpreis</p>
                   <p className="stat-mono mt-2 text-2xl font-semibold text-foreground">
                     {paket.price}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    vor Abzug der Pronovo-Einmalvergütung
                   </p>
                   <Link
                     href="/solarrechner"
@@ -347,10 +338,8 @@ export default async function PaketePage() {
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                 Hallen-, Scheunen- und Flachdächer ab 30 kWp planen wir
-                projektspezifisch: Statik, Netzanschlussgesuch,
-                Eigenverbrauchskonzept und Etappierung werden auf Ihren Betrieb
-                abgestimmt. Pauschalpreise wären hier unseriös – deshalb gibt es
-                sie bei uns nicht.
+                projektspezifisch – Statik, Netzanschlussgesuch und
+                Eigenverbrauchskonzept auf Ihren Betrieb abgestimmt.
               </p>
             </div>
             <div className="surface-glass p-6 lg:p-7">
@@ -376,15 +365,11 @@ export default async function PaketePage() {
                   </dd>
                 </div>
               </dl>
-              <Link href="/solarrechner" className="btn-primary mt-6 w-full">
-                Angebot berechnen
-                <ArrowRight className="size-4" />
-              </Link>
               <Link
                 href="/kontakt"
-                className="btn-ghost mt-4 min-h-12 w-full justify-center"
+                className="btn-primary mt-6 w-full justify-center"
               >
-                Projekt direkt besprechen
+                Projekt besprechen
                 <ArrowRight className="size-4" />
               </Link>
             </div>
@@ -408,21 +393,16 @@ export default async function PaketePage() {
             {optionen.map((option) => (
               <div
                 key={option.title}
-                className="grid gap-3 border-t border-border py-6 last:border-b sm:grid-cols-[180px_260px_1fr] sm:gap-8"
+                className="grid gap-2 border-t border-border py-5 last:border-b sm:grid-cols-[200px_200px_1fr] sm:items-baseline sm:gap-8"
               >
                 <h3 className="text-base font-semibold text-foreground">
                   {option.title}
                 </h3>
-                <div>
-                  <p className="stat-mono text-lg font-semibold text-foreground">
-                    {option.value}
-                  </p>
-                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    {option.note}
-                  </p>
-                </div>
+                <p className="stat-mono text-lg font-semibold text-foreground">
+                  {option.value}
+                </p>
                 <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-                  {option.text}
+                  {option.note}
                 </p>
               </div>
             ))}
@@ -443,17 +423,11 @@ export default async function PaketePage() {
             </h2>
             <div className="max-w-2xl">
               <p className="text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
-                Alle Preise sind Richtwerte inkl. Montage; definitive Offerte
-                nach Standortanalyse. Pronovo-Einmalvergütung: aktuell CHF 360
-                pro kWp für angebaute Anlagen unter 30 kWp (integriert CHF
-                400/kWp), Stand EnFV 1.7.2026 — wir prüfen den Ansatz für Ihr
-                Projekt und übernehmen den Antrag.
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                 Der effektive Preis hängt von Dacheindeckung, Gerüstbedarf,
-                Zählerplatz und Anfahrt ab. Kantonale Förderprogramme prüfen wir
-                für Ihren Standort tagesaktuell – wir rechnen konservativ und
-                versprechen keine Pauschalbeträge.
+                Zählerplatz und Anfahrt ab. Die Pronovo-Einmalvergütung beträgt
+                aktuell CHF 360 pro kWp für angebaute Anlagen unter 30 kWp
+                (integriert CHF 400/kWp, Stand EnFV 1.7.2026) — wir prüfen den
+                Ansatz für Ihr Projekt und übernehmen den Antrag.
               </p>
             </div>
           </div>
@@ -462,7 +436,7 @@ export default async function PaketePage() {
 
       <CtaBand
         title="Welches Paket passt zu Ihrem Dach?"
-        description="Berechnen Sie in wenigen Minuten eine erste Auslegung – oder senden Sie uns Ihre Eckdaten für eine Standortanalyse mit definitiver Offerte."
+        description="Berechnen Sie in wenigen Minuten eine erste Auslegung – oder senden Sie uns Ihre Eckdaten."
         primaryHref="/solarrechner"
         primaryLabel="Solarpotenzial berechnen"
         secondaryHref="/kontakt"

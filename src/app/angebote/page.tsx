@@ -14,10 +14,9 @@ export const metadata: Metadata = {
 
 const inclusions = [
   "Standortanalyse mit Verschattungs- und Statikbewertung",
-  "Auslegung von Modulen, Wechselrichter und Speicheroption",
+  "Auslegung von Modulen, Wechselrichter und Speicher",
   "Indikative Wirtschaftlichkeitsrechnung mit konservativen Annahmen",
-  "Prüfung der Pronovo-Einmalvergütung und kantonaler Förderprogramme",
-  "Klar strukturierte Offerte mit transparent ausgewiesenen Positionen",
+  "Prüfung von Pronovo-Einmalvergütung und kantonaler Förderung",
 ];
 
 export default function AngebotePage() {
@@ -37,8 +36,7 @@ export default function AngebotePage() {
             </h1>
             <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
               Wir prüfen Ihr Dach, klären Machbarkeit und Förderung und
-              erstellen eine sauber aufgeschlüsselte Offerte – ohne
-              Verkaufsdruck und ohne Pauschalversprechen. Wir empfehlen nur,
+              erstellen eine sauber aufgeschlüsselte Offerte. Wir empfehlen nur,
               was technisch und wirtschaftlich Sinn ergibt.
             </p>
 
@@ -65,9 +63,6 @@ export default function AngebotePage() {
             {/* Rechner-Cross-Sell als schlichte Hairline-Zeile */}
             <div className="mt-10 border-t border-border pt-6">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  Noch unsicher, was sinnvoll dimensioniert ist?
-                </span>{" "}
                 Der Solarrechner liefert die Grundlage für die Offerte.
               </p>
               <Link href="/solarrechner" className="btn-ghost mt-3 min-h-12">

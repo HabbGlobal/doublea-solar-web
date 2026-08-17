@@ -13,49 +13,49 @@ const services: {
     nr: "01",
     title: "Standortanalyse",
     description:
-      "Dachfläche, Ausrichtung, Verschattung und Statik vor Ort geprüft; Auswertung der sonnendach.ch-Daten Ihres Gebäudes.",
+      "Dachfläche, Ausrichtung, Verschattung und Statik vor Ort geprüft.",
   },
   {
     id: "planung",
     nr: "02",
     title: "Planung & Auslegung",
     description:
-      "Anlagenkonzept nach Verbrauchsprofil, Wärmepumpe und Elektromobilität; Ertragsprognose als Bandbreite, nicht als Versprechen.",
+      "Anlagenkonzept nach Verbrauchsprofil, Wärmepumpe und Elektromobilität.",
   },
   {
     id: "foerderung",
     nr: "03",
     title: "Förderung & Administration",
     description:
-      "Pronovo-Einmalvergütung, kantonale Programme, Meldewesen und Anschlussgesuch beim Netzbetreiber: wir führen den Papierweg.",
+      "Pronovo-Einmalvergütung, kantonale Programme und Meldewesen: wir führen den Papierweg.",
   },
   {
     id: "installation",
     nr: "04",
     title: "Installation & Netzanschluss",
     description:
-      "Montage, Elektroinstallation, Inbetriebnahme mit Sicherheitsnachweis (SiNa) und dokumentierter Abnahme.",
+      "Montage, Elektroinstallation und Inbetriebnahme mit Sicherheitsnachweis (SiNa).",
   },
   {
     id: "batterie",
     nr: "05",
     title: "Speicher & Eigenverbrauch",
     description:
-      "Batterie und Lastmanagement nach Lastprofil dimensioniert; auch die Antwort ‹kein Speicher nötig› gehört dazu.",
+      "Batterie und Lastmanagement nach Ihrem Lastprofil dimensioniert.",
   },
   {
     id: "monitoring",
     nr: "06",
     title: "Monitoring & Wartung",
     description:
-      "Ertragsüberwachung, Sichtprüfung, Reinigung und Wechselrichter-Service über die gesamte Laufzeit.",
+      "Ertragsüberwachung, Sichtprüfung, Reinigung und Wechselrichter-Service.",
   },
 ];
 
 export function ServicesSection() {
   return (
     <section id="leistungen" aria-labelledby="leistungen-titel">
-      <SectionHead nr="03" label="Leistungen" />
+      <SectionHead nr="02" label="Leistungen" />
       <div className="container-page py-14 sm:py-20">
         <SectionTitle
           id="leistungen-titel"

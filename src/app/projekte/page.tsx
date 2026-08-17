@@ -26,7 +26,7 @@ import {
 export const metadata: Metadata = {
   title: "Projekte – Photovoltaik-Anlagentypen & Referenzen Schweiz",
   description:
-    "Typische Photovoltaik-Projekte von DoubleA Solar Solutions: Einfamilienhaus, Mehrfamilienhaus mit ZEV, Gewerbe, Landwirtschaft, Batteriespeicher, Wallbox und Wärmepumpen-Integration – geplant von Grenchen aus für die ganze Schweiz. Referenzen auf Anfrage.",
+    "Typische Photovoltaik-Projekte von DoubleA Solar Solutions: Einfamilienhaus, Mehrfamilienhaus mit ZEV sowie Gewerbe und Landwirtschaft – geplant von Grenchen aus für die ganze Schweiz. Referenzen auf Anfrage.",
   alternates: {
     canonical: "/projekte",
   },
@@ -43,6 +43,8 @@ type ProjectType = {
   deliverables: string[];
 };
 
+/* Kuratierte Defaults — greifen nur, solange keine Anlagentypen in der DB
+   liegen. Bewusst knapp gehalten. */
 const anlagenTypen: ProjectType[] = [
   {
     // Platzhalter bis reale Projektfotografie vorliegt (Spec §4: keine Stock-/KI-Bilder).
@@ -52,7 +54,7 @@ const anlagenTypen: ProjectType[] = [
     metricValue: "8–12",
     metricUnit: "kWp",
     description:
-      "Die klassische Aufdachanlage mit Eigenverbrauchsoptimierung. Häufig als Gesamtsystem mit Speicher, Wärmepumpe und Wallbox gedacht – sauber dimensioniert statt maximal verkauft.",
+      "Aufdachanlage mit Eigenverbrauchsoptimierung – sauber dimensioniert statt maximal verkauft.",
     facts: [
       { label: "Typ. Speicher", value: "5–10 kWh" },
       { label: "Montagezeit", value: "2–3 Tage" },
@@ -71,7 +73,7 @@ const anlagenTypen: ProjectType[] = [
     metricValue: "15–60",
     metricUnit: "kWp",
     description:
-      "Zusammenschluss zum Eigenverbrauch (ZEV) für Eigentümerschaften und Verwaltungen. Entscheidend: Messkonzept und Mieterstromabrechnung werden von Anfang an mitgeplant – nicht nachgerüstet.",
+      "Zusammenschluss zum Eigenverbrauch – Messkonzept und Mieterstrom von Anfang an mitgeplant.",
     facts: [
       { label: "Typ. Speicher", value: "10–30 kWh" },
       { label: "Abrechnung", value: "Mieterstrom" },
@@ -85,98 +87,20 @@ const anlagenTypen: ProjectType[] = [
   {
     // Platzhalter bis reale Projektfotografie vorliegt (Spec §4: keine Stock-/KI-Bilder).
     number: "03",
-    title: "Gewerbe",
+    title: "Gewerbe & Landwirtschaft",
     metricLabel: "Typische Anlagengrösse",
-    metricValue: "30–150",
+    metricValue: "30–250",
     metricUnit: "kWp",
     description:
-      "Produktions- und Gewerbedächer mit hohem Stromverbrauch tagsüber – dort fliesst Solarstrom direkt in den Betrieb. Entscheidungsgrundlage ist Ihr Lastprofil, nicht der Katalogwert.",
+      "Grosse Dachflächen mit hohem Tagesverbrauch – ausgelegt nach Ihrem Lastprofil.",
     facts: [
       { label: "Typ. Speicher", value: "20–60 kWh" },
       { label: "Eigenverbrauch", value: "tagsüber hoch" },
     ],
     deliverables: [
       "Lastganganalyse und indikative Wirtschaftlichkeitsrechnung",
-      "Tragwerksprüfung und Brandschutzkonzept",
+      "Prüfung von Statik, Dacheindeckung und Brandschutz",
       "Monitoring und Wartungskonzept für den laufenden Betrieb",
-    ],
-  },
-  {
-    // Platzhalter bis reale Projektfotografie vorliegt (Spec §4: keine Stock-/KI-Bilder).
-    number: "04",
-    title: "Landwirtschaft",
-    metricLabel: "Typische Anlagengrösse",
-    metricValue: "50–250",
-    metricUnit: "kWp",
-    description:
-      "Ställe, Scheunen und Remisen bieten grosse, ungenutzte Dachflächen. Wir planen um den Betrieb herum: Kühlung, Melken und Trocknung als Eigenverbraucher – der Überschuss wird eingespeist.",
-    facts: [
-      { label: "Dachfläche", value: "ab 500 m²" },
-      { label: "Typ. Speicher", value: "optional" },
-    ],
-    deliverables: [
-      "Prüfung von Statik und Dacheindeckung (z. B. Faserzement)",
-      "Eigenverbrauchskonzept für Kühlung, Melken und Trocknung",
-      "Abklärung von Einspeisung und Rückliefertarif mit dem Netzbetreiber",
-    ],
-  },
-];
-
-const erweiterungen: ProjectType[] = [
-  {
-    // Platzhalter bis reale Projektfotografie vorliegt (Spec §4: keine Stock-/KI-Bilder).
-    number: "05",
-    title: "Batterie-Nachrüstung",
-    metricLabel: "Typische Speicherkapazität",
-    metricValue: "5–20",
-    metricUnit: "kWh",
-    description:
-      "Nachrüstung bestehender PV-Anlagen mit Speicher – unabhängig davon, wer die Anlage gebaut hat. Wir beurteilen ehrlich, ob sich ein Speicher in Ihrem Fall rechnet.",
-    facts: [
-      { label: "Kopplung", value: "AC / DC" },
-      { label: "Umsetzung", value: "1–2 Tage" },
-    ],
-    deliverables: [
-      "Bestandsaufnahme von Wechselrichter und Verkabelung",
-      "Kapazität nach Lastprofil ausgelegt – ohne Überdimensionierung",
-      "Integration in Smart Meter und Energiemanagement",
-    ],
-  },
-  {
-    // Platzhalter bis reale Projektfotografie vorliegt (Spec §4: keine Stock-/KI-Bilder).
-    number: "06",
-    title: "Wallbox / E-Mobilität",
-    metricLabel: "Typische Ladeleistung",
-    metricValue: "11–22",
-    metricUnit: "kW",
-    description:
-      "Laden am eigenen Gebäude, gesteuert nach Solarüberschuss. Das dynamische Lastmanagement schützt den Hausanschluss und priorisiert selbst produzierten Strom.",
-    facts: [
-      { label: "Lastmanagement", value: "dynamisch" },
-      { label: "Laden", value: "PV-optimiert" },
-    ],
-    deliverables: [
-      "Wallbox-Auswahl passend zu Fahrzeug und Hausanschluss",
-      "Dynamisches Lastmanagement mit PV-Überschussladen",
-      "Anmeldung beim Netzbetreiber und Inbetriebnahme",
-    ],
-  },
-  {
-    // Platzhalter bis reale Projektfotografie vorliegt (Spec §4: keine Stock-/KI-Bilder).
-    number: "07",
-    title: "Wärmepumpen-Integration",
-    metricLabel: "Gekoppeltes Gesamtsystem",
-    metricValue: "PV + WP",
-    description:
-      "Photovoltaik und Wärmepumpe ergänzen sich im Gebäude besonders gut: Über SG-Ready oder ein Energiemanagementsystem heizt die Wärmepumpe bevorzugt dann, wenn das Dach produziert.",
-    facts: [
-      { label: "Schnittstelle", value: "SG-Ready" },
-      { label: "Speicher", value: "thermisch" },
-    ],
-    deliverables: [
-      "Abstimmung mit Heizungsfachpartner oder bestehender Anlage",
-      "Ansteuerung über SG-Ready oder Energiemanagementsystem",
-      "Warmwasser als thermischer Speicher für den Solarüberschuss",
     ],
   },
 ];
@@ -454,20 +378,17 @@ export default async function ProjektePage() {
   const hasReferenzen = referenzen.length > 0;
   const hasDbTypen = typen.length > 0;
 
-  /* DB-Anlagentypen ersetzen die kuratierten Defaults inkl. Erweiterungen. */
+  /* DB-Anlagentypen ersetzen die kuratierten Defaults vollständig. */
   const typenViews: TypeView[] = hasDbTypen
     ? typen.map(fromDbType)
     : anlagenTypen.map(fromCurated);
-  const typenCount = hasDbTypen
-    ? typen.length
-    : anlagenTypen.length + erweiterungen.length;
+  const typenCount = hasDbTypen ? typen.length : anlagenTypen.length;
 
   /* Sektionsnummern fortlaufend in Renderreihenfolge; 01 ist das Intro. */
   let sectionNr = 1;
   const nextNr = () => String(++sectionNr).padStart(2, "0");
   const nrReferenzen = hasReferenzen ? nextNr() : null;
   const nrTypen = nextNr();
-  const nrErweiterungen = hasDbTypen ? null : nextNr();
   const nrReferenzenPanel = hasReferenzen ? null : nextNr();
 
   return (
@@ -488,19 +409,14 @@ export default async function ProjektePage() {
           </h1>
           <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
             {typenCount === 1
-              ? "Ein Anlagentyp prägt unsere Arbeit"
-              : `${zahlwort(typenCount)} Anlagentypen prägen unsere Arbeit`}{" "}
-            – vom Einfamilienhaus über den ZEV im Mehrfamilienhaus bis zur
-            landwirtschaftlichen Grossanlage. Hier zeigen wir, was jeweils
-            typisch ist: Eckwerte, Leistungsumfang und die Punkte, die im Detail
-            entscheiden.
+              ? "Ein Anlagentyp prägt unsere Arbeit."
+              : `${zahlwort(typenCount)} Anlagentypen prägen unsere Arbeit.`}{" "}
+            Hier stehen zu jedem die Eckwerte und der Leistungsumfang.
           </p>
           <p className="mt-8 max-w-2xl border-l-2 border-[color:var(--solar-ink)] pl-4 text-sm leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground">Transparenz:</span>{" "}
-            Die Anlagentypen auf dieser Seite sind typische Konstellationen aus
-            unserer Praxis – keine konkreten Kundenprojekte. Referenzobjekte
-            publizieren wir nur mit ausdrücklicher Freigabe. Alle Wertspannen
-            sind indikativ.
+            Die Anlagentypen sind typische Konstellationen aus unserer Praxis,
+            keine konkreten Kundenprojekte – alle Wertspannen sind indikativ.
           </p>
         </div>
       </section>
@@ -516,7 +432,7 @@ export default async function ProjektePage() {
             <SectionTitle
               id="referenzen-h"
               title="Referenzen"
-              lead="Freigegebene Projekte aus unserer Arbeit – mit realen Eckdaten, publiziert mit ausdrücklicher Zustimmung der Kundschaft."
+              lead="Freigegebene Projekte mit realen Eckdaten – publiziert mit Zustimmung der Kundschaft."
             />
             <div className="mt-10">
               {referenzen.map((project, i) => (
@@ -544,12 +460,7 @@ export default async function ProjektePage() {
               ? `${zahlwort(typenViews.length)} ${
                   typenViews.length === 1 ? "Anlagentyp" : "Anlagentypen"
                 }. Ein Qualitätsstandard.`
-              : "Vier Gebäudekategorien. Ein Qualitätsstandard."
-          }
-          lead={
-            hasDbTypen
-              ? "Typische Konstellationen aus unserer Praxis – die Spannweiten sind indikativ und beschreiben keine konkreten Kundenprojekte."
-              : undefined
+              : "Drei Gebäudekategorien. Ein Qualitätsstandard."
           }
         />
         <div className="mt-10">
@@ -562,32 +473,6 @@ export default async function ProjektePage() {
           ))}
         </div>
       </section>
-
-      {nrErweiterungen !== null && (
-        <>
-          {/* Erweiterungen 05–07 (kuratierter Fallback) */}
-          <SectionHead nr={nrErweiterungen} label="Erweiterungen" />
-          <section
-            aria-labelledby="erweiterungen-h"
-            className="container-page py-12 sm:py-16"
-          >
-            <SectionTitle
-              id="erweiterungen-h"
-              title="Integration rund um die Anlage."
-              lead="Speicher, Laden und Wärme gehören ins Gesamtsystem – sauber eingebunden statt angebaut."
-            />
-            <div className="mt-10">
-              {erweiterungen.map((type, i) => (
-                <ProjectTypeRow
-                  key={type.number}
-                  type={fromCurated(type)}
-                  last={i === erweiterungen.length - 1}
-                />
-              ))}
-            </div>
-          </section>
-        </>
-      )}
 
       {nrReferenzenPanel !== null && (
         <>
@@ -607,11 +492,9 @@ export default async function ProjektePage() {
                   Echte Projekte zeigen wir persönlich.
                 </h2>
                 <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-                  Aus Respekt vor der Privatsphäre unserer Kundschaft
-                  publizieren wir keine Projekte ohne ausdrückliche Freigabe.
-                  Im Beratungsgespräch zeigen wir Ihnen Referenzobjekte, die
-                  Ihrem Vorhaben entsprechen – mit realen Eckdaten. Eine
-                  öffentliche Galerie folgt, sobald Freigaben vorliegen.
+                  Wir publizieren keine Projekte ohne ausdrückliche Freigabe.
+                  Im Beratungsgespräch zeigen wir Ihnen passende Referenzobjekte
+                  mit realen Eckdaten.
                 </p>
               </div>
               <div className="flex lg:justify-end">

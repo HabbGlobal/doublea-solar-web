@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 /** Sachliche Eckdaten zum Rechner — analog Startseiten-Teaser. */
 const calculatorFacts = [
   { label: "Datenbasis", value: "Bundesdaten sonnendach.ch" },
-  { label: "Ergebnis", value: "Anlagengrösse, Kosten, Amortisation" },
   { label: "Dauer", value: "Rund 60 Sekunden" },
 ];
 

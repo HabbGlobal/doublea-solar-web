@@ -34,14 +34,14 @@ const services: Service[] = [
     navLabel: "Standortanalyse",
     title: "Standortanalyse",
     summary:
-      "Bevor wir eine Anlage auslegen, verstehen wir Ihr Gebäude. Dachgeometrie, Verschattung und Ihr tatsächlicher Stromverbrauch bestimmen, was technisch und wirtschaftlich Sinn ergibt.",
+      "Bevor wir eine Anlage auslegen, verstehen wir Ihr Gebäude. Dachgeometrie, Verschattung und Ihr Stromverbrauch bestimmen, was sinnvoll ist.",
     benefit:
-      "Sie erhalten eine ehrliche Einschätzung, was Ihr Dach leisten kann – bevor Sie sich zu irgendetwas verpflichten.",
+      "Sie erfahren ehrlich, was Ihr Dach leisten kann – ohne jede Verpflichtung.",
     deliverables: [
-      "Dachprüfung vor Ort: Geometrie, Eindeckung, Zustand und Befestigungssituation",
-      "Verschattungsanalyse über den Jahresverlauf – Kamine, Gauben, Bäume, Nachbargebäude",
-      "Verbrauchsanalyse anhand Ihrer Stromrechnungen und geplanter Anschaffungen",
-      "Fotodokumentation und schriftliche Ersteinschätzung mit klarer Empfehlung",
+      "Dachprüfung vor Ort: Geometrie, Zustand, Befestigung",
+      "Verschattungsanalyse über den Jahresverlauf",
+      "Verbrauchsanalyse anhand Ihrer Stromrechnungen",
+      "Schriftliche Ersteinschätzung mit klarer Empfehlung",
     ],
     ctaLabel: "Standortanalyse anfragen",
   },
@@ -51,15 +51,13 @@ const services: Service[] = [
     navLabel: "Planung & Auslegung",
     title: "Planung & Auslegung",
     summary:
-      "Wir dimensionieren Module, Wechselrichter und Speicher so, dass die Anlage zu Ihrem Verbrauch passt – heute und in zehn Jahren, wenn Wallbox oder Wärmepumpe dazukommen.",
-    benefit:
-      "Eine Auslegung nach Ihrem Bedarf statt nach Katalog – nachvollziehbar dokumentiert und sauber begründet.",
+      "Wir dimensionieren Module, Wechselrichter und Speicher nach Ihrem Verbrauch – heute und in zehn Jahren, wenn Wallbox oder Wärmepumpe dazukommen.",
+    benefit: "Eine Auslegung nach Ihrem Bedarf statt nach Katalog.",
     deliverables: [
-      "Auslegung von Modulen, Wechselrichter und Verkabelung passend zu Dachbild und Ertrag",
-      "Speicherdimensionierung – nur dort, wo sie technisch und wirtschaftlich Sinn ergibt",
-      "Integration von Wallbox und Wärmepumpe in ein gemeinsames Lastmanagement",
-      "Indikative Ertragsprognose und Eigenverbrauchssimulation",
-      "Verständliche Anlagenpläne als Grundlage für Offerte, Meldung und Bewilligung",
+      "Auslegung von Modulen, Wechselrichter und Verkabelung",
+      "Speicherdimensionierung nur dort, wo sie sich rechnet",
+      "Integration von Wallbox und Wärmepumpe",
+      "Indikative Ertragsprognose und Anlagenpläne zur Offerte",
     ],
     ctaLabel: "Planung besprechen",
   },
@@ -69,17 +67,17 @@ const services: Service[] = [
     navLabel: "Förderberatung",
     title: "Förderberatung",
     summary:
-      "Einmalvergütung, kantonale Programme, Steuerabzug: Die Förderlandschaft ist unübersichtlich. Wir kennen die Abläufe und begleiten Sie durch die Anträge.",
+      "Einmalvergütung, kantonale Programme, Steuerabzug: Die Förderlandschaft ist unübersichtlich. Wir kennen die Abläufe und übernehmen die Anträge.",
     benefit:
-      "Sie verpassen keine Förderung, die Ihnen zusteht – und verlieren keine Zeit mit Formularen.",
+      "Sie verpassen keine Förderung, die Ihnen zusteht – und keine Zeit mit Formularen.",
     deliverables: [
-      "Indikative Berechnung der Einmalvergütung (Pronovo EIV) für Ihre Anlage",
-      "Prüfung kantonaler und kommunaler Förderprogramme an Ihrem Standort",
-      "Vorbereitung und Einreichung der Anträge, Kommunikation mit Pronovo",
-      "Hinweise zu Steuerabzügen – die verbindliche Auskunft gibt Ihre Steuerbehörde",
+      "Indikative Berechnung der Pronovo-Einmalvergütung",
+      "Prüfung kantonaler und kommunaler Programme",
+      "Antragstellung und Kommunikation mit Pronovo",
+      "Hinweise zu Steuerabzügen; verbindlich ist die Steuerbehörde",
     ],
     note:
-      "Fördersätze und Programme ändern sich laufend. Wir prüfen sie zum Zeitpunkt Ihrer Offerte tagesaktuell.",
+      "Fördersätze ändern sich laufend – wir prüfen sie zu Ihrer Offerte tagesaktuell.",
     ctaLabel: "Fördersituation klären",
   },
   {
@@ -88,15 +86,14 @@ const services: Service[] = [
     navLabel: "Installation & Netzanschluss",
     title: "Installation & Netzanschluss",
     summary:
-      "Montage, Elektroanschluss, Netzbetreiber, Abnahme: Wir führen alle Gewerke zusammen und übergeben Ihnen eine geprüfte, vollständig dokumentierte Anlage.",
+      "Montage, Elektroanschluss, Netzbetreiber, Abnahme: Wir führen alle Gewerke zusammen. Sie erhalten eine geprüfte, dokumentierte Anlage.",
     benefit:
-      "Ein Ansprechpartner für die gesamte Umsetzung – Sie koordinieren weder Handwerker noch Netzbetreiber.",
+      "Ein Ansprechpartner für die gesamte Umsetzung – Sie koordinieren niemanden.",
     deliverables: [
-      "Montage durch zertifizierte Solartechnikerinnen und -techniker in klaren Bauphasen",
+      "Montage durch zertifizierte Solartechnikerinnen und -techniker",
       "Elektroanschluss durch konzessionierte Elektriker",
-      "Anmeldung und Koordination mit Ihrem Verteilnetzbetreiber",
-      "Sicherheitsnachweis (SiNa) und Inbetriebnahme mit Protokoll",
-      "Abnahme gemeinsam mit Ihnen, inklusive Einweisung in Bedienung und Monitoring",
+      "Anmeldung und Koordination mit dem Verteilnetzbetreiber",
+      "Sicherheitsnachweis, Inbetriebnahme und gemeinsame Abnahme",
     ],
     ctaLabel: "Installation planen",
   },
@@ -108,12 +105,12 @@ const services: Service[] = [
     summary:
       "Ein Speicher erhöht den Eigenverbrauch spürbar – aber er rechnet sich nicht in jedem Fall. Wir simulieren zuerst und empfehlen erst danach.",
     benefit:
-      "Sie investieren nur in Speicherkapazität, die Ihr Verbrauchsprofil tatsächlich nutzt.",
+      "Sie investieren nur in Kapazität, die Ihr Verbrauchsprofil tatsächlich nutzt.",
     deliverables: [
-      "Lastganganalyse und Eigenverbrauchssimulation vor jeder Speicherempfehlung",
-      "Auslegung der Speichergrösse auf Ihr Verbrauchsprofil",
+      "Lastganganalyse vor jeder Speicherempfehlung",
+      "Speichergrösse passend zu Ihrem Verbrauchsprofil",
       "Lastmanagement für Wallbox, Wärmepumpe und Boiler",
-      "Nachrüstlösungen für bestehende Photovoltaikanlagen",
+      "Nachrüstung bestehender Photovoltaikanlagen",
     ],
     ctaLabel: "Speicher prüfen lassen",
   },
@@ -123,14 +120,14 @@ const services: Service[] = [
     navLabel: "Monitoring & Wartung",
     title: "Monitoring & Wartung",
     summary:
-      "Eine Photovoltaikanlage ist eine Investition über 25 Jahre und mehr. Wir überwachen die Erträge, warten die Technik und wickeln Garantiefälle für Sie ab.",
+      "Eine Photovoltaikanlage läuft 25 Jahre und mehr. Wir überwachen die Erträge, warten die Technik und wickeln Garantiefälle ab.",
     benefit:
-      "Ertragsausfälle werden erkannt, bevor sie ins Gewicht fallen – und im Garantiefall haben Sie einen Ansprechpartner statt einer Hotline.",
+      "Ertragsausfälle werden erkannt, bevor sie ins Gewicht fallen.",
     deliverables: [
-      "Online-Monitoring mit Benachrichtigung bei Ertragsanomalien",
+      "Online-Monitoring mit Meldung bei Ertragsanomalien",
       "Wartung und Reinigung in definierten Serviceintervallen",
-      "Wechselrichter-Service und Abwicklung von Garantiefällen mit den Herstellern",
-      "Klare Reaktionszeiten und ein fester Ansprechpartner in der Region",
+      "Wechselrichter-Service und Abwicklung von Garantiefällen",
+      "Fester Ansprechpartner mit klaren Reaktionszeiten",
     ],
     ctaLabel: "Service anfragen",
   },
@@ -153,10 +150,9 @@ export default function ServicesPage() {
             Jede Phase Ihres Solarprojekts. Ein verantwortliches Team.
           </h1>
           <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-            Sechs Leistungsbereiche, eine Verantwortung: Wir begleiten Ihr
-            Solarprojekt in Grenchen, Solothurn, Bern und der ganzen Schweiz –
-            von der ersten Dachprüfung über Förderanträge und Installation bis
-            zum Monitoring im laufenden Betrieb.
+            Sechs Leistungsbereiche, eine Verantwortung – von der ersten
+            Dachprüfung bis zum Monitoring im Betrieb. Wir arbeiten in Grenchen,
+            Solothurn, Bern und der ganzen Schweiz.
           </p>
         </div>
 
@@ -262,7 +258,7 @@ export default function ServicesPage() {
 
       <CtaBand
         title="Fragen zu einer spezifischen Leistung?"
-        description="Wir beraten Sie ohne Verkaufsdruck und sagen ehrlich, ob ein Schritt in Ihrer Situation Sinn ergibt."
+        description="Wir sagen ehrlich, ob ein Schritt in Ihrer Situation Sinn ergibt."
         primaryHref="/kontakt"
         primaryLabel="Beratung vereinbaren"
         secondaryHref="/solarrechner"

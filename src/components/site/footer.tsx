@@ -17,9 +17,9 @@ type Props = {
 };
 
 /**
- * Werkplan-Footer auf Papier: Hairline oben, vier Spalten (Adresse, Angebot,
- * Unternehmen, Rechtliches), darunter eine Mono-Colophon-Zeile mit den
- * Koordinaten des Firmensitzes.
+ * Werkplan-Footer auf Papier: Hairline oben, drei Spalten (Adresse, Angebot,
+ * Unternehmen), darunter eine Mono-Colophon-Zeile mit den Koordinaten des
+ * Firmensitzes.
  */
 export function SiteFooter({ contact: dynamicContact }: Props = {}) {
   const year = new Date().getFullYear();
@@ -48,8 +48,7 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
           <Logo />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-muted-foreground">
             {siteConfig.legalName} plant, installiert und betreut
-            Photovoltaikanlagen in der Schweiz — präzise ausgelegt, transparent
-            offeriert, langfristig betreut.
+            Photovoltaikanlagen in der Schweiz.
           </p>
 
           <address className="mt-8 space-y-2.5 text-sm not-italic text-foreground/85">
@@ -75,22 +74,16 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
                 {contact.email}
               </a>
             </p>
-            <p className="text-muted-foreground">
-              {siteConfig.openingHours.weekdays}
-              <br />
-              {siteConfig.openingHours.saturday}
-            </p>
           </address>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-7 lg:gap-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:col-span-7 lg:gap-8">
           <FooterColumn
             title="Angebot"
             links={[
               { href: "/services", label: "Leistungen" },
               { href: "/solarrechner", label: "Solarrechner" },
               { href: "/pakete", label: "Pakete & Preise" },
-              { href: "/finanzierung", label: "Finanzierung" },
               { href: "/angebote", label: "Angebot anfragen" },
             ]}
           />
@@ -100,16 +93,10 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
               { href: "/projekte", label: "Projekte" },
               { href: "/ueber-uns", label: "Über uns" },
               { href: "/kontakt", label: "Kontakt" },
-            ]}
-          />
-          <FooterColumn
-            title="Rechtliches"
-            links={[
               ...siteConfig.legalNav.map((item) => ({
                 href: item.href,
                 label: item.label,
               })),
-              { href: "/sitemap.xml", label: "Sitemap" },
             ]}
           />
         </div>

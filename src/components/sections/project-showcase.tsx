@@ -22,7 +22,6 @@ const kuratierteDossiers: readonly Dossier[] = [
     rows: [
       ["Leistung", "8–12 kWp"],
       ["Speicher", "5–16 kWh"],
-      ["Montage", "2–3 Tage"],
     ],
   },
   {
@@ -31,7 +30,6 @@ const kuratierteDossiers: readonly Dossier[] = [
     rows: [
       ["Leistung", "15–60 kWp"],
       ["Abrechnung", "Mieterstrom"],
-      ["Messkonzept", "ab Tag 1"],
     ],
   },
   {
@@ -40,7 +38,6 @@ const kuratierteDossiers: readonly Dossier[] = [
     rows: [
       ["Leistung", "30–150 kWp"],
       ["Analyse", "Lastgang"],
-      ["Prüfung", "Statik & Brandschutz"],
     ],
   },
 ];
@@ -85,7 +82,7 @@ export async function ProjectShowcase() {
         ? ([[p.metricLabel, p.metricValue]] as const)
         : []),
       ...p.facts.map((f) => [f.label, f.value] as const),
-    ].slice(0, 3),
+    ].slice(0, 2),
   }));
   const dossiers = ausDb.length > 0 ? ausDb : kuratierteDossiers;
   const einleitung =
@@ -93,12 +90,12 @@ export async function ProjectShowcase() {
 
   return (
     <section id="projekte" aria-labelledby="projekte-titel">
-      <SectionHead nr="06" label="Anlagentypen" />
+      <SectionHead nr="03" label="Anlagen" />
       <div className="container-page py-14 sm:py-20">
         <SectionTitle
           id="projekte-titel"
           title="Vom Familiendach bis zur Werkhalle."
-          lead={`${einleitung} unsere Arbeit — jede Anlage wird individuell nach Dach, Verschattung und Verbrauchsprofil ausgelegt.`}
+          lead={`${einleitung} unsere Arbeit — jede Anlage wird individuell ausgelegt.`}
         />
 
         <div className="mt-10 grid gap-8 md:grid-cols-3">
@@ -151,12 +148,9 @@ export async function ProjectShowcase() {
             mit Foto erfasst sind. */}
         {referenzen.length > 0 && (
           <div className="mt-14 border-t border-border pt-10 sm:mt-16">
-            <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
-                Ausgeführte Anlagen
-              </h3>
-              <p className="eyebrow">Mit Freigabe der Eigentümerschaft</p>
-            </div>
+            <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
+              Ausgeführte Anlagen
+            </h3>
 
             <div className="mt-6 grid gap-8 md:grid-cols-3">
               {referenzen.map((p) => (
@@ -189,8 +183,8 @@ export async function ProjectShowcase() {
 
         <p className="mt-8 max-w-2xl text-sm leading-relaxed text-muted-foreground">
           {referenzen.length > 0
-            ? "Die gezeigten Anlagen sind mit ausdrücklicher Freigabe der Eigentümerschaft publiziert. Die Eckwerte der Anlagentypen sind typische Spannweiten und indikativ."
-            : "Wir publizieren keine Kundenprojekte ohne ausdrückliche Freigabe. Referenzobjekte mit realen Eckdaten zeigen wir im persönlichen Gespräch — Eckwerte oben sind typische Spannweiten, indikativ."}
+            ? "Publiziert mit Freigabe der Eigentümerschaft; die Eckwerte sind indikative Spannweiten."
+            : "Kundenprojekte zeigen wir nur mit Freigabe; die Eckwerte oben sind indikative Spannweiten."}
         </p>
 
         <Link href="/projekte" className="btn-ghost mt-4 min-h-12">

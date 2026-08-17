@@ -32,57 +32,31 @@ const workingPrinciples = [
   {
     n: "01",
     title: "Feste Ansprechperson",
-    text: "Ihr Projekt hat bei uns einen Namen. Eine Person verantwortet Begehung, Offerte, Bauleitung und Übergabe – und bleibt danach erreichbar.",
+    text: "Eine Person verantwortet Begehung, Offerte, Bauleitung und Übergabe.",
   },
   {
     n: "02",
     title: "Keine Pauschalangebote",
-    text: "Wir verkaufen keine Anlage ab Katalog. Jede Auslegung folgt Dachbild, Verschattung und Verbrauchsprofil – dokumentiert und nachvollziehbar.",
+    text: "Jede Auslegung folgt Dachbild, Verschattung und Verbrauchsprofil.",
   },
   {
     n: "03",
     title: "Transparente Offerten",
-    text: "Alle Positionen offen ausgewiesen: Material, Montage, Anschluss, Nebenkosten. Sie vergleichen auf sauberer Grundlage – ohne Kleingedrucktes.",
-  },
-];
-
-const values = [
-  {
-    n: "01",
-    title: "Klarheit vor Verkauf",
-    text: "Wir empfehlen nur, was technisch und wirtschaftlich Sinn ergibt – auch wenn das eine kleinere Anlage bedeutet. Oder gar keine.",
-  },
-  {
-    n: "02",
-    title: "Qualität ist Standard",
-    text: "Bewährte Komponenten mit langer Garantie, dokumentierte Abläufe, saubere Übergabe. Qualität ist bei uns kein Aufpreis, sondern die Grundlage jeder Offerte.",
-  },
-  {
-    n: "03",
-    title: "Nachhaltig im Detail",
-    text: "Nachhaltigkeit endet nicht beim verkauften Modul. Materialwahl, Transportwege und die Entsorgung auf der Baustelle gestalten wir bewusst.",
+    text: "Material, Montage, Anschluss und Nebenkosten sind einzeln ausgewiesen.",
   },
   {
     n: "04",
-    title: "Persönlich verantwortlich",
-    text: "Sie kennen die Person, die Ihr Projekt verantwortet – von der ersten Begehung bis lange nach der Inbetriebnahme. Bei Fragen erreichen Sie keine Hotline, sondern uns.",
+    title: "Geprüfte Schweizer Partner",
+    text: "Montage durch geprüfte Schweizer Partnerbetriebe, von uns koordiniert und verantwortet.",
   },
 ];
 
 const qualityPromises = [
-  "Dokumentierte Begehung statt Ferndiagnose – jede Offerte basiert auf einer geprüften Grundlage.",
-  "Offerten mit klar getrennten Positionen – Sie sehen, was Material, Montage und Anschluss kosten.",
-  "Montage ausschliesslich durch geprüfte Schweizer Partnerbetriebe – koordiniert und verantwortet von uns.",
-  "Inbetriebnahme mit Sicherheitsnachweis (SiNa), Protokoll und vollständiger Anlagendokumentation.",
-  "Online-Monitoring und definierte Servicefenster nach der Übergabe.",
-  "Verbindliche Reaktionszeiten bei Störungen – Sie erreichen eine Person, keine Warteschleife.",
-];
-
-const partnerCriteria = [
-  "Konzessionierte Elektroinstallation für jeden Netzanschluss",
-  "Nachgewiesene Qualifikation und Versicherungsdeckung",
-  "Eingespielte Teams, die wiederkehrend mit uns bauen",
-  "Abnahme jedes Gewerks durch DoubleA, bevor Sie übernehmen",
+  "Dokumentierte Begehung statt Ferndiagnose",
+  "Inbetriebnahme mit Sicherheitsnachweis (SiNa)",
+  "Vollständige Anlagendokumentation bei der Übergabe",
+  "Online-Monitoring nach der Übergabe",
+  "Verbindliche Reaktionszeiten bei Störungen",
 ];
 
 /* ————————————————————————————————————————————————
@@ -115,17 +89,14 @@ export default async function UeberUnsPage() {
             </h1>
             <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
               {siteConfig.legalName} wurde {siteConfig.founded} in Grenchen
-              gegründet und ist von hier aus in der ganzen Schweiz tätig. Was
-              uns prägt, ist die Kombination aus Solartechnik, IT-Verständnis
-              und Projektkoordination – wir planen Anlagen wie Ingenieure,
-              führen Projekte wie Bauleiter und denken Monitoring von Anfang
-              an mit.
+              gegründet und ist von hier aus in der ganzen Schweiz tätig. Uns
+              prägt die Kombination aus Solartechnik, IT-Verständnis und
+              Projektkoordination.
             </p>
             <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-              Wir sind ein junges Unternehmen und sagen das offen. Was Sie
-              dafür bekommen: kurze Wege, volle Aufmerksamkeit für jedes
-              Projekt – und eine Arbeitsweise, die auf Dokumentation statt auf
-              Versprechen baut.
+              Wir sind ein junges Unternehmen und sagen das offen. Sie bekommen
+              dafür kurze Wege und eine Arbeitsweise, die auf Dokumentation
+              statt auf Versprechen baut.
             </p>
 
             {/* Faktenzeilen — ehrliche Kennzahlen als Hairline-Index */}
@@ -214,47 +185,14 @@ export default async function UeberUnsPage() {
         </Link>
       </section>
 
-      {/* 02 · Werte — 2-spaltige Index-Liste */}
-      <SectionHead nr="02" label="Werte" />
-      <section
-        aria-labelledby="werte-h"
-        className="container-page py-14 sm:py-20"
-      >
-        <SectionTitle
-          id="werte-h"
-          title="Vier Grundsätze, an denen Sie uns messen können."
-        />
-        <div className="mt-10 grid sm:grid-cols-2 sm:gap-x-14">
-          {values.map((v) => (
-            <article
-              key={v.n}
-              className="border-t border-border py-6 sm:py-7 [&:nth-last-child(-n+1)]:border-b sm:[&:nth-last-child(-n+2)]:border-b"
-            >
-              <div className="flex items-baseline gap-4">
-                <span className="stat-mono text-sm text-[color:var(--solar-stone)]">
-                  {v.n}
-                </span>
-                <h3 className="text-lg font-semibold text-foreground">
-                  {v.title}
-                </h3>
-              </div>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
-                {v.text}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* 03 · Qualitätsversprechen — Graphit, flach */}
+      {/* 02 · Qualitätsversprechen — Graphit, flach */}
       <section aria-labelledby="qualitaet-h" className="surface-navy">
-        <SectionHead nr="03" label="Qualitätsversprechen" />
+        <SectionHead nr="02" label="Qualitätsversprechen" />
         <div className="container-page py-14 sm:py-20">
           <SectionTitle
             id="qualitaet-h"
             onDark
-            title="Sechs Zusagen. Schriftlich, nicht sinngemäss."
-            lead="Kein Qualitätslabel, das wir uns selbst verleihen – sondern konkrete Zusagen, die Sie in Offerte und Vertrag wiederfinden."
+            title="Fünf Zusagen. Schriftlich, nicht sinngemäss."
           />
           <ul className="mt-10 grid gap-x-14 gap-y-5 sm:grid-cols-2">
             {qualityPromises.map((q) => (
@@ -272,53 +210,9 @@ export default async function UeberUnsPage() {
         </div>
       </section>
 
-      {/* 04 · Partner & Montageteams — sachlich, bewusst ohne Logowand */}
-      <section aria-labelledby="partner-h" className="surface-sand">
-        <SectionHead nr="04" label="Partner" />
-        <div className="container-page py-14 sm:py-20">
-          <div className="grid items-start gap-10 lg:grid-cols-[0.54fr_0.46fr] lg:gap-16">
-            <div>
-              <SectionTitle
-                id="partner-h"
-                title="Geprüfte Schweizer Partner. Eine Verantwortung."
-              />
-              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-                Für Elektroinstallation, Gerüstbau und Dacharbeiten arbeiten
-                wir mit festen Schweizer Partnerbetrieben, die wir kennen und
-                deren Arbeit wir abnehmen. Die Koordination, die Bauleitung
-                und die Verantwortung Ihnen gegenüber bleiben bei DoubleA –
-                es gibt keine anonymen Subunternehmerketten.
-              </p>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                Wir verzichten bewusst auf eine Logowand. Welche
-                Partnerbetriebe an Ihrem Projekt beteiligt sind, weisen wir
-                in jeder Offerte transparent aus.
-              </p>
-            </div>
-            <div className="surface-glass p-6 sm:p-8">
-              <p className="eyebrow">Woran wir Partner messen</p>
-              <ul className="mt-5 grid gap-3.5">
-                {partnerCriteria.map((c) => (
-                  <li
-                    key={c}
-                    className="flex items-start gap-3 text-sm leading-relaxed text-foreground sm:text-[15px]"
-                  >
-                    <span
-                      aria-hidden
-                      className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
-                    />
-                    <span>{c}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 05 · Team — als letzte nummerierte Sektion; rendert nichts, solange
+      {/* 03 · Team — als letzte nummerierte Sektion; rendert nichts, solange
           kein Team erfasst ist, und reisst so keine Nummernlücke */}
-      <TeamSection variant="full" nr="05" label="Team" />
+      <TeamSection variant="full" nr="03" label="Team" />
 
       <CtaBand
         title="Lernen wir uns kennen."

@@ -4,39 +4,35 @@ const steps = [
   {
     nr: "1",
     title: "Analyse",
-    description:
-      "Bedarfsklärung, Dach- und Verbrauchsprüfung. Wir hören zu, bevor wir planen.",
+    description: "Bedarfsklärung, Dach- und Verbrauchsprüfung vor Ort.",
   },
   {
     nr: "2",
     title: "Offerte & Förderung",
-    description:
-      "Auslegung mit transparenter Investitionsspanne; Förderbeiträge indikativ berechnet, Antrag durch uns.",
+    description: "Auslegung mit Investitionsspanne; Förderantrag durch uns.",
   },
   {
     nr: "3",
     title: "Installation",
     description:
-      "Montage durch geprüfte Schweizer Partnerbetriebe, von uns koordiniert und verantwortet; saubere Baustelle, dokumentierte Schritte.",
+      "Montage durch geprüfte Schweizer Partnerbetriebe, von uns koordiniert.",
   },
   {
     nr: "4",
     title: "Anschluss & Abnahme",
-    description:
-      "Netzanschluss, Sicherheitsnachweis, behördliche Abnahme inklusive aller Protokolle.",
+    description: "Netzanschluss, Sicherheitsnachweis und behördliche Abnahme.",
   },
   {
     nr: "5",
     title: "Betrieb",
-    description:
-      "Monitoring, Wartungsfenster, Reaktion bei Auffälligkeiten.",
+    description: "Monitoring, Wartungsfenster, Reaktion bei Auffälligkeiten.",
   },
 ];
 
 export function ProcessSection() {
   return (
     <section id="prozess" aria-labelledby="prozess-titel" className="surface-navy">
-      <SectionHead nr="05" label="Prozess" />
+      <SectionHead nr="04" label="Ablauf" />
       <div className="container-page py-14 sm:py-20">
         <SectionTitle
           id="prozess-titel"
@@ -64,8 +60,7 @@ export function ProcessSection() {
         </ol>
 
         <p className="stat-mono mt-10 border-t border-[color:#3a3d3b] pt-4 text-xs text-[color:#a9aba3]">
-          Von der Analyse bis zur Inbetriebnahme rechnen wir typischerweise mit
-          8 bis 16 Wochen — abhängig von Gemeinde, Netzbetreiber und Material.
+          Analyse bis Inbetriebnahme: typischerweise 8 bis 16 Wochen.
         </p>
       </div>
     </section>

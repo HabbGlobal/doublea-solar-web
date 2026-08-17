@@ -37,15 +37,11 @@ const plankopfRows = [
   },
   {
     label: "Offerte",
-    value: "Jede Position einzeln ausgewiesen, Antwort innert eines Werktags",
-  },
-  {
-    label: "Administration",
-    value: "Pronovo-Antrag, Meldewesen und Sicherheitsnachweis inklusive",
+    value: "Jede Position einzeln ausgewiesen",
   },
   {
     label: "Standort",
-    value: "Oelirain 1A, 2540 Grenchen; Projekte in der ganzen Schweiz",
+    value: "Grenchen SO — Projekte in der ganzen Schweiz",
   },
 ];
 
@@ -216,8 +212,7 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
           </video>
           <div className="mt-2 flex flex-col gap-1 border-t border-border px-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <p className="eyebrow py-2 leading-relaxed">
-              Abb. 01 — Energiesystem eines Einfamilienhauses: PV, Speicher,
-              Wallbox, Wärmepumpe
+              Abb. 01 — Energiesystem eines Einfamilienhauses
             </p>
             <button
               type="button"

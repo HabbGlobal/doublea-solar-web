@@ -4,7 +4,7 @@ export function FinalCtaSection() {
   return (
     <CtaBand
       title="Sprechen wir über Ihr Dach."
-      description="Senden Sie uns Ihre Eckdaten oder rufen Sie an — wir antworten persönlich, nicht mit Textbausteinen."
+      description="Senden Sie uns Ihre Eckdaten oder rufen Sie an."
       primaryHref="/angebote"
       primaryLabel="Angebot einholen"
       secondaryHref="/solarrechner"

@@ -86,12 +86,6 @@ export default function KontaktPage() {
                 </dd>
               </div>
             </dl>
-
-            {/* Sachzeile Standort — bewusst ohne Karten-iframe */}
-            <p className="eyebrow mt-4">
-              47.19° N / 7.40° O · {contact.address.street},{" "}
-              {contact.address.postalCode} {contact.address.city}
-            </p>
           </div>
 
           {/* Anfrageformular */}
@@ -100,10 +94,6 @@ export default function KontaktPage() {
             <h2 className="mt-3 text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
               Wie können wir helfen?
             </h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-              Wählen Sie Ihr Anliegen und beschreiben Sie kurz Ihr Projekt –
-              wir melden uns persönlich.
-            </p>
             <div className="mt-8">
               <ContactForm />
             </div>

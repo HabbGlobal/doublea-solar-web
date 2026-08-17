@@ -22,7 +22,7 @@ export function FaqSection({ items, email }: Props = {}) {
 
   return (
     <section id="faq" aria-labelledby="faq-titel">
-      <SectionHead nr="09" label="Fragen" />
+      <SectionHead nr="06" label="Fragen" />
       <div className="container-page py-14 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr]">
           <div>

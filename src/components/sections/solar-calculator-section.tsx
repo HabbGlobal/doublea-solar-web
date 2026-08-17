@@ -2,7 +2,6 @@ import Link from "next/link";
 import { SectionHead, SectionTitle } from "@/components/site/section-head";
 
 const facts: { label: string; value: string }[] = [
-  { label: "Datenbasis", value: "Bundesmodell sonnendach.ch" },
   {
     label: "Ergebnis",
     value: "Anlagengrösse, Investitions- und Ertragsspanne",
@@ -19,14 +18,14 @@ const sampleRows: { label: string; value: string }[] = [
 export function SolarCalculatorSection() {
   return (
     <section id="rechner" aria-labelledby="rechner-titel">
-      <SectionHead nr="04" label="Solarrechner" />
+      <SectionHead nr="05" label="Solarrechner" />
       <div className="container-page py-14 sm:py-20">
         <div className="grid gap-10 lg:grid-cols-2">
           <div>
             <SectionTitle
               id="rechner-titel"
               title="Ihr Dach, berechnet auf Bundesdaten."
-              lead="Der Solarrechner wertet die sonnendach.ch-Daten Ihres Gebäudes aus und liefert eine erste Auslegung mit Investitions- und Ertragsspanne — als Bandbreite, nicht als Versprechen."
+              lead="Der Rechner wertet die sonnendach.ch-Daten Ihres Gebäudes aus und liefert eine erste Auslegung."
             />
 
             <div className="mt-8">
