@@ -29,22 +29,6 @@ type Props = {
   founders?: HeroFounder[];
 };
 
-/** Plankopf-Zeilen: sachliche Eckdaten, keine erfundenen Zahlen. */
-const plankopfRows = [
-  {
-    label: "Planungsbasis",
-    value: "Bundesdaten sonnendach.ch, je Gebäude ausgewertet",
-  },
-  {
-    label: "Offerte",
-    value: "Jede Position einzeln ausgewiesen",
-  },
-  {
-    label: "Standort",
-    value: "Grenchen SO — Projekte in der ganzen Schweiz",
-  },
-];
-
 export function HeroSection({ content, contact, founders = [] }: Props) {
   // Nur Köpfe mit Bild zeigen — ohne Foto bleibt die Reihe leer statt leerer Kreise.
   const koepfe = founders.filter((f) => f.imageUrl).slice(0, 2);
@@ -104,14 +88,19 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
               {content.headlineLeading.endsWith(" ") ? "" : " "}
               {content.headlineHighlight}
               {content.headlineTrailing}
-              <span className="mt-2 block text-muted-foreground">
-                {content.subclaim}
-              </span>
+              {content.subclaim?.trim() && (
+                <span className="mt-2 block text-muted-foreground">
+                  {content.subclaim}
+                </span>
+              )}
             </h1>
 
-            <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-              {content.subheadline}
-            </p>
+            {/* Leere Felder aus der Verwaltung erzeugen keinen leeren Absatz. */}
+            {content.subheadline?.trim() && (
+              <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+                {content.subheadline}
+              </p>
+            )}
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/angebote" className="btn-primary w-full sm:w-auto">
@@ -137,40 +126,13 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
             </p>
           </div>
 
-          {/* Plankopf: Eckdaten als Definitionstabelle im Werkplan-Panel */}
-          <div className="lg:col-span-5">
-            <div
-              role="group"
-              aria-label="Plankopf: Eckdaten DoubleA Solutions"
-              className="surface-glass p-5 sm:p-6"
-            >
-              <div className="flex items-center justify-between gap-4 border-b border-border pb-3">
-                <span className="eyebrow">Plankopf</span>
-                <span className="eyebrow">DoubleA Solutions GmbH</span>
-              </div>
-              <dl>
-                {plankopfRows.map((row) => (
-                  <div
-                    key={row.label}
-                    className="grid grid-cols-[110px_1fr] gap-4 border-b border-border py-3"
-                  >
-                    <dt className="eyebrow pt-0.5">{row.label}</dt>
-                    <dd className="text-sm leading-relaxed text-foreground">
-                      {row.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="eyebrow pt-3">
-                Blatt 01 · 2540 Grenchen · 47.19° N / 7.40° O
-              </p>
-            </div>
-
+          {/* Rechte Spalte: die Menschen hinter den Anlagen */}
+          <div className="lg:col-span-5 lg:pt-2">
             {/* Gründer-Porträts: runde Rahmen als bewusste Ausnahme zur
                 kantigen Geometrie — erscheinen automatisch, sobald im Admin
                 Team-Mitglieder mit Bild veröffentlicht sind. */}
             {koepfe.length > 0 && (
-              <div className="mt-7 grid grid-cols-2 gap-x-5 gap-y-6 sm:mt-8 sm:gap-x-8">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-6 sm:gap-x-8">
                 {koepfe.map((f) => (
                   <figure key={f.id} className="min-w-0">
                     <span className="relative block size-20 overflow-hidden rounded-full border border-border bg-card ring-1 ring-[color:var(--solar-line)] ring-offset-4 ring-offset-background sm:size-24 lg:size-[104px]">
