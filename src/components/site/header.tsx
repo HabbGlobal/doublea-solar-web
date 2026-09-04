@@ -33,7 +33,7 @@ export function SiteHeader({ phone }: Props) {
           </Link>
 
           <nav
-            className="hidden items-center gap-1 lg:flex"
+            className="hidden items-center gap-0.5 lg:flex"
             aria-label="Hauptnavigation"
           >
             {siteConfig.primaryNav.map((item) => {
@@ -45,7 +45,7 @@ export function SiteHeader({ phone }: Props) {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "ring-focus flex min-h-10 items-center whitespace-nowrap rounded-xl px-3 text-[14px] font-medium transition-[color,box-shadow] duration-150",
+                    "ring-focus flex min-h-10 items-center whitespace-nowrap rounded-xl px-2.5 text-[14px] xl:px-3 font-medium transition-[color,box-shadow] duration-150",
                     active
                       ? "text-foreground shadow-[var(--neu-inset)]"
                       : "text-muted-foreground hover:text-foreground",
@@ -60,7 +60,7 @@ export function SiteHeader({ phone }: Props) {
           <div className="flex items-center gap-3">
             <Link
               href="/angebote"
-              className="btn-primary hidden min-h-11 px-5 text-[14px] lg:inline-flex"
+              className="btn-primary hidden min-h-11 whitespace-nowrap px-5 text-[14px] lg:inline-flex"
             >
               Angebot einholen
             </Link>
