@@ -51,8 +51,8 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
         className="absolute inset-0 -z-10"
         style={{
           background: [
-            "linear-gradient(90deg, rgba(238,236,230,0.94) 0%, rgba(238,236,230,0.80) 42%, rgba(238,236,230,0.48) 100%)",
-            "linear-gradient(180deg, rgba(238,236,230,0.30) 0%, rgba(238,236,230,0.55) 55%, #eeece6 100%)",
+            "linear-gradient(90deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.80) 42%, rgba(255,255,255,0.48) 100%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0.55) 55%, #ffffff 100%)",
           ].join(","),
         }}
       />

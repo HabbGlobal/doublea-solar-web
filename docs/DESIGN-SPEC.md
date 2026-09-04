@@ -1,6 +1,6 @@
 # DoubleA Solar Solutions — Designsystem «Soft Solar» (verbindlich, Stand 08/2026)
 
-Neumorphism, hell, schlicht. Eine warme Grundfläche, Tiefe nur durch weiche
+Neumorphism, hell, schlicht. Weisser Grund, leicht getönte Karten, Tiefe durch weiche
 Doppelschatten, Schwarz und Gold aus dem Logo 2026. Wenig Text, schnell verstanden.
 Löst das Werkplan-System «Architectural Precision» vollständig ab.
 
@@ -8,13 +8,15 @@ Löst das Werkplan-System «Architectural Precision» vollständig ab.
 
 | Token | Wert | Verwendung |
 |---|---|---|
-| `--background` (auch `--card`) | #EEECE6 | die eine Grundfläche — Seite UND Karten |
+| `--background` | #FFFFFF | Seitengrund (Weiss, Kundenwunsch: nicht eintönig) |
+| `--neu-surface` / `--card` | #F5F4F0 | erhabene Karten — hauchzart warm, damit sie auf Weiss Tiefe haben |
+| `--neu-surface-in` | #FBFAF8 | eingelassene Flächen (Felder, Anzeigen) |
 | `--foreground` / `--solar-ink` | #121212 | Text (Logo-Schwarz) |
 | `--muted-foreground` | #5C5B55 | Zweittext, Labels (AA 6.1:1) |
 | `--secondary` | #E6E4DD | leichte Flächen, Trennlinien-Ton |
 | `--primary` / `--solar-gold` | #C9A227 → Verlauf #DDB955→#B8912A | Hauptaktion, Punkte, Badges, aktive Zustände |
 | `--accent` | #F1E7C8 | Badge-Grund, Selektion |
-| `--neu-light` / `--neu-dark` | #FFFFFF / #CFCABF | die beiden Schatten |
+| `--neu-light` / `--neu-dark` | #FFFFFF / #D6D2C8 | die beiden Schatten |
 
 Gold nie für kleinen Fliesstext. Keine dunklen Sektionen, kein Dunkelmodus,
 keine Verläufe als Flächen (nur im Gold-Button).

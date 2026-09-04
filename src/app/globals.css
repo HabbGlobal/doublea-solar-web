@@ -60,22 +60,24 @@
 :root {
   /*
    * Designsystem «Soft Solar» — Neumorphism, hell, Schwarz/Gold aus dem Logo
-   * (verbindlich seit 08/2026). Eine einzige warme Grundfläche; Tiefe entsteht
+   * (verbindlich seit 08/2026). Weisser Seitengrund, Karten hauchzart warm getönt; Tiefe entsteht
    * ausschliesslich durch weiche Doppelschatten (hell oben-links, dunkel
    * unten-rechts) — keine Linien, keine harten Kanten, kein Dunkelmodus.
    * Die historischen --solar-*-Tokennamen bleiben und sind neu belegt.
    */
-  --background: #eeece6;             /* Grundfläche (warmes Hellbeige) */
+  --background: #ffffff;             /* Seitengrund: Weiss */
+  --neu-surface: #f5f4f0;            /* erhabene Karten: hauchzart warm, damit sie auf Weiss lesbar bleiben */
+  --neu-surface-in: #fbfaf8;         /* eingelassene Flächen */
   --foreground: #121212;             /* Logo-Schwarz */
-  --card: #eeece6;                   /* erhabene Flächen haben die Grundfarbe */
+  --card: #f5f4f0;                   /* Karten leicht getönt */
   --card-foreground: #121212;
-  --popover: #f4f2ed;
+  --popover: #ffffff;
   --popover-foreground: #121212;
   --primary: #c9a227;                /* Logo-Gold — Aktionen */
   --primary-foreground: #121212;
-  --secondary: #e6e4dd;
+  --secondary: #f1f0eb;
   --secondary-foreground: #121212;
-  --muted: #e6e4dd;
+  --muted: #f1f0eb;
   --muted-foreground: #5c5b55;       /* AA 6.1:1 auf der Grundfläche */
   --accent: #f1e7c8;                 /* Gold, sanft — Badges, Selektion */
   --accent-foreground: #121212;
@@ -86,7 +88,7 @@
 
   /* Neumorphismus-Schatten */
   --neu-light: #ffffff;
-  --neu-dark: #cfcabf;
+  --neu-dark: #d6d2c8;
   --neu-raise: 9px 9px 20px var(--neu-dark), -9px -9px 20px var(--neu-light);
   --neu-raise-sm: 5px 5px 12px var(--neu-dark), -5px -5px 12px var(--neu-light);
   --neu-inset: inset 6px 6px 12px var(--neu-dark), inset -6px -6px 12px var(--neu-light);
@@ -99,16 +101,16 @@
   --solar-gold: #c9a227;
   --solar-gold-dark: #b8912a;
   --solar-orange: #b8912a;
-  --solar-cream: #e6e4dd;
+  --solar-cream: #f1f0eb;
 
   --solar-slate: #5c5b55;
   --solar-stone: #5c5b55;
-  --solar-graphite: #eeece6;         /* keine dunklen Sektionen mehr */
-  --solar-sand: #e6e4dd;
+  --solar-graphite: #f5f4f0;         /* keine dunklen Sektionen mehr */
+  --solar-sand: #f1f0eb;
   --solar-line: rgba(18, 18, 18, 0.07);
   --solar-ink: #121212;
-  --solar-paper: #eeece6;
-  --solar-paper-2: #e6e4dd;
+  --solar-paper: #ffffff;
+  --solar-paper-2: #f1f0eb;
 
   --chart-1: #121212;
   --chart-2: #c9a227;
@@ -119,11 +121,11 @@
   --radius: 1.25rem;
   --font-heading: var(--font-sans);
 
-  --sidebar: #eeece6;
+  --sidebar: #ffffff;
   --sidebar-foreground: #121212;
   --sidebar-primary: #c9a227;
   --sidebar-primary-foreground: #121212;
-  --sidebar-accent: #e6e4dd;
+  --sidebar-accent: #f1f0eb;
   --sidebar-accent-foreground: #121212;
   --sidebar-border: rgba(18, 18, 18, 0.07);
   --sidebar-ring: rgba(201, 162, 39, 0.75);
@@ -132,7 +134,7 @@
 /* Kein Dunkelmodus im Soft-Solar-System — die Werte bleiben hell, damit
    ein systemweites Dark-Theme die Seite nicht verfälscht. */
 .dark {
-  --background: #eeece6;
+  --background: #ffffff;
   --foreground: #121212;
 }
 
@@ -174,17 +176,17 @@
 
   /* ——— Neumorphismus-Primitive ——— */
   .neu {
-    background: var(--background);
+    background: var(--neu-surface);
     border-radius: 1.375rem;
     box-shadow: var(--neu-raise);
   }
   .neu-sm {
-    background: var(--background);
+    background: var(--neu-surface);
     border-radius: 1rem;
     box-shadow: var(--neu-raise-sm);
   }
   .neu-in {
-    background: var(--background);
+    background: var(--neu-surface-in);
     border-radius: 1.25rem;
     box-shadow: var(--neu-inset);
   }
@@ -201,12 +203,12 @@
 
   /* Historische Flächen-Hooks → alle auf erhabene bzw. neutrale Flächen gemappt */
   .surface-glass {
-    background: var(--background);
+    background: var(--neu-surface);
     border-radius: 1.375rem;
     box-shadow: var(--neu-raise);
   }
   .surface-navy {
-    background: var(--background);
+    background: var(--neu-surface);
     color: var(--foreground);
     border-radius: 1.375rem;
     box-shadow: var(--neu-raise);
@@ -253,7 +255,7 @@
     box-shadow: var(--neu-inset);
   }
   .btn-secondary {
-    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-background px-6 text-[15px] font-semibold text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px active:translate-y-0;
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[color:var(--neu-surface)] px-6 text-[15px] font-semibold text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px active:translate-y-0;
     box-shadow: var(--neu-raise-sm);
   }
   .btn-secondary:active {
@@ -269,7 +271,7 @@
     box-shadow: var(--neu-raise-sm);
   }
   .btn-secondary-inverse {
-    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-background px-6 text-[15px] font-semibold text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px;
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-[color:var(--neu-surface)] px-6 text-[15px] font-semibold text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px;
     box-shadow: var(--neu-raise-sm);
   }
 
