@@ -1,4 +1,4 @@
-import { SectionHead, SectionTitle } from "@/components/site/section-head";
+import { SectionTitle } from "@/components/site/section-head";
 
 const steps = [
   {
@@ -29,37 +29,50 @@ const steps = [
   },
 ];
 
+/**
+ * Ablauf: fünf Schritte auf der hellen Grundfläche. Die Zahl sitzt in
+ * einem weich erhabenen Kreis; ab Desktop fünf Spalten, darunter zwei,
+ * mobil eine (Zahl links, Text rechts).
+ */
 export function ProcessSection() {
   return (
-    <section id="prozess" aria-labelledby="prozess-titel" className="surface-navy">
-      <SectionHead nr="04" label="Ablauf" />
-      <div className="container-page py-14 sm:py-20">
+    <section
+      id="prozess"
+      aria-labelledby="prozess-titel"
+      className="py-14 sm:py-20"
+    >
+      <div className="container-page">
         <SectionTitle
           id="prozess-titel"
           title="Fünf Schritte, ein Verantwortlicher."
-          onDark
         />
 
-        {/* Massstab-Leiste: mobile eine linke Vertikallinie, ab sm eine
-            horizontale Linie mit fünf Tick-Marken (border-l je Spalte). */}
-        <ol className="mt-10 border-l border-[color:#3a3d3b] sm:mt-14 sm:grid sm:grid-cols-5 sm:gap-x-8 sm:border-l-0 sm:border-t sm:border-[color:#3a3d3b]">
+        <ol className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-5 lg:gap-6">
           {steps.map((s) => (
             <li
               key={s.nr}
-              className="pb-10 pl-6 last:pb-0 sm:border-l sm:border-[color:#3a3d3b] sm:pb-0 sm:pl-4 sm:pt-4"
+              className="flex items-start gap-4 lg:flex-col lg:items-center lg:text-center"
             >
-              <span className="eyebrow">{s.nr}</span>
-              <h3 className="mt-3 text-[15px] font-medium text-[color:#f2f2ee]">
-                {s.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-[color:#a9aba3]">
-                {s.description}
-              </p>
+              <span
+                aria-hidden="true"
+                className="neu-sm flex size-16 shrink-0 items-center justify-center rounded-full text-xl font-bold text-[color:var(--solar-gold-dark)]"
+              >
+                {s.nr}
+              </span>
+              <div className="pt-2 lg:pt-1">
+                <h3 className="text-[17px] font-semibold leading-snug text-foreground">
+                  <span className="sr-only">Schritt {s.nr}: </span>
+                  {s.title}
+                </h3>
+                <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">
+                  {s.description}
+                </p>
+              </div>
             </li>
           ))}
         </ol>
 
-        <p className="stat-mono mt-10 border-t border-[color:#3a3d3b] pt-4 text-xs text-[color:#a9aba3]">
+        <p className="mt-10 text-sm text-muted-foreground">
           Analyse bis Inbetriebnahme: typischerweise 8 bis 16 Wochen.
         </p>
       </div>

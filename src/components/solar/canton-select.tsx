@@ -30,7 +30,7 @@ export function CantonSelect({
       <SelectTrigger
         id={id}
         aria-invalid={invalid}
-        className="h-12 w-full px-3 text-sm"
+        className="neu-in h-12 w-full rounded-2xl border-0 bg-background px-4 text-sm focus-visible:border-0"
       >
         <SelectValue placeholder="Kanton wählen" />
       </SelectTrigger>

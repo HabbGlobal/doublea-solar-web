@@ -1,15 +1,11 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { siteConfig } from "@/lib/site-config";
 import type { SiteContent } from "@/lib/content/schema";
-import { SectionHead } from "@/components/site/section-head";
 
-/** Ein Kopf für die Porträt-Reihe unter dem Plankopf. */
+/** Ein Kopf für die Porträt-Reihe rechts im Hero. */
 export type HeroFounder = {
   id: string;
   name: string;
@@ -20,69 +16,53 @@ export type HeroFounder = {
 type Props = {
   content: SiteContent["hero"];
   contact?: { phone: string; phoneHref: string };
-  /**
-   * Die ersten beiden publizierten Team-Mitglieder (Gründer). Werden im
-   * Hero als runde Porträts unter dem Plankopf gezeigt — bewusste Ausnahme
-   * von der kantigen Geometrie: Menschen, keine technischen Flächen.
-   * Leer/ohne Bild ⇒ die Reihe entfällt ersatzlos.
-   */
+  /** Die ersten beiden publizierten Team-Mitglieder; ohne Bild entfällt die Reihe. */
   founders?: HeroFounder[];
 };
 
+/**
+ * Hero: Dachbild als verblasster Hintergrund (läuft nach unten in die
+ * Grundfläche aus), links Titel + ein Satz + Aktionen, rechts die Gründer
+ * in weichen Kreisen. Kein Video, kein Plankopf.
+ */
 export function HeroSection({ content, contact, founders = [] }: Props) {
-  // Nur Köpfe mit Bild zeigen — ohne Foto bleibt die Reihe leer statt leerer Kreise.
   const koepfe = founders.filter((f) => f.imageUrl).slice(0, 2);
   const phoneDisplay = contact?.phone ?? siteConfig.contact.phone;
   const phoneHref = contact?.phoneHref ?? siteConfig.contact.phoneHref;
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [paused, setPaused] = useState(false);
-
-  // Respektiert reduzierte Bewegung: pausiert das Video und zeigt das
-  // Standbild (Poster). Sonst läuft die Energiefluss-Animation stumm im Loop.
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => {
-      if (mq.matches) {
-        v.pause();
-        setPaused(true);
-      } else {
-        setPaused(false);
-        void v.play().catch(() => {});
-      }
-    };
-    apply();
-    mq.addEventListener("change", apply);
-    return () => mq.removeEventListener("change", apply);
-  }, []);
-
-  // Manueller Pausier-Mechanismus für die Loop-Animation (WCAG 2.2.2).
-  const toggleVideo = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    if (paused) {
-      void v.play().catch(() => {});
-      setPaused(false);
-    } else {
-      v.pause();
-      setPaused(true);
-    }
-  };
 
   return (
-    <section aria-labelledby="hero-h">
-      <SectionHead nr="01" label="Übersicht" />
+    <section
+      aria-labelledby="hero-h"
+      className="relative isolate -mt-[88px] overflow-hidden pt-[118px] pb-16 sm:pb-20 lg:pt-[150px] lg:pb-24"
+    >
+      {/* Dachbild — links stärker abgedeckt, damit der Text sitzt */}
+      <div aria-hidden="true" className="absolute inset-0 -z-20">
+        <Image
+          src="/header-dach.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[center_35%]"
+        />
+      </div>
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background: [
+            "linear-gradient(90deg, rgba(238,236,230,0.94) 0%, rgba(238,236,230,0.80) 42%, rgba(238,236,230,0.48) 100%)",
+            "linear-gradient(180deg, rgba(238,236,230,0.30) 0%, rgba(238,236,230,0.55) 55%, #eeece6 100%)",
+          ].join(","),
+        }}
+      />
 
-      <div className="container-page pt-10 pb-12 lg:pt-14 lg:pb-16">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          {/* Textblock: Eyebrow → H1 + Subclaim → Subline → CTAs → Telefon */}
-          <div className="lg:col-span-7">
-            <p className="eyebrow">{content.eyebrow}</p>
-
+      <div className="container-page">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16">
+          <div>
             <h1
               id="hero-h"
-              className="mt-5 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+              className="text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.6rem]"
             >
               {content.headlineLeading}
               {content.headlineLeading.endsWith(" ") ? "" : " "}
@@ -95,9 +75,8 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
               )}
             </h1>
 
-            {/* Leere Felder aus der Verwaltung erzeugen keinen leeren Absatz. */}
             {content.subheadline?.trim() && (
-              <p className="mt-6 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-muted-foreground sm:text-lg">
                 {content.subheadline}
               </p>
             )}
@@ -107,10 +86,7 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
                 {content.primaryCtaLabel}
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
-              <Link
-                href="/solarrechner"
-                className="btn-secondary w-full sm:w-auto"
-              >
+              <Link href="/solarrechner" className="btn-secondary w-full sm:w-auto">
                 {content.secondaryCtaLabel}
               </Link>
             </div>
@@ -119,72 +95,38 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
               Direkter Draht:{" "}
               <a
                 href={phoneHref}
-                className="ring-focus stat-mono text-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)]"
+                className="ring-focus stat-mono rounded-md text-foreground"
               >
                 {phoneDisplay}
               </a>
             </p>
           </div>
 
-          {/* Rechte Spalte: die Menschen hinter den Anlagen */}
-          <div className="lg:col-span-5 lg:pt-2">
-            {/* Gründer-Porträts: runde Rahmen als bewusste Ausnahme zur
-                kantigen Geometrie — erscheinen automatisch, sobald im Admin
-                Team-Mitglieder mit Bild veröffentlicht sind. */}
-            {koepfe.length > 0 && (
-              <div className="grid grid-cols-2 gap-x-5 gap-y-6 sm:gap-x-8">
-                {koepfe.map((f) => (
-                  <figure key={f.id} className="min-w-0">
-                    <span className="relative block size-20 overflow-hidden rounded-full border border-border bg-card ring-1 ring-[color:var(--solar-line)] ring-offset-4 ring-offset-background sm:size-24 lg:size-[104px]">
+          {koepfe.length > 0 && (
+            <div className="flex justify-start gap-8 lg:justify-center">
+              {koepfe.map((f) => (
+                <figure key={f.id} className="m-0 text-center">
+                  <span className="neu relative mx-auto block size-[120px] rounded-full! p-2 sm:size-[150px]">
+                    <span className="relative block size-full overflow-hidden rounded-full shadow-[var(--neu-inset)]">
                       <Image
                         src={f.imageUrl as string}
                         alt={`${f.name}, ${f.role}`}
                         fill
-                        sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 104px"
+                        sizes="150px"
                         className="object-cover"
                       />
                     </span>
-                    <figcaption className="mt-4">
-                      <p className="text-sm font-medium leading-snug text-foreground">
-                        {f.name}
-                      </p>
-                      <p className="eyebrow mt-1.5 leading-snug">{f.role}</p>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Energiefluss-Video im Werkplan-Rahmen */}
-        <div className="mt-12 border border-border bg-card p-2 sm:mt-16">
-          <video
-            ref={videoRef}
-            className="w-full"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/energiesystem-poster.jpg"
-            aria-label="Animiertes Energiesystem eines Schweizer Einfamilienhauses: Photovoltaikanlage, Carport-Solar, Wallbox, Wärmepumpe, Wechselrichter, Batteriespeicher und Energiemanager mit Netzanschluss"
-          >
-            <source src="/energiesystem.mp4" type="video/mp4" />
-          </video>
-          <div className="mt-2 flex flex-col gap-1 border-t border-border px-1 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-            <p className="eyebrow py-2 leading-relaxed">
-              Abb. 01 — Energiesystem eines Einfamilienhauses
-            </p>
-            <button
-              type="button"
-              className="ring-focus eyebrow inline-flex min-h-11 shrink-0 items-center self-start px-2 underline decoration-[color:var(--solar-line)] underline-offset-4 hover:decoration-[color:var(--solar-ink)] sm:min-h-9 sm:self-auto"
-              aria-pressed={!paused}
-              onClick={toggleVideo}
-            >
-              {paused ? "Animation abspielen" : "Animation anhalten"}
-            </button>
-          </div>
+                  </span>
+                  <figcaption className="mt-4">
+                    <p className="text-[15px] font-semibold leading-snug text-foreground">
+                      {f.name}
+                    </p>
+                    <p className="mt-1 text-sm text-muted-foreground">{f.role}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

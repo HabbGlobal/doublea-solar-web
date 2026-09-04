@@ -14,49 +14,26 @@ type Props = {
 };
 
 /**
- * Werkplan-Header, zweizeilig:
- * 1. Meta-Leiste (Mono, zwischen Hairlines): Tätigkeitsraum links, Telefon rechts.
- * 2. Hauptzeile: Logo links, Navigation + rechteckiger CTA rechts.
- * Bewusst ruhig: solide Papierfläche, keine Transparenz-/Blur-Effekte.
+ * Soft-Solar-Header: eine weich erhabene Leiste mit Logo, Navigation und
+ * goldener Aktion. Der Header selbst ist durchscheinend, damit auf der
+ * Startseite das Dachbild dahinter sichtbar bleibt.
  */
 export function SiteHeader({ phone }: Props) {
   const pathname = usePathname();
-  const phoneDisplay = phone ?? siteConfig.contact.phone;
-  const phoneHref = `tel:${phoneDisplay.replace(/[^+\d]/g, "")}`;
 
   // Im Admin-Bereich verstecken wir den Public-Header.
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border bg-background">
-      {/* Meta-Leiste */}
-      <div className="border-b border-border">
-        <div className="container-page flex min-h-9 items-center justify-between gap-4">
-          <p className="eyebrow hidden sm:block">
-            Photovoltaik · Grenchen SO · schweizweit
-          </p>
-          <a
-            href={phoneHref}
-            className="ring-focus stat-mono ml-auto inline-flex min-h-9 items-center text-[13px] text-foreground"
-          >
-            {phoneDisplay}
-          </a>
-        </div>
-      </div>
+    <header className="sticky top-0 z-40 h-[88px] w-full bg-[color:var(--background)]/70 backdrop-blur-md">
+      <div className="container-page flex h-full items-center">
+        <div className="neu-sm flex w-full items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
+          <Link href="/" aria-label="Zur Startseite" className="ring-focus rounded-xl">
+            <Logo className="h-11 sm:h-[52px]" priority />
+          </Link>
 
-      {/* Hauptzeile */}
-      <div className="container-page flex h-16 items-center justify-between gap-3 lg:h-[72px]">
-        <Link
-          href="/"
-          aria-label="Zur Startseite"
-          className="ring-focus shrink-0"
-        >
-          <Logo />
-        </Link>
-
-        <div className="flex items-center gap-6">
           <nav
-            className="hidden items-center gap-0.5 lg:flex"
+            className="hidden items-center gap-1 lg:flex"
             aria-label="Hauptnavigation"
           >
             {siteConfig.primaryNav.map((item) => {
@@ -68,34 +45,27 @@ export function SiteHeader({ phone }: Props) {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "ring-focus relative flex min-h-11 items-center whitespace-nowrap px-2.5 text-[13px] transition-colors duration-150 xl:px-3.5",
+                    "ring-focus flex min-h-10 items-center whitespace-nowrap rounded-xl px-3 text-[14px] font-medium transition-[color,box-shadow] duration-150",
                     active
-                      ? "font-medium text-foreground"
+                      ? "text-foreground shadow-[var(--neu-inset)]"
                       : "text-muted-foreground hover:text-foreground",
                   )}
                 >
                   {item.label}
-                  {active && (
-                    <span
-                      aria-hidden
-                      className="absolute inset-x-2.5 bottom-0 block h-px bg-[color:var(--solar-ink)] xl:inset-x-3.5"
-                    />
-                  )}
                 </Link>
               );
             })}
           </nav>
 
-          <div className="hidden lg:block">
+          <div className="flex items-center gap-3">
             <Link
               href="/angebote"
-              className="btn-secondary min-h-11 px-5 text-[13px]"
+              className="btn-primary hidden min-h-11 px-5 text-[14px] lg:inline-flex"
             >
               Angebot einholen
             </Link>
+            <MobileNav phone={phone ?? siteConfig.contact.phone} />
           </div>
-
-          <MobileNav phone={phoneDisplay} />
         </div>
       </div>
     </header>

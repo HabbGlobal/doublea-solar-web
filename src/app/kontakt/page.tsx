@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/forms/contact-form";
-import { SectionHead } from "@/components/site/section-head";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -13,21 +12,21 @@ export const metadata: Metadata = {
   },
 };
 
+const linkClass =
+  "btn-ghost min-h-11 rounded-md break-words";
+
 export default function KontaktPage() {
   const { contact, openingHours } = siteConfig;
 
   return (
-    <>
-      {/* Intro */}
-      <section
-        aria-labelledby="kontakt-h"
-        className="container-page pt-14 pb-12 lg:pt-24 lg:pb-16"
-      >
+    <section aria-labelledby="kontakt-h" className="py-14 sm:py-20 lg:pt-24">
+      <div className="container-page">
+        {/* Intro */}
         <div className="max-w-2xl">
           <p className="eyebrow">Kontakt</p>
           <h1
             id="kontakt-h"
-            className="mt-4 text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl"
+            className="mt-4 text-balance text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.6rem]"
           >
             Sprechen wir über Ihr Solarprojekt.
           </h1>
@@ -36,18 +35,14 @@ export default function KontaktPage() {
             telefonisch.
           </p>
         </div>
-      </section>
 
-      {/* 01 · Anfrage — Plankopf links, Formular rechts */}
-      <SectionHead nr="01" label="Anfrage" />
-      <section aria-label="Anfrage" className="container-page py-14 sm:py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          {/* Kontakt-Plankopf: Definitionstabelle mit Hairlines */}
-          <div>
-            <dl className="surface-glass">
-              <div className="grid grid-cols-[120px_1fr] gap-4 p-5 sm:p-6">
-                <dt className="eyebrow pt-0.5">Adresse</dt>
-                <dd className="text-sm leading-relaxed text-foreground">
+        <div className="mt-12 grid items-start gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
+          {/* Kontaktzeilen — Label + Wert */}
+          <div className="neu p-6 sm:p-7">
+            <dl className="space-y-6">
+              <div>
+                <dt className="eyebrow">Adresse</dt>
+                <dd className="mt-1.5 text-[15px] leading-relaxed text-foreground">
                   {contact.address.street}
                   <br />
                   {contact.address.postalCode} {contact.address.city}
@@ -55,31 +50,25 @@ export default function KontaktPage() {
                   {contact.address.country}
                 </dd>
               </div>
-              <div className="grid grid-cols-[120px_1fr] gap-4 border-t border-border p-5 sm:p-6">
-                <dt className="eyebrow pt-0.5">Telefon</dt>
-                <dd>
-                  <a
-                    href={contact.phoneHref}
-                    className="ring-focus stat-mono text-sm text-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)]"
-                  >
+              <div>
+                <dt className="eyebrow">Telefon</dt>
+                <dd className="mt-0.5">
+                  <a href={contact.phoneHref} className={linkClass}>
                     {contact.phone}
                   </a>
                 </dd>
               </div>
-              <div className="grid grid-cols-[120px_1fr] gap-4 border-t border-border p-5 sm:p-6">
-                <dt className="eyebrow pt-0.5">E-Mail</dt>
-                <dd className="min-w-0">
-                  <a
-                    href={`mailto:${contact.email}`}
-                    className="ring-focus stat-mono break-words text-sm text-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)]"
-                  >
+              <div>
+                <dt className="eyebrow">E-Mail</dt>
+                <dd className="mt-0.5 min-w-0">
+                  <a href={`mailto:${contact.email}`} className={linkClass}>
                     {contact.email}
                   </a>
                 </dd>
               </div>
-              <div className="grid grid-cols-[120px_1fr] gap-4 border-t border-border p-5 sm:p-6">
-                <dt className="eyebrow pt-0.5">Öffnungszeiten</dt>
-                <dd className="text-sm leading-relaxed text-foreground">
+              <div>
+                <dt className="eyebrow">Öffnungszeiten</dt>
+                <dd className="mt-1.5 text-[15px] leading-relaxed text-foreground">
                   {openingHours.weekdays}
                   <br />
                   {openingHours.saturday}
@@ -89,9 +78,9 @@ export default function KontaktPage() {
           </div>
 
           {/* Anfrageformular */}
-          <div className="surface-glass p-6 sm:p-8">
+          <div className="neu p-6 sm:p-8">
             <p className="eyebrow">Anfrageformular</p>
-            <h2 className="mt-3 text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+            <h2 className="mt-3 text-2xl font-bold leading-tight text-foreground sm:text-3xl">
               Wie können wir helfen?
             </h2>
             <div className="mt-8">
@@ -99,7 +88,7 @@ export default function KontaktPage() {
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

@@ -11,12 +11,11 @@ type CtaBandProps = {
 };
 
 /**
- * Abschluss-Band am Seitenende: vollbreite, matte Graphit-Fläche im
- * Werkplan-Stil — Mono-Label, grosse Headline, rechteckige Aktionen und
- * die Telefonnummer als grosse Mono-Zeile. Props-API bleibt stabil.
+ * Abschluss-Karte am Seitenende: weich erhabene Fläche, Titel, ein Satz,
+ * goldene Aktion + sanfte Zweitaktion. Props-API bleibt stabil.
  */
 export function CtaBand({
-  eyebrow = "Ihr nächster Schritt",
+  eyebrow,
   title,
   description,
   primaryHref = "/angebote",
@@ -25,40 +24,27 @@ export function CtaBand({
   secondaryLabel = "Solarpotenzial berechnen",
 }: CtaBandProps) {
   return (
-    <section
-      aria-label={title}
-      className="surface-navy mt-16 border-t border-[color:#3a3d3b] sm:mt-24"
-    >
-      <div className="container-page py-14 sm:py-20">
-        <p className="eyebrow">{eyebrow}</p>
-        <div className="mt-5 grid items-end gap-10 lg:grid-cols-[1.4fr_1fr]">
+    <section aria-label={title} className="mt-16 sm:mt-24">
+      <div className="container-page">
+        <div className="neu grid items-center gap-8 px-6 py-10 sm:px-10 sm:py-12 lg:grid-cols-[1.3fr_1fr]">
           <div>
-            <h2 className="text-balance text-3xl font-semibold leading-tight text-[color:#f2f2ee] sm:text-4xl">
+            {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+            <h2 className="mt-2 text-balance text-3xl font-bold leading-tight text-foreground sm:text-4xl">
               {title}
             </h2>
             {description && (
-              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-[color:#a9aba3]">
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
                 {description}
               </p>
             )}
           </div>
-
-          <div className="flex flex-col gap-3 lg:items-end">
-            <Link
-              href={primaryHref}
-              className="btn-primary-inverse w-full sm:w-auto"
-            >
+          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-end">
+            <Link href={primaryHref} className="btn-primary w-full sm:w-auto">
               {primaryLabel}
             </Link>
-            <Link
-              href={secondaryHref}
-              className="btn-secondary-inverse w-full sm:w-auto"
-            >
+            <Link href={secondaryHref} className="btn-secondary w-full sm:w-auto">
               {secondaryLabel}
             </Link>
-            <p className="eyebrow mt-1 lg:text-right">
-              Kostenfrei · Antwort innert eines Werktags
-            </p>
           </div>
         </div>
       </div>

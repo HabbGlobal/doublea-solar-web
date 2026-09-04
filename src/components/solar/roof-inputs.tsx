@@ -116,7 +116,10 @@ export function RoofInputs({ form }: Props) {
             });
           }}
         >
-          <SelectTrigger id="orientation" className="h-12 w-full px-3 text-sm">
+          <SelectTrigger
+            id="orientation"
+            className="neu-in h-12 w-full rounded-2xl border-0 bg-background px-4 text-sm focus-visible:border-0"
+          >
             <SelectValue placeholder="Wählen" />
           </SelectTrigger>
           <SelectContent>
@@ -141,10 +144,10 @@ export function RoofInputs({ form }: Props) {
                 setValue("tilt", t.value, { shouldValidate: true })
               }
               aria-pressed={tilt === t.value}
-              className={`ring-focus min-h-12 border px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`ring-focus neu-sm min-h-12 rounded-2xl px-3 py-2.5 text-sm font-medium transition-[box-shadow,color,transform] duration-150 ${
                 tilt === t.value
-                  ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                  : "border-border bg-card text-foreground hover:bg-secondary"
+                  ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
+                  : "text-foreground hover:-translate-y-px"
               }`}
             >
               {t.label}
@@ -165,14 +168,14 @@ export function RoofInputs({ form }: Props) {
                 setValue("shading", s.value, { shouldValidate: true })
               }
               aria-pressed={shading === s.value}
-              className={`ring-focus flex min-h-12 flex-col items-start gap-0.5 border px-4 py-3 text-left transition-colors ${
+              className={`ring-focus neu-sm flex min-h-12 flex-col items-start gap-0.5 rounded-2xl px-4 py-3 text-left transition-[box-shadow,color,transform] duration-150 ${
                 shading === s.value
-                  ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                  : "border-border bg-card text-foreground hover:bg-secondary"
+                  ? "shadow-[var(--neu-inset)] text-[color:var(--solar-gold-dark)]"
+                  : "text-foreground hover:-translate-y-px"
               }`}
             >
-              <span className="text-sm font-medium">{s.label}</span>
-              <span className="text-xs opacity-80">{s.description}</span>
+              <span className="text-sm font-semibold">{s.label}</span>
+              <span className="text-xs text-muted-foreground">{s.description}</span>
             </button>
           ))}
         </div>

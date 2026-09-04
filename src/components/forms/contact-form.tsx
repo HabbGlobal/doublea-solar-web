@@ -118,17 +118,17 @@ export function ContactForm() {
 
   if (submitted) {
     return (
-      <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-5">
+      <div className="neu-in rounded-2xl p-5">
         <p className="text-base font-semibold text-foreground">
           Vielen Dank für Ihre Nachricht.
         </p>
-        <p className="mt-2 text-sm leading-relaxed text-foreground/80">
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           Wir melden uns persönlich – Antwort innert eines Werktags.
         </p>
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="ring-focus mt-4 inline-flex min-h-10 items-center text-sm font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors hover:text-foreground"
+          className="btn-ghost mt-4 min-h-11 text-sm"
         >
           Neue Nachricht senden
         </button>
@@ -151,10 +151,10 @@ export function ContactForm() {
                 }
                 aria-pressed={topic === t.value}
                 className={cn(
-                  "ring-focus flex min-h-12 items-center justify-center border px-3 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
+                  "ring-focus neu-sm flex min-h-12 items-center justify-center rounded-2xl px-3 py-2 text-center text-[13px] font-medium leading-tight transition-[box-shadow,color,transform] duration-150 sm:text-sm",
                   topic === t.value
-                    ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                    : "border-border bg-card hover:bg-secondary",
+                    ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
+                    : "text-foreground hover:-translate-y-px",
                 )}
               >
                 {t.label}
@@ -164,7 +164,7 @@ export function ContactForm() {
         </Field>
 
         {requireOffer && (
-          <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-4 text-sm">
+          <div className="neu-in rounded-2xl p-5 text-sm">
             <p className="font-medium leading-relaxed text-foreground">
               Für eine fundierte Offerte oder Beratung brauchen wir zusätzlich
               Telefon, Heizart und Personen im Haushalt — so können wir gleich
@@ -249,10 +249,10 @@ export function ContactForm() {
                       }
                       aria-pressed={heatingType === h}
                       className={cn(
-                        "ring-focus flex min-h-12 items-center justify-center border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
+                        "ring-focus neu-sm flex min-h-12 items-center justify-center rounded-2xl px-2 py-2 text-center text-[13px] font-medium leading-tight transition-[box-shadow,color,transform] duration-150 sm:text-sm",
                         heatingType === h
-                          ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                          : "border-border bg-card hover:bg-secondary",
+                          ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
+                          : "text-foreground hover:-translate-y-px",
                       )}
                     >
                       {heatingTypeLabels[h as HeatingType]}
@@ -332,7 +332,10 @@ export function ContactForm() {
           <FieldContent>
             <FieldLabel htmlFor="contact-consent">
               Ich bin mit der{" "}
-              <a href="/datenschutz" className="underline underline-offset-4">
+              <a
+                href="/datenschutz"
+                className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
+              >
                 Datenschutzerklärung
               </a>{" "}
               einverstanden. *

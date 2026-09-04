@@ -26,7 +26,7 @@ const RoofMap = dynamic(
 
 function MapSkeleton() {
   return (
-    <div className="flex h-72 w-full items-center justify-center border border-border bg-secondary text-xs text-muted-foreground sm:h-80">
+    <div className="neu-in flex h-72 w-full items-center justify-center rounded-2xl text-xs text-muted-foreground sm:h-80">
       Karte wird geladen …
     </div>
   );
@@ -74,13 +74,10 @@ function isWorthSelecting(s: SonnendachSegment): boolean {
 }
 
 function classToColor(klasse: number): string {
-  if (klasse >= 4.5)
-    return "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]";
-  if (klasse >= 3.5)
-    return "border-[color:var(--solar-ink)] bg-transparent text-foreground";
-  if (klasse >= 2.5)
-    return "border-border bg-card text-foreground";
-  return "border-border bg-card text-muted-foreground";
+  if (klasse >= 4.5) return "bg-accent text-[#6E5510]";
+  if (klasse >= 3.5) return "bg-accent text-[#6E5510]";
+  if (klasse >= 2.5) return "bg-secondary text-foreground";
+  return "bg-secondary text-muted-foreground";
 }
 
 function classLabel(klasse: number): string {
@@ -263,24 +260,30 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
                 if (selectedAddress) clearAddress();
                 setQuery(e.target.value);
               }}
-              className="h-12 pl-10"
+              className="h-12 pl-11 pr-11"
             />
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Search
+              aria-hidden
+              className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+            />
             {searching && (
-              <Loader2 className="absolute right-3 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted-foreground" />
+              <Loader2
+                aria-hidden
+                className="absolute right-4 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted-foreground"
+              />
             )}
           </div>
         </Field>
 
         {/* Result-Liste */}
         {results.length > 0 && !selectedAddress && (
-          <ul className="overflow-hidden border border-border bg-popover">
+          <ul className="neu rounded-2xl p-2">
             {results.map((r, i) => (
               <li key={`${r.lat}-${r.lon}-${i}`}>
                 <button
                   type="button"
                   onClick={() => pickAddress(r)}
-                  className="ring-focus flex min-h-12 w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-secondary"
+                  className="ring-focus flex min-h-12 w-full items-start gap-3 rounded-xl px-4 py-3 text-left transition-[box-shadow] duration-150 hover:shadow-[var(--neu-inset)]"
                 >
                   <MapPin className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                   <div className="flex flex-col">
@@ -299,7 +302,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
         )}
 
         {error && (
-          <p className="border-l-2 border-destructive bg-secondary px-3 py-2 text-xs text-destructive">
+          <p className="neu-in rounded-2xl px-4 py-3 text-xs font-medium text-destructive">
             {error}
           </p>
         )}
@@ -308,9 +311,9 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
       {/* Sonnendach-Resultate */}
       {selectedAddress && (
         <div className="flex flex-col gap-4">
-          <div className="flex items-start justify-between gap-3 border-l-2 border-[color:var(--solar-ink)] bg-secondary px-4 py-3">
+          <div className="neu-in flex items-start justify-between gap-3 rounded-2xl px-5 py-4">
             <div className="flex items-start gap-3">
-              <MapPin className="mt-0.5 size-4 text-muted-foreground" />
+              <MapPin aria-hidden className="mt-0.5 size-4 text-muted-foreground" />
               <div>
                 <p className="text-sm font-medium text-foreground">
                   {selectedAddress.label}
@@ -324,7 +327,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
             <button
               type="button"
               onClick={clearAddress}
-              className="ring-focus text-xs font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 hover:text-foreground"
+              className="btn-ghost min-h-11 shrink-0 text-sm"
             >
               Adresse ändern
             </button>
@@ -347,14 +350,14 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
           />
 
           {loadingRoofs && (
-            <div className="flex items-center gap-2 border border-border bg-card px-4 py-4 text-sm text-muted-foreground">
-              <Loader2 className="size-4 animate-spin" />
+            <div className="neu-in flex items-center gap-2 rounded-2xl px-5 py-4 text-sm text-muted-foreground">
+              <Loader2 aria-hidden className="size-4 animate-spin" />
               Lade Sonnendach-Daten von api3.geo.admin.ch …
             </div>
           )}
 
           {!loadingRoofs && roofs && roofs.empty && (
-            <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary px-4 py-4 text-sm text-foreground">
+            <div className="neu-in rounded-2xl p-5 text-sm text-foreground">
               <p className="font-medium">Für diese Adresse sind keine Sonnendach-Daten verfügbar.</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 Das BFE-Sonnendach.ch-Register deckt nicht jedes Gebäude ab (z. B. Neubauten oder
@@ -364,18 +367,21 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
           )}
 
           {selectedBuilding && selectedAggregate && (
-            <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-5">
+            <div className="neu-in rounded-2xl p-5">
               <div className="flex items-start gap-3">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">
+                  <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E5510]">
+                    Bundesdaten
+                  </span>
+                  <p className="mt-2 text-sm font-medium text-foreground">
                     Dach erkannt · {classLabel(selectedAggregate.averageSuitabilityClass)} geeignet
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                    <span className="stat-mono text-foreground/80">
+                    <span className="stat-mono text-foreground">
                       {selectedAggregate.usableAreaM2.toFixed(0)} m²
                     </span>{" "}
                     nutzbare Modulfläche · ca.{" "}
-                    <span className="stat-mono text-foreground/80">
+                    <span className="stat-mono text-foreground">
                       {Intl.NumberFormat("de-CH").format(selectedAggregate.totalElectricityYieldKwhYear)}{" "}
                       kWh
                     </span>{" "}
@@ -385,7 +391,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
               </div>
 
               <details className="mt-4 group">
-                <summary className="ring-focus cursor-pointer text-xs font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 hover:text-foreground select-none">
+                <summary className="ring-focus inline-flex min-h-11 cursor-pointer select-none items-center rounded-md text-sm font-semibold text-foreground underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4 transition-colors hover:text-[color:var(--solar-gold-dark)]">
                   Dachflächen einzeln anpassen ({selectedBuilding.segments.length} Segmente)
                 </summary>
                 <ul className="mt-3 grid gap-2">
@@ -436,17 +442,17 @@ function SegmentRow({
   return (
     <label
       className={cn(
-        "ring-focus group flex min-h-12 cursor-pointer items-center gap-3 border px-3 py-3 transition-colors",
+        "ring-focus neu-sm group flex min-h-12 cursor-pointer items-center gap-3 rounded-2xl px-4 py-3 transition-[box-shadow,transform] duration-150",
         checked
-          ? "border-[color:var(--solar-ink)] bg-card"
-          : "border-border bg-background hover:bg-secondary",
+          ? "shadow-[var(--neu-inset)]"
+          : "hover:-translate-y-px",
       )}
     >
       <input
         type="checkbox"
         checked={checked}
         onChange={onToggle}
-        className="size-4 cursor-pointer accent-[color:var(--solar-ink)]"
+        className="ring-focus size-4 cursor-pointer rounded accent-[color:var(--solar-gold-dark)]"
       />
       <div className="flex flex-1 flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="text-sm font-medium text-foreground">
@@ -465,7 +471,7 @@ function SegmentRow({
       </div>
       <span
         className={cn(
-          "border px-2 py-0.5 text-[10px] font-medium",
+          "shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-semibold",
           classToColor(segment.suitabilityClass),
         )}
       >

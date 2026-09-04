@@ -57,13 +57,17 @@ export function CalculatorResultCard({ result, onReset }: Props) {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-      <div className="surface-glass p-6 lg:p-8">
+      <div className="neu p-6 sm:p-7 lg:p-8">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="eyebrow">Ihre Erstauswertung</p>
-            {result.dataSource === "sonnendach" && (
-              <p className="eyebrow mt-1">Bundesdaten · sonnendach.ch</p>
-            )}
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="eyebrow">Ihre Erstauswertung</p>
+              {result.dataSource === "sonnendach" && (
+                <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E5510]">
+                  Bundesdaten · sonnendach.ch
+                </span>
+              )}
+            </div>
             <h2 className="mt-3 text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl">
               {result.recommendation.sizing}
             </h2>
@@ -76,29 +80,23 @@ export function CalculatorResultCard({ result, onReset }: Props) {
             </p>
           </div>
           <button
+            type="button"
             onClick={onReset}
-            className="ring-focus shrink-0 text-xs font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:text-foreground"
+            className="btn-ghost min-h-11 shrink-0 text-sm"
           >
             Neu starten
           </button>
         </div>
 
-        <ul className="mt-8">
-          {stats.map((s, i) => (
-            <li
-              key={s.label}
-              className={`flex items-baseline justify-between gap-4 border-t border-border py-3.5 transition-colors duration-150 hover:bg-secondary ${
-                i === stats.length - 1 ? "border-b" : ""
-              }`}
-            >
-              <div className="min-w-0">
-                <p className="text-sm font-medium text-foreground">{s.label}</p>
-                <p className="mt-0.5 text-xs leading-snug text-muted-foreground">
-                  {s.hint}
-                </p>
-              </div>
-              <p className="stat-mono shrink-0 text-right text-base font-semibold tracking-tight text-foreground sm:text-lg">
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+          {stats.map((s) => (
+            <li key={s.label} className="neu-in rounded-2xl p-5">
+              <p className="eyebrow">{s.label}</p>
+              <p className="stat-mono mt-2 text-2xl leading-tight tracking-tight text-foreground sm:text-[1.7rem]">
                 {s.value}
+              </p>
+              <p className="mt-1.5 text-xs leading-snug text-muted-foreground">
+                {s.hint}
               </p>
             </li>
           ))}
@@ -110,7 +108,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
             Lineare Hochrechnung auf Basis der realistischen Jahresersparnis.
             Ohne Strompreis-Anstieg.
           </p>
-          <div className="mt-3">
+          <div className="neu-in mt-4 rounded-2xl p-4 sm:p-5">
             <SavingsChart
               annualSavings={result.annualSavingsChf.realistic}
               investment={(result.investmentChf.low + result.investmentChf.high) / 2}
@@ -119,14 +117,14 @@ export function CalculatorResultCard({ result, onReset }: Props) {
         </div>
 
         {result.recommendation.notes.length > 0 && (
-          <div className="mt-6 border border-border bg-secondary p-4 lg:p-5">
+          <div className="neu-in mt-6 rounded-2xl p-5">
             <p className="eyebrow">Hinweise zu Ihrer Konstellation</p>
-            <ul className="mt-2.5 space-y-1.5 text-sm text-foreground/80">
+            <ul className="mt-2.5 space-y-1.5 text-sm text-foreground">
               {result.recommendation.notes.map((n) => (
-                <li key={n} className="flex gap-2">
+                <li key={n} className="flex gap-2.5">
                   <span
                     aria-hidden
-                    className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
+                    className="mt-2 size-1.5 shrink-0 rounded-full bg-[color:var(--solar-gold)]"
                   />
                   {n}
                 </li>
@@ -142,8 +140,8 @@ export function CalculatorResultCard({ result, onReset }: Props) {
         </ul>
       </div>
 
-      <div className="flex flex-col gap-4">
-        <div className="surface-glass p-6">
+      <div className="flex flex-col gap-6">
+        <div className="neu p-6 sm:p-7">
           <p className="eyebrow">Empfehlung Batterie</p>
           <p className="mt-3 text-base font-semibold text-foreground">
             {result.recommendation.battery === "empfohlen"
@@ -156,7 +154,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
             {result.recommendedBatteryKwh > 0 ? (
               <>
                 Indikative Grösse:{" "}
-                <span className="stat-mono text-foreground/80">
+                <span className="stat-mono text-foreground">
                   {result.recommendedBatteryKwh} kWh
                 </span>
               </>
@@ -166,7 +164,7 @@ export function CalculatorResultCard({ result, onReset }: Props) {
           </p>
         </div>
 
-        <div className="border border-border bg-secondary p-6">
+        <div className="neu-in rounded-2xl p-6 sm:p-7">
           <p className="eyebrow">Anfrage erhalten</p>
           <p className="mt-3 text-base font-semibold text-foreground">
             Wir haben Ihre Anfrage erhalten.
@@ -176,8 +174,8 @@ export function CalculatorResultCard({ result, onReset }: Props) {
             Angaben, klären Förderoptionen und melden uns persönlich für die
             nächsten Schritte.
           </p>
-          <a href="/services" className="btn-ghost mt-4">
-            Wie wir vorgehen <ArrowRight className="size-4" />
+          <a href="/services" className="btn-ghost mt-4 min-h-11">
+            Wie wir vorgehen <ArrowRight className="size-4" aria-hidden />
           </a>
         </div>
       </div>

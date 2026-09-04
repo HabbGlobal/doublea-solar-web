@@ -7,19 +7,37 @@ import {
   useState,
   type FormEvent,
 } from "react";
-import { Loader2, Plus, Trash2, Upload } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  Loader2,
+  Pencil,
+  Plus,
+  Trash2,
+  Upload,
+  X,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { resizeImageFile } from "@/lib/image-resize";
+import { cn } from "@/lib/utils";
 import {
   Field,
   FieldDescription,
   FieldLabel,
   FieldTitle,
 } from "@/components/ui/field";
+
+/** Weich erhabener Icon-Knopf (Sortieren, Bearbeiten, Löschen). */
+const ICON_BUTTON =
+  "ring-focus neu-sm inline-flex size-10 shrink-0 items-center justify-center rounded-xl text-muted-foreground transition-[box-shadow,color] duration-150 hover:text-foreground active:shadow-[var(--neu-inset)] disabled:pointer-events-none disabled:opacity-40";
+
+/** Eingelassenes Auswahlfeld (native select, Pfeil bleibt). */
+const SELECT_CLASS =
+  "ring-focus neu-in h-11 w-full rounded-xl bg-background px-3 text-sm text-foreground";
 
 type ProjectKind = "typ" | "referenz";
 
@@ -144,16 +162,16 @@ function ImageField({
       <label htmlFor={id} className="text-sm font-medium text-foreground">
         {label}
       </label>
-      <div className="flex items-center gap-3">
+      <div className="neu-in flex flex-wrap items-center gap-4 rounded-2xl p-4">
         {shown ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={shown}
             alt="Bildvorschau"
-            className="h-16 w-20 shrink-0 border border-border object-cover"
+            className="h-16 w-20 shrink-0 rounded-xl object-cover"
           />
         ) : (
-          <div className="flex h-16 w-20 shrink-0 items-center justify-center border border-border bg-secondary">
+          <div className="neu-sm flex h-16 w-20 shrink-0 items-center justify-center rounded-xl">
             <Upload className="size-4 text-muted-foreground" aria-hidden />
           </div>
         )}
@@ -173,7 +191,7 @@ function ImageField({
             }
             onSelect(f);
           }}
-          className="ring-focus w-full max-w-xs text-sm text-muted-foreground file:mr-3 file:border file:border-solid file:border-border file:bg-card file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-foreground"
+          className="ring-focus min-w-0 flex-1 rounded-xl text-sm text-muted-foreground file:mr-3 file:min-h-10 file:rounded-xl file:border-0 file:bg-background file:px-4 file:text-xs file:font-semibold file:text-foreground file:shadow-[var(--neu-raise-sm)]"
         />
       </div>
     </div>
@@ -278,7 +296,7 @@ function FactRows({
             type="button"
             aria-label={`Eckwert ${index + 1} entfernen`}
             onClick={() => onChange(facts.filter((_, i) => i !== index))}
-            className="ring-focus inline-flex size-11 shrink-0 items-center justify-center border border-border text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-destructive"
+            className={cn(ICON_BUTTON, "size-11 hover:text-destructive")}
           >
             <Trash2 className="size-4" aria-hidden />
           </button>
@@ -319,7 +337,7 @@ function ProjectFields({
               kind: e.target.value === "typ" ? "typ" : "referenz",
             })
           }
-          className="ring-focus h-11 w-full border border-input bg-card px-3 text-sm text-foreground"
+          className={SELECT_CLASS}
         >
           {KINDS.map((k) => (
             <option key={k.value} value={k.value}>
@@ -349,7 +367,7 @@ function ProjectFields({
             id={`${idPrefix}-category`}
             value={values.category}
             onChange={(e) => onChange({ ...values, category: e.target.value })}
-            className="ring-focus h-11 w-full border border-input bg-card px-3 text-sm text-foreground"
+            className={SELECT_CLASS}
           >
             {CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>
@@ -508,11 +526,9 @@ function NewProjectForm({
   }
 
   return (
-    <section className="surface-glass">
-      <div className="border-b border-border px-5 py-4 sm:px-6">
-        <h2 className="text-lg font-semibold text-foreground">Neues Projekt</h2>
-      </div>
-      <form onSubmit={onSubmit} className="grid gap-4 px-5 py-6 sm:px-6">
+    <section className="neu p-6 sm:p-8">
+      <h2 className="text-xl font-bold tracking-tight text-foreground">Neues Projekt</h2>
+      <form onSubmit={onSubmit} className="mt-6 grid gap-4">
         <ProjectFields idPrefix="proj-new" values={values} onChange={setValues} />
         <ImageField
           key={fileKey}
@@ -604,7 +620,7 @@ function EditProjectForm({
   return (
     <form
       onSubmit={onSubmit}
-      className="grid gap-4 border-t border-dashed border-border bg-secondary/50 px-4 py-5"
+      className="neu-in mt-4 grid gap-4 rounded-2xl p-4 sm:p-5"
     >
       <ProjectFields
         idPrefix={`proj-edit-${project.id}`}
@@ -775,8 +791,8 @@ export function ProjekteEditor() {
       <NewProjectForm nextSortOrder={nextSortOrder} onCreated={load} />
 
       <section>
-        <div className="mb-3 flex items-baseline justify-between">
-          <h2 className="text-lg font-semibold text-foreground">Projekte</h2>
+        <div className="mb-4 flex items-baseline justify-between gap-4">
+          <h2 className="text-xl font-bold tracking-tight text-foreground">Projekte</h2>
           {projects && (
             <span className="eyebrow">
               {projects.length} {projects.length === 1 ? "Eintrag" : "Einträge"}
@@ -785,14 +801,11 @@ export function ProjekteEditor() {
         </div>
 
         {error ? (
-          <div
-            role="alert"
-            className="border-l-2 border-[color:var(--destructive)] bg-secondary p-4 text-sm"
-          >
+          <div role="alert" className="neu-in rounded-2xl p-5 text-sm">
             <p className="text-foreground">{error}</p>
             <button
               type="button"
-              className="btn-secondary mt-3 min-h-10 px-4"
+              className="btn-secondary mt-4 min-h-10 px-4"
               onClick={() => {
                 setError(null);
                 void load();
@@ -802,31 +815,30 @@ export function ProjekteEditor() {
             </button>
           </div>
         ) : projects === null ? (
-          <div className="flex items-center gap-2 border-t border-border py-6 text-sm text-muted-foreground">
+          <div className="neu-in flex items-center gap-2 rounded-2xl p-5 text-sm text-muted-foreground">
             <Loader2 className="size-4 animate-spin" aria-hidden /> Projekte
             werden geladen …
           </div>
         ) : projects.length === 0 ? (
-          <p className="border-y border-border py-6 text-sm text-muted-foreground">
+          <p className="neu-in rounded-2xl p-5 text-sm text-muted-foreground">
             Noch keine Projekte erfasst.
           </p>
         ) : (
           <ul>
             {projects.map((p, i) => (
-              <li
-                key={p.id}
-                className="border-t border-border transition-colors duration-150 last:border-b hover:bg-card"
-              >
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-3 px-2 py-4 sm:px-4">
+              <li key={p.id} className="neu-sm mb-3 rounded-2xl p-4">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
                   {p.images[0] ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={imageUrl(p.images[0])}
-                      alt={p.title}
-                      className="h-12 w-16 shrink-0 border border-border object-cover"
-                    />
+                    <div className="shrink-0 rounded-xl p-1 shadow-[var(--neu-inset)]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imageUrl(p.images[0])}
+                        alt={p.title}
+                        className="h-12 w-16 rounded-lg object-cover"
+                      />
+                    </div>
                   ) : (
-                    <div className="flex h-12 w-16 shrink-0 items-center justify-center border border-border bg-secondary">
+                    <div className="flex h-14 w-[4.5rem] shrink-0 items-center justify-center rounded-xl shadow-[var(--neu-inset)]">
                       <span className="eyebrow">–</span>
                     </div>
                   )}
@@ -854,46 +866,60 @@ export function ProjekteEditor() {
                       aria-label={`${p.title} ${p.isPublic ? "auf Entwurf setzen" : "veröffentlichen"}`}
                     />
                   </div>
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={() => void move(p, -1)}
                       disabled={i === 0}
                       aria-label={`${p.title} nach oben verschieben`}
-                      className="ring-focus inline-flex size-8 items-center justify-center border border-border text-sm text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+                      className={ICON_BUTTON}
                     >
-                      ↑
+                      <ArrowUp className="size-4" aria-hidden />
                     </button>
                     <button
                       type="button"
                       onClick={() => void move(p, 1)}
                       disabled={i === projects.length - 1}
                       aria-label={`${p.title} nach unten verschieben`}
-                      className="ring-focus inline-flex size-8 items-center justify-center border border-border text-sm text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground disabled:pointer-events-none disabled:opacity-40"
+                      className={ICON_BUTTON}
                     >
-                      ↓
+                      <ArrowDown className="size-4" aria-hidden />
                     </button>
                     <button
                       type="button"
                       onClick={() =>
                         setEditingId((prev) => (prev === p.id ? null : p.id))
                       }
-                      className="ring-focus inline-flex h-8 items-center border border-border px-3 text-xs font-medium text-foreground transition-colors duration-150 hover:bg-secondary"
+                      aria-label={
+                        editingId === p.id
+                          ? `Bearbeitung von ${p.title} schliessen`
+                          : `${p.title} bearbeiten`
+                      }
+                      aria-expanded={editingId === p.id}
+                      className={cn(
+                        ICON_BUTTON,
+                        editingId === p.id &&
+                          "shadow-[var(--neu-inset)] text-[color:var(--solar-gold-dark)]",
+                      )}
                     >
-                      {editingId === p.id ? "Schliessen" : "Bearbeiten"}
+                      {editingId === p.id ? (
+                        <X className="size-4" aria-hidden />
+                      ) : (
+                        <Pencil className="size-4" aria-hidden />
+                      )}
                     </button>
                     <button
                       type="button"
                       onClick={() => void remove(p)}
                       disabled={busyId === p.id}
-                      className="ring-focus inline-flex h-8 items-center gap-1 border border-border px-3 text-xs font-medium text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-destructive disabled:pointer-events-none disabled:opacity-50"
+                      aria-label={`${p.title} löschen`}
+                      className={cn(ICON_BUTTON, "hover:text-destructive")}
                     >
                       {busyId === p.id ? (
-                        <Loader2 className="size-3.5 animate-spin" aria-hidden />
+                        <Loader2 className="size-4 animate-spin" aria-hidden />
                       ) : (
-                        <Trash2 className="size-3.5" aria-hidden />
+                        <Trash2 className="size-4" aria-hidden />
                       )}
-                      Löschen
                     </button>
                   </div>
                 </div>

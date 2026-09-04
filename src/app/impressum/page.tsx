@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
 import { siteConfig } from "@/lib/site-config";
-import { SectionHead } from "@/components/site/section-head";
 
 export const metadata: Metadata = {
   title: "Impressum",
@@ -10,32 +9,31 @@ export const metadata: Metadata = {
   alternates: { canonical: "/impressum" },
 };
 
-/* Werkplan-Textspalte: schmale Spalte (70ch), Hairline-getrennte Abschnitte,
-   h2 mit border-t, Body in muted-foreground. */
+/* Textspalte (70ch) in einer erhabenen Karte: h2 mit Abstand statt Hairline,
+   Body in muted-foreground. */
 
 const h2Class =
-  "border-t border-border pt-6 text-lg font-semibold tracking-tight text-foreground sm:text-xl";
+  "mt-10 text-lg font-semibold tracking-tight text-foreground sm:text-xl";
 const bodyClass =
   "mt-3 text-[15px] leading-relaxed text-muted-foreground sm:text-base";
 const linkClass =
-  "ring-focus font-medium text-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors hover:decoration-[color:var(--solar-ink)]";
+  "ring-focus rounded-md font-medium text-foreground underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4 transition-colors hover:text-[color:var(--solar-gold-dark)]";
 
 export default function ImpressumPage() {
   const { contact, legalName } = siteConfig;
   return (
-    <article>
-      <SectionHead nr="01" label="Rechtliches" />
-      <div className="container-page pt-10 pb-16 sm:pt-14 sm:pb-24">
-        <div className="max-w-[70ch]">
+    <article className="py-14 sm:py-20">
+      <div className="container-page">
+        <div className="neu max-w-[70ch] p-7 sm:p-10">
           <header>
             <p className="eyebrow">Rechtliches</p>
-            <h1 className="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
+            <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
               Impressum
             </h1>
-            <p className="eyebrow mt-6">Stand: August 2026</p>
+            <p className="eyebrow mt-4">Stand: August 2026</p>
           </header>
 
-          <div className="mt-10 space-y-10 sm:mt-14">
+          <div className="mt-2">
             <section>
               <h2 className={h2Class}>Anbieterin</h2>
               <p className={bodyClass}>

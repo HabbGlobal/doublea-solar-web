@@ -16,10 +16,10 @@ export default async function AdminProjektePage() {
   if (!user) redirect("/admin/login");
 
   return (
-    <section className="container-page py-10">
-      <header className="mb-8 border-b border-border pb-6">
+    <section>
+      <header className="mb-8">
         <p className="eyebrow">Projekte</p>
-        <h1 className="mt-3 text-balance text-3xl font-semibold text-foreground">
+        <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-foreground">
           Referenzprojekte verwalten
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">

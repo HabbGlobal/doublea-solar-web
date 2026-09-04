@@ -1,4 +1,9 @@
-# Design-Dokumentation — Relaunch «Architectural Precision» (Stand 14.08.2026)
+# Design-Dokumentation — DoubleA Solar (Stand 09/2026)
+> **Aktuelles System: «Soft Solar» (Neumorphism, Schwarz/Gold, hell)** — verbindlich in
+> `../docs/DESIGN-SPEC.md`. Es hat «Architectural Precision» am 03.09.2026 abgelöst
+> (Kundenwunsch: schlichter, weniger Text, ans Logo 2026 angepasst). Die freigegebene
+> Neumorphism-Vorschau wurde nach dem Übertrag entfernt; Screenshots liegen unter
+> `../artifacts/design-review/neu2-*.png` (lokal, nicht im Repo).
 
 Konzept A «Architectural Precision» wurde am 14.08.2026 vollständig in die
 Produktion übertragen (verbindliche Spec: `../docs/DESIGN-SPEC.md`); die

@@ -59,14 +59,18 @@ export function SavingsChart({
             }
           />
           <Tooltip
-            cursor={{ stroke: "var(--border)" }}
+            cursor={{ stroke: "var(--chart-5)", strokeDasharray: "2 4" }}
             contentStyle={{
               background: "var(--background)",
-              border: "1px solid var(--border)",
-              borderRadius: 0,
+              border: "none",
+              borderRadius: 16,
+              boxShadow: "var(--neu-raise-sm)",
+              padding: "10px 14px",
               fontSize: 12,
-              fontFamily: "var(--font-mono)",
+              fontFamily: "var(--font-sans)",
+              fontVariantNumeric: "tabular-nums",
             }}
+            itemStyle={{ color: "var(--foreground)", fontWeight: 600 }}
             labelStyle={{ color: "var(--muted-foreground)", fontWeight: 500 }}
             formatter={(value, name) => [
               `CHF ${new Intl.NumberFormat("de-CH").format(Number(value) || 0)}`,
@@ -77,18 +81,23 @@ export function SavingsChart({
           <Area
             type="monotone"
             dataKey="cumulative"
-            stroke="var(--chart-1)"
-            strokeWidth={2.4}
-            fill="var(--chart-1)"
-            fillOpacity={0.08}
+            stroke="var(--chart-2)"
+            strokeWidth={2.6}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            fill="var(--chart-2)"
+            fillOpacity={0.16}
+            activeDot={{ r: 5, stroke: "var(--background)", strokeWidth: 2, fill: "var(--chart-4)" }}
           />
           <Area
             type="step"
             dataKey="investment"
-            stroke="var(--chart-2)"
+            stroke="var(--chart-1)"
             strokeDasharray="4 4"
             strokeWidth={1.4}
+            strokeLinecap="round"
             fill="transparent"
+            activeDot={false}
           />
         </AreaChart>
       </ResponsiveContainer>

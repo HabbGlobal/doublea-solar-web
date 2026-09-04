@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { CtaBand } from "@/components/site/cta-band";
-import { SectionHead } from "@/components/site/section-head";
 
 export const metadata: Metadata = {
   title: "Photovoltaik Planung, Installation & Wartung",
@@ -136,41 +135,34 @@ const services: Service[] = [
 export default function ServicesPage() {
   return (
     <>
-      {/* Intro-Header */}
+      {/* Intro */}
       <section
         aria-labelledby="services-h"
-        className="container-page pt-14 pb-12 sm:pt-20 sm:pb-14 lg:pt-24"
+        className="container-page pt-14 pb-4 sm:pt-20 sm:pb-6"
       >
         <div className="max-w-3xl">
           <p className="eyebrow">Leistungen</p>
           <h1
             id="services-h"
-            className="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl"
+            className="mt-4 text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl"
           >
             Jede Phase Ihres Solarprojekts. Ein verantwortliches Team.
           </h1>
-          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-lg">
             Sechs Leistungsbereiche, eine Verantwortung – von der ersten
-            Dachprüfung bis zum Monitoring im Betrieb. Wir arbeiten in Grenchen,
-            Solothurn, Bern und der ganzen Schweiz.
+            Dachprüfung bis zum Monitoring im Betrieb.
           </p>
         </div>
 
-        {/* Leistungs-Index — Sprungmarken zu den Detailsektionen */}
-        <nav
-          aria-label="Leistungsübersicht"
-          className="mt-12 border-y border-border"
-        >
-          <ul className="flex flex-wrap gap-x-8 gap-y-0">
-            {services.map((s, i) => (
+        {/* Sprungnavigation als weiche Pill-Reihe */}
+        <nav aria-label="Leistungsübersicht" className="mt-10">
+          <ul className="flex flex-wrap gap-3">
+            {services.map((s) => (
               <li key={s.id}>
                 <a
                   href={`#${s.id}`}
-                  className="ring-focus inline-flex min-h-11 items-center gap-2.5 text-sm font-medium text-foreground underline-offset-4 transition-colors duration-150 hover:underline"
+                  className="neu-sm ring-focus inline-flex min-h-11 items-center rounded-full px-4 text-sm font-medium text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px active:translate-y-0 active:shadow-[var(--neu-inset)]"
                 >
-                  <span className="eyebrow">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
                   {s.navLabel}
                 </a>
               </li>
@@ -179,82 +171,72 @@ export default function ServicesPage() {
         </nav>
       </section>
 
-      {/* Detailsektionen im Wechselrhythmus hell / surface-sand */}
-      {services.map((s, i) => {
-        const sand = i % 2 === 1;
-        const num = String(i + 1).padStart(2, "0");
-        return (
-          <section
-            key={s.id}
-            id={s.id}
-            aria-labelledby={`${s.id}-h`}
-            className={sand ? "surface-sand scroll-mt-24" : "scroll-mt-24"}
-          >
-            <SectionHead nr={num} label={s.navLabel} />
-            <div className="container-page py-12 sm:py-16 lg:py-20">
-              <div className="grid items-start gap-8 lg:grid-cols-[220px_1fr] lg:gap-16">
-                {/* Nummer und Titel */}
-                <div>
-                  <p className="eyebrow">
-                    {num} · {s.kicker}
+      {/* Sechs Leistungskarten */}
+      <section aria-label="Leistungen im Detail" className="py-14 sm:py-20">
+        <div className="container-page">
+          <div className="grid gap-6 lg:grid-cols-2">
+            {services.map((s) => (
+              <article
+                key={s.id}
+                id={s.id}
+                aria-labelledby={`${s.id}-h`}
+                className="neu flex scroll-mt-28 flex-col p-6 sm:p-7"
+              >
+                <p className="eyebrow">{s.kicker}</p>
+                <h2
+                  id={`${s.id}-h`}
+                  className="mt-3 text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
+                >
+                  {s.title}
+                </h2>
+                <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+                  {s.summary}
+                </p>
+
+                <div className="neu-in mt-6 rounded-2xl p-4">
+                  <p className="eyebrow">Ihr Nutzen</p>
+                  <p className="mt-1.5 text-[15px] font-medium leading-relaxed text-foreground">
+                    {s.benefit}
                   </p>
-                  <h2
-                    id={`${s.id}-h`}
-                    className="mt-3 text-balance text-2xl font-semibold leading-tight text-foreground sm:text-3xl"
-                  >
-                    {s.title}
-                  </h2>
                 </div>
 
-                {/* Zusammenfassung, Nutzen, Leistungsumfang */}
-                <div className="max-w-2xl">
-                  <p className="text-base leading-relaxed text-muted-foreground">
-                    {s.summary}
+                <p className="eyebrow mt-7">Das erhalten Sie</p>
+                <ul className="mt-4 grid gap-3">
+                  {s.deliverables.map((d) => (
+                    <li
+                      key={d}
+                      className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85 sm:text-[15px]"
+                    >
+                      <span
+                        aria-hidden
+                        className="gold-dot mt-2 size-2! shrink-0"
+                      />
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {s.note && (
+                  <p className="mt-6 text-xs leading-relaxed text-muted-foreground">
+                    {s.note}
                   </p>
+                )}
 
-                  <div className="mt-6 border-l-2 border-[color:var(--solar-ink)] pl-4">
-                    <p className="eyebrow">Ihr Nutzen</p>
-                    <p className="mt-1.5 text-[15px] font-medium leading-relaxed text-foreground">
-                      {s.benefit}
-                    </p>
-                  </div>
-
-                  <p className="eyebrow mt-8">Das erhalten Sie</p>
-                  <ul className="mt-4 grid gap-3">
-                    {s.deliverables.map((d) => (
-                      <li
-                        key={d}
-                        className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85 sm:text-[15px]"
-                      >
-                        <span
-                          aria-hidden
-                          className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
-                        />
-                        <span>{d}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {s.note && (
-                    <p className="mt-6 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
-                      {s.note}
-                    </p>
-                  )}
-
+                <div className="mt-auto pt-7">
                   <Link
                     href="/kontakt"
-                    className="btn-ghost mt-7 min-h-12"
+                    className="btn-ghost min-h-12"
                     aria-label={`${s.ctaLabel} – Kontakt aufnehmen`}
                   >
                     {s.ctaLabel}
-                    <ArrowRight className="size-4" />
+                    <ArrowRight className="size-4" aria-hidden="true" />
                   </Link>
                 </div>
-              </div>
-            </div>
-          </section>
-        );
-      })}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <CtaBand
         title="Fragen zu einer spezifischen Leistung?"

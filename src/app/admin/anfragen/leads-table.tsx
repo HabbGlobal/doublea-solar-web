@@ -138,14 +138,11 @@ export function LeadsTable() {
 
   if (error) {
     return (
-      <div
-        role="alert"
-        className="border-l-2 border-[color:var(--destructive)] bg-secondary p-4 text-sm"
-      >
+      <div role="alert" className="neu-in rounded-2xl p-5 text-sm">
         <p className="text-foreground">{error}</p>
         <button
           type="button"
-          className="btn-secondary mt-3 min-h-10 px-4"
+          className="btn-secondary mt-4 min-h-10 px-4"
           onClick={() => {
             setError(null);
             void load();
@@ -159,7 +156,7 @@ export function LeadsTable() {
 
   if (leads === null) {
     return (
-      <div className="flex items-center gap-2 border-t border-border py-6 text-sm text-muted-foreground">
+      <div className="neu-in flex items-center gap-2 rounded-2xl p-5 text-sm text-muted-foreground">
         <Loader2 className="size-4 animate-spin" aria-hidden /> Anfragen werden
         geladen …
       </div>
@@ -168,7 +165,7 @@ export function LeadsTable() {
 
   if (leads.length === 0) {
     return (
-      <p className="border-y border-border py-6 text-sm text-muted-foreground">
+      <p className="neu-in rounded-2xl p-5 text-sm text-muted-foreground">
         Noch keine Anfragen eingegangen.
       </p>
     );
@@ -182,48 +179,19 @@ export function LeadsTable() {
         </span>
       </div>
 
-      <div className="surface-glass overflow-x-auto">
-        <table className="w-full min-w-[840px] border-collapse text-sm">
-          <thead>
-            <tr className="border-b border-border text-left">
-              <th scope="col" className="eyebrow px-3 py-3 text-left font-medium">
-                Datum
-              </th>
-              <th scope="col" className="eyebrow px-3 py-3 text-left font-medium">
-                Name
-              </th>
-              <th scope="col" className="eyebrow px-3 py-3 text-left font-medium">
-                E-Mail
-              </th>
-              <th scope="col" className="eyebrow px-3 py-3 text-left font-medium">
-                Telefon
-              </th>
-              <th scope="col" className="eyebrow px-3 py-3 text-left font-medium">
-                Quelle
-              </th>
-              <th scope="col" className="eyebrow px-3 py-3 text-left font-medium">
-                Status
-              </th>
-              <th scope="col" className="px-3 py-3">
-                <span className="sr-only">Details</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {leads.map((lead) => (
-              <LeadRow
-                key={lead.id}
-                lead={lead}
-                expanded={expandedId === lead.id}
-                onToggle={() =>
-                  setExpandedId((prev) => (prev === lead.id ? null : lead.id))
-                }
-                onStatusChange={(next) => void updateStatus(lead, next)}
-              />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ul>
+        {leads.map((lead) => (
+          <LeadRow
+            key={lead.id}
+            lead={lead}
+            expanded={expandedId === lead.id}
+            onToggle={() =>
+              setExpandedId((prev) => (prev === lead.id ? null : lead.id))
+            }
+            onStatusChange={(next) => void updateStatus(lead, next)}
+          />
+        ))}
+      </ul>
 
       {leads.length < total && (
         <div>
@@ -247,6 +215,9 @@ export function LeadsTable() {
   );
 }
 
+const LINK_CLASS =
+  "ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4 transition-colors duration-150 hover:text-[color:var(--solar-gold-dark)]";
+
 function LeadRow({
   lead,
   expanded,
@@ -259,43 +230,43 @@ function LeadRow({
   onStatusChange: (next: string) => void;
 }) {
   return (
-    <>
-      <tr className="border-t border-border align-middle transition-colors duration-150 hover:bg-secondary">
-        <td className="stat-mono whitespace-nowrap px-3 py-3 text-xs text-muted-foreground">
-          {formatDate(lead.createdAt)}
-        </td>
-        <td className="px-3 py-3 font-medium text-foreground">
-          {lead.name || "—"}
-        </td>
-        <td className="px-3 py-3">
-          <a
-            href={`mailto:${lead.email}`}
-            className="ring-focus underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)]"
-          >
+    <li className="neu-sm mb-3 rounded-2xl p-4 text-sm">
+      <div className="grid gap-x-6 gap-y-3 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1.2fr)_auto] lg:items-center">
+        {/* Wer */}
+        <div className="min-w-0">
+          <p className="stat-mono text-xs text-muted-foreground">
+            {formatDate(lead.createdAt)}
+            {lead.source ? ` · ${lead.source}` : ""}
+          </p>
+          <p className="mt-1 truncate font-semibold text-foreground">
+            {lead.name || "—"}
+          </p>
+        </div>
+
+        {/* Kontakt */}
+        <div className="grid min-w-0 gap-1 text-foreground">
+          <a href={`mailto:${lead.email}`} className={`${LINK_CLASS} truncate`}>
             {lead.email}
           </a>
-        </td>
-        <td className="whitespace-nowrap px-3 py-3">
           {lead.phone ? (
             <a
               href={`tel:${lead.phone.replace(/\s+/g, "")}`}
-              className="ring-focus underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)]"
+              className={`${LINK_CLASS} stat-mono self-start`}
             >
               {lead.phone}
             </a>
           ) : (
-            "—"
+            <span className="text-muted-foreground">—</span>
           )}
-        </td>
-        <td className="px-3 py-3 text-xs text-muted-foreground">
-          {lead.source || "—"}
-        </td>
-        <td className="px-3 py-3">
+        </div>
+
+        {/* Status + Details */}
+        <div className="flex flex-wrap items-center gap-2">
           <select
             value={lead.status}
             onChange={(e) => onStatusChange(e.target.value)}
             aria-label={`Status der Anfrage von ${lead.name || lead.email}`}
-            className="ring-focus h-9 border border-input bg-card px-2 text-xs text-foreground"
+            className="ring-focus neu-in h-11 min-w-0 flex-1 rounded-xl bg-background px-3 text-sm text-foreground lg:flex-none"
           >
             {STATUS_OPTIONS.map((s) => (
               <option key={s.value} value={s.value}>
@@ -303,48 +274,47 @@ function LeadRow({
               </option>
             ))}
           </select>
-        </td>
-        <td className="px-3 py-3 text-right">
           <button
             type="button"
             onClick={onToggle}
             aria-expanded={expanded}
-            className="ring-focus inline-flex h-8 items-center border border-border px-3 text-xs font-medium text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground"
+            className={
+              expanded
+                ? "btn-secondary min-h-11 px-4 text-sm shadow-[var(--neu-inset)] hover:translate-y-0"
+                : "btn-secondary min-h-11 px-4 text-sm"
+            }
           >
             {expanded ? "Schliessen" : "Details"}
           </button>
-        </td>
-      </tr>
+        </div>
+      </div>
+
       {expanded && (
-        <tr className="border-t border-dashed border-border bg-secondary/60">
-          <td colSpan={7} className="px-3 py-4">
-            <dl className="grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
-              <div>
-                <dt className="eyebrow">Adresse</dt>
-                <dd className="mt-1 text-foreground">{lead.address || "—"}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow">Heizart</dt>
-                <dd className="mt-1 text-foreground">
-                  {lead.heatingType || "—"}
-                </dd>
-              </div>
-              <div>
-                <dt className="eyebrow">Personen im Haushalt</dt>
-                <dd className="stat-mono mt-1 text-foreground">
-                  {lead.householdSize != null ? lead.householdSize : "—"}
-                </dd>
-              </div>
-              <div className="sm:col-span-2 lg:col-span-4">
-                <dt className="eyebrow">Nachricht</dt>
-                <dd className="mt-1 whitespace-pre-wrap text-foreground">
-                  {lead.message || "—"}
-                </dd>
-              </div>
-            </dl>
-          </td>
-        </tr>
+        <dl className="neu-in mt-4 grid gap-x-8 gap-y-3 rounded-2xl p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <dt className="eyebrow">Adresse</dt>
+            <dd className="mt-1 text-foreground">{lead.address || "—"}</dd>
+          </div>
+          <div>
+            <dt className="eyebrow">Heizart</dt>
+            <dd className="mt-1 text-foreground">
+              {lead.heatingType || "—"}
+            </dd>
+          </div>
+          <div>
+            <dt className="eyebrow">Personen im Haushalt</dt>
+            <dd className="stat-mono mt-1 text-foreground">
+              {lead.householdSize != null ? lead.householdSize : "—"}
+            </dd>
+          </div>
+          <div className="sm:col-span-2 lg:col-span-4">
+            <dt className="eyebrow">Nachricht</dt>
+            <dd className="mt-1 whitespace-pre-wrap text-foreground">
+              {lead.message || "—"}
+            </dd>
+          </div>
+        </dl>
       )}
-    </>
+    </li>
   );
 }

@@ -172,10 +172,10 @@ export function AddressFields({
           Adresse eintippen – wir übernehmen Strasse, Nr., PLZ und Ort
           automatisch (offizielle Schweizer Adressdaten).
         </FieldDescription>
-        <div className="relative mt-1.5">
+        <div className="relative mt-2">
           <Search
             aria-hidden
-            className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+            className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
           />
           <Input
             id={`${idPrefix}-address-search`}
@@ -190,12 +190,12 @@ export function AddressFields({
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             onFocus={() => results.length > 0 && setOpen(true)}
-            className="h-12 pl-10 pr-10"
+            className="h-12 pl-11 pr-11"
           />
           {loading && (
             <Loader2
               aria-hidden
-              className="absolute right-3.5 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted-foreground"
+              className="absolute right-4 top-1/2 size-4 -translate-y-1/2 animate-spin text-muted-foreground"
             />
           )}
         </div>
@@ -203,7 +203,7 @@ export function AddressFields({
           <ul
             id={listId}
             role="listbox"
-            className="absolute z-20 mt-1.5 max-h-64 w-full overflow-auto border border-border bg-popover"
+            className="neu absolute z-20 mt-2 max-h-64 w-full overflow-auto rounded-2xl p-2"
           >
             {results.map((s, i) => (
               <li key={`${s.label}-${i}`} role="option" aria-selected={i === active}>
@@ -212,8 +212,8 @@ export function AddressFields({
                   onClick={() => choose(s)}
                   onMouseEnter={() => setActive(i)}
                   className={cn(
-                    "ring-focus flex w-full items-start gap-2.5 px-3 py-2.5 text-left text-sm leading-snug transition-colors",
-                    i === active ? "bg-secondary" : "hover:bg-secondary",
+                    "ring-focus flex min-h-11 w-full items-start gap-2.5 rounded-xl px-3 py-2.5 text-left text-sm leading-snug transition-[box-shadow] duration-150",
+                    i === active ? "shadow-[var(--neu-inset)]" : "",
                   )}
                 >
                   <MapPin

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { CtaBand } from "@/components/site/cta-band";
-import { SectionHead, SectionTitle } from "@/components/site/section-head";
+import { SectionTitle } from "@/components/site/section-head";
 
 export const metadata: Metadata = {
   title: "Solaranlage finanzieren – Förderung, Kosten & Amortisation Schweiz",
@@ -96,14 +96,9 @@ const economics = [
   "Wir rechnen konservativ und nennen Spannen statt garantierter Amortisationszeiten.",
 ];
 
-/* Werkplan-Bullet: kleines Tinte-Quadrat statt Icon */
-function SquareBullet() {
-  return (
-    <span
-      aria-hidden
-      className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
-    />
-  );
+/* Goldpunkt als Listenmarker */
+function DotBullet() {
+  return <span aria-hidden className="gold-dot mt-2 size-2! shrink-0" />;
 }
 
 /* ————————————————————————————————————————————————
@@ -113,112 +108,125 @@ function SquareBullet() {
 export default function FinanzierungPage() {
   return (
     <>
-      {/* 01 — Investition & Richtpreise */}
-      <SectionHead nr="01" label="Investition & Richtpreise" />
+      {/* Intro */}
       <section
         aria-labelledby="finanzierung-h"
-        className="container-page pt-12 pb-14 sm:pt-16 sm:pb-20"
+        className="container-page pt-14 pb-4 sm:pt-20 sm:pb-6"
       >
         <div className="max-w-3xl">
           <p className="eyebrow">Finanzierung &amp; Wirtschaftlichkeit</p>
           <h1
             id="finanzierung-h"
-            className="mt-4 text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+            className="mt-4 text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl"
           >
             Eine Investition, die arbeitet.
           </h1>
-          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-lg">
             Eine Photovoltaikanlage kostet einmal und produziert danach über
-            Jahrzehnte. Hier stehen die Zahlen, die wir belegen können.
+            Jahrzehnte – hier stehen die Zahlen, die wir belegen können.
           </p>
         </div>
-
-        {/* Desktop: echte Tabelle */}
-        <table className="mt-10 hidden w-full border-collapse text-sm sm:table">
-          <thead>
-            <tr className="border-b border-border">
-              <th scope="col" className="eyebrow py-3 pr-6 text-left">
-                Kennzahl
-              </th>
-              <th scope="col" className="eyebrow py-3 pr-6 text-left">
-                Wert
-              </th>
-              <th scope="col" className="eyebrow py-3 pr-6 text-left">
-                Quelle
-              </th>
-              <th scope="col" className="eyebrow py-3 text-left">
-                Stand
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {facts.map((f) => (
-              <tr key={f.kennzahl} className="border-b border-border">
-                <td className="max-w-[26ch] py-4 pr-6 align-top font-medium text-foreground">
-                  {f.kennzahl}
-                </td>
-                <td className="stat-mono max-w-[38ch] py-4 pr-6 align-top">
-                  {f.wert}
-                </td>
-                <td className="py-4 pr-6 align-top text-muted-foreground">
-                  {f.quelle}
-                </td>
-                <td className="py-4 align-top text-muted-foreground">
-                  {f.stand}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {/* Mobile: gestapelte Definitionen statt horizontalem Scrollen */}
-        <dl className="mt-8 border-b border-border sm:hidden">
-          {facts.map((f) => (
-            <div key={f.kennzahl} className="border-t border-border py-5">
-              <dt className="text-sm font-medium text-foreground">
-                {f.kennzahl}
-              </dt>
-              <dd className="stat-mono mt-2 text-sm leading-relaxed">
-                {f.wert}
-              </dd>
-              <dd className="mt-2 text-xs text-muted-foreground">
-                {f.quelle} · Stand {f.stand}
-              </dd>
-            </div>
-          ))}
-        </dl>
-
-        <p className="mt-4 max-w-3xl text-xs leading-relaxed text-muted-foreground">
-          Alle Angaben indikativ; massgebend sind die zum Zeitpunkt der
-          Inbetriebnahme gültigen Ansätze. Quellen: Energieförderungsverordnung
-          EnFV (Fedlex, Stand 1.7.2026) · ElCom Strompreisübersicht 2026 ·
-          Art. 15 EnG / BFE-Referenz-Marktpreis · Hersteller-Datenblatt.
-          Geprüft am 14. August 2026.
-        </p>
       </section>
 
-      {/* 02 — Förderung & Steuern */}
-      <SectionHead nr="02" label="Förderung & Steuern" />
-      <section aria-labelledby="foerderungen-h" className="surface-sand">
-        <div className="container-page py-12 sm:py-16">
+      {/* Investition & Richtpreise — belegte Kennzahlen */}
+      <section aria-labelledby="fakten-h" className="py-14 sm:py-20">
+        <div className="container-page">
+          <SectionTitle
+            id="fakten-h"
+            title="Belegte Kennzahlen."
+            lead="Jede Zahl mit Quelle und Stand – damit Sie nachvollziehen können, womit wir rechnen."
+          />
+
+          <div className="neu mt-10 p-6 sm:p-7">
+            {/* Desktop: echte Tabelle */}
+            <table className="hidden w-full border-collapse text-sm sm:table">
+              <thead>
+                <tr className="border-b border-border">
+                  <th scope="col" className="eyebrow pb-3 pr-6 text-left">
+                    Kennzahl
+                  </th>
+                  <th scope="col" className="eyebrow pb-3 pr-6 text-left">
+                    Wert
+                  </th>
+                  <th scope="col" className="eyebrow pb-3 pr-6 text-left">
+                    Quelle
+                  </th>
+                  <th scope="col" className="eyebrow pb-3 text-left">
+                    Stand
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {facts.map((f) => (
+                  <tr
+                    key={f.kennzahl}
+                    className="border-b border-border last:border-b-0"
+                  >
+                    <td className="max-w-[26ch] py-4 pr-6 align-top font-medium text-foreground">
+                      {f.kennzahl}
+                    </td>
+                    <td className="stat-mono max-w-[38ch] py-4 pr-6 align-top text-foreground">
+                      {f.wert}
+                    </td>
+                    <td className="py-4 pr-6 align-top text-muted-foreground">
+                      {f.quelle}
+                    </td>
+                    <td className="py-4 align-top text-muted-foreground">
+                      {f.stand}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Mobile: gestapelte Definitionen statt horizontalem Scrollen */}
+            <dl className="sm:hidden">
+              {facts.map((f) => (
+                <div
+                  key={f.kennzahl}
+                  className="border-t border-border py-5 first:border-t-0 first:pt-0 last:pb-0"
+                >
+                  <dt className="text-sm font-medium text-foreground">
+                    {f.kennzahl}
+                  </dt>
+                  <dd className="stat-mono mt-2 text-sm leading-relaxed text-foreground">
+                    {f.wert}
+                  </dd>
+                  <dd className="mt-2 text-xs text-muted-foreground">
+                    {f.quelle} · Stand {f.stand}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <p className="mt-5 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+            Alle Angaben indikativ; massgebend sind die zum Zeitpunkt der
+            Inbetriebnahme gültigen Ansätze. Quellen: Energieförderungsverordnung
+            EnFV (Fedlex, Stand 1.7.2026) · ElCom Strompreisübersicht 2026 ·
+            Art. 15 EnG / BFE-Referenz-Marktpreis · Hersteller-Datenblatt.
+            Geprüft am 14. August 2026.
+          </p>
+        </div>
+      </section>
+
+      {/* Förderung & Steuern */}
+      <section aria-labelledby="foerderungen-h" className="py-14 sm:py-20">
+        <div className="container-page">
           <SectionTitle
             id="foerderungen-h"
             title="Förderung senkt die Investition."
             lead="Bund, Kantone und teils Gemeinden unterstützen Photovoltaik. Weil sich die Programme laufend ändern, prüfen wir sie tagesaktuell für Ihren Standort."
           />
 
-          <div className="mt-10">
-            {fundingItems.map((f, i) => (
-              <article
-                key={f.title}
-                className={`grid gap-2 border-t border-border py-7 sm:grid-cols-[260px_1fr] sm:gap-8 lg:py-8 ${
-                  i === fundingItems.length - 1 ? "border-b" : ""
-                }`}
-              >
-                <h3 className="text-lg font-semibold text-foreground">
+          <div className="mt-10 grid gap-6 lg:grid-cols-3">
+            {fundingItems.map((f) => (
+              <article key={f.title} className="neu p-6 sm:p-7">
+                <span aria-hidden className="gold-dot" />
+                <h3 className="mt-4 text-lg font-semibold text-foreground">
                   {f.title}
                 </h3>
-                <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                   {f.text}
                 </p>
               </article>
@@ -227,78 +235,73 @@ export default function FinanzierungPage() {
         </div>
       </section>
 
-      {/* 03 — Finanzierungswege */}
-      <SectionHead nr="03" label="Finanzierungswege" />
-      <section
-        aria-labelledby="finanzierungswege-h"
-        className="container-page py-12 sm:py-16"
-      >
-        <SectionTitle
-          id="finanzierungswege-h"
-          title="Zwei Wege zur eigenen Anlage – beide planbar."
-          lead="Ob aus Eigenmitteln oder in Raten: Welcher Weg passt, entscheidet Ihr Haushalt."
-        />
+      {/* Finanzierungswege */}
+      <section aria-labelledby="finanzierungswege-h" className="py-14 sm:py-20">
+        <div className="container-page">
+          <SectionTitle
+            id="finanzierungswege-h"
+            title="Zwei Wege zur eigenen Anlage – beide planbar."
+            lead="Ob aus Eigenmitteln oder in Raten: Welcher Weg passt, entscheidet Ihr Haushalt."
+          />
 
-        <div className="mt-10 grid gap-x-12 lg:grid-cols-2">
-          {financingPaths.map((path) => (
-            <article key={path.title} className="border-t border-border py-7">
-              <h3 className="text-xl font-semibold text-foreground">
-                {path.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {path.lead}
-              </p>
-              <ul className="mt-5">
-                {path.points.map((p, i) => (
-                  <li
-                    key={p}
-                    className={`flex gap-3 border-t border-border py-3 text-sm leading-relaxed text-foreground/85 ${
-                      i === path.points.length - 1 ? "border-b" : ""
-                    }`}
-                  >
-                    <SquareBullet />
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+          <div className="mt-10 grid gap-6 lg:grid-cols-2">
+            {financingPaths.map((path) => (
+              <article key={path.title} className="neu p-6 sm:p-7">
+                <h3 className="text-xl font-semibold text-foreground">
+                  {path.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {path.lead}
+                </p>
+                <ul className="mt-5 grid gap-3">
+                  {path.points.map((p) => (
+                    <li
+                      key={p}
+                      className="flex gap-3 text-sm leading-relaxed text-foreground/85"
+                    >
+                      <DotBullet />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+          <p className="mt-6 max-w-3xl text-xs leading-relaxed text-muted-foreground">
+            Wir vermitteln auf Wunsch Schweizer Finanzierungspartner, erbringen
+            aber keine Finanz-, Anlage- oder Steuerberatung – Konditionen sagt
+            allein der Partner zu.
+          </p>
         </div>
-
-        <p className="mt-6 max-w-3xl text-xs leading-relaxed text-muted-foreground">
-          Wir vermitteln auf Wunsch Schweizer Finanzierungspartner, erbringen
-          aber keine Finanz-, Anlage- oder Steuerberatung – Konditionen sagt
-          allein der Partner zu.
-        </p>
       </section>
 
-      {/* 04 — Wirtschaftlichkeit */}
-      <SectionHead nr="04" label="Wirtschaftlichkeit" />
-      <section aria-labelledby="wirtschaftlichkeit-h" className="surface-sand">
-        <div className="container-page py-12 sm:py-16">
+      {/* Wirtschaftlichkeit */}
+      <section aria-labelledby="wirtschaftlichkeit-h" className="py-14 sm:py-20">
+        <div className="container-page">
           <SectionTitle
             id="wirtschaftlichkeit-h"
             title="Über den ganzen Lebenszyklus gerechnet."
             lead="Nicht die grösste Anlage rechnet sich am besten, sondern die, deren Strom Sie selbst nutzen – über 25 bis 30 Jahre Betrieb."
           />
-          <ul className="mt-8 max-w-3xl">
-            {economics.map((n, i) => (
-              <li
-                key={n}
-                className={`flex gap-3 border-t border-border py-4 text-sm leading-relaxed text-foreground/85 ${
-                  i === economics.length - 1 ? "border-b" : ""
-                }`}
-              >
-                <SquareBullet />
-                {n}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-7">
-            <Link href="/kontakt" className="btn-ghost ring-focus min-h-12">
-              Fragen zur Wirtschaftlichkeit? Sprechen Sie mit uns.
-              <ArrowRight className="size-4" />
-            </Link>
+          <div className="neu mt-10 max-w-3xl p-6 sm:p-7">
+            <ul className="grid gap-4">
+              {economics.map((n) => (
+                <li
+                  key={n}
+                  className="flex gap-3 text-sm leading-relaxed text-foreground/85 sm:text-[15px]"
+                >
+                  <DotBullet />
+                  {n}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-7">
+              <Link href="/kontakt" className="btn-ghost min-h-12">
+                Fragen zur Wirtschaftlichkeit? Sprechen Sie mit uns.
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

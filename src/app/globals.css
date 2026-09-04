@@ -8,8 +8,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
+  --font-mono: var(--font-sans);
+  --font-heading: var(--font-sans);
 
   --color-solar-navy: var(--solar-navy);
   --color-solar-navy-foreground: var(--solar-navy-foreground);
@@ -48,133 +48,92 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: var(--radius);
-  --radius-md: var(--radius);
-  --radius-lg: var(--radius);
-  --radius-xl: var(--radius);
-  --radius-2xl: var(--radius);
-  --radius-3xl: var(--radius);
-  --radius-4xl: var(--radius);
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.375rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 1.75rem;
+  --radius-4xl: 2rem;
 }
 
 :root {
   /*
-   * Designsystem «Architectural Precision» (Konzept A, verbindlich seit 08/2026)
-   * Werkplan-Ästhetik: mineralisches Papier, Tinte, Stone-Grau, Graphit,
-   * sichtbare Hairlines, 0-Radius, KEINE Chromatik im Interface.
-   * Die --solar-*-Tokennamen sind historisch (navy/emerald/leaf/gold) und
-   * werden projektweit referenziert — nur die WERTE sind neu belegt und auf
-   * die achromatische Palette gemappt.
+   * Designsystem «Soft Solar» — Neumorphism, hell, Schwarz/Gold aus dem Logo
+   * (verbindlich seit 08/2026). Eine einzige warme Grundfläche; Tiefe entsteht
+   * ausschliesslich durch weiche Doppelschatten (hell oben-links, dunkel
+   * unten-rechts) — keine Linien, keine harten Kanten, kein Dunkelmodus.
+   * Die historischen --solar-*-Tokennamen bleiben und sind neu belegt.
    */
-  --background: #f7f7f4;             /* Papier */
-  --foreground: #1a1c1c;             /* Tinte */
-  --card: #ffffff;
-  --card-foreground: #1a1c1c;
-  --popover: #ffffff;
-  --popover-foreground: #1a1c1c;
-  --primary: #1a1c1c;
-  --primary-foreground: #f7f7f4;
-  --secondary: #efefea;              /* Papier 2 — Wechselflächen */
-  --secondary-foreground: #1a1c1c;
-  --muted: #efefea;
-  --muted-foreground: #65665f;       /* Stone — AA 5.4:1 auf Papier */
-  --accent: #efefea;
-  --accent-foreground: #1a1c1c;
+  --background: #eeece6;             /* Grundfläche (warmes Hellbeige) */
+  --foreground: #121212;             /* Logo-Schwarz */
+  --card: #eeece6;                   /* erhabene Flächen haben die Grundfarbe */
+  --card-foreground: #121212;
+  --popover: #f4f2ed;
+  --popover-foreground: #121212;
+  --primary: #c9a227;                /* Logo-Gold — Aktionen */
+  --primary-foreground: #121212;
+  --secondary: #e6e4dd;
+  --secondary-foreground: #121212;
+  --muted: #e6e4dd;
+  --muted-foreground: #5c5b55;       /* AA 6.1:1 auf der Grundfläche */
+  --accent: #f1e7c8;                 /* Gold, sanft — Badges, Selektion */
+  --accent-foreground: #121212;
   --destructive: oklch(0.505 0.213 27.518);
-  --border: #d8d8d0;                 /* Hairline — bewusst sichtbar, 1px */
-  --input: #c9c9c1;
-  --ring: rgba(26, 28, 28, 0.55);
+  --border: rgba(18, 18, 18, 0.07);  /* nur noch für dezente Trennlinien */
+  --input: rgba(18, 18, 18, 0.1);
+  --ring: rgba(201, 162, 39, 0.75);
 
-  /* Kernmarke — historische Namen, Konzept-A-Werte */
-  --solar-navy: #1a1c1c;             /* Tinte — Primär-Aktionen, starke Typo */
-  --solar-navy-foreground: #f2f2ee;
-  --solar-emerald: #3c3f3d;          /* neutral-dunkles Grau — Checks, Marker */
-  --solar-leaf: #e8e8e2;             /* helle Mineralfläche (Alt-Nutzungen entschärft) */
-  --solar-gold: #65665f;             /* Stone — Nummern/Meta (kein Gold mehr) */
-  --solar-orange: #65665f;
-  --solar-cream: #efefea;
+  /* Neumorphismus-Schatten */
+  --neu-light: #ffffff;
+  --neu-dark: #cfcabf;
+  --neu-raise: 9px 9px 20px var(--neu-dark), -9px -9px 20px var(--neu-light);
+  --neu-raise-sm: 5px 5px 12px var(--neu-dark), -5px -5px 12px var(--neu-light);
+  --neu-inset: inset 6px 6px 12px var(--neu-dark), inset -6px -6px 12px var(--neu-light);
 
-  --solar-slate: #65665f;            /* Stone — Labels, technische Werte */
-  --solar-graphite: #252827;         /* Graphit — dunkle Sektionen, matt */
-  --solar-sand: #efefea;             /* ruhige Zwischenflächen (flach) */
-  --solar-ink: #1a1c1c;
-  --solar-stone: #65665f;
-  --solar-line: #d8d8d0;
-  --solar-paper: #f7f7f4;
-  --solar-paper-2: #efefea;
+  /* Kernmarke — historische Namen */
+  --solar-navy: #121212;
+  --solar-navy-foreground: #f5f3ee;
+  --solar-emerald: #8a6d1d;          /* dunkles Gold für Marker/Checks (AA) */
+  --solar-leaf: #f1e7c8;
+  --solar-gold: #c9a227;
+  --solar-gold-dark: #b8912a;
+  --solar-orange: #b8912a;
+  --solar-cream: #e6e4dd;
 
-  --chart-1: #1a1c1c;
-  --chart-2: #65665f;
-  --chart-3: #9a9b93;
-  --chart-4: #c9c9c1;
-  --chart-5: #3c3f3d;
+  --solar-slate: #5c5b55;
+  --solar-stone: #5c5b55;
+  --solar-graphite: #eeece6;         /* keine dunklen Sektionen mehr */
+  --solar-sand: #e6e4dd;
+  --solar-line: rgba(18, 18, 18, 0.07);
+  --solar-ink: #121212;
+  --solar-paper: #eeece6;
+  --solar-paper-2: #e6e4dd;
 
-  --radius: 0rem;                    /* Werkplan: kantige Geometrie überall */
+  --chart-1: #121212;
+  --chart-2: #c9a227;
+  --chart-3: #5c5b55;
+  --chart-4: #b8912a;
+  --chart-5: #9a988f;
+
+  --radius: 1.25rem;
   --font-heading: var(--font-sans);
 
-  --sidebar: #ffffff;
-  --sidebar-foreground: #1a1c1c;
-  --sidebar-primary: #1a1c1c;
-  --sidebar-primary-foreground: #f7f7f4;
-  --sidebar-accent: #efefea;
-  --sidebar-accent-foreground: #1a1c1c;
-  --sidebar-border: #d8d8d0;
-  --sidebar-ring: rgba(26, 28, 28, 0.55);
+  --sidebar: #eeece6;
+  --sidebar-foreground: #121212;
+  --sidebar-primary: #c9a227;
+  --sidebar-primary-foreground: #121212;
+  --sidebar-accent: #e6e4dd;
+  --sidebar-accent-foreground: #121212;
+  --sidebar-border: rgba(18, 18, 18, 0.07);
+  --sidebar-ring: rgba(201, 162, 39, 0.75);
 }
 
-/* Dark-Mode-Werte (kein Theme-Switcher aktiv; konsistent gehalten, damit
-   künftige Nutzung nicht bricht). Gleiche achromatische Sprache. */
+/* Kein Dunkelmodus im Soft-Solar-System — die Werte bleiben hell, damit
+   ein systemweites Dark-Theme die Seite nicht verfälscht. */
 .dark {
-  --background: #1d1f1e;
-  --foreground: #f2f2ee;
-  --card: #252827;
-  --card-foreground: #f2f2ee;
-  --popover: #252827;
-  --popover-foreground: #f2f2ee;
-  --primary: #f2f2ee;
-  --primary-foreground: #1a1c1c;
-  --secondary: #2c2f2e;
-  --secondary-foreground: #f2f2ee;
-  --muted: #2c2f2e;
-  --muted-foreground: #a9aba3;
-  --accent: #2c2f2e;
-  --accent-foreground: #f2f2ee;
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: #3a3d3b;
-  --input: #454846;
-  --ring: rgba(242, 242, 238, 0.55);
-
-  --solar-navy: #1a1c1c;
-  --solar-navy-foreground: #f2f2ee;
-  --solar-emerald: #c9c9c1;
-  --solar-leaf: #2c2f2e;
-  --solar-gold: #a9aba3;
-  --solar-orange: #a9aba3;
-  --solar-cream: #2c2f2e;
-
-  --solar-slate: #a9aba3;
-  --solar-graphite: #252827;
-  --solar-sand: #2c2f2e;
-  --solar-ink: #f2f2ee;
-  --solar-stone: #a9aba3;
-  --solar-line: #3a3d3b;
-  --solar-paper: #1d1f1e;
-  --solar-paper-2: #2c2f2e;
-
-  --chart-1: #f2f2ee;
-  --chart-2: #a9aba3;
-  --chart-3: #7b7d76;
-  --chart-4: #454846;
-  --chart-5: #c9c9c1;
-
-  --sidebar: #1d1f1e;
-  --sidebar-foreground: #f2f2ee;
-  --sidebar-primary: #f2f2ee;
-  --sidebar-primary-foreground: #1a1c1c;
-  --sidebar-accent: #2c2f2e;
-  --sidebar-accent-foreground: #f2f2ee;
-  --sidebar-border: #3a3d3b;
-  --sidebar-ring: rgba(242, 242, 238, 0.55);
+  --background: #eeece6;
+  --foreground: #121212;
 }
 
 @layer base {
@@ -191,8 +150,8 @@
     @apply bg-background text-foreground;
   }
   ::selection {
-    background: var(--solar-ink);
-    color: var(--solar-paper);
+    background: var(--accent);
+    color: var(--solar-ink);
   }
   h1, h2, h3, h4 {
     @apply tracking-tight;
@@ -205,104 +164,123 @@
 }
 
 @layer utilities {
-  /* Inhaltsbreite innerhalb des Zeichenblatts */
   .container-page {
-    @apply mx-auto w-full max-w-[1360px] px-5 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-[1180px] px-5 sm:px-8;
   }
-
-  /* Zeichenblatt: die Seite steht ab 1024px zwischen zwei sichtbaren
-     vertikalen Hairlines (Wrapper im Root-Layout). */
+  /* Historischer Wrapper — im Soft-Solar-System ohne Aussenkanten */
   .site-sheet {
-    @apply mx-auto w-full max-w-[1440px];
-  }
-  @media (min-width: 1024px) {
-    .site-sheet {
-      border-left: 1px solid var(--solar-line);
-      border-right: 1px solid var(--solar-line);
-    }
+    @apply w-full;
   }
 
-  /* Weisses Panel mit Hairline-Rahmen (historischer Name; früher Glas) */
+  /* ——— Neumorphismus-Primitive ——— */
+  .neu {
+    background: var(--background);
+    border-radius: 1.375rem;
+    box-shadow: var(--neu-raise);
+  }
+  .neu-sm {
+    background: var(--background);
+    border-radius: 1rem;
+    box-shadow: var(--neu-raise-sm);
+  }
+  .neu-in {
+    background: var(--background);
+    border-radius: 1.25rem;
+    box-shadow: var(--neu-inset);
+  }
+  /* Foto in eingelassenem Rahmen */
+  .neu-photo {
+    border-radius: 1rem;
+    box-shadow: var(--neu-inset);
+    padding: 0.5rem;
+  }
+  .neu-photo > * {
+    border-radius: 0.625rem;
+    overflow: hidden;
+  }
+
+  /* Historische Flächen-Hooks → alle auf erhabene bzw. neutrale Flächen gemappt */
   .surface-glass {
-    background: var(--card);
-    border: 1px solid var(--solar-line);
+    background: var(--background);
+    border-radius: 1.375rem;
+    box-shadow: var(--neu-raise);
   }
-
-  /* Dunkle Sektion — mattes Graphit, flach, ohne Lichter/Verläufe.
-     Klassenname historisch («navy»), wird projektweit referenziert. */
   .surface-navy {
-    background: var(--solar-graphite);
-    color: var(--solar-navy-foreground);
-    /* Labels/Meta auf Graphit: helles Stone (AA auf dunkel) */
-    --solar-slate: #a9aba3;
-    --solar-stone: #a9aba3;
-    --solar-gold: #a9aba3;
-    --solar-line: #3a3d3b;
-    --border: #3a3d3b;
+    background: var(--background);
+    color: var(--foreground);
+    border-radius: 1.375rem;
+    box-shadow: var(--neu-raise);
   }
-
-  /* Ruhige Zwischenfläche — flaches Papier 2 */
   .surface-sand {
-    background: var(--solar-paper-2);
+    background: transparent;
   }
-
+  .grain-overlay::after {
+    content: none;
+  }
+  .gold-underline {
+    background: none;
+  }
   .text-balance {
     text-wrap: balance;
   }
 
-  /* Historischer Hook — im Werkplan-System bewusst wirkungslos (kein Grain). */
-  .grain-overlay::after {
-    content: none;
-  }
-
   .ring-focus {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
-  /* Historischer Hook der Hero-Headline — keine Verlaufs-Unterstreichung mehr. */
-  .gold-underline {
-    background: none;
-  }
-
-  /* ——— Werkplan-Idiome ——— */
-
-  /* Mono-Label (Eyebrow-Ersatz): Plankopf-/Beschriftungssprache */
+  /* Kicker/Label: klein, gesperrt, gedämpft (ersetzt das Mono-Label) */
   .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 500;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--solar-stone);
+    letter-spacing: 0.12em;
+    color: var(--muted-foreground);
   }
 
-  /* Technische Werte / Zahlen — Mono, tabellarische Ziffern */
+  /* Zahlen/Werte: tabellarische Ziffern, halbfett */
   .stat-mono {
-    font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
+    font-weight: 600;
   }
 
-  /* Rechteckige Buttons — 1px-Border, Hover invertiert, 150ms */
+  /* Buttons — weich erhaben, beim Drücken eingelassen */
   .btn-primary {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 border border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] px-6 text-sm font-medium text-[color:var(--solar-navy-foreground)] transition-colors duration-150 hover:bg-transparent hover:text-[color:var(--solar-ink)];
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-6 text-[15px] font-semibold text-[color:var(--solar-ink)] transition-[transform,box-shadow] duration-150 hover:-translate-y-px active:translate-y-0;
+    background: linear-gradient(135deg, #ddb955, #b8912a);
+    box-shadow: var(--neu-raise-sm);
   }
-
+  .btn-primary:active {
+    box-shadow: var(--neu-inset);
+  }
   .btn-secondary {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 border border-[color:var(--solar-ink)] bg-transparent px-6 text-sm font-medium text-foreground transition-colors duration-150 hover:bg-[color:var(--solar-ink)] hover:text-[color:var(--solar-navy-foreground)];
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-background px-6 text-[15px] font-semibold text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px active:translate-y-0;
+    box-shadow: var(--neu-raise-sm);
   }
-
+  .btn-secondary:active {
+    box-shadow: var(--neu-inset);
+  }
   .btn-ghost {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors duration-150 hover:decoration-[color:var(--solar-ink)];
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex items-center gap-1.5 text-[15px] font-semibold text-foreground underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4 transition-colors duration-150 hover:text-[color:var(--solar-gold-dark)];
   }
-
-  /* Varianten für Graphit-Sektionen */
+  /* Es gibt keine dunklen Sektionen mehr — Inverse-Varianten = Standard */
   .btn-primary-inverse {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--solar-graphite)] inline-flex min-h-12 items-center justify-center gap-2 border border-[color:#f2f2ee] bg-[color:#f2f2ee] px-6 text-sm font-medium text-[color:var(--solar-graphite)] transition-colors duration-150 hover:bg-transparent hover:text-[color:#f2f2ee];
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl px-6 text-[15px] font-semibold text-[color:var(--solar-ink)] transition-[transform,box-shadow] duration-150 hover:-translate-y-px;
+    background: linear-gradient(135deg, #ddb955, #b8912a);
+    box-shadow: var(--neu-raise-sm);
+  }
+  .btn-secondary-inverse {
+    @apply focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[color:var(--ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-background inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-background px-6 text-[15px] font-semibold text-foreground transition-[transform,box-shadow] duration-150 hover:-translate-y-px;
+    box-shadow: var(--neu-raise-sm);
   }
 
-  .btn-secondary-inverse {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--solar-graphite)] inline-flex min-h-12 items-center justify-center gap-2 border border-white/40 bg-transparent px-6 text-sm font-medium text-white transition-colors duration-150 hover:border-white hover:bg-white/5;
+  /* Goldpunkt als einziges Ornament */
+  .gold-dot {
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 9999px;
+    background: linear-gradient(135deg, #ddb955, #b8912a);
+    box-shadow: var(--neu-raise-sm);
   }
 }
 

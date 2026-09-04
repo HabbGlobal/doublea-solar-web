@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 };
 
 /**
- * Admin-Shell im Werkplan-Stil. Rendert nur das Chrome (Kopfzeile + Nav);
- * der Auth-Guard bleibt unverändert in der Middleware und den einzelnen
- * Pages (getCurrentUser). Die Login-Route blendet das Chrome client-seitig
- * aus (usePathname in AdminChrome).
+ * Admin-Shell im Soft-Solar-System. Rendert nur das Chrome (Kopfleiste +
+ * Nav); der Auth-Guard bleibt unverändert in der Middleware und den
+ * einzelnen Pages (getCurrentUser). Die Login-Route blendet das Chrome
+ * client-seitig aus (usePathname in AdminChrome).
  */
 export default function AdminLayout({
   children,

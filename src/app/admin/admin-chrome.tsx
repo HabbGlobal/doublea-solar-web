@@ -16,10 +16,17 @@ const NAV_ITEMS = [
   { href: "/admin/anfragen", label: "Anfragen" },
 ] as const;
 
+const NAV_LINK_BASE =
+  "ring-focus inline-flex min-h-11 shrink-0 items-center rounded-xl px-4 text-sm transition-[box-shadow,color] duration-150";
+const NAV_LINK_ACTIVE =
+  "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]";
+const NAV_LINK_IDLE = "text-muted-foreground hover:text-foreground";
+
 /**
- * Client-Chrome des Admin-Bereichs: Kopfzeile + Navigation im Werkplan-Stil.
- * Auf der Login-Route wird das Chrome ausgeblendet (Seite bleibt offen,
- * der Auth-Guard liegt unverändert in Middleware + Pages).
+ * Client-Chrome des Admin-Bereichs im Soft-Solar-System: weich erhabene
+ * Kopfleiste + Navigation als Pill-Liste. Auf der Login-Route wird das
+ * Chrome ausgeblendet (Seite bleibt offen, der Auth-Guard liegt
+ * unverändert in Middleware + Pages).
  */
 export function AdminChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -50,20 +57,24 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <header className="border-b border-border bg-background">
-        <div className="flex min-h-14 items-center justify-between gap-4 px-5 sm:px-8">
+      <header className="container-page pt-4 sm:pt-5">
+        <div className="neu-sm flex min-h-16 items-center justify-between gap-4 px-4 py-2 sm:px-6">
           <div className="flex items-center gap-3">
-            <Link href="/admin" className="ring-focus" aria-label="Admin-Startseite">
-              <Logo iconOnly />
+            <Link
+              href="/admin"
+              className="ring-focus rounded-xl"
+              aria-label="Admin-Startseite"
+            >
+              <Logo className="h-9" />
             </Link>
-            <span className="eyebrow border-l border-border pl-3">Admin</span>
+            <span className="eyebrow">Admin</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-5">
             <a
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-ghost text-xs"
+              className="btn-ghost hidden text-sm sm:inline-flex"
             >
               Live-Site öffnen
             </a>
@@ -71,7 +82,7 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
               type="button"
               onClick={logout}
               disabled={loggingOut}
-              className="ring-focus inline-flex h-8 items-center gap-1.5 border border-border px-3 text-xs font-medium text-foreground transition-colors duration-150 hover:bg-secondary disabled:pointer-events-none disabled:opacity-50"
+              className="btn-secondary min-h-10 px-4 text-sm disabled:pointer-events-none disabled:opacity-50"
             >
               {loggingOut ? (
                 <>
@@ -84,10 +95,10 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        {/* Mobile: horizontale Scroll-Leiste */}
+        {/* Mobile: horizontal scrollbare Pill-Leiste */}
         <nav
           aria-label="Admin-Navigation"
-          className="flex overflow-x-auto border-t border-border lg:hidden"
+          className="neu-sm mt-4 flex gap-1 overflow-x-auto p-2 lg:hidden"
         >
           {NAV_ITEMS.map((item) => (
             <Link
@@ -95,10 +106,8 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
-                "ring-focus shrink-0 border-b-2 px-4 py-3 text-sm transition-colors duration-150",
-                isActive(item.href)
-                  ? "border-[color:var(--solar-ink)] font-medium text-foreground"
-                  : "border-transparent text-muted-foreground hover:text-foreground",
+                NAV_LINK_BASE,
+                isActive(item.href) ? NAV_LINK_ACTIVE : NAV_LINK_IDLE,
               )}
             >
               {item.label}
@@ -107,12 +116,12 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
         </nav>
       </header>
 
-      <div className="lg:grid lg:grid-cols-[220px_1fr]">
-        {/* Desktop: schmale linke Spalte */}
-        <aside className="hidden border-r border-border lg:block">
+      <div className="container-page py-8 lg:grid lg:grid-cols-[220px_1fr] lg:gap-8">
+        {/* Desktop: Navigation als Spalte links */}
+        <aside className="hidden lg:block">
           <nav
             aria-label="Admin-Navigation"
-            className="sticky top-0 flex flex-col py-8"
+            className="neu-sm sticky top-6 flex flex-col gap-1 p-2"
           >
             {NAV_ITEMS.map((item) => (
               <Link
@@ -120,10 +129,8 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 className={cn(
-                  "ring-focus border-l-2 px-5 py-2.5 text-sm transition-colors duration-150",
-                  isActive(item.href)
-                    ? "border-[color:var(--solar-ink)] font-medium text-foreground"
-                    : "border-transparent text-muted-foreground hover:text-foreground",
+                  NAV_LINK_BASE,
+                  isActive(item.href) ? NAV_LINK_ACTIVE : NAV_LINK_IDLE,
                 )}
               >
                 {item.label}

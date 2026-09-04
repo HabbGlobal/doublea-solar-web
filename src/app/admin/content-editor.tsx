@@ -52,7 +52,7 @@ export function ContentEditor({ initialContent }: Props) {
   }
 
   return (
-    <div className="grid gap-8">
+    <div className="grid gap-10">
       {/* HERO */}
       <SectionCard
         title="Hero-Sektion (Startseite oben)"
@@ -268,9 +268,9 @@ export function ContentEditor({ initialContent }: Props) {
       >
         <FieldGroup>
           {content.faq.map((item, i) => (
-            <div key={i} className="border border-border bg-card p-4">
-              <div className="flex items-start justify-between gap-3">
-                <span className="eyebrow">Eintrag {String(i + 1).padStart(2, "0")}</span>
+            <div key={i} className="neu-sm rounded-2xl p-4 sm:p-5">
+              <div className="flex items-center justify-between gap-3">
+                <span className="eyebrow">Eintrag {i + 1}</span>
                 <button
                   type="button"
                   onClick={() =>
@@ -280,12 +280,12 @@ export function ContentEditor({ initialContent }: Props) {
                     )
                   }
                   aria-label={`FAQ-Eintrag ${i + 1} entfernen`}
-                  className="ring-focus inline-flex items-center gap-1 text-xs text-muted-foreground transition-colors duration-150 hover:text-destructive"
+                  className="ring-focus neu-sm inline-flex min-h-10 items-center gap-1.5 rounded-xl px-3 text-xs font-medium text-muted-foreground transition-[box-shadow,color] duration-150 hover:text-destructive active:shadow-[var(--neu-inset)]"
                 >
                   <Trash2 className="size-3.5" aria-hidden /> Entfernen
                 </button>
               </div>
-              <div className="mt-3 grid gap-3">
+              <div className="mt-4 grid gap-4">
                 <Field>
                   <FieldLabel htmlFor={`faq-q-${i}`}>Frage</FieldLabel>
                   <Input
@@ -326,7 +326,7 @@ export function ContentEditor({ initialContent }: Props) {
             onClick={() =>
               patch("faq", [...content.faq, { q: "Neue Frage", a: "Antwort …" }])
             }
-            className="ring-focus inline-flex items-center gap-2 self-start border border-dashed border-border px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors duration-150 hover:bg-secondary hover:text-foreground"
+            className="btn-secondary min-h-11 self-start px-5 text-sm"
           >
             <Plus className="size-4" aria-hidden /> Neuen Eintrag hinzufügen
           </button>
@@ -350,17 +350,17 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="surface-glass">
-      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border px-5 py-4 sm:px-6">
-        <div>
-          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+    <section className="neu p-6 sm:p-8">
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <h2 className="text-xl font-bold tracking-tight text-foreground">{title}</h2>
           <p className="mt-1 text-sm text-muted-foreground">{description}</p>
         </div>
         <button
           type="button"
           onClick={onSave}
           disabled={saving}
-          className="btn-primary disabled:pointer-events-none disabled:opacity-60"
+          className="btn-primary min-h-11 w-full disabled:pointer-events-none disabled:opacity-60 sm:w-auto"
         >
           {saving ? (
             <>
@@ -371,7 +371,7 @@ function SectionCard({
           )}
         </button>
       </div>
-      <div className="px-5 py-6 sm:px-6">{children}</div>
+      <div className="mt-6">{children}</div>
     </section>
   );
 }

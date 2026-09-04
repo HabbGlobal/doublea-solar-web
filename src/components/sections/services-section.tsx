@@ -1,91 +1,90 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { SectionHead, SectionTitle } from "@/components/site/section-head";
+import { SectionTitle } from "@/components/site/section-head";
 
 const services: {
   id: string;
-  nr: string;
   title: string;
   description: string;
 }[] = [
   {
     id: "standortanalyse",
-    nr: "01",
     title: "Standortanalyse",
     description:
       "Dachfläche, Ausrichtung, Verschattung und Statik vor Ort geprüft.",
   },
   {
     id: "planung",
-    nr: "02",
     title: "Planung & Auslegung",
     description:
       "Anlagenkonzept nach Verbrauchsprofil, Wärmepumpe und Elektromobilität.",
   },
   {
     id: "foerderung",
-    nr: "03",
     title: "Förderung & Administration",
     description:
       "Pronovo-Einmalvergütung, kantonale Programme und Meldewesen: wir führen den Papierweg.",
   },
   {
     id: "installation",
-    nr: "04",
     title: "Installation & Netzanschluss",
     description:
       "Montage, Elektroinstallation und Inbetriebnahme mit Sicherheitsnachweis (SiNa).",
   },
   {
     id: "batterie",
-    nr: "05",
     title: "Speicher & Eigenverbrauch",
     description:
       "Batterie und Lastmanagement nach Ihrem Lastprofil dimensioniert.",
   },
   {
     id: "monitoring",
-    nr: "06",
     title: "Monitoring & Wartung",
     description:
       "Ertragsüberwachung, Sichtprüfung, Reinigung und Wechselrichter-Service.",
   },
 ];
 
+/**
+ * Leistungen: sechs weich erhabene Karten im Dreier-Raster — Goldpunkt,
+ * Titel, ein Satz. Jede Karte führt auf den passenden Abschnitt unter
+ * /services.
+ */
 export function ServicesSection() {
   return (
-    <section id="leistungen" aria-labelledby="leistungen-titel">
-      <SectionHead nr="02" label="Leistungen" />
-      <div className="container-page py-14 sm:py-20">
+    <section
+      id="leistungen"
+      aria-labelledby="leistungen-titel"
+      className="py-14 sm:py-20"
+    >
+      <div className="container-page">
         <SectionTitle
           id="leistungen-titel"
           title="Leistungen"
           lead="Eine Anlage, ein Verantwortlicher: von der Standortanalyse bis zum Betrieb."
         />
 
-        <div className="mt-10">
-          {services.map((s, i) => (
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {services.map((s) => (
             <Link
               key={s.id}
               href={`/services#${s.id}`}
-              className={`ring-focus grid items-baseline gap-x-6 gap-y-1 border-t border-border py-5 transition-colors duration-150 hover:bg-card sm:grid-cols-[64px_240px_1fr] ${
-                i === services.length - 1 ? "border-b" : ""
-              }`}
+              className="neu ring-focus block p-6 transition-transform duration-150 hover:-translate-y-px sm:p-7"
             >
-              <span className="eyebrow">{s.nr}</span>
-              <h3 className="text-base font-medium text-foreground">
+              <span className="gold-dot mb-4" aria-hidden="true" />
+              <h3 className="text-[17px] font-semibold leading-snug text-foreground">
                 {s.title}
               </h3>
-              <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
                 {s.description}
               </p>
             </Link>
           ))}
         </div>
 
-        <div className="mt-8">
-          <Link href="/services" className="btn-ghost">
-            Alle Leistungen im Detail
+        <div className="mt-10">
+          <Link href="/services" className="btn-ghost min-h-11">
+            Alle Leistungen
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>

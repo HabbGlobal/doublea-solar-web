@@ -302,28 +302,28 @@ export function SolarCalculator() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="surface-glass relative overflow-hidden">
-        <div className="border-b border-border px-6 pt-6 pb-5 lg:px-8 lg:pt-8">
-          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+      <div className="neu relative p-6 sm:p-7 lg:p-8">
+        <div>
+          <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-5">
             <div>
               <p className="eyebrow">Solarrechner</p>
               <h2 className="mt-2 text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl">
                 Erstauswertung in 60 Sekunden
               </h2>
             </div>
-            <ol className="flex flex-wrap items-stretch gap-x-5 gap-y-2">
+            <ol className="flex flex-wrap items-center gap-2">
               {[...stepConfig.map((s) => s.label), "Ergebnis"].map((label, i) => {
                 const isActive = i === step && !result;
                 const isDone = i < step || Boolean(result);
                 return (
                   <li key={label}>
                     <span
-                      className={`flex items-baseline gap-2 border-b-2 px-0.5 pb-1.5 text-xs transition-colors ${
+                      className={`inline-flex min-h-9 items-center gap-2 rounded-full bg-background px-3.5 text-xs transition-[box-shadow,color] duration-150 ${
                         isActive
-                          ? "border-[color:var(--solar-ink)] font-medium text-foreground"
+                          ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
                           : isDone
-                            ? "border-transparent text-foreground"
-                            : "border-transparent text-muted-foreground"
+                            ? "shadow-[var(--neu-raise-sm)] font-medium text-foreground"
+                            : "shadow-[var(--neu-raise-sm)] text-muted-foreground"
                       }`}
                     >
                       <span className="stat-mono text-[11px]">0{i + 1}</span>
@@ -340,10 +340,10 @@ export function SolarCalculator() {
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(progress)}
-            className="mt-5 h-0.5 w-full overflow-hidden bg-border"
+            className="neu-in mt-6 h-3 w-full overflow-hidden rounded-full p-0.5"
           >
             <div
-              className="h-full bg-[color:var(--solar-ink)] transition-[width] duration-500 ease-out"
+              className="h-full rounded-full bg-[linear-gradient(135deg,#ddb955,#b8912a)] transition-[width] duration-500 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -352,7 +352,7 @@ export function SolarCalculator() {
         {!result ? (
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="px-6 py-6 lg:px-8 lg:py-8"
+            className="mt-8"
           >
             <AnimatePresence mode="wait">
               <motion.div
@@ -372,7 +372,7 @@ export function SolarCalculator() {
 
                     {/* Sanity-Warnung wenn unrealistisch grosse Anlage */}
                     {hasSonnendach && oversize && (
-                      <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-4">
+                      <div className="neu-in rounded-2xl p-5">
                         <div className="text-sm">
                           <p className="font-medium text-foreground">
                             Sehr grosse Auswahl für ein Einfamilienhaus
@@ -389,7 +389,7 @@ export function SolarCalculator() {
 
                     {/* Manueller Fallback / Override */}
                     {!hasSonnendach && (
-                      <div className="surface-glass p-5 lg:p-6">
+                      <div className="neu p-6">
                         <div className="flex items-start justify-between gap-3">
                           <div>
                             <p className="eyebrow">Manuelle Eingabe</p>
@@ -418,7 +418,7 @@ export function SolarCalculator() {
                       <button
                         type="button"
                         onClick={() => setShowManualOverride((s) => !s)}
-                        className="ring-focus flex items-center gap-2 self-start text-xs font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 hover:text-foreground"
+                        className="btn-ghost min-h-11 self-start text-sm"
                       >
                         {showManualOverride
                           ? "Manuelle Werte ausblenden"
@@ -427,7 +427,7 @@ export function SolarCalculator() {
                     )}
 
                     {hasSonnendach && showManualOverride && (
-                      <div className="surface-glass p-5">
+                      <div className="neu p-6">
                         <ManualRoofInputs
                           form={form}
                           register={register}
@@ -448,9 +448,12 @@ export function SolarCalculator() {
                 {step === 1 && (
                   <FieldGroup>
                     {hasSonnendach && (
-                      <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-4">
+                      <div className="neu-in rounded-2xl p-5">
                         <div className="text-sm">
-                          <p className="font-medium text-foreground">
+                          <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E5510]">
+                            Bundesdaten
+                          </span>
+                          <p className="mt-2 font-medium text-foreground">
                             Bundesdaten aktiv für {values.address}
                           </p>
                           <p className="mt-0.5 text-xs text-muted-foreground">
@@ -477,14 +480,14 @@ export function SolarCalculator() {
                               setValue("buildingType", b.value, { shouldValidate: true })
                             }
                             aria-pressed={values.buildingType === b.value}
-                            className={`ring-focus flex min-h-12 flex-col items-start gap-0.5 border p-4 text-left transition-colors ${
+                            className={`ring-focus neu-sm flex min-h-12 flex-col items-start gap-0.5 rounded-2xl p-4 text-left transition-[box-shadow,color,transform] duration-150 ${
                               values.buildingType === b.value
-                                ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                                : "border-border bg-card hover:bg-secondary"
+                                ? "shadow-[var(--neu-inset)] text-[color:var(--solar-gold-dark)]"
+                                : "text-foreground hover:-translate-y-px"
                             }`}
                           >
                             <span className="text-sm font-semibold">{b.label}</span>
-                            <span className="text-xs opacity-80">{b.description}</span>
+                            <span className="text-xs text-muted-foreground">{b.description}</span>
                           </button>
                         ))}
                       </div>
@@ -564,10 +567,10 @@ export function SolarCalculator() {
                               setValue("wantsBattery", o.value, { shouldValidate: true })
                             }
                             aria-pressed={values.wantsBattery === o.value}
-                            className={`ring-focus min-h-12 border px-3 py-2.5 text-sm font-medium transition-colors ${
+                            className={`ring-focus neu-sm min-h-12 rounded-2xl px-3 py-2.5 text-sm font-medium transition-[box-shadow,color,transform] duration-150 ${
                               values.wantsBattery === o.value
-                                ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                                : "border-border bg-card hover:bg-secondary"
+                                ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
+                                : "text-foreground hover:-translate-y-px"
                             }`}
                           >
                             {o.label}
@@ -580,7 +583,7 @@ export function SolarCalculator() {
                     <button
                       type="button"
                       onClick={() => setShowAdvanced((s) => !s)}
-                      className="ring-focus flex items-center gap-2 self-start text-xs font-medium text-muted-foreground hover:text-foreground"
+                      className="ring-focus flex min-h-11 items-center gap-2 self-start rounded-md text-sm font-semibold text-foreground transition-colors hover:text-[color:var(--solar-gold-dark)]"
                     >
                       <ChevronDown
                         className={`size-3.5 transition-transform ${showAdvanced ? "rotate-180" : ""}`}
@@ -589,7 +592,7 @@ export function SolarCalculator() {
                     </button>
 
                     {showAdvanced && (
-                      <div className="surface-glass p-5">
+                      <div className="neu p-6">
                         <div className="grid gap-4 sm:grid-cols-2">
                           <Field>
                             <FieldLabel htmlFor="electricityPriceRappen">
@@ -646,10 +649,10 @@ export function SolarCalculator() {
                                   })
                                 }
                                 aria-pressed={values.financingInterest === o.value}
-                                className={`ring-focus min-h-12 border px-3 py-2.5 text-sm font-medium transition-colors ${
+                                className={`ring-focus neu-sm min-h-12 rounded-2xl px-3 py-2.5 text-sm font-medium transition-[box-shadow,color,transform] duration-150 ${
                                   values.financingInterest === o.value
-                                    ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                                    : "border-border bg-card hover:bg-secondary"
+                                    ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
+                                    : "text-foreground hover:-translate-y-px"
                                 }`}
                               >
                                 {o.label}
@@ -664,7 +667,7 @@ export function SolarCalculator() {
 
                 {step === 2 && (
                   <FieldGroup>
-                    <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-5">
+                    <div className="neu-in rounded-2xl p-5">
                       <p className="eyebrow">Letzter Schritt</p>
                       <p className="mt-2 text-sm font-medium text-foreground">
                         Ihre Kontaktdaten für die persönliche Auswertung
@@ -722,8 +725,8 @@ export function SolarCalculator() {
                     </div>
 
                     {(values.address || values.postalCode || values.city) && (
-                      <div className="border border-border bg-card px-4 py-3 text-xs text-muted-foreground">
-                        <p className="font-medium text-foreground">Adresse aus Schritt 1</p>
+                      <div className="neu-in rounded-2xl px-5 py-4 text-xs text-muted-foreground">
+                        <p className="eyebrow">Adresse aus Schritt 1</p>
                         <p className="mt-0.5">
                           {values.address ||
                             `${values.postalCode || ""} ${values.city || ""}`.trim() ||
@@ -743,7 +746,10 @@ export function SolarCalculator() {
                       <FieldContent>
                         <FieldLabel htmlFor="lead-consent">
                           Ich bin mit der{" "}
-                          <a href="/datenschutz" className="underline underline-offset-4">
+                          <a
+                            href="/datenschutz"
+                            className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
+                          >
                             Datenschutzerklärung
                           </a>{" "}
                           einverstanden. *
@@ -760,38 +766,38 @@ export function SolarCalculator() {
 
             {/* Live-Quick-Stats */}
             {livePreview && (
-              <div className="mt-6 border-t border-border">
-                <div className="flex items-baseline justify-between gap-4 border-b border-border py-2.5">
-                  <span className="eyebrow">Anlage</span>
-                  <span className="stat-mono text-sm font-semibold text-foreground">
+              <div className="neu-in mt-8 grid gap-4 rounded-2xl p-5 sm:grid-cols-3">
+                <div>
+                  <p className="eyebrow">Anlage</p>
+                  <p className="stat-mono mt-1 text-lg text-foreground">
                     {livePreview.recommendedKwp} kWp
-                  </span>
+                  </p>
                 </div>
-                <div className="flex items-baseline justify-between gap-4 border-b border-border py-2.5">
-                  <span className="eyebrow">Jahresproduktion</span>
-                  <span className="stat-mono text-sm font-semibold text-foreground">
+                <div>
+                  <p className="eyebrow">Jahresproduktion</p>
+                  <p className="stat-mono mt-1 text-lg text-foreground">
                     {Intl.NumberFormat("de-CH").format(
                       livePreview.annualProductionKwh.realistic,
                     )}{" "}
                     kWh
-                  </span>
+                  </p>
                 </div>
-                <div className="flex items-baseline justify-between gap-4 border-b border-border py-2.5">
-                  <span className="eyebrow">Ersparnis pro Jahr</span>
-                  <span className="stat-mono text-sm font-semibold text-foreground">
+                <div>
+                  <p className="eyebrow">Ersparnis pro Jahr</p>
+                  <p className="stat-mono mt-1 text-lg text-foreground">
                     CHF{" "}
                     {Intl.NumberFormat("de-CH").format(livePreview.annualSavingsChf.realistic)}
-                  </span>
+                  </p>
                 </div>
               </div>
             )}
 
-            <div className="mt-8 flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={step === 0 || submitting}
-                className="btn-ghost min-h-12 justify-center px-3 disabled:pointer-events-none disabled:opacity-40 sm:justify-start"
+                className="btn-secondary w-full disabled:pointer-events-none disabled:opacity-40 sm:w-auto"
               >
                 Zurück
               </button>
@@ -802,7 +808,7 @@ export function SolarCalculator() {
                   onClick={nextStep}
                   className="btn-primary w-full sm:w-auto"
                 >
-                  Weiter <ArrowRight className="size-4" />
+                  Weiter <ArrowRight className="size-4" aria-hidden />
                 </button>
               ) : (
                 <button
@@ -812,11 +818,11 @@ export function SolarCalculator() {
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="size-4 animate-spin" /> Wird gesendet …
+                      <Loader2 className="size-4 animate-spin" aria-hidden /> Wird gesendet …
                     </>
                   ) : (
                     <>
-                      Anfrage senden & auswerten <ArrowRight className="size-4" />
+                      Anfrage senden & auswerten <ArrowRight className="size-4" aria-hidden />
                     </>
                   )}
                 </button>
@@ -824,7 +830,7 @@ export function SolarCalculator() {
             </div>
           </form>
         ) : (
-          <div ref={resultRef} className="px-6 py-8 lg:px-8 lg:py-10">
+          <div ref={resultRef} className="mt-8">
             <CalculatorResultCard result={result} onReset={reset} />
           </div>
         )}

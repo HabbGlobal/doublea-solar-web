@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { CtaBand } from "@/components/site/cta-band";
-import { SectionHead } from "@/components/site/section-head";
+import { SectionTitle } from "@/components/site/section-head";
 import { getDbPackages, type DbPackage } from "@/lib/data/packages";
 
 export const metadata: Metadata = {
@@ -175,29 +175,40 @@ function toView(p: DbPackage): PaketView {
   };
 }
 
+/* Goldpunkt als Listenmarker */
+function DotBullet() {
+  return <span aria-hidden className="gold-dot mt-2 size-2! shrink-0" />;
+}
+
 export default async function PaketePage() {
   const dbPakete = await getDbPackages();
   const pakete: PaketView[] =
     dbPakete.length > 0 ? dbPakete.map(toView) : kuratiertePakete;
+
+  /* Bei genau zwei Paketen bleibt das Raster zweispaltig — keine leere Kachel. */
+  const gridCols =
+    pakete.length === 2
+      ? "md:grid-cols-2"
+      : "md:grid-cols-2 lg:grid-cols-3";
 
   return (
     <>
       {/* Intro */}
       <section
         aria-labelledby="pakete-h"
-        className="container-page pt-14 pb-12 sm:pt-20 sm:pb-14 lg:pt-24"
+        className="container-page pt-14 pb-4 sm:pt-20 sm:pb-6"
       >
         <div className="max-w-3xl">
           <p className="eyebrow">Pakete &amp; Preise</p>
           <h1
             id="pakete-h"
-            className="mt-4 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl"
+            className="mt-4 text-balance text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl"
           >
             Transparente Richtpreise. Definitive Zahlen nach der Analyse.
           </h1>
-          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-lg">
             Diese Pakete zeigen, was eine Photovoltaikanlage in der Schweiz
-            realistisch kostet. Die definitive Auslegung entsteht nach der
+            realistisch kostet – die definitive Auslegung entsteht nach der
             Standortanalyse Ihres Dachs.
           </p>
           <ul className="mt-6 grid gap-2.5">
@@ -209,10 +220,7 @@ export default async function PaketePage() {
                 key={zeile}
                 className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85"
               >
-                <span
-                  aria-hidden
-                  className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
-                />
+                <DotBullet />
                 {zeile}
               </li>
             ))}
@@ -220,29 +228,28 @@ export default async function PaketePage() {
         </div>
       </section>
 
-      {/* Paket-Panels */}
-      <section aria-label="Pakete">
-        <SectionHead nr="01" label="Pakete" />
-        <div className="container-page py-12 sm:py-16">
-          <div className="grid gap-5 lg:grid-cols-3">
+      {/* Paket-Karten */}
+      <section aria-label="Pakete" className="py-14 sm:py-20">
+        <div className="container-page">
+          <div className={`grid gap-6 ${gridCols}`}>
             {pakete.map((paket) => (
               <article
                 key={paket.id}
                 className={
                   paket.featured
-                    ? "flex flex-col border-2 border-[color:var(--solar-ink)] bg-card p-6 lg:p-8"
-                    : "surface-glass flex flex-col p-6 lg:p-8"
+                    ? "neu relative flex flex-col rounded-t-2xl border-t-4 border-[color:var(--solar-gold)] p-6 sm:p-7"
+                    : "neu relative flex flex-col p-6 sm:p-7"
                 }
               >
-                <div className="flex items-start justify-between gap-4">
-                  <p className="eyebrow">{paket.target}</p>
-                  {paket.featured && (
-                    <p className="eyebrow shrink-0 text-right text-foreground">
-                      Meistgewählt
-                    </p>
-                  )}
-                </div>
-                <h2 className="mt-3 text-balance text-2xl font-semibold leading-tight text-foreground">
+                {paket.featured && (
+                  <span className="absolute top-5 right-5 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-[#6E5510]">
+                    Meistgewählt
+                  </span>
+                )}
+                <p className={`eyebrow ${paket.featured ? "pr-28" : ""}`}>
+                  {paket.target}
+                </p>
+                <h2 className="mt-3 text-balance text-2xl font-bold leading-tight text-foreground">
                   {paket.name}
                 </h2>
                 {paket.summary && (
@@ -261,7 +268,7 @@ export default async function PaketePage() {
                         <dt className="text-xs text-muted-foreground">
                           {stat.label}
                         </dt>
-                        <dd className="stat-mono text-sm font-medium text-foreground">
+                        <dd className="stat-mono text-sm text-foreground">
                           {stat.value}
                         </dd>
                       </div>
@@ -275,10 +282,7 @@ export default async function PaketePage() {
                       key={`${item}-${i}`}
                       className="flex items-start gap-3 text-sm leading-relaxed text-foreground/85"
                     >
-                      <span
-                        aria-hidden
-                        className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
-                      />
+                      <DotBullet />
                       {item}
                     </li>
                   ))}
@@ -293,10 +297,7 @@ export default async function PaketePage() {
                           key={`${item}-${i}`}
                           className="flex items-start gap-3 text-sm leading-relaxed text-muted-foreground"
                         >
-                          <span
-                            aria-hidden
-                            className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-stone)]"
-                          />
+                          <DotBullet />
                           {item}
                         </li>
                       ))}
@@ -304,9 +305,9 @@ export default async function PaketePage() {
                   </div>
                 )}
 
-                <div className="mt-auto border-t border-border pt-6">
+                <div className="mt-auto pt-7">
                   <p className="eyebrow">Richtpreis</p>
-                  <p className="stat-mono mt-2 text-2xl font-semibold text-foreground">
+                  <p className="stat-mono mt-2 text-2xl text-foreground">
                     {paket.price}
                   </p>
                   <Link
@@ -314,7 +315,7 @@ export default async function PaketePage() {
                     className={`${paket.featured ? "btn-primary" : "btn-secondary"} mt-5 w-full`}
                   >
                     Angebot berechnen
-                    <ArrowRight className="size-4" />
+                    <ArrowRight className="size-4" aria-hidden="true" />
                   </Link>
                 </div>
               </article>
@@ -324,31 +325,30 @@ export default async function PaketePage() {
       </section>
 
       {/* Gewerbe & Landwirtschaft */}
-      <section aria-labelledby="gewerbe-h" className="surface-sand">
-        <SectionHead nr="02" label="Gewerbe & Landwirtschaft" />
-        <div className="container-page py-12 sm:py-16">
-          <div className="grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+      <section aria-labelledby="gewerbe-h" className="py-14 sm:py-20">
+        <div className="container-page">
+          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div>
               <p className="eyebrow">Gewerbe &amp; Landwirtschaft</p>
               <h2
                 id="gewerbe-h"
-                className="mt-3 text-balance text-2xl font-semibold leading-tight text-foreground sm:text-3xl"
+                className="mt-3 text-balance text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl"
               >
                 Grosse Dächer verdienen eine individuelle Auslegung.
               </h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+              <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:text-lg">
                 Hallen-, Scheunen- und Flachdächer ab 30 kWp planen wir
                 projektspezifisch – Statik, Netzanschlussgesuch und
                 Eigenverbrauchskonzept auf Ihren Betrieb abgestimmt.
               </p>
             </div>
-            <div className="surface-glass p-6 lg:p-7">
+            <div className="neu p-6 sm:p-7">
               <dl>
-                <div className="flex items-baseline justify-between gap-4 border-t border-border py-3">
+                <div className="flex items-baseline justify-between gap-4 py-3">
                   <dt className="text-xs text-muted-foreground">
                     Anlagengrösse
                   </dt>
-                  <dd className="stat-mono text-sm font-medium text-foreground">
+                  <dd className="stat-mono text-sm text-foreground">
                     ab 30 kWp
                   </dd>
                 </div>
@@ -358,19 +358,16 @@ export default async function PaketePage() {
                     individuell
                   </dd>
                 </div>
-                <div className="flex items-baseline justify-between gap-4 border-y border-border py-3">
+                <div className="flex items-baseline justify-between gap-4 border-t border-border py-3">
                   <dt className="text-xs text-muted-foreground">Richtpreis</dt>
                   <dd className="text-sm font-medium text-foreground">
                     auf Anfrage
                   </dd>
                 </div>
               </dl>
-              <Link
-                href="/kontakt"
-                className="btn-primary mt-6 w-full justify-center"
-              >
+              <Link href="/kontakt" className="btn-primary mt-6 w-full">
                 Projekt besprechen
-                <ArrowRight className="size-4" />
+                <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
             </div>
           </div>
@@ -378,27 +375,22 @@ export default async function PaketePage() {
       </section>
 
       {/* Optionen */}
-      <section aria-labelledby="optionen-h">
-        <SectionHead nr="03" label="Optionen & Erweiterungen" />
-        <div className="container-page py-12 sm:py-16">
-          <div className="max-w-2xl">
-            <h2
-              id="optionen-h"
-              className="text-balance text-3xl font-semibold leading-tight text-foreground sm:text-4xl"
-            >
-              Sinnvoll ergänzen – nur dort, wo es sich rechnet.
-            </h2>
-          </div>
-          <div className="mt-10">
+      <section aria-labelledby="optionen-h" className="py-14 sm:py-20">
+        <div className="container-page">
+          <SectionTitle
+            id="optionen-h"
+            title="Sinnvoll ergänzen – nur dort, wo es sich rechnet."
+          />
+          <div className="mt-10 grid gap-4">
             {optionen.map((option) => (
               <div
                 key={option.title}
-                className="grid gap-2 border-t border-border py-5 last:border-b sm:grid-cols-[200px_200px_1fr] sm:items-baseline sm:gap-8"
+                className="neu-sm grid gap-2 px-5 py-4 sm:grid-cols-[200px_180px_1fr] sm:items-baseline sm:gap-8 sm:px-6 sm:py-5"
               >
                 <h3 className="text-base font-semibold text-foreground">
                   {option.title}
                 </h3>
-                <p className="stat-mono text-lg font-semibold text-foreground">
+                <p className="stat-mono text-lg text-foreground">
                   {option.value}
                 </p>
                 <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
@@ -411,25 +403,22 @@ export default async function PaketePage() {
       </section>
 
       {/* Hinweise */}
-      <section aria-labelledby="hinweise-h" className="surface-sand">
-        <SectionHead nr="04" label="Hinweise" />
-        <div className="container-page py-12 sm:py-16">
-          <div className="grid gap-8 lg:grid-cols-[220px_1fr] lg:gap-16">
+      <section aria-labelledby="hinweise-h" className="py-14 sm:py-20">
+        <div className="container-page">
+          <div className="neu-in max-w-3xl p-6 sm:p-7">
             <h2
               id="hinweise-h"
-              className="text-2xl font-semibold leading-tight text-foreground"
+              className="text-2xl font-bold leading-tight text-foreground"
             >
               Gut zu wissen
             </h2>
-            <div className="max-w-2xl">
-              <p className="text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
-                Der effektive Preis hängt von Dacheindeckung, Gerüstbedarf,
-                Zählerplatz und Anfahrt ab. Die Pronovo-Einmalvergütung beträgt
-                aktuell CHF 360 pro kWp für angebaute Anlagen unter 30 kWp
-                (integriert CHF 400/kWp, Stand EnFV 1.7.2026) — wir prüfen den
-                Ansatz für Ihr Projekt und übernehmen den Antrag.
-              </p>
-            </div>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+              Der effektive Preis hängt von Dacheindeckung, Gerüstbedarf,
+              Zählerplatz und Anfahrt ab. Die Pronovo-Einmalvergütung beträgt
+              aktuell CHF 360 pro kWp für angebaute Anlagen unter 30 kWp
+              (integriert CHF 400/kWp, Stand EnFV 1.7.2026) — wir prüfen den
+              Ansatz für Ihr Projekt und übernehmen den Antrag.
+            </p>
           </div>
         </div>
       </section>

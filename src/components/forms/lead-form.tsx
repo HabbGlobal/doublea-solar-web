@@ -152,11 +152,11 @@ export function LeadForm({
 
   if (submitted) {
     return (
-      <div className="border-l-2 border-[color:var(--solar-ink)] bg-secondary p-5">
-        <p className="text-sm font-semibold text-foreground">
+      <div className="neu-in rounded-2xl p-5">
+        <p className="text-base font-semibold text-foreground">
           Anfrage erhalten – herzlichen Dank.
         </p>
-        <p className="mt-1 text-sm leading-relaxed text-foreground/80">
+        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
           Wir prüfen Ihre Angaben und melden uns innert eines Werktags
           persönlich.
         </p>
@@ -164,7 +164,7 @@ export function LeadForm({
         <button
           type="button"
           onClick={() => setSubmitted(false)}
-          className="ring-focus mt-3 inline-flex min-h-9 items-center text-xs font-medium text-muted-foreground underline decoration-[color:var(--solar-line)] underline-offset-4 transition-colors hover:text-foreground"
+          className="btn-ghost mt-4 min-h-11 text-sm"
         >
           Neue Anfrage senden
         </button>
@@ -249,10 +249,10 @@ export function LeadForm({
                     }
                     aria-pressed={heatingType === h}
                     className={cn(
-                      "ring-focus flex min-h-12 items-center justify-center border px-2 py-2 text-center text-[13px] font-medium leading-tight transition-colors sm:text-sm",
+                      "ring-focus neu-sm flex min-h-12 items-center justify-center rounded-2xl px-2 py-2 text-center text-[13px] font-medium leading-tight transition-[box-shadow,color,transform] duration-150 sm:text-sm",
                       heatingType === h
-                        ? "border-[color:var(--solar-ink)] bg-[color:var(--solar-ink)] text-[color:var(--solar-navy-foreground)]"
-                        : "border-border bg-card hover:bg-secondary",
+                        ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
+                        : "text-foreground hover:-translate-y-px",
                     )}
                   >
                     {heatingTypeLabels[h as HeatingType]}
@@ -303,7 +303,7 @@ export function LeadForm({
               Ich bin mit der{" "}
               <a
                 href="/datenschutz"
-                className="ring-focus underline underline-offset-4"
+                className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
               >
                 Datenschutzerklärung
               </a>{" "}
@@ -324,11 +324,11 @@ export function LeadForm({
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="size-4 animate-spin" /> Wird gesendet …
+            <Loader2 className="size-4 animate-spin" aria-hidden /> Wird gesendet …
           </>
         ) : (
           <>
-            Anfrage senden <ArrowRight className="size-4" />
+            Anfrage senden <ArrowRight className="size-4" aria-hidden />
           </>
         )}
       </button>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,26 +10,17 @@ import { getSiteContent } from "@/lib/content/server";
 
 import "./globals.css";
 
-/* Werkplan-Typografie: Archivo trägt alles Redaktionelle, IBM Plex Mono
-   alle Labels, Nummern und technischen Werte. (--font-geist-mono ist der
-   historische Variablenname für die Mono-Rolle.) */
-const archivo = Archivo({
+/* Soft-Solar-Typografie: eine geometrische Familie für alles. */
+const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
   display: "swap",
 });
 
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
-
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f7f4" },
-    { media: "(prefers-color-scheme: dark)", color: "#1a1c1c" },
+    { media: "(prefers-color-scheme: light)", color: "#eeece6" },
+    { media: "(prefers-color-scheme: dark)", color: "#eeece6" },
   ],
 };
 
@@ -208,13 +199,13 @@ export default async function RootLayout({
   return (
     <html
       lang="de-CH"
-      className={`${archivo.variable} ${plexMono.variable} h-full antialiased`}
+      className={`${jakarta.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background">
         {/* Skip-Link: erstes fokussierbares Element (WCAG 2.4.1) */}
         <a
           href="#content"
-          className="ring-focus sr-only z-50 border border-[color:var(--solar-ink)] bg-background px-4 py-3 text-sm font-medium text-foreground focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4"
+          className="ring-focus sr-only z-50 rounded-2xl bg-background px-4 py-3 text-sm font-semibold text-foreground shadow-[var(--neu-raise-sm)] focus-visible:not-sr-only focus-visible:fixed focus-visible:left-4 focus-visible:top-4"
         >
           Zum Inhalt springen
         </a>

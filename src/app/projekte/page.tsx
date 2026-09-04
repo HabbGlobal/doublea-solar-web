@@ -16,7 +16,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { CtaBand } from "@/components/site/cta-band";
-import { SectionHead, SectionTitle } from "@/components/site/section-head";
+import { SectionTitle } from "@/components/site/section-head";
 import {
   getPublicProjects,
   type ProjectFact,
@@ -111,7 +111,7 @@ type TypeView = {
   number: string;
   title: string;
   description: string | null;
-  /** Kennzahl + Fakten, bereits zu einer Hairline-Liste zusammengeführt. */
+  /** Kennzahl (erste Zeile) + Fakten als Eckwert-Zeilen. */
   rows: ProjectFact[];
   deliverables: string[];
   image: string | null;
@@ -174,45 +174,45 @@ function zahlwort(n: number): string {
   return n >= 1 && n < ZAHLWORT.length ? ZAHLWORT[n] : String(n);
 }
 
-/* Werkplan-Idiome */
+/* Soft-Solar-Bausteine */
 
-function SquareBullet() {
-  return (
-    <span
-      aria-hidden
-      className="mt-2 size-1.5 shrink-0 bg-[color:var(--solar-ink)]"
-    />
-  );
+function DotBullet() {
+  return <span aria-hidden className="gold-dot mt-2 size-2! shrink-0" />;
 }
 
-/* Schraffur-Platzhalter, solange keine Projektfotografie vorliegt */
-function PhotoPlaceholder() {
+/* Foto im eingelassenen Rahmen — oder ein ruhiger Platzhalter */
+function TilePhoto({ src, alt }: { src: string | null; alt: string }) {
+  if (!src) {
+    return (
+      <div className="neu-in flex aspect-[4/3] items-center justify-center">
+        <span className="eyebrow">Foto folgt</span>
+      </div>
+    );
+  }
   return (
-    <div
-      className="relative flex aspect-[4/3] items-center justify-center border border-border bg-card"
-      style={{
-        backgroundImage:
-          "repeating-linear-gradient(45deg, var(--solar-line) 0 1px, transparent 1px 9px)",
-      }}
-    >
-      <span className="eyebrow bg-card px-3 py-1.5">
-        Projektfotografie in Vorbereitung
-      </span>
+    <div className="neu-photo">
+      <div className="relative aspect-[4/3]">
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+          className="object-cover"
+        />
+      </div>
     </div>
   );
 }
 
-/* Hairline-Liste aus Label/Wert-Paaren — geteiltes Idiom beider Zeilentypen. */
+/* Eckwerte als Zeilen mit dezenten Trennlinien */
 function SpecList({ rows }: { rows: ProjectFact[] }) {
   if (rows.length === 0) return null;
   return (
-    <dl className="mt-6 max-w-xl">
+    <dl className="mt-5">
       {rows.map((row, i) => (
         <div
           key={`${row.label}-${i}`}
-          className={`flex items-baseline justify-between gap-6 border-t border-border py-2.5 ${
-            i === rows.length - 1 ? "border-b" : ""
-          }`}
+          className="flex items-baseline justify-between gap-6 border-t border-border py-2.5 first:border-t-0 first:pt-0"
         >
           <dt className="text-[13px] text-muted-foreground">{row.label}</dt>
           <dd className="stat-mono text-right text-[13px] text-foreground">
@@ -224,70 +224,50 @@ function SpecList({ rows }: { rows: ProjectFact[] }) {
   );
 }
 
-/* Dossier-Zeile: ein Anlagentyp als Werkplan-Eintrag */
-function ProjectTypeRow({
-  type,
-  last = false,
-}: {
-  type: TypeView;
-  last?: boolean;
-}) {
+/* Leistungsumfang als Goldpunkt-Liste */
+function Deliverables({ items }: { items: string[] }) {
+  if (items.length === 0) return null;
   return (
-    <article
-      className={`grid gap-8 border-t border-border py-10 lg:grid-cols-[minmax(240px,320px)_1fr] ${
-        last ? "border-b" : ""
-      }`}
-    >
-      {type.image ? (
-        <div className="relative aspect-[4/3] overflow-hidden border border-border bg-card">
-          <Image
-            src={type.image}
-            alt={`Anlagentyp: ${type.title}`}
-            fill
-            sizes="(min-width: 1024px) 320px, 100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : (
-        <PhotoPlaceholder />
-      )}
+    <div className="mt-5">
+      <p className="eyebrow">Leistungsumfang</p>
+      <ul className="mt-3 space-y-2.5">
+        {items.map((item, i) => (
+          <li
+            key={`${item}-${i}`}
+            className="flex gap-3 text-sm leading-relaxed text-foreground/85"
+          >
+            <DotBullet />
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
-      <div>
-        <div className="flex items-baseline justify-between gap-4">
-          <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
-            {type.title}
-          </h3>
-          <span className="eyebrow">{type.number}</span>
-        </div>
+/* Kachel: ein Anlagentyp */
+function ProjectTypeTile({ type }: { type: TypeView }) {
+  return (
+    <article className="neu flex flex-col p-4 pb-6 sm:p-5 sm:pb-7">
+      <TilePhoto src={type.image} alt={`Anlagentyp: ${type.title}`} />
+
+      <div className="flex flex-1 flex-col px-1 pt-5 sm:px-2">
+        <h3 className="text-xl font-semibold text-foreground sm:text-2xl">
+          {type.title}
+        </h3>
         {type.description && (
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             {type.description}
           </p>
         )}
 
         <SpecList rows={type.rows} />
+        <Deliverables items={type.deliverables} />
 
-        {type.deliverables.length > 0 && (
-          <div className="mt-6">
-            <p className="eyebrow">Leistungsumfang</p>
-            <ul className="mt-3 space-y-2.5">
-              {type.deliverables.map((item, i) => (
-                <li
-                  key={`${item}-${i}`}
-                  className="flex gap-3 text-sm leading-relaxed text-foreground/80"
-                >
-                  <SquareBullet />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <div className="mt-6">
-          <Link href="/kontakt" className="btn-ghost ring-focus min-h-12">
+        <div className="mt-auto pt-6">
+          <Link href="/kontakt" className="btn-ghost min-h-12">
             Ähnliches Projekt besprechen
-            <ArrowRight className="size-4" />
+            <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
@@ -295,14 +275,8 @@ function ProjectTypeRow({
   );
 }
 
-/* Dossier-Zeile: freigegebenes Referenzprojekt aus der Datenbank */
-function ReferenceRow({
-  project,
-  last = false,
-}: {
-  project: PublicProject;
-  last?: boolean;
-}) {
+/* Kachel: freigegebenes Referenzprojekt aus der Datenbank */
+function ReferenceTile({ project }: { project: PublicProject }) {
   const image = project.images[0] ?? null;
   const specs: ProjectFact[] = [];
   if (project.location) {
@@ -317,54 +291,22 @@ function ReferenceRow({
   specs.push(...project.facts);
 
   return (
-    <article
-      className={`grid gap-8 border-t border-border py-10 lg:grid-cols-[minmax(240px,320px)_1fr] ${
-        last ? "border-b" : ""
-      }`}
-    >
-      {image ? (
-        <div className="relative aspect-[4/3] overflow-hidden border border-border bg-card">
-          <Image
-            src={image}
-            alt={`Referenzprojekt: ${project.title}`}
-            fill
-            sizes="(min-width: 1024px) 320px, 100vw"
-            className="object-cover"
-          />
-        </div>
-      ) : (
-        <PhotoPlaceholder />
-      )}
+    <article className="neu flex flex-col p-4 pb-6 sm:p-5 sm:pb-7">
+      <TilePhoto src={image} alt={`Referenzprojekt: ${project.title}`} />
 
-      <div>
+      <div className="flex flex-1 flex-col px-1 pt-5 sm:px-2">
         {project.category && <p className="eyebrow">{project.category}</p>}
         <h3 className="mt-2 text-xl font-semibold text-foreground sm:text-2xl">
           {project.title}
         </h3>
         {project.description && (
-          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
             {project.description}
           </p>
         )}
 
         <SpecList rows={specs} />
-
-        {project.deliverables.length > 0 && (
-          <div className="mt-6">
-            <p className="eyebrow">Leistungsumfang</p>
-            <ul className="mt-3 space-y-2.5">
-              {project.deliverables.map((item, i) => (
-                <li
-                  key={`${item}-${i}`}
-                  className="flex gap-3 text-sm leading-relaxed text-foreground/80"
-                >
-                  <SquareBullet />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <Deliverables items={project.deliverables} />
       </div>
     </article>
   );
@@ -384,110 +326,82 @@ export default async function ProjektePage() {
     : anlagenTypen.map(fromCurated);
   const typenCount = hasDbTypen ? typen.length : anlagenTypen.length;
 
-  /* Sektionsnummern fortlaufend in Renderreihenfolge; 01 ist das Intro. */
-  let sectionNr = 1;
-  const nextNr = () => String(++sectionNr).padStart(2, "0");
-  const nrReferenzen = hasReferenzen ? nextNr() : null;
-  const nrTypen = nextNr();
-  const nrReferenzenPanel = hasReferenzen ? null : nextNr();
-
   return (
     <>
-      {/* 01 — Intro */}
-      <SectionHead nr="01" label="Projekte" />
+      {/* Intro */}
       <section
         aria-labelledby="projekte-h"
-        className="container-page pt-12 pb-14 sm:pt-16 sm:pb-16"
+        className="container-page pt-14 pb-4 sm:pt-20 sm:pb-6"
       >
         <div className="max-w-3xl">
           <p className="eyebrow">Projekte</p>
           <h1
             id="projekte-h"
-            className="mt-4 text-balance text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
+            className="mt-4 text-balance text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl"
           >
             Vom Familiendach bis zur Werkhalle.
           </h1>
-          <p className="mt-6 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-lg">
             {typenCount === 1
-              ? "Ein Anlagentyp prägt unsere Arbeit."
-              : `${zahlwort(typenCount)} Anlagentypen prägen unsere Arbeit.`}{" "}
-            Hier stehen zu jedem die Eckwerte und der Leistungsumfang.
-          </p>
-          <p className="mt-8 max-w-2xl border-l-2 border-[color:var(--solar-ink)] pl-4 text-sm leading-relaxed text-muted-foreground">
-            <span className="font-medium text-foreground">Transparenz:</span>{" "}
-            Die Anlagentypen sind typische Konstellationen aus unserer Praxis,
-            keine konkreten Kundenprojekte – alle Wertspannen sind indikativ.
+              ? "Ein Anlagentyp prägt unsere Arbeit"
+              : `${zahlwort(typenCount)} Anlagentypen prägen unsere Arbeit`}
+            {" – "}
+            zu jedem stehen hier Eckwerte und Leistungsumfang.
           </p>
         </div>
       </section>
 
-      {nrReferenzen !== null && (
-        <>
-          {/* Referenzen — echte, freigegebene Projekte aus der Datenbank */}
-          <SectionHead nr={nrReferenzen} label="Referenzen" />
-          <section
-            aria-labelledby="referenzen-h"
-            className="container-page py-12 sm:py-16"
-          >
+      {hasReferenzen && (
+        <section aria-labelledby="referenzen-h" className="py-14 sm:py-20">
+          <div className="container-page">
             <SectionTitle
               id="referenzen-h"
               title="Referenzen"
               lead="Freigegebene Projekte mit realen Eckdaten – publiziert mit Zustimmung der Kundschaft."
             />
-            <div className="mt-10">
-              {referenzen.map((project, i) => (
-                <ReferenceRow
-                  key={project.id}
-                  project={project}
-                  last={i === referenzen.length - 1}
-                />
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {referenzen.map((project) => (
+                <ReferenceTile key={project.id} project={project} />
               ))}
             </div>
-          </section>
-        </>
+          </div>
+        </section>
       )}
 
       {/* Anlagentypen — aus der DB, sonst die kuratierten Defaults */}
-      <SectionHead nr={nrTypen} label="Anlagentypen" />
-      <section
-        aria-labelledby="anlagentypen-h"
-        className="container-page py-12 sm:py-16"
-      >
-        <SectionTitle
-          id="anlagentypen-h"
-          title={
-            hasDbTypen
-              ? `${zahlwort(typenViews.length)} ${
-                  typenViews.length === 1 ? "Anlagentyp" : "Anlagentypen"
-                }. Ein Qualitätsstandard.`
-              : "Drei Gebäudekategorien. Ein Qualitätsstandard."
-          }
-        />
-        <div className="mt-10">
-          {typenViews.map((type, i) => (
-            <ProjectTypeRow
-              key={type.key}
-              type={type}
-              last={i === typenViews.length - 1}
-            />
-          ))}
+      <section aria-labelledby="anlagentypen-h" className="py-14 sm:py-20">
+        <div className="container-page">
+          <SectionTitle
+            id="anlagentypen-h"
+            title={
+              hasDbTypen
+                ? `${zahlwort(typenViews.length)} ${
+                    typenViews.length === 1 ? "Anlagentyp" : "Anlagentypen"
+                  }. Ein Qualitätsstandard.`
+                : "Drei Gebäudekategorien. Ein Qualitätsstandard."
+            }
+            lead="Typische Konstellationen aus unserer Praxis, keine konkreten Kundenprojekte – alle Wertspannen sind indikativ."
+          />
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {typenViews.map((type) => (
+              <ProjectTypeTile key={type.key} type={type} />
+            ))}
+          </div>
         </div>
       </section>
 
-      {nrReferenzenPanel !== null && (
-        <>
-          {/* Referenzen auf Anfrage */}
-          <SectionHead nr={nrReferenzenPanel} label="Referenzen" />
-          <section
-            aria-labelledby="referenzen-panel-h"
-            className="container-page py-12 sm:py-16"
-          >
-            <div className="surface-sand grid items-center gap-8 border border-border p-8 lg:grid-cols-[1.5fr_1fr] lg:p-12">
+      {!hasReferenzen && (
+        <section
+          aria-labelledby="referenzen-panel-h"
+          className="py-14 sm:py-20"
+        >
+          <div className="container-page">
+            <div className="neu-in grid items-center gap-8 p-7 sm:p-10 lg:grid-cols-[1.5fr_1fr]">
               <div>
                 <p className="eyebrow">Referenzen</p>
                 <h2
                   id="referenzen-panel-h"
-                  className="mt-3 text-balance text-2xl font-semibold leading-tight text-foreground sm:text-3xl"
+                  className="mt-3 text-balance text-2xl font-bold leading-tight text-foreground sm:text-3xl"
                 >
                   Echte Projekte zeigen wir persönlich.
                 </h2>
@@ -498,14 +412,14 @@ export default async function ProjektePage() {
                 </p>
               </div>
               <div className="flex lg:justify-end">
-                <Link href="/kontakt" className="btn-primary">
+                <Link href="/kontakt" className="btn-primary w-full sm:w-auto">
                   Referenzgespräch vereinbaren
-                  <ArrowRight className="size-4" />
+                  <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
               </div>
             </div>
-          </section>
-        </>
+          </div>
+        </section>
       )}
 
       <CtaBand

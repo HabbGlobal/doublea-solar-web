@@ -1,102 +1,73 @@
-# DoubleA Solar Solutions — Designsystem «Architectural Precision» (verbindlich, Stand 08/2026)
+# DoubleA Solar Solutions — Designsystem «Soft Solar» (verbindlich, Stand 08/2026)
 
-Werkplan-Ästhetik eines Schweizer Ingenieurbüros: mineralisches Papier, Tinte,
-sichtbare Hairlines, Mono-Beschriftung, kantige Geometrie. Vertrauen entsteht
-aus dokumentarischer Präzision — nicht aus Effekten.
-Nicht: SaaS-Template, Karten-Flut, Pills, Gradients, Glow, Gold-Dekor,
-Logofarben im Interface.
+Neumorphism, hell, schlicht. Eine warme Grundfläche, Tiefe nur durch weiche
+Doppelschatten, Schwarz und Gold aus dem Logo 2026. Wenig Text, schnell verstanden.
+Löst das Werkplan-System «Architectural Precision» vollständig ab.
 
-## 1. Farben (nur über Tokens; Logofarben NUR im Logo-SVG)
+## 1. Farben (nur über Tokens in `src/app/globals.css`)
 
 | Token | Wert | Verwendung |
 |---|---|---|
-| `--background` / `--solar-paper` | #F7F7F4 | Seitengrund (Papier) |
-| `--secondary` / `.surface-sand` | #EFEFEA | Wechselflächen |
-| `--card` / `.surface-glass` | #FFFFFF | Panels mit Hairline-Rahmen |
-| `--border` / `--solar-line` | #D8D8D0 | Hairlines — sichtbar, 1px, tragendes Ordnungselement |
-| `--muted-foreground` / `--solar-stone` | #65665F | Sekundärtext, Labels (AA 5.4:1) |
-| `--foreground` / `--solar-ink` / `--solar-navy` | #1A1C1C | Text, Buttons, starke Typo |
-| `--solar-graphite` / `.surface-navy` | #252827 | Dunkle Sektionen — FLACH und matt |
-| auf Graphit | #F2F2EE / #A9ABA3 / #3A3D3B | Text / Sekundär / Hairline |
+| `--background` (auch `--card`) | #EEECE6 | die eine Grundfläche — Seite UND Karten |
+| `--foreground` / `--solar-ink` | #121212 | Text (Logo-Schwarz) |
+| `--muted-foreground` | #5C5B55 | Zweittext, Labels (AA 6.1:1) |
+| `--secondary` | #E6E4DD | leichte Flächen, Trennlinien-Ton |
+| `--primary` / `--solar-gold` | #C9A227 → Verlauf #DDB955→#B8912A | Hauptaktion, Punkte, Badges, aktive Zustände |
+| `--accent` | #F1E7C8 | Badge-Grund, Selektion |
+| `--neu-light` / `--neu-dark` | #FFFFFF / #CFCABF | die beiden Schatten |
 
-Historische Tokennamen (`--solar-emerald/leaf/gold`) sind auf Neutraltöne
-gemappt — in neuem Code nicht mehr verwenden. Keine Chromatik im Interface.
+Gold nie für kleinen Fliesstext. Keine dunklen Sektionen, kein Dunkelmodus,
+keine Verläufe als Flächen (nur im Gold-Button).
 
-## 2. Typografie
+## 2. Tiefe statt Linien
 
-- Alles Redaktionelle: Archivo (`--font-sans` = `--font-heading`), 400/500/600.
-- Labels, Nummern, Werte, Meta: IBM Plex Mono via `.eyebrow` (11px uppercase
-  tracking 0.16em Stone) und `.stat-mono` (tabular-nums).
-- H1: `text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.05] tracking-tight`
-- H2: `text-3xl sm:text-4xl font-semibold leading-tight` (via `SectionTitle`)
-- Fliesstext: `text-[15px] sm:text-base leading-relaxed text-muted-foreground`,
-  max-w-xl/2xl (55–75 Zeichen).
+| Utility | Wirkung | Einsatz |
+|---|---|---|
+| `.neu` | erhaben, Radius 22 px | Karten, Panels, Footer, Abschluss-Band |
+| `.neu-sm` | erhaben klein, Radius 16 px | Header-Leiste, Pills, Thumbnails, Zahlenkreise |
+| `.neu-in` | eingelassen | Eingabefelder, Anzeigen, Foto-Rahmen, Leerzustände |
+| `.neu-photo` | Foto im eingelassenen Rahmen | alle Bilder in Kacheln |
+| `.gold-dot` | goldener Punkt | einziges Ornament (Karten-Kopf, Mini-Bullets) |
 
-## 3. Sektions-Grammatik
+Keine Rahmenlinien um Karten. Radius überall: `rounded-2xl` für Karten/Buttons/
+Felder, `rounded-full` für Kreise und Pills. Dezente `border-t border-border`
+nur als Zeilentrenner innerhalb einer Karte.
 
-- JEDE Sektion beginnt mit `<SectionHead nr="0X" label="…" />`
-  (`@/components/site/section-head`) — vollbreite Hairline, Mono-Nr links,
-  Mono-Label rechts. Das ist das EINZIGE Nummern-Ornament.
-- Startseiten-Nummern: 01 Übersicht · 02 Haltung · 03 Leistungen ·
-  04 Solarrechner · 05 Prozess · 06 Anlagentypen · 07 Fakten · 08 Grundsätze ·
-  09 Fragen · 10 Team.
-- Rhythmus: `container-page py-14 sm:py-20`; Seite steht im `.site-sheet`
-  (sichtbare Aussenkanten ab 1024px).
+## 3. Typografie
+
+- Eine Familie: Plus Jakarta Sans (`--font-sans`); Mono-Rolle zeigt auf dieselbe Schrift.
+- H1 `text-4xl sm:text-5xl lg:text-[3.6rem] font-bold leading-[1.08]`; H2 via `SectionTitle`
+  (`text-3xl sm:text-4xl font-bold`); Karten-Titel `text-lg font-semibold`.
+- `.eyebrow` = kleiner Kicker (uppercase, gesperrt, gedämpft). `.stat-mono` = Zahlen
+  tabellarisch, halbfett.
+- Text kurz: Sektion = Titel + ein Satz; Karte = Titel + ein Satz.
 
 ## 4. Komponenten
 
-- KEINE Karten: Inhalte als Index-Zeilen/Tabellen mit `border-t`-Hairlines;
-  Hover = Flächenwechsel (`hover:bg-card` / `hover:bg-secondary`), NIE
-  translate/Schatten.
-- Buttons: `btn-primary` (Tinte, Hover invertiert), `btn-secondary` (Outline),
-  `btn-ghost` (unterstrichener Textlink); auf Graphit `-inverse`-Varianten.
-  Rechteckig — `--radius` ist global 0.
-- Aufzählungen: Quadrat-Bullet `size-1.5 bg-[color:var(--solar-ink)]` statt
-  Check-Icons. Lucide-Icons nur funktional (Menü, Spinner, Formulare,
-  ArrowRight in Buttons) — nie als Inhalts-Dekor.
-- Bild-Platzhalter: Schraffur-Fläche
-  (`repeating-linear-gradient(45deg, var(--solar-line) 0 1px, transparent 1px 9px)`)
-  mit `.eyebrow`-Label «Projektfotografie in Vorbereitung». Keine Stock-/KI-Bilder.
-- Plankopf-Muster (Hero, Kontakt): weisses Panel als Definition-Tabelle
-  (eyebrow-Label-Spalte + Wert), Fusszeile mit Koordinaten «47.19° N / 7.40° O».
-- EINZIGE Radius-Ausnahme: **Personen-Porträts** sind rund (`rounded-full` +
-  Hairline-Ring + `ring-offset`). Menschen sind keine technischen Flächen.
-  Gilt für die Gründer-Porträts im Hero (die ersten beiden publizierten
-  Team-Mitglieder, erscheinen automatisch) — Team-Sektionen bleiben kantig (3:4).
-- Fokus: IMMER `.ring-focus`.
+- Buttons: `.btn-primary` (Gold) für die eine Hauptaktion je Sicht, `.btn-secondary`
+  (weich erhaben), `.btn-ghost` (Text mit Gold-Unterstrich). Gedrückt = eingelassen.
+- Header: durchscheinende Leiste (`bg-background/70 backdrop-blur`) mit `.neu-sm`-Bar;
+  Höhe 88 px. Der Hero zieht sich mit `-mt-[88px]` darunter, damit das Dachbild
+  hinter dem Header liegt.
+- Hero: `/header-dach.jpg` verblasst (horizontal links 94 % → rechts 48 % Deckung,
+  vertikal in die Grundfläche auslaufend); links Titel + Satz + Aktionen, rechts die
+  ersten zwei publizierten Team-Mitglieder als `.neu`-Kreise. Kein Video, kein Plankopf.
+- `SectionHead` rendert nichts mehr (historischer Hook); `SectionTitle` bleibt.
+- Bilder immer über `next/image` (Supabase Storage `site-images`, `remotePatterns **.supabase.co`).
+- Logo: `/logo-2026.png` (Original, transparent, getrimmt, 2.93:1) via `Logo`-Komponente.
 
-## 5. Motion
+## 5. Bewegung & Zugänglichkeit
 
-- Kein framer-motion in Inhalts-Sektionen, keine Scroll-Reveals, kein Lenis.
-- Erlaubt: Farb-/Flächen-Transitions 150ms; Wizard-Schritt-Übergänge im
-  Solarrechner. `prefers-reduced-motion` neutralisiert alles (globals.css).
+- Nur Farb-/Schatten-Transitions 150 ms, Buttons `hover:-translate-y-px`; keine Reveals.
+- `prefers-reduced-motion` neutralisiert alles (globals.css).
+- Fokus: `.ring-focus` (Goldring 3 px). Touch-Ziele ≥ 44 px. Skip-Link vorhanden.
+- Kontrast: Text auf Grundfläche ≥ 6:1; Schatten sind nie der einzige Träger einer
+  Information (Labels/Texte immer vorhanden).
 
-## 6. Copy-Regeln
+## 6. Inhalte
 
-- Schweizer Hochdeutsch, ss statt ß, `CHF 12'500`, `10 kWp`, `12'500 kWh/Jahr`.
-- Hauptclaim: «Solarenergie für Schweizer Dächer.» + Subclaim «Präzise geplant.
-  Sauber umgesetzt.» (editierbar via Admin).
-- Zahlen nur belegt oder als Richtwert gekennzeichnet; Förderung/Steuern
-  indikativ; Quellen+Stand im Faktenblock (Startseite 07). NIE «emissionsfrei/
-  klimaneutral»; CO₂ immer netto mit KBOB-Fussnote.
-- Floskel-Diät: «Kostenfrei und unverbindlich · Antwort innert eines Werktags»
-  steht in Header/CtaBand/Footer — nicht zusätzlich in Sektionstexten.
-
-## 7. Technische Leitplanken
-
-- TypeScript strict; Props-APIs stabil; keine neuen Dependencies ohne Freigabe.
-- `next/image` für echte Bilder (Team/Projekte aus Supabase Storage
-  `site-images`, `remotePatterns **.supabase.co`).
-- Editierbare Inhalte via `site_content` (Hero inkl. Subclaim, Kontakt, FAQ)
-  + Tabellen `team_members`, `projects`, `packages` — Admin unter `/admin`.
-  Frontend fällt bei leeren Tabellen IMMER auf kuratierte Defaults zurück.
-- Mobile-first: 360px muss sitzen; Touch-Ziele ≥44px; Tabellen stapeln unter
-  `sm` als Definitionen (nie horizontal scrollen).
-- Rechner: Spannen statt Punktwerte; Kernkonstanten sind faktengeprüft
-  (siehe design-proposals/claim-register.md) — Änderungen nur mit Quelle.
-
-## 8. Conversion
-
-- Primär-CTA: «Angebot einholen» → /angebote (Header + CtaBand).
-- Sekundär: «Solarpotenzial berechnen» → /solarrechner.
-- Jede Seite endet mit CtaBand; keine Floating-CTAs, keine CTA-Stapel.
+- Alles Editierbare kommt aus dem Admin (`site_content`, `team_members`, `projects`,
+  `packages`); Fallbacks im Code bleiben kuratiert und kurz.
+- Schweizer Hochdeutsch, ss statt ß, `CHF 12'500`, Zahlen nur belegt oder als
+  Richtwert gekennzeichnet (Quellen auf /finanzierung).
+- Primär-CTA «Angebot einholen» → /angebote; sekundär «Solarpotenzial berechnen».
