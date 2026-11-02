@@ -70,14 +70,17 @@ export function AdminChrome({ children }: { children: React.ReactNode }) {
             <span className="eyebrow">Admin</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-5">
-            <a
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-ghost hidden text-sm sm:inline-flex"
-            >
-              Live-Site öffnen
-            </a>
+            {/* Wrapper statt «hidden» am Link: .btn-ghost setzt selbst display. */}
+            <div className="hidden sm:block">
+              <a
+                href="/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost text-sm"
+              >
+                Live-Site öffnen
+              </a>
+            </div>
             <button
               type="button"
               onClick={logout}

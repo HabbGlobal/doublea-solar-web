@@ -28,8 +28,8 @@ export function SiteHeader({ phone }: Props) {
     <header className="sticky top-0 z-40 h-[88px] w-full bg-[color:var(--background)]/70 backdrop-blur-md">
       <div className="container-page flex h-full items-center">
         <div className="neu-sm flex w-full items-center justify-between gap-4 px-4 py-2.5 sm:px-6">
-          <Link href="/" aria-label="Zur Startseite" className="ring-focus rounded-xl">
-            <Logo className="h-11 sm:h-[52px]" priority />
+          <Link href="/" aria-label="Zur Startseite" className="ring-focus shrink-0 rounded-xl">
+            <Logo className="h-9 sm:h-11 lg:h-[52px]" priority />
           </Link>
 
           <nav
@@ -57,13 +57,17 @@ export function SiteHeader({ phone }: Props) {
             })}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/angebote"
-              className="btn-primary hidden min-h-11 whitespace-nowrap px-5 text-[14px] lg:inline-flex"
-            >
-              Angebot einholen
-            </Link>
+          <div className="flex shrink-0 items-center gap-3">
+            {/* Wrapper statt «hidden» am Button: .btn-primary setzt selbst
+                display:inline-flex und würde ein hidden am Element überstimmen. */}
+            <div className="hidden lg:block">
+              <Link
+                href="/angebote"
+                className="btn-primary min-h-11 whitespace-nowrap px-5 text-[14px]"
+              >
+                Angebot einholen
+              </Link>
+            </div>
             <MobileNav phone={phone ?? siteConfig.contact.phone} />
           </div>
         </div>

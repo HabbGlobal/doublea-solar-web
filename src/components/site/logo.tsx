@@ -20,7 +20,7 @@ type LogoProps = {
 export function Logo({ className, priority = false }: LogoProps) {
   return (
     <span
-      className={cn("inline-flex h-11 items-center", className)}
+      className={cn("inline-flex h-11 shrink-0 items-center", className)}
       aria-label="DoubleA Solar Solutions"
     >
       <Image
@@ -29,7 +29,7 @@ export function Logo({ className, priority = false }: LogoProps) {
         width={1200}
         height={410}
         priority={priority}
-        className="h-full w-auto"
+        className="h-full w-auto max-w-none"
       />
     </span>
   );
