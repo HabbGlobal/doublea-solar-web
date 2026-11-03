@@ -1,0 +1,87 @@
+{
+  "errors": {
+    "name": "Bitte geben Sie Ihren Namen an.",
+    "email": "Bitte geben Sie eine gültige E-Mail-Adresse an.",
+    "phoneInvalid": "Telefonnummer ungültig.",
+    "phoneRequired": "Telefon ist Pflicht für Offerten- und Beratungsanfragen.",
+    "phoneRequiredLead": "Telefonnummer ist Pflicht.",
+    "street": "Bitte geben Sie die Strasse an.",
+    "houseNumber": "Nr. fehlt.",
+    "postalCode": "Gültige PLZ angeben (4-stellig).",
+    "city": "Bitte geben Sie den Ort an.",
+    "heatingType": "Bitte wählen Sie Ihre aktuelle Heizart.",
+    "householdSize": "Bitte geben Sie die Anzahl Personen im Haushalt an.",
+    "consent": "Bitte stimmen Sie der Datenschutzerklärung zu.",
+    "submitFailed": "Anfrage konnte nicht gesendet werden.",
+    "generic": "Etwas ist schiefgelaufen."
+  },
+  "heatingTypes": {
+    "oel": "Ölheizung",
+    "gas": "Gasheizung",
+    "waermepumpe": "Wärmepumpe",
+    "fernwaerme": "Fernwärme",
+    "holz": "Holz / Pellet",
+    "elektro": "Elektro",
+    "andere": "Andere"
+  },
+  "topics": {
+    "allgemein": "Allgemeine Anfrage",
+    "offerte": "Offerte & Beratung",
+    "solarrechner": "Solarrechner-Auswertung",
+    "service": "Service & Bestandsanlage",
+    "finanzierung": "Finanzierung",
+    "gewerbe": "Gewerbeprojekt"
+  },
+  "common": {
+    "name": "Name *",
+    "email": "E-Mail *",
+    "phone": "Telefon",
+    "phoneRequired": "Telefon *",
+    "phoneOptional": "Telefon (optional)",
+    "phonePlaceholder": "+41 …",
+    "optional": "(optional)",
+    "required": "*",
+    "sending": "Wird gesendet …",
+    "consent": "Ich bin mit der <link>Datenschutzerklärung</link> einverstanden. *",
+    "consentHint": "Wir nutzen Ihre Daten ausschliesslich zur Bearbeitung Ihrer Anfrage.",
+    "honeypotLabel": "Website",
+    "toastSuccess": "Vielen Dank – wir melden uns innert eines Werktags."
+  },
+  "address": {
+    "searchLabel": "Adresse suchen",
+    "searchDescription": "Adresse eintippen – wir übernehmen Strasse, Nr., PLZ und Ort automatisch (offizielle Schweizer Adressdaten).",
+    "searchPlaceholder": "z. B. Oelirain 1A, 2540 Grenchen",
+    "street": "Strasse *",
+    "houseNumber": "Nr. *",
+    "postalCode": "PLZ *",
+    "city": "Ort *"
+  },
+  "contact": {
+    "topicLabel": "Anliegen",
+    "offerNotice": "Für eine fundierte Offerte oder Beratung brauchen wir zusätzlich Telefon, Heizart und Personen im Haushalt — so können wir gleich beim ersten Anruf konkret werden.",
+    "heatingLabel": "Aktuelle Heizart *",
+    "heatingDescription": "Hilft uns, Wärmepumpe und Eigenverbrauch realistisch einzuplanen.",
+    "householdLabel": "Personen im Haushalt *",
+    "householdDescription": "Z. B. 4 Personen — wir leiten daraus den typischen Verbrauch ab.",
+    "householdPlaceholder": "4",
+    "messageLabel": "Ihre Nachricht",
+    "messagePlaceholder": "Erzählen Sie uns kurz, worum es geht – Dachgrösse, Strom­verbrauch, Wünsche helfen uns enorm.",
+    "submit": "Nachricht senden",
+    "successTitle": "Vielen Dank für Ihre Nachricht.",
+    "successText": "Wir melden uns persönlich – Antwort innert eines Werktags.",
+    "successAgain": "Neue Nachricht senden"
+  },
+  "lead": {
+    "namePlaceholder": "Vor- und Nachname",
+    "emailPlaceholder": "ihre.adresse@example.ch",
+    "heatingLabel": "Heizart *",
+    "heatingDescription": "Hilft uns, Wärmepumpe und Eigenverbrauch realistisch einzuplanen.",
+    "messageLabel": "Ihre Nachricht (optional)",
+    "messagePlaceholder": "Was sollen wir wissen, bevor wir uns melden?",
+    "honeypotLabel": "Website (nicht ausfüllen)",
+    "submit": "Anfrage senden",
+    "successTitle": "Anfrage erhalten – herzlichen Dank.",
+    "successText": "Wir prüfen Ihre Angaben und melden uns innert eines Werktags persönlich.",
+    "successAgain": "Neue Anfrage senden"
+  }
+}

@@ -9,7 +9,10 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { ArrowRight, ChevronDown, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+
+import { Link } from "@/i18n/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -37,40 +40,31 @@ import { RoofInputs } from "./roof-inputs";
 import { CalculatorResultCard } from "./calculator-result-card";
 import { AddressStep, type AddressStepSelection } from "./address-step";
 
-const buildingTypes: {
-  value: SolarCalculatorFormInput["buildingType"];
-  label: string;
-  description: string;
-}[] = [
-  { value: "einfamilienhaus", label: "Einfamilienhaus", description: "Privat, 1 Haushalt" },
-  { value: "mehrfamilienhaus", label: "Mehrfamilienhaus", description: "Mehrere Wohneinheiten / ZEV" },
-  { value: "gewerbe", label: "Gewerbe", description: "Büro, Industrie, Logistik" },
-  { value: "landwirtschaft", label: "Landwirtschaft", description: "Stall, Scheune, Reithalle" },
-  { value: "sonstiges", label: "Sonstiges", description: "Anderes Objekt" },
+// Beschriftungen liegen in messages/<locale>/calculator.json (buildingTypes.*).
+const buildingTypes: SolarCalculatorFormInput["buildingType"][] = [
+  "einfamilienhaus",
+  "mehrfamilienhaus",
+  "gewerbe",
+  "landwirtschaft",
+  "sonstiges",
 ];
 
-const wantsBatteryOptions: {
-  value: SolarCalculatorFormInput["wantsBattery"];
-  label: string;
-}[] = [
-  { value: "ja", label: "Ja, gewünscht" },
-  { value: "nein", label: "Nein" },
-  { value: "unsicher", label: "Beratung erwünscht" },
+const wantsBatteryOptions: SolarCalculatorFormInput["wantsBattery"][] = [
+  "ja",
+  "nein",
+  "unsicher",
 ];
 
-const financingOptions: {
-  value: NonNullable<SolarCalculatorFormInput["financingInterest"]>;
-  label: string;
-}[] = [
-  { value: "ja", label: "Ja" },
-  { value: "nein", label: "Nein" },
-  { value: "unsicher", label: "Beratung" },
+const financingOptions: NonNullable<SolarCalculatorFormInput["financingInterest"]>[] = [
+  "ja",
+  "nein",
+  "unsicher",
 ];
 
 const stepConfig = [
   {
     id: 0,
-    label: "Standort & Dach",
+    key: "location",
     fields: [
       "canton",
       "roofAreaM2",
@@ -82,12 +76,12 @@ const stepConfig = [
   },
   {
     id: 1,
-    label: "Verbrauch",
+    key: "consumption",
     fields: ["buildingType", "annualConsumptionKwh", "wantsBattery"],
   },
   {
     id: 2,
-    label: "Kontakt",
+    key: "contact",
     fields: [],
   },
 ] as const;
@@ -122,6 +116,7 @@ const defaultValues: SolarCalculatorFormInput = {
 };
 
 export function SolarCalculator() {
+  const t = useTranslations("calculator");
   const reduce = useReducedMotion();
   const [step, setStep] = useState(0);
   const [submitting, setSubmitting] = useState(false);
@@ -247,7 +242,7 @@ export function SolarCalculator() {
 
   async function onSubmit(data: SolarCalculatorFormInput) {
     if (!leadValid) {
-      toast.error("Bitte füllen Sie Ihre Kontaktdaten vollständig aus.");
+      toast.error(t("toasts.contactIncomplete"));
       return;
     }
     setSubmitting(true);
@@ -269,18 +264,16 @@ export function SolarCalculator() {
       if (!res.ok) {
         const local = calculateSolar(data);
         setResult(local);
-        toast.warning(
-          "Server konnte die Berechnung nicht speichern – wir zeigen Ihnen die lokale Auswertung. Wir haben Ihre Anfrage nicht erhalten — bitte kontaktieren Sie uns direkt.",
-        );
+        toast.warning(t("toasts.serverFailed"));
         return;
       }
       const payload = (await res.json()) as { result: SolarCalculatorResult };
       setResult(payload.result);
-      toast.success("Anfrage gesendet — wir melden uns innert eines Werktags.");
+      toast.success(t("toasts.success"));
     } catch {
       const local = calculateSolar(data);
       setResult(local);
-      toast.warning("Verbindung gestört – wir zeigen Ihnen die lokale Auswertung.");
+      toast.warning(t("toasts.connectionFailed"));
     } finally {
       setSubmitting(false);
     }
@@ -306,13 +299,13 @@ export function SolarCalculator() {
         <div>
           <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-5">
             <div>
-              <p className="eyebrow">Solarrechner</p>
+              <p className="eyebrow">{t("eyebrow")}</p>
               <h2 className="mt-2 text-balance text-2xl font-semibold leading-tight tracking-tight text-foreground sm:text-3xl">
-                Erstauswertung in 60 Sekunden
+                {t("heading")}
               </h2>
             </div>
             <ol className="flex flex-wrap items-center gap-2">
-              {[...stepConfig.map((s) => s.label), "Ergebnis"].map((label, i) => {
+              {[...stepConfig.map((s) => t(`steps.${s.key}`)), t("steps.result")].map((label, i) => {
                 const isActive = i === step && !result;
                 const isDone = i < step || Boolean(result);
                 return (
@@ -336,7 +329,7 @@ export function SolarCalculator() {
           </div>
           <div
             role="progressbar"
-            aria-label="Fortschritt im Solarrechner"
+            aria-label={t("progressLabel")}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={Math.round(progress)}
@@ -374,14 +367,9 @@ export function SolarCalculator() {
                     {hasSonnendach && oversize && (
                       <div className="neu-in rounded-2xl p-5">
                         <div className="text-sm">
-                          <p className="font-medium text-foreground">
-                            Sehr grosse Auswahl für ein Einfamilienhaus
-                          </p>
+                          <p className="font-medium text-foreground">{t("oversize.title")}</p>
                           <p className="mt-0.5 text-xs text-muted-foreground">
-                            Die ausgewählten Dachflächen ergeben über 25 kWp – das ist mehr
-                            als typisch für ein EFH. Bitte prüfen Sie, ob alle gewählten
-                            Segmente tatsächlich zu Ihrer Liegenschaft gehören (in Sonnendach
-                            werden manchmal benachbarte Gebäude oder Garagen mitgruppiert).
+                            {t("oversize.text")}
                           </p>
                         </div>
                       </div>
@@ -392,13 +380,12 @@ export function SolarCalculator() {
                       <div className="neu p-6">
                         <div className="flex items-start justify-between gap-3">
                           <div>
-                            <p className="eyebrow">Manuelle Eingabe</p>
+                            <p className="eyebrow">{t("manual.eyebrow")}</p>
                             <p className="mt-2 text-sm font-medium text-foreground">
-                              Dachdaten selbst erfassen
+                              {t("manual.title")}
                             </p>
                             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                              Wenn die Adresse nicht in Sonnendach.ch registriert ist oder Sie
-                              die Werte selbst kennen, tragen Sie sie hier ein.
+                              {t("manual.text")}
                             </p>
                           </div>
                         </div>
@@ -420,9 +407,7 @@ export function SolarCalculator() {
                         onClick={() => setShowManualOverride((s) => !s)}
                         className="btn-ghost min-h-11 self-start text-sm"
                       >
-                        {showManualOverride
-                          ? "Manuelle Werte ausblenden"
-                          : "Werte manuell überschreiben (selten nötig)"}
+                        {showManualOverride ? t("manual.hide") : t("manual.show")}
                       </button>
                     )}
 
@@ -435,11 +420,7 @@ export function SolarCalculator() {
                           values={values}
                           setValue={setValue}
                         />
-                        <p className="mt-3 text-xs text-muted-foreground">
-                          Hinweis: Bei aktiven Bundesdaten werden Ausrichtung, Neigung und
-                          Verschattung nicht für die Berechnung verwendet — die Sonnendach-
-                          Werte sind genauer. Die Felder sind nur für Ihre Übersicht.
-                        </p>
+                        <p className="mt-3 text-xs text-muted-foreground">{t("manual.note")}</p>
                       </div>
                     )}
                   </div>
@@ -451,14 +432,15 @@ export function SolarCalculator() {
                       <div className="neu-in rounded-2xl p-5">
                         <div className="text-sm">
                           <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E5510]">
-                            Bundesdaten
+                            {t("federal.badge")}
                           </span>
                           <p className="mt-2 font-medium text-foreground">
-                            Bundesdaten aktiv für {values.address}
+                            {t("federal.activeFor", { address: values.address ?? "" })}
                           </p>
                           <p className="mt-0.5 text-xs text-muted-foreground">
-                            Wir rechnen mit {values.sonnendach?.usableAreaM2.toFixed(0)} m²
-                            nutzbarer Modulfläche aus Sonnendach.ch.
+                            {t("federal.usable", {
+                              area: values.sonnendach?.usableAreaM2.toFixed(0) ?? "",
+                            })}
                           </p>
                         </div>
                       </div>
@@ -466,42 +448,38 @@ export function SolarCalculator() {
 
                     <FieldSet>
                       <FieldLegend>
-                        <span className="eyebrow">Gebäudetyp</span>
+                        <span className="eyebrow">{t("buildingType.legend")}</span>
                       </FieldLegend>
-                      <FieldDescription>
-                        Wählen Sie die Kategorie, die am besten zu Ihrem Objekt passt.
-                      </FieldDescription>
+                      <FieldDescription>{t("buildingType.description")}</FieldDescription>
                       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
                         {buildingTypes.map((b) => (
                           <button
                             type="button"
-                            key={b.value}
+                            key={b}
                             onClick={() =>
-                              setValue("buildingType", b.value, { shouldValidate: true })
+                              setValue("buildingType", b, { shouldValidate: true })
                             }
-                            aria-pressed={values.buildingType === b.value}
+                            aria-pressed={values.buildingType === b}
                             className={`ring-focus neu-sm flex min-h-12 flex-col items-start gap-0.5 rounded-2xl p-4 text-left transition-[box-shadow,color,transform] duration-150 ${
-                              values.buildingType === b.value
+                              values.buildingType === b
                                 ? "shadow-[var(--neu-inset)] text-[color:var(--solar-gold-dark)]"
                                 : "text-foreground hover:-translate-y-px"
                             }`}
                           >
-                            <span className="text-sm font-semibold">{b.label}</span>
-                            <span className="text-xs text-muted-foreground">{b.description}</span>
+                            <span className="text-sm font-semibold">
+                              {t(`buildingTypes.${b}.label`)}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {t(`buildingTypes.${b}.description`)}
+                            </span>
                           </button>
                         ))}
                       </div>
                     </FieldSet>
 
                     <Field>
-                      <FieldLabel htmlFor="annualConsumptionKwh">
-                        Jährlicher Stromverbrauch (kWh)
-                      </FieldLabel>
-                      <FieldDescription>
-                        Sie finden den Wert auf Ihrer letzten Stromrechnung. Typisch:
-                        EFH ca. 4’500 kWh, mit Elektroboiler ca. 7’500 kWh; mit
-                        Wärmepumpe und Elektroauto 8’000–16’000 kWh (ElCom-Profile).
-                      </FieldDescription>
+                      <FieldLabel htmlFor="annualConsumptionKwh">{t("consumption.label")}</FieldLabel>
+                      <FieldDescription>{t("consumption.description")}</FieldDescription>
                       <Input
                         id="annualConsumptionKwh"
                         type="number"
@@ -522,7 +500,7 @@ export function SolarCalculator() {
 
                     <FieldSet>
                       <FieldLegend variant="label">
-                        <span className="eyebrow">Elektrische Lasten</span>
+                        <span className="eyebrow">{t("loads.legend")}</span>
                       </FieldLegend>
                       <Field orientation="horizontal">
                         <Switch
@@ -533,10 +511,8 @@ export function SolarCalculator() {
                           }
                         />
                         <FieldContent>
-                          <FieldLabel htmlFor="hasHeatPump">Wärmepumpe vorhanden</FieldLabel>
-                          <FieldDescription>
-                            Erhöht den möglichen Eigenverbrauch und beeinflusst die Auslegung.
-                          </FieldDescription>
+                          <FieldLabel htmlFor="hasHeatPump">{t("loads.heatPump")}</FieldLabel>
+                          <FieldDescription>{t("loads.heatPumpDescription")}</FieldDescription>
                         </FieldContent>
                       </Field>
                       <Field orientation="horizontal">
@@ -546,34 +522,32 @@ export function SolarCalculator() {
                           onCheckedChange={(v) => setValue("hasEv", v, { shouldValidate: true })}
                         />
                         <FieldContent>
-                          <FieldLabel htmlFor="hasEv">Elektroauto vorhanden</FieldLabel>
-                          <FieldDescription>
-                            Mit Wallbox und PV-Überschuss steigt der Eigenverbrauch deutlich.
-                          </FieldDescription>
+                          <FieldLabel htmlFor="hasEv">{t("loads.ev")}</FieldLabel>
+                          <FieldDescription>{t("loads.evDescription")}</FieldDescription>
                         </FieldContent>
                       </Field>
                     </FieldSet>
 
                     <FieldSet>
                       <FieldLegend variant="label">
-                        <span className="eyebrow">Batteriespeicher</span>
+                        <span className="eyebrow">{t("batteryLegend")}</span>
                       </FieldLegend>
                       <div className="grid grid-cols-3 gap-2">
                         {wantsBatteryOptions.map((o) => (
                           <button
-                            key={o.value}
+                            key={o}
                             type="button"
                             onClick={() =>
-                              setValue("wantsBattery", o.value, { shouldValidate: true })
+                              setValue("wantsBattery", o, { shouldValidate: true })
                             }
-                            aria-pressed={values.wantsBattery === o.value}
+                            aria-pressed={values.wantsBattery === o}
                             className={`ring-focus neu-sm min-h-12 rounded-2xl px-3 py-2.5 text-sm font-medium transition-[box-shadow,color,transform] duration-150 ${
-                              values.wantsBattery === o.value
+                              values.wantsBattery === o
                                 ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
                                 : "text-foreground hover:-translate-y-px"
                             }`}
                           >
-                            {o.label}
+                            {t(`batteryOptions.${o}`)}
                           </button>
                         ))}
                       </div>
@@ -588,7 +562,7 @@ export function SolarCalculator() {
                       <ChevronDown
                         className={`size-3.5 transition-transform ${showAdvanced ? "rotate-180" : ""}`}
                       />
-                      {showAdvanced ? "Erweiterte Optionen ausblenden" : "Erweiterte Optionen"}
+                      {showAdvanced ? t("advanced.hide") : t("advanced.show")}
                     </button>
 
                     {showAdvanced && (
@@ -596,12 +570,9 @@ export function SolarCalculator() {
                         <div className="grid gap-4 sm:grid-cols-2">
                           <Field>
                             <FieldLabel htmlFor="electricityPriceRappen">
-                              Strompreis (Rp./kWh, Gesamtpreis inkl. MwSt)
+                              {t("advanced.priceLabel")}
                             </FieldLabel>
-                            <FieldDescription>
-                              Grund- und Messgebühren Ihres Netzbetreibers bleiben fix
-                              und lassen sich mit PV nicht vermeiden.
-                            </FieldDescription>
+                            <FieldDescription>{t("advanced.priceDescription")}</FieldDescription>
                             <Input
                               id="electricityPriceRappen"
                               type="number"
@@ -615,12 +586,9 @@ export function SolarCalculator() {
                           </Field>
                           <Field>
                             <FieldLabel htmlFor="feedInTariffRappen">
-                              Einspeisetarif (Rp./kWh)
+                              {t("advanced.feedInLabel")}
                             </FieldLabel>
-                            <FieldDescription>
-                              Ohne Herkunftsnachweis-Vergütung; viele Netzbetreiber
-                              vergüten HKN zusätzlich (ca. 1–2.5 Rp./kWh).
-                            </FieldDescription>
+                            <FieldDescription>{t("advanced.feedInDescription")}</FieldDescription>
                             <Input
                               id="feedInTariffRappen"
                               type="number"
@@ -636,26 +604,26 @@ export function SolarCalculator() {
 
                         <FieldSet className="mt-5">
                           <FieldLegend variant="label">
-                            <span className="eyebrow">Finanzierung</span>
+                            <span className="eyebrow">{t("advanced.financingLegend")}</span>
                           </FieldLegend>
                           <div className="grid grid-cols-3 gap-2">
                             {financingOptions.map((o) => (
                               <button
-                                key={o.value}
+                                key={o}
                                 type="button"
                                 onClick={() =>
-                                  setValue("financingInterest", o.value, {
+                                  setValue("financingInterest", o, {
                                     shouldValidate: true,
                                   })
                                 }
-                                aria-pressed={values.financingInterest === o.value}
+                                aria-pressed={values.financingInterest === o}
                                 className={`ring-focus neu-sm min-h-12 rounded-2xl px-3 py-2.5 text-sm font-medium transition-[box-shadow,color,transform] duration-150 ${
-                                  values.financingInterest === o.value
+                                  values.financingInterest === o
                                     ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
                                     : "text-foreground hover:-translate-y-px"
                                 }`}
                               >
-                                {o.label}
+                                {t(`financingOptions.${o}`)}
                               </button>
                             ))}
                           </div>
@@ -668,23 +636,21 @@ export function SolarCalculator() {
                 {step === 2 && (
                   <FieldGroup>
                     <div className="neu-in rounded-2xl p-5">
-                      <p className="eyebrow">Letzter Schritt</p>
+                      <p className="eyebrow">{t("contact.eyebrow")}</p>
                       <p className="mt-2 text-sm font-medium text-foreground">
-                        Ihre Kontaktdaten für die persönliche Auswertung
+                        {t("contact.title")}
                       </p>
                       <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-                        Wir senden Ihnen die persönliche Auswertung an Ihre E-Mail und melden
-                        uns innert eines Werktags für die nächsten Schritte. Ihre Anfrage wird
-                        gleichzeitig in unserem System erfasst.
+                        {t("contact.text")}
                       </p>
                     </div>
 
                     <Field>
-                      <FieldLabel htmlFor="lead-name">Name *</FieldLabel>
+                      <FieldLabel htmlFor="lead-name">{t("contact.name")}</FieldLabel>
                       <Input
                         id="lead-name"
                         autoComplete="name"
-                        placeholder="Vor- und Nachname"
+                        placeholder={t("contact.namePlaceholder")}
                         value={lead.name}
                         onChange={(e) =>
                           setLead((prev) => ({ ...prev, name: e.target.value }))
@@ -695,12 +661,12 @@ export function SolarCalculator() {
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <Field>
-                        <FieldLabel htmlFor="lead-email">E-Mail *</FieldLabel>
+                        <FieldLabel htmlFor="lead-email">{t("contact.email")}</FieldLabel>
                         <Input
                           id="lead-email"
                           type="email"
                           autoComplete="email"
-                          placeholder="ihre.adresse@example.ch"
+                          placeholder={t("contact.emailPlaceholder")}
                           value={lead.email}
                           onChange={(e) =>
                             setLead((prev) => ({ ...prev, email: e.target.value }))
@@ -709,12 +675,12 @@ export function SolarCalculator() {
                         />
                       </Field>
                       <Field>
-                        <FieldLabel htmlFor="lead-phone">Telefon *</FieldLabel>
+                        <FieldLabel htmlFor="lead-phone">{t("contact.phone")}</FieldLabel>
                         <Input
                           id="lead-phone"
                           type="tel"
                           autoComplete="tel"
-                          placeholder="+41 …"
+                          placeholder={t("contact.phonePlaceholder")}
                           value={lead.phone}
                           onChange={(e) =>
                             setLead((prev) => ({ ...prev, phone: e.target.value }))
@@ -726,7 +692,7 @@ export function SolarCalculator() {
 
                     {(values.address || values.postalCode || values.city) && (
                       <div className="neu-in rounded-2xl px-5 py-4 text-xs text-muted-foreground">
-                        <p className="eyebrow">Adresse aus Schritt 1</p>
+                        <p className="eyebrow">{t("contact.addressFromStep")}</p>
                         <p className="mt-0.5">
                           {values.address ||
                             `${values.postalCode || ""} ${values.city || ""}`.trim() ||
@@ -745,18 +711,18 @@ export function SolarCalculator() {
                       />
                       <FieldContent>
                         <FieldLabel htmlFor="lead-consent">
-                          Ich bin mit der{" "}
-                          <a
-                            href="/datenschutz"
-                            className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
-                          >
-                            Datenschutzerklärung
-                          </a>{" "}
-                          einverstanden. *
+                          {t.rich("contact.consent", {
+                            link: (chunks) => (
+                              <Link
+                                href="/datenschutz"
+                                className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
+                              >
+                                {chunks}
+                              </Link>
+                            ),
+                          })}
                         </FieldLabel>
-                        <FieldDescription>
-                          Wir nutzen Ihre Daten ausschliesslich zur Bearbeitung Ihrer Anfrage.
-                        </FieldDescription>
+                        <FieldDescription>{t("contact.consentDescription")}</FieldDescription>
                       </FieldContent>
                     </Field>
                   </FieldGroup>
@@ -768,13 +734,13 @@ export function SolarCalculator() {
             {livePreview && (
               <div className="neu-in mt-8 grid gap-4 rounded-2xl p-5 sm:grid-cols-3">
                 <div>
-                  <p className="eyebrow">Anlage</p>
+                  <p className="eyebrow">{t("quickStats.system")}</p>
                   <p className="stat-mono mt-1 text-lg text-foreground">
                     {livePreview.recommendedKwp} kWp
                   </p>
                 </div>
                 <div>
-                  <p className="eyebrow">Jahresproduktion</p>
+                  <p className="eyebrow">{t("quickStats.production")}</p>
                   <p className="stat-mono mt-1 text-lg text-foreground">
                     {Intl.NumberFormat("de-CH").format(
                       livePreview.annualProductionKwh.realistic,
@@ -783,7 +749,7 @@ export function SolarCalculator() {
                   </p>
                 </div>
                 <div>
-                  <p className="eyebrow">Ersparnis pro Jahr</p>
+                  <p className="eyebrow">{t("quickStats.savings")}</p>
                   <p className="stat-mono mt-1 text-lg text-foreground">
                     CHF{" "}
                     {Intl.NumberFormat("de-CH").format(livePreview.annualSavingsChf.realistic)}
@@ -799,7 +765,7 @@ export function SolarCalculator() {
                 disabled={step === 0 || submitting}
                 className="btn-secondary w-full disabled:pointer-events-none disabled:opacity-40 sm:w-auto"
               >
-                Zurück
+                {t("buttons.back")}
               </button>
 
               {step < stepConfig.length - 1 ? (
@@ -808,7 +774,7 @@ export function SolarCalculator() {
                   onClick={nextStep}
                   className="btn-primary w-full sm:w-auto"
                 >
-                  Weiter <ArrowRight className="size-4" aria-hidden />
+                  {t("buttons.next")} <ArrowRight className="size-4" aria-hidden />
                 </button>
               ) : (
                 <button
@@ -818,11 +784,11 @@ export function SolarCalculator() {
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="size-4 animate-spin" aria-hidden /> Wird gesendet …
+                      <Loader2 className="size-4 animate-spin" aria-hidden /> {t("buttons.submitting")}
                     </>
                   ) : (
                     <>
-                      Anfrage senden & auswerten <ArrowRight className="size-4" aria-hidden />
+                      {t("buttons.submit")} <ArrowRight className="size-4" aria-hidden />
                     </>
                   )}
                 </button>
@@ -852,11 +818,12 @@ function ManualRoofInputs(props: {
   setValue: ReturnType<typeof useForm<SolarCalculatorFormInput>>["setValue"];
 }) {
   const { form, register, errors, values, setValue } = props;
+  const t = useTranslations("calculator.manual");
   return (
     <FieldGroup>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field>
-          <FieldLabel htmlFor="canton">Kanton</FieldLabel>
+          <FieldLabel htmlFor="canton">{t("canton")}</FieldLabel>
           <CantonSelect
             id="canton"
             value={values.canton}
@@ -866,12 +833,12 @@ function ManualRoofInputs(props: {
           <FieldError errors={errors.canton ? [errors.canton] : undefined} />
         </Field>
         <Field>
-          <FieldLabel htmlFor="postalCode">PLZ (optional)</FieldLabel>
+          <FieldLabel htmlFor="postalCode">{t("postalCode")}</FieldLabel>
           <Input
             id="postalCode"
             inputMode="numeric"
             maxLength={4}
-            placeholder="2540"
+            placeholder={t("postalCodePlaceholder")}
             aria-invalid={!!errors.postalCode}
             {...register("postalCode")}
             className="h-12"

@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
+import { Link } from "@/i18n/navigation";
 import { siteConfig } from "@/lib/site-config";
 import type { SiteContent } from "@/lib/content/schema";
 
@@ -25,7 +26,8 @@ type Props = {
  * Grundfläche aus), links Titel + ein Satz + Aktionen, rechts die Gründer
  * in weichen Kreisen. Kein Video, kein Plankopf.
  */
-export function HeroSection({ content, contact, founders = [] }: Props) {
+export async function HeroSection({ content, contact, founders = [] }: Props) {
+  const t = await getTranslations("common");
   const koepfe = founders.filter((f) => f.imageUrl).slice(0, 2);
   const phoneDisplay = contact?.phone ?? siteConfig.contact.phone;
   const phoneHref = contact?.phoneHref ?? siteConfig.contact.phoneHref;
@@ -83,16 +85,16 @@ export function HeroSection({ content, contact, founders = [] }: Props) {
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/angebote" className="btn-primary w-full sm:w-auto">
-                {content.primaryCtaLabel}
+                {t("cta.primary")}
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
               <Link href="/solarrechner" className="btn-secondary w-full sm:w-auto">
-                {content.secondaryCtaLabel}
+                {t("cta.secondary")}
               </Link>
             </div>
 
             <p className="mt-5 text-sm text-muted-foreground">
-              Direkter Draht:{" "}
+              {t("directLine")}{" "}
               <a
                 href={phoneHref}
                 className="ring-focus stat-mono rounded-md text-foreground"

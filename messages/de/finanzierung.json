@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "title": "Solaranlage finanzieren – Förderung, Kosten & Amortisation Schweiz",
+    "description": "Planen Sie Ihre Photovoltaikanlage mit Investitionsspanne, Pronovo EIV, kantonalen Förderungen, Steueraspekten und konservativer Wirtschaftlichkeitsrechnung."
+  },
+  "intro": {
+    "eyebrow": "Finanzierung & Wirtschaftlichkeit",
+    "title": "Eine Investition, die arbeitet.",
+    "lead": "Eine Photovoltaikanlage kostet einmal und produziert danach über Jahrzehnte – hier stehen die Zahlen, die wir belegen können."
+  },
+  "facts": {
+    "title": "Belegte Kennzahlen.",
+    "lead": "Jede Zahl mit Quelle und Stand – damit Sie nachvollziehen können, womit wir rechnen.",
+    "columns": {
+      "kennzahl": "Kennzahl",
+      "wert": "Wert",
+      "quelle": "Quelle",
+      "stand": "Stand"
+    },
+    "asOf": "Stand {stand}",
+    "items": [
+      {
+        "kennzahl": "Einmalvergütung des Bundes (EIV)",
+        "wert": "CHF 360/kWp für angebaute Anlagen unter 30 kWp mit Eigenverbrauch (integriert CHF 400/kWp)",
+        "quelle": "EnFV Anhang 2.1 (Fedlex)",
+        "stand": "1.7.2026"
+      },
+      {
+        "kennzahl": "Referenz-Strompreis Haushalte 2026",
+        "wert": "27.7 Rp./kWh Median (Profil H4, exkl. MwSt); Region Grenchen ≈ 29.6 Rp./kWh inkl. MwSt",
+        "quelle": "ElCom, Strompreisübersicht",
+        "stand": "Tarifjahr 2026"
+      },
+      {
+        "kennzahl": "Vergütung für Überschussstrom",
+        "wert": "Seit 1.1.2026 schweizweit nach BFE-Referenz-Marktpreis; Minimum 6.0 Rp./kWh für Anlagen unter 30 kW",
+        "quelle": "Art. 15 EnG / BFE",
+        "stand": "Q2 2026"
+      },
+      {
+        "kennzahl": "Leistungsgarantie Module",
+        "wert": "30 Jahre Produkt- und Leistungsgarantie (AIKO Neostar; Degradation max. 0.35 %/Jahr ab Jahr 2)",
+        "quelle": "Hersteller-Datenblatt",
+        "stand": "14.08.2026"
+      },
+      {
+        "kennzahl": "Richtpreis Komplettanlage EFH",
+        "wert": "CHF 15'500–26'500 je nach Grösse und Speicher",
+        "quelle": "Firmen-Richtwert, inkl. Montage, vor Abzug der Einmalvergütung",
+        "stand": "14.08.2026"
+      }
+    ],
+    "note": "Alle Angaben indikativ; massgebend sind die zum Zeitpunkt der Inbetriebnahme gültigen Ansätze. Quellen: Energieförderungsverordnung EnFV (Fedlex, Stand 1.7.2026) · ElCom Strompreisübersicht 2026 · Art. 15 EnG / BFE-Referenz-Marktpreis · Hersteller-Datenblatt. Geprüft am 14. August 2026."
+  },
+  "funding": {
+    "title": "Förderung senkt die Investition.",
+    "lead": "Bund, Kantone und teils Gemeinden unterstützen Photovoltaik. Weil sich die Programme laufend ändern, prüfen wir sie tagesaktuell für Ihren Standort.",
+    "items": [
+      {
+        "title": "Pronovo EIV",
+        "text": "Die Einmalvergütung des Bundes senkt die Investition spürbar. Wir berechnen sie tagesaktuell für Ihr Projekt und übernehmen den Antrag."
+      },
+      {
+        "title": "Kantonale & kommunale Programme",
+        "text": "Einzelne Kantone, Gemeinden und Energieversorger fördern zusätzlich – wir prüfen, was an Ihrem Standort gilt."
+      },
+      {
+        "title": "Steuerabzüge",
+        "text": "An bestehenden Gebäuden sind Photovoltaik-Investitionen den Unterhaltskosten gleichgestellt und heute in praktisch allen Kantonen abziehbar; massgebend bleibt die Praxis Ihres Kantons (im Kanton Solothurn etwa sind Gebäude unter fünf Jahren ausgenommen). Mit dem Systemwechsel beim Eigenmietwert entfällt der Energiespar-Abzug bei der direkten Bundessteuer per 1. Januar 2029."
+      }
+    ]
+  },
+  "paths": {
+    "title": "Zwei Wege zur eigenen Anlage – beide planbar.",
+    "lead": "Ob aus Eigenmitteln oder in Raten: Welcher Weg passt, entscheidet Ihr Haushalt.",
+    "items": [
+      {
+        "title": "Eigenfinanzierung",
+        "lead": "Sie investieren einmal und profitieren ab dem ersten Betriebstag vollständig.",
+        "points": [
+          "Keine Zins- und Finanzierungskosten",
+          "Steuerabzug im Jahr der Zahlung, je nach kantonaler Praxis",
+          "Jede eingesparte Kilowattstunde entlastet ab Tag eins"
+        ]
+      },
+      {
+        "title": "Ratenfinanzierung über Schweizer Partner",
+        "lead": "Auf Wunsch vermitteln wir den Kontakt zu Schweizer Finanzierungspartnern.",
+        "points": [
+          "Monatliche Raten statt einmaliger Investitionsbetrag",
+          "Konditionen und Bonitätsprüfung liegen beim Partner",
+          "Wir liefern die technischen Unterlagen"
+        ]
+      }
+    ],
+    "disclaimer": "Wir vermitteln auf Wunsch Schweizer Finanzierungspartner, erbringen aber keine Finanz-, Anlage- oder Steuerberatung – Konditionen sagt allein der Partner zu."
+  },
+  "economics": {
+    "title": "Über den ganzen Lebenszyklus gerechnet.",
+    "lead": "Nicht die grösste Anlage rechnet sich am besten, sondern die, deren Strom Sie selbst nutzen – über 25 bis 30 Jahre Betrieb.",
+    "items": [
+      "Eigenverbrauch bestimmt die Rendite stärker als die Anlagengrösse.",
+      "Wärmepumpe und Elektroauto verschieben Verbrauch auf das eigene Dach.",
+      "Der Wechselrichter wird typisch nach 10 bis 15 Jahren ersetzt – wir rechnen das ein.",
+      "Module sind auf 25 bis 30 Jahre Betrieb mit definierter Degradation ausgelegt.",
+      "Wir rechnen konservativ und nennen Spannen statt garantierter Amortisationszeiten."
+    ],
+    "cta": "Fragen zur Wirtschaftlichkeit? Sprechen Sie mit uns."
+  },
+  "ctaBand": {
+    "title": "Eine Finanzierung, die zu Ihrem Haushalt passt.",
+    "description": "Senden Sie uns Ihre Eckdaten – wir bereiten eine nachvollziehbare Investitionsspanne vor.",
+    "primaryLabel": "Angebot anfragen",
+    "secondaryLabel": "Solarpotenzial berechnen"
+  }
+}

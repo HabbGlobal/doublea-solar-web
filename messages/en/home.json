@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "title": "Solar Installer Grenchen & Solothurn — precisely planned | DoubleA Solar",
+    "description": "Swiss photovoltaic specialist based in Grenchen: solar systems, battery storage, EV charging and subsidy advice in Solothurn, Bern and across Switzerland. With solar calculator, transparent quotes and long-term monitoring."
+  },
+  "services": {
+    "title": "Services",
+    "lead": "One system, one point of contact: from site analysis through to operation.",
+    "all": "All services",
+    "items": [
+      {
+        "title": "Site analysis",
+        "description": "Roof area, orientation, shading and structure checked on site."
+      },
+      {
+        "title": "Planning & sizing",
+        "description": "System concept based on your consumption profile, heat pump and electric mobility."
+      },
+      {
+        "title": "Subsidies & administration",
+        "description": "Pronovo one-off subsidy, cantonal programmes and permits and notifications: we handle the paperwork."
+      },
+      {
+        "title": "Installation & grid connection",
+        "description": "Mounting, electrical installation and commissioning with safety certificate (SiNa)."
+      },
+      {
+        "title": "Battery storage & self-consumption",
+        "description": "Battery and load management sized to your load profile."
+      },
+      {
+        "title": "Monitoring & maintenance",
+        "description": "Yield monitoring, visual inspection, cleaning and inverter service."
+      }
+    ]
+  },
+  "showcase": {
+    "title": "From family roofs to factory halls.",
+    "lead": "{intro} our work — every system is designed individually.",
+    "introByCount": {
+      "1": "One building category shapes",
+      "2": "Two building categories shape",
+      "3": "Three building categories shape",
+      "4": "Four building categories shape",
+      "5": "Five building categories shape",
+      "6": "Six building categories shape"
+    },
+    "introFallback": "{count} building categories shape",
+    "dossiers": [
+      {
+        "title": "Single-family home",
+        "rows": [
+          { "label": "Output", "value": "8–12 kWp" },
+          { "label": "Battery storage", "value": "5–16 kWh" }
+        ]
+      },
+      {
+        "title": "Apartment building / ZEV",
+        "rows": [
+          { "label": "Output", "value": "15–60 kWp" },
+          { "label": "Billing", "value": "Tenant electricity" }
+        ]
+      },
+      {
+        "title": "Commercial & agriculture",
+        "rows": [
+          { "label": "Output", "value": "30–150 kWp" },
+          { "label": "Analysis", "value": "Load profile" }
+        ]
+      }
+    ],
+    "typeAlt": "Photovoltaic system: {title}",
+    "referenceAlt": "Completed photovoltaic system: {title}",
+    "storageUnit": "kWh battery storage",
+    "completed": "Completed systems",
+    "noteWithReferences": "Published with the owners' consent; the key figures are indicative ranges.",
+    "noteWithoutReferences": "We only show customer projects with their consent; the key figures above are indicative ranges.",
+    "allProjects": "View all projects",
+    "allTypes": "All system types"
+  },
+  "process": {
+    "title": "Five steps, one point of contact.",
+    "stepLabel": "Step {nr}: ",
+    "steps": [
+      {
+        "title": "Analysis",
+        "description": "Needs assessment, roof and consumption check on site."
+      },
+      {
+        "title": "Quote & subsidies",
+        "description": "Sizing with an investment range; subsidy application handled by us."
+      },
+      {
+        "title": "Installation",
+        "description": "Mounting by certified Swiss partner firms, coordinated by us."
+      },
+      {
+        "title": "Connection & acceptance",
+        "description": "Grid connection, safety certificate and official acceptance."
+      },
+      {
+        "title": "Operation",
+        "description": "Monitoring, maintenance windows, response to anomalies."
+      }
+    ],
+    "note": "Analysis to commissioning: typically 8 to 16 weeks."
+  },
+  "calcTeaser": {
+    "title": "Your roof, calculated on federal data.",
+    "lead": "The calculator evaluates the sonnendach.ch data for your building and delivers a first system layout. Takes around three minutes.",
+    "example": "Example · 8.2 kWp",
+    "rows": [
+      { "label": "Annual yield (typ.)", "value": "7'500–8'500 kWh" },
+      { "label": "Investment", "value": "CHF 15'500–18'500" },
+      { "label": "One-off subsidy (EIV)", "value": "≈ CHF 2'952" }
+    ],
+    "note": "Guide values before site analysis"
+  },
+  "faq": {
+    "title": "Answers to the questions that really matter.",
+    "questionMissing": "Can't find your question? Write to us at"
+  },
+  "finalCta": {
+    "title": "Let's talk about your roof.",
+    "description": "Send us your key details or give us a call."
+  },
+  "team": {
+    "titleHome": "The people behind the systems.",
+    "titleFull": "Our team",
+    "lead": "Personally available — from the first conversation to acceptance.",
+    "more": "More about us"
+  }
+}

@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 import { Loader2, MapPin, Search } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Input } from "@/components/ui/input";
 import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
@@ -78,6 +79,7 @@ export function AddressFields({
   const [active, setActive] = useState(-1);
   const listId = useId();
   const boxRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations("forms");
 
   // Debouncte Abfrage des Bundes-Geocoders. Alle State-Updates laufen im
   // Timer-Callback (asynchron), damit kein synchrones setState im Effect steht.
@@ -166,12 +168,9 @@ export function AddressFields({
       {/* Automatische Adresserkennung */}
       <div ref={boxRef} className="relative">
         <FieldLabel htmlFor={`${idPrefix}-address-search`}>
-          Adresse suchen
+          {t("address.searchLabel")}
         </FieldLabel>
-        <FieldDescription>
-          Adresse eintippen – wir übernehmen Strasse, Nr., PLZ und Ort
-          automatisch (offizielle Schweizer Adressdaten).
-        </FieldDescription>
+        <FieldDescription>{t("address.searchDescription")}</FieldDescription>
         <div className="relative mt-2">
           <Search
             aria-hidden
@@ -185,7 +184,7 @@ export function AddressFields({
             aria-controls={listId}
             aria-autocomplete="list"
             autoComplete="off"
-            placeholder="z. B. Oelirain 1A, 2540 Grenchen"
+            placeholder={t("address.searchPlaceholder")}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
@@ -231,7 +230,7 @@ export function AddressFields({
       {/* Einzelne Pflichtfelder — bleiben manuell editierbar */}
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-6">
         <Field className="sm:col-span-4">
-          <FieldLabel htmlFor={`${idPrefix}-street`}>Strasse *</FieldLabel>
+          <FieldLabel htmlFor={`${idPrefix}-street`}>{t("address.street")}</FieldLabel>
           <Input
             id={`${idPrefix}-street`}
             autoComplete="address-line1"
@@ -242,7 +241,9 @@ export function AddressFields({
           <FieldError errors={err("street")} />
         </Field>
         <Field className="sm:col-span-2">
-          <FieldLabel htmlFor={`${idPrefix}-houseNumber`}>Nr. *</FieldLabel>
+          <FieldLabel htmlFor={`${idPrefix}-houseNumber`}>
+            {t("address.houseNumber")}
+          </FieldLabel>
           <Input
             id={`${idPrefix}-houseNumber`}
             inputMode="text"
@@ -253,7 +254,9 @@ export function AddressFields({
           <FieldError errors={err("houseNumber")} />
         </Field>
         <Field className="sm:col-span-2">
-          <FieldLabel htmlFor={`${idPrefix}-postalCode`}>PLZ *</FieldLabel>
+          <FieldLabel htmlFor={`${idPrefix}-postalCode`}>
+            {t("address.postalCode")}
+          </FieldLabel>
           <Input
             id={`${idPrefix}-postalCode`}
             inputMode="numeric"
@@ -266,7 +269,7 @@ export function AddressFields({
           <FieldError errors={err("postalCode")} />
         </Field>
         <Field className="sm:col-span-4">
-          <FieldLabel htmlFor={`${idPrefix}-city`}>Ort *</FieldLabel>
+          <FieldLabel htmlFor={`${idPrefix}-city`}>{t("address.city")}</FieldLabel>
           <Input
             id={`${idPrefix}-city`}
             autoComplete="address-level2"

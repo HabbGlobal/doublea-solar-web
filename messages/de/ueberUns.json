@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "Über uns – Schweizer Solarunternehmen aus Grenchen",
+    "description": "DoubleA Solar Solutions ist ein Schweizer Solarunternehmen aus Grenchen SO – gegründet 2025, tätig in Solothurn, Biel, Bern und der ganzen Schweiz. Solartechnik, IT-Verständnis und Projektkoordination aus einer Hand."
+  },
+  "intro": {
+    "eyebrow": "Über uns",
+    "title": "Ein Schweizer Solarunternehmen mit klarem Anspruch.",
+    "text1": "{legalName} wurde {founded} in Grenchen gegründet und ist von hier aus in der ganzen Schweiz tätig. Uns prägt die Kombination aus Solartechnik, IT-Verständnis und Projektkoordination.",
+    "text2": "Wir sind ein junges Unternehmen und sagen das offen. Sie bekommen dafür kurze Wege und eine Arbeitsweise, die auf Dokumentation statt auf Versprechen baut.",
+    "photoPending": "Foto folgt"
+  },
+  "facts": [
+    { "value": "2025", "label": "Gegründet in Grenchen SO" },
+    { "value": "1", "label": "Feste Ansprechperson pro Projekt" },
+    { "value": "25+", "label": "Jahre Planungshorizont je Anlage" }
+  ],
+  "working": {
+    "title": "So arbeiten wir. In jedem Projekt.",
+    "principles": [
+      {
+        "title": "Feste Ansprechperson",
+        "text": "Eine Person verantwortet Begehung, Offerte, Bauleitung und Übergabe."
+      },
+      {
+        "title": "Keine Pauschalangebote",
+        "text": "Jede Auslegung folgt Dachbild, Verschattung und Verbrauchsprofil."
+      },
+      {
+        "title": "Transparente Offerten",
+        "text": "Material, Montage, Anschluss und Nebenkosten sind einzeln ausgewiesen."
+      },
+      {
+        "title": "Geprüfte Schweizer Partner",
+        "text": "Montage durch geprüfte Schweizer Partnerbetriebe, von uns koordiniert und verantwortet."
+      }
+    ],
+    "allServices": "Alle Leistungen im Detail"
+  },
+  "quality": {
+    "title": "Fünf Zusagen. Schriftlich, nicht sinngemäss.",
+    "promises": [
+      "Dokumentierte Begehung statt Ferndiagnose",
+      "Inbetriebnahme mit Sicherheitsnachweis (SiNa)",
+      "Vollständige Anlagendokumentation bei der Übergabe",
+      "Online-Monitoring nach der Übergabe",
+      "Verbindliche Reaktionszeiten bei Störungen"
+    ]
+  },
+  "team": {
+    "label": "Team"
+  },
+  "cta": {
+    "title": "Lernen wir uns kennen.",
+    "description": "Ein gutes Solarprojekt beginnt mit einem ehrlichen Gespräch.",
+    "primaryLabel": "Solarpotenzial berechnen",
+    "secondaryLabel": "Beratung anfragen"
+  }
+}

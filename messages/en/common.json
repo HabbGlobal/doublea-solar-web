@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "Solar Installer Grenchen & Solothurn — precisely planned | DoubleA Solar",
+    "description": "Swiss photovoltaic specialist based in Grenchen: solar systems, battery storage, EV charging and subsidy advice in Solothurn, Bern and across Switzerland. With solar calculator, transparent quotes and long-term monitoring.",
+    "keywords": ["solar installer Switzerland", "photovoltaic Grenchen", "solar panels Solothurn", "solar system Bern", "solar installer Biel", "solar system cost Switzerland", "photovoltaic quote", "solar with battery storage", "solar calculator Switzerland", "Pronovo subsidy photovoltaic", "solar company Switzerland", "EV charger solar", "heat pump photovoltaic", "ZEV photovoltaic apartment building", "commercial solar Switzerland", "self-consumption optimisation"],
+    "services": ["Site analysis & shading assessment", "Planning and sizing of the photovoltaic system", "Installation & grid connection", "Battery storage & self-consumption optimisation", "Pronovo subsidy advice", "Monitoring & maintenance"]
+  },
+  "skipLink": "Skip to content",
+  "toHome": "Go to homepage",
+  "mainNav": "Main navigation",
+  "mobileNav": "Mobile main navigation",
+  "openMenu": "Open menu",
+  "nav": {
+    "/": "Home",
+    "/services": "Services",
+    "/solarrechner": "Solar Calculator",
+    "/pakete": "Packages & Prices",
+    "/finanzierung": "Financing",
+    "/projekte": "Projects",
+    "/ueber-uns": "About Us",
+    "/kontakt": "Contact",
+    "/angebote": "Get a Quote",
+    "/impressum": "Legal Notice",
+    "/datenschutz": "Privacy Policy"
+  },
+  "cta": {
+    "primary": "Get a quote",
+    "secondary": "Calculate solar potential"
+  },
+  "ctaBand": {
+    "title": "Let's talk about your roof.",
+    "text": "Send us your key details or give us a call — you get a personal reply, not a template."
+  },
+  "footer": {
+    "claim": "Photovoltaics from Grenchen for all of Switzerland.",
+    "offer": "Offer",
+    "company": "Company"
+  },
+  "notFound": {
+    "title": "This page doesn't exist.",
+    "text": "The link is outdated or the address was mistyped.",
+    "cta": "Go to homepage"
+  },
+  "directLine": "Direct line:",
+  "readMore": "Learn more",
+  "photoPending": "Photo coming soon"
+}

@@ -1,17 +1,17 @@
-import Link from "next/link";
-import { SectionTitle } from "@/components/site/section-head";
+import { getTranslations } from "next-intl/server";
 
-const sampleRows: { label: string; value: string }[] = [
-  { label: "Jahresertrag (typ.)", value: "7'500–8'500 kWh" },
-  { label: "Investition", value: "CHF 15'500–18'500" },
-  { label: "Einmalvergütung (EIV)", value: "≈ CHF 2'952" },
-];
+import { SectionTitle } from "@/components/site/section-head";
+import { Link } from "@/i18n/navigation";
 
 /**
  * Solarrechner-Teaser: links Titel, ein Satz und die goldene Aktion;
  * rechts eine eingelassene Anzeige mit einer Beispielauswertung.
  */
-export function SolarCalculatorSection() {
+export async function SolarCalculatorSection() {
+  const t = await getTranslations("home.calcTeaser");
+  const tc = await getTranslations("common");
+  const sampleRows = t.raw("rows") as { label: string; value: string }[];
+
   return (
     <section
       id="rechner"
@@ -23,19 +23,19 @@ export function SolarCalculatorSection() {
           <div>
             <SectionTitle
               id="rechner-titel"
-              title="Ihr Dach, berechnet auf Bundesdaten."
-              lead="Der Rechner wertet die sonnendach.ch-Daten Ihres Gebäudes aus und liefert eine erste Auslegung. Dauer: rund drei Minuten."
+              title={t("title")}
+              lead={t("lead")}
             />
 
             <div className="mt-8">
               <Link href="/solarrechner" className="btn-primary w-full sm:w-auto">
-                Solarpotenzial berechnen
+                {tc("cta.secondary")}
               </Link>
             </div>
           </div>
 
           <div className="neu-in p-6 sm:p-7">
-            <p className="eyebrow">Beispiel · 8.2 kWp</p>
+            <p className="eyebrow">{t("example")}</p>
             <dl className="mt-3">
               {sampleRows.map((row) => (
                 <div
@@ -51,9 +51,7 @@ export function SolarCalculatorSection() {
                 </div>
               ))}
             </dl>
-            <p className="mt-3 text-sm text-muted-foreground">
-              Richtwerte vor Standortanalyse
-            </p>
+            <p className="mt-3 text-sm text-muted-foreground">{t("note")}</p>
           </div>
         </div>
       </div>

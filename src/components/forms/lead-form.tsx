@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -19,16 +20,17 @@ import {
 } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import {
   AddressFields,
   composeSwissAddress,
 } from "@/components/forms/address-fields";
 import {
-  addAddressIssues,
+  addAddressIssuesWith,
+  buildLeadSchema,
   heatingTypes,
-  heatingTypeLabels,
-  leadSchema,
   type LeadInput,
+  type LeadMessages,
   type HeatingType,
 } from "@/lib/validations/lead";
 
@@ -49,25 +51,25 @@ type LeadFormProps = {
 /**
  * Erzeugt das Validierungs-Schema. Die vollständige Adresse (Strasse, Nr.,
  * PLZ, Ort) ist in jedem Fall Pflicht. Bei `requireFull` werden zusätzlich
- * Telefon und Heizart verlangt.
+ * Telefon und Heizart verlangt. Meldungen kommen übersetzt aus `m`.
  */
-function buildSchema(requireFull: boolean) {
+function buildSchema(requireFull: boolean, m: LeadMessages) {
   const swissPhone = /^[+0-9 ()/-]{6,30}$/;
-  return leadSchema.superRefine((data, ctx) => {
-    addAddressIssues(data, ctx);
+  return buildLeadSchema(m).superRefine((data, ctx) => {
+    addAddressIssuesWith(m, data, ctx);
     if (!requireFull) return;
     if (!data.phone || data.phone.trim().length < 6 || !swissPhone.test(data.phone)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["phone"],
-        message: "Telefonnummer ist Pflicht.",
+        message: m.phoneRequired,
       });
     }
     if (!data.heatingType) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["heatingType"],
-        message: "Bitte wählen Sie Ihre aktuelle Heizart.",
+        message: m.heatingType,
       });
     }
   });
@@ -81,7 +83,24 @@ export function LeadForm({
   requireFullDetails = false,
 }: LeadFormProps) {
   const [submitted, setSubmitted] = useState(false);
-  const schema = buildSchema(requireFullDetails);
+  const t = useTranslations("forms");
+  const schema = useMemo(
+    () =>
+      buildSchema(requireFullDetails, {
+        name: t("errors.name"),
+        email: t("errors.email"),
+        phoneInvalid: t("errors.phoneInvalid"),
+        phoneRequired: t("errors.phoneRequiredLead"),
+        street: t("errors.street"),
+        houseNumber: t("errors.houseNumber"),
+        postalCode: t("errors.postalCode"),
+        city: t("errors.city"),
+        heatingType: t("errors.heatingType"),
+        householdSize: t("errors.householdSize"),
+        consent: t("errors.consent"),
+      }),
+    [requireFullDetails, t],
+  );
   const {
     register,
     handleSubmit,
@@ -125,7 +144,7 @@ export function LeadForm({
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(data.error || "Anfrage konnte nicht gesendet werden.");
+        throw new Error(data.error || t("errors.submitFailed"));
       }
       setSubmitted(true);
       reset({
@@ -142,11 +161,9 @@ export function LeadForm({
         consent: false,
         source,
       });
-      toast.success("Vielen Dank – wir melden uns innert eines Werktags.");
+      toast.success(t("common.toastSuccess"));
     } catch (e) {
-      toast.error(
-        e instanceof Error ? e.message : "Etwas ist schiefgelaufen.",
-      );
+      toast.error(e instanceof Error ? e.message : t("errors.generic"));
     }
   }
 
@@ -154,11 +171,10 @@ export function LeadForm({
     return (
       <div className="neu-in rounded-2xl p-5">
         <p className="text-base font-semibold text-foreground">
-          Anfrage erhalten – herzlichen Dank.
+          {t("lead.successTitle")}
         </p>
         <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-          Wir prüfen Ihre Angaben und melden uns innert eines Werktags
-          persönlich.
+          {t("lead.successText")}
         </p>
         {successCta && <div className="mt-3">{successCta}</div>}
         <button
@@ -166,23 +182,25 @@ export function LeadForm({
           onClick={() => setSubmitted(false)}
           className="btn-ghost mt-4 min-h-11 text-sm"
         >
-          Neue Anfrage senden
+          {t("lead.successAgain")}
         </button>
       </div>
     );
   }
 
-  const phoneLabel = requireFullDetails ? "Telefon *" : "Telefon (optional)";
+  const phoneLabel = requireFullDetails
+    ? t("common.phoneRequired")
+    : t("common.phoneOptional");
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4" noValidate>
       <FieldGroup>
         <Field>
-          <FieldLabel htmlFor="lead-name">Name *</FieldLabel>
+          <FieldLabel htmlFor="lead-name">{t("common.name")}</FieldLabel>
           <Input
             id="lead-name"
             autoComplete="name"
-            placeholder="Vor- und Nachname"
+            placeholder={t("lead.namePlaceholder")}
             aria-invalid={!!errors.name}
             {...register("name")}
           />
@@ -191,12 +209,12 @@ export function LeadForm({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Field>
-            <FieldLabel htmlFor="lead-email">E-Mail *</FieldLabel>
+            <FieldLabel htmlFor="lead-email">{t("common.email")}</FieldLabel>
             <Input
               id="lead-email"
               type="email"
               autoComplete="email"
-              placeholder="ihre.adresse@example.ch"
+              placeholder={t("lead.emailPlaceholder")}
               aria-invalid={!!errors.email}
               {...register("email")}
             />
@@ -209,7 +227,7 @@ export function LeadForm({
               id="lead-phone"
               type="tel"
               autoComplete="tel"
-              placeholder="+41 …"
+              placeholder={t("common.phonePlaceholder")}
               aria-invalid={!!errors.phone}
               {...register("phone")}
             />
@@ -233,10 +251,8 @@ export function LeadForm({
         {requireFullDetails && (
           <>
             <Field>
-              <FieldLabel>Heizart *</FieldLabel>
-              <FieldDescription>
-                Hilft uns, Wärmepumpe und Eigenverbrauch realistisch einzuplanen.
-              </FieldDescription>
+              <FieldLabel>{t("lead.heatingLabel")}</FieldLabel>
+              <FieldDescription>{t("lead.heatingDescription")}</FieldDescription>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {heatingTypes.map((h) => (
                   <button
@@ -255,7 +271,7 @@ export function LeadForm({
                         : "text-foreground hover:-translate-y-px",
                     )}
                   >
-                    {heatingTypeLabels[h as HeatingType]}
+                    {t(`heatingTypes.${h}`)}
                   </button>
                 ))}
               </div>
@@ -268,11 +284,11 @@ export function LeadForm({
 
         {!compact && (
           <Field>
-            <FieldLabel htmlFor="lead-message">Ihre Nachricht (optional)</FieldLabel>
+            <FieldLabel htmlFor="lead-message">{t("lead.messageLabel")}</FieldLabel>
             <Textarea
               id="lead-message"
               rows={4}
-              placeholder="Was sollen wir wissen, bevor wir uns melden?"
+              placeholder={t("lead.messagePlaceholder")}
               aria-invalid={!!errors.message}
               {...register("message")}
             />
@@ -282,7 +298,7 @@ export function LeadForm({
 
         {/* Honeypot — versteckt für echte Nutzer */}
         <div className="hidden" aria-hidden="true">
-          <label htmlFor="company_website">Website (nicht ausfüllen)</label>
+          <label htmlFor="company_website">{t("lead.honeypotLabel")}</label>
           <input
             id="company_website"
             type="text"
@@ -300,18 +316,18 @@ export function LeadForm({
           />
           <FieldContent>
             <FieldLabel htmlFor="lead-consent">
-              Ich bin mit der{" "}
-              <a
-                href="/datenschutz"
-                className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
-              >
-                Datenschutzerklärung
-              </a>{" "}
-              einverstanden. *
+              {t.rich("common.consent", {
+                link: (chunks) => (
+                  <Link
+                    href="/datenschutz"
+                    className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </FieldLabel>
-            <FieldDescription>
-              Wir nutzen Ihre Daten ausschliesslich zur Bearbeitung Ihrer Anfrage.
-            </FieldDescription>
+            <FieldDescription>{t("common.consentHint")}</FieldDescription>
             <FieldError errors={errors.consent ? [errors.consent] : undefined} />
           </FieldContent>
         </Field>
@@ -324,11 +340,11 @@ export function LeadForm({
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="size-4 animate-spin" aria-hidden /> Wird gesendet …
+            <Loader2 className="size-4 animate-spin" aria-hidden /> {t("common.sending")}
           </>
         ) : (
           <>
-            Anfrage senden <ArrowRight className="size-4" aria-hidden />
+            {t("lead.submit")} <ArrowRight className="size-4" aria-hidden />
           </>
         )}
       </button>

@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "title": "Photovoltaic Planning, Installation & Maintenance",
+    "description": "From site analysis and subsidy advice to installation, grid connection, battery storage, self-consumption optimisation and monitoring – DoubleA Solar Solutions guides your solar project in Grenchen, Solothurn, Bern and across Switzerland."
+  },
+  "intro": {
+    "eyebrow": "Services",
+    "title": "Every phase of your solar project. One accountable team.",
+    "lead": "Six service areas, one responsibility – from the first roof inspection to monitoring in operation."
+  },
+  "jumpNav": "Services overview",
+  "detailSection": "Services in detail",
+  "benefitLabel": "Your benefit",
+  "deliverablesLabel": "What you get",
+  "ctaAria": "{label} – get in touch",
+  "items": {
+    "standortanalyse": {
+      "kicker": "Foundation",
+      "navLabel": "Site analysis",
+      "title": "Site analysis",
+      "summary": "Before we design a system, we get to know your building. Roof geometry, shading and your electricity consumption determine what makes sense.",
+      "benefit": "You get an honest picture of what your roof can deliver – with no obligation.",
+      "deliverables": [
+        "On-site roof inspection: geometry, condition, mounting",
+        "Shading analysis across the whole year",
+        "Consumption analysis based on your electricity bills",
+        "Written initial assessment with a clear recommendation"
+      ],
+      "note": "",
+      "ctaLabel": "Request a site analysis"
+    },
+    "planung": {
+      "kicker": "Concept",
+      "navLabel": "Planning & sizing",
+      "title": "Planning & sizing",
+      "summary": "We size modules, inverter and battery storage to your consumption – today and in ten years, when an EV charger or heat pump is added.",
+      "benefit": "A system sized to your needs, not to a catalogue.",
+      "deliverables": [
+        "Sizing of modules, inverter and cabling",
+        "Battery sizing only where it pays off",
+        "Integration of EV charger and heat pump",
+        "Indicative yield forecast and system plans with the quote"
+      ],
+      "note": "",
+      "ctaLabel": "Discuss planning"
+    },
+    "foerderung": {
+      "kicker": "Subsidies",
+      "navLabel": "Subsidy advice",
+      "title": "Subsidy advice",
+      "summary": "One-off subsidy (EIV), cantonal programmes, tax deductions: the subsidy landscape is hard to navigate. We know the procedures and handle the applications.",
+      "benefit": "You miss no subsidy you are entitled to – and waste no time on forms.",
+      "deliverables": [
+        "Indicative calculation of the Pronovo one-off subsidy (EIV)",
+        "Review of cantonal and municipal programmes",
+        "Application and communication with Pronovo",
+        "Guidance on tax deductions; the tax authority has the final say"
+      ],
+      "note": "Subsidy rates change regularly – we check them on the day we prepare your quote.",
+      "ctaLabel": "Clarify your subsidies"
+    },
+    "installation": {
+      "kicker": "Delivery",
+      "navLabel": "Installation & grid connection",
+      "title": "Installation & grid connection",
+      "summary": "Mounting, electrical connection, grid operator, acceptance: we bring all trades together. You receive a tested, documented system.",
+      "benefit": "One point of contact for the entire delivery – you coordinate no one.",
+      "deliverables": [
+        "Mounting by certified solar technicians",
+        "Electrical connection by licensed electricians",
+        "Registration and coordination with the distribution grid operator",
+        "Safety certificate (SiNa), commissioning and joint acceptance"
+      ],
+      "note": "",
+      "ctaLabel": "Plan your installation"
+    },
+    "batterie": {
+      "kicker": "Optimisation",
+      "navLabel": "Battery & self-consumption",
+      "title": "Battery storage & self-consumption optimisation",
+      "summary": "Battery storage noticeably increases self-consumption – but it does not pay off in every case. We simulate first and recommend only afterwards.",
+      "benefit": "You invest only in capacity your consumption profile actually uses.",
+      "deliverables": [
+        "Load profile analysis before any battery recommendation",
+        "Battery size matched to your consumption profile",
+        "Load management for EV charger, heat pump and water heater",
+        "Retrofitting of existing photovoltaic systems"
+      ],
+      "note": "",
+      "ctaLabel": "Have your battery checked"
+    },
+    "monitoring": {
+      "kicker": "Operation",
+      "navLabel": "Monitoring & maintenance",
+      "title": "Monitoring & maintenance",
+      "summary": "A photovoltaic system runs for 25 years and more. We monitor the yield, maintain the equipment and handle warranty claims.",
+      "benefit": "Yield losses are detected before they start to matter.",
+      "deliverables": [
+        "Online monitoring with alerts on yield anomalies",
+        "Maintenance and cleaning at defined service intervals",
+        "Inverter service and handling of warranty claims",
+        "Dedicated contact person with clear response times"
+      ],
+      "note": "",
+      "ctaLabel": "Request service"
+    }
+  },
+  "ctaBand": {
+    "title": "Questions about a specific service?",
+    "description": "We will tell you honestly whether a step makes sense in your situation.",
+    "primaryLabel": "Book a consultation",
+    "secondaryLabel": "Calculate solar potential"
+  }
+}

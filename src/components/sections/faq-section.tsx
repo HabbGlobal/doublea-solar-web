@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import {
   Accordion,
   AccordionContent,
@@ -20,17 +22,15 @@ type Props = {
  * Häufige Fragen: Titel oben, jede Frage als weich erhabene Karte mit
  * goldenem Auf-/Zuklapp-Symbol. Das Accordion bleibt bestehen.
  */
-export function FaqSection({ items, email }: Props = {}) {
+export async function FaqSection({ items, email }: Props = {}) {
+  const t = await getTranslations("home.faq");
   const list = items && items.length > 0 ? items : defaultFaqs;
   const contactEmail = email ?? siteConfig.contact.email;
 
   return (
     <section id="faq" aria-labelledby="faq-titel" className="py-14 sm:py-20">
       <div className="container-page">
-        <SectionTitle
-          id="faq-titel"
-          title="Antworten auf die Fragen, die wirklich zählen."
-        />
+        <SectionTitle id="faq-titel" title={t("title")} />
 
         <Accordion className="mt-10">
           {list.map((f, i) => (
@@ -52,7 +52,7 @@ export function FaqSection({ items, email }: Props = {}) {
         </Accordion>
 
         <p className="mt-8 text-sm leading-relaxed text-muted-foreground">
-          Ihre Frage ist nicht dabei? Schreiben Sie uns an{" "}
+          {t("questionMissing")}{" "}
           <a
             href={`mailto:${contactEmail}`}
             className="ring-focus rounded-md font-medium text-foreground underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4 transition-colors duration-150 hover:text-[color:var(--solar-gold-dark)]"

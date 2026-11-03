@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Packages & Prices – Solar System Guide Prices Switzerland",
+    "description": "Transparent guide prices for photovoltaic packages: single-family home, Comfort with battery storage, Premium with heat pump integration. Final sizing after a free site analysis."
+  },
+  "intro": {
+    "eyebrow": "Packages & Prices",
+    "title": "Transparent guide prices. Final figures after the analysis.",
+    "lead": "These packages show what a photovoltaic system realistically costs in Switzerland – the final sizing follows the site analysis of your roof.",
+    "bullets": [
+      "Guide prices incl. mounting and commissioning",
+      "Prices before deduction of the Pronovo one-off subsidy (EIV)"
+    ]
+  },
+  "packagesSection": "Packages",
+  "badgeFeatured": "Most popular",
+  "optionsLabel": "Options",
+  "guidePriceLabel": "Guide price",
+  "calculateQuote": "Calculate a quote",
+  "price": {
+    "from": "from CHF {amount}",
+    "upTo": "up to CHF {amount}",
+    "onRequest": "on request"
+  },
+  "db": {
+    "powerLabel": "Power",
+    "targetFallback": "Package"
+  },
+  "curated": {
+    "basis": {
+      "target": "Single-family home",
+      "name": "Basic 8.2 kWp",
+      "summary": "The solid entry point for the typical single-family home – mounted, connected, accepted.",
+      "stats": [
+        { "label": "Power", "value": "8.2 kWp" },
+        { "label": "Module area (approx.)", "value": "~35 m²" },
+        { "label": "Annual yield (typ.)", "value": "7'500–8'500 kWh" },
+        { "label": "Battery storage", "value": "can be retrofitted" }
+      ],
+      "includes": [
+        "Modules and inverter",
+        "Mounting and grid connection",
+        "Pronovo EIV application",
+        "Commissioning incl. safety certificate (SiNa)",
+        "Monitoring"
+      ],
+      "options": [],
+      "price": "CHF 15'500–18'500"
+    },
+    "komfort": {
+      "target": "Single-family home with heat pump or EV",
+      "name": "Comfort 10 kWp + battery storage",
+      "summary": "More independence thanks to battery storage: use solar power from your roof in the evening too.",
+      "stats": [
+        { "label": "Power", "value": "10 kWp" },
+        { "label": "Module area (approx.)", "value": "~42 m²" },
+        { "label": "Annual yield (typ.)", "value": "9'000–10'500 kWh" },
+        { "label": "Battery storage", "value": "8–10 kWh" }
+      ],
+      "includes": [
+        "Everything from “Basic 8.2 kWp”",
+        "Battery storage 8–10 kWh",
+        "Sizing optimised for self-consumption"
+      ],
+      "options": [],
+      "price": "CHF 21'500–26'500"
+    },
+    "premium": {
+      "target": "Larger single-family homes and small apartment buildings",
+      "name": "Premium 15 kWp + heat pump integration",
+      "summary": "For high consumption: photovoltaics, heat pump and load management intelligently combined.",
+      "stats": [
+        { "label": "Power", "value": "15 kWp" },
+        { "label": "Module area (approx.)", "value": "~63 m²" },
+        { "label": "Annual yield (typ.)", "value": "13'500–16'000 kWh" },
+        { "label": "Battery storage (option)", "value": "16 kWh" }
+      ],
+      "includes": [
+        "Everything from “Basic 8.2 kWp”",
+        "Heat pump integration and energy management included",
+        "Load management and self-consumption optimisation",
+        "Battery storage option 16 kWh"
+      ],
+      "options": [],
+      "price": "CHF 27'500–34'500"
+    }
+  },
+  "commercial": {
+    "eyebrow": "Commercial & Agriculture",
+    "title": "Large roofs deserve a tailored design.",
+    "lead": "Industrial, barn and flat roofs from 30 kWp are planned project by project – structural analysis, grid connection application and self-consumption concept tailored to your business.",
+    "sizeLabel": "System size",
+    "sizeValue": "from 30 kWp",
+    "designLabel": "Sizing",
+    "designValue": "tailored",
+    "priceLabel": "Guide price",
+    "priceValue": "on request",
+    "cta": "Discuss your project"
+  },
+  "options": {
+    "title": "Sensible add-ons – only where they pay off.",
+    "items": [
+      {
+        "title": "Battery storage",
+        "value": "from CHF 350/kWh",
+        "note": "bundled with a PV installation; market rate CHF 500–750/kWh (SFOE price monitoring 2025)"
+      },
+      {
+        "title": "EV charger",
+        "value": "from CHF 1'950",
+        "note": "as part of a PV installation; extra cost for long cable runs"
+      },
+      {
+        "title": "Monitoring",
+        "value": "included",
+        "note": "Online monitoring of yield and system health"
+      },
+      {
+        "title": "Subsidy advice",
+        "value": "included",
+        "note": "Pronovo EIV and cantonal programmes for your location"
+      }
+    ]
+  },
+  "notes": {
+    "title": "Good to know",
+    "text": "The actual price depends on roof covering, scaffolding, meter cabinet and travel distance. The Pronovo one-off subsidy (EIV) is currently CHF 360 per kWp for rooftop-mounted systems under 30 kWp (integrated CHF 400/kWp, as of EnFV 1.7.2026) — we check the applicable rate for your project and handle the application."
+  },
+  "ctaBand": {
+    "title": "Which package suits your roof?",
+    "description": "Calculate an initial sizing in a few minutes – or send us your key details.",
+    "primaryLabel": "Calculate solar potential",
+    "secondaryLabel": "Request a consultation"
+  }
+}

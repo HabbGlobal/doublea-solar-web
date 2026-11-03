@@ -73,3 +73,17 @@ nur als Zeilentrenner innerhalb einer Karte.
 - Schweizer Hochdeutsch, ss statt ß, `CHF 12'500`, Zahlen nur belegt oder als
   Richtwert gekennzeichnet (Quellen auf /finanzierung).
 - Primär-CTA «Angebot einholen» → /angebote; sekundär «Solarpotenzial berechnen».
+
+## 7. Zweisprachigkeit (seit 11/2026)
+
+- next-intl 4, `localePrefix: as-needed`: Deutsch ohne Präfix (bestehende URLs bleiben),
+  Englisch unter `/en/…` mit englischen Pfaden (`src/i18n/routing.ts`: /pakete→/packages,
+  /ueber-uns→/about, /angebote→/quote, /solarrechner→/solar-calculator, /impressum→/legal-notice,
+  /datenschutz→/privacy). Keine automatische Sprachwahl; Umschalter DE|EN im Header und Menü.
+- Texte: `messages/<locale>/<namensraum>.json` (ein Namensraum je Seite + common/forms/calculator/legal).
+  Deutsch ist die Quelle; Englisch britisch, kurz, Schweizer Zahlenformat bleibt.
+- Admin-Inhalte: Englisch in `site_content` — `hero_en`, `faq_en`, `i18n_en` (Team/Anlagen/Pakete
+  je id). Leer = Rückfall auf Deutsch je Feld (`src/lib/data/i18n.ts`, `src/lib/content/localized.ts`).
+- SEO: `localizedAlternates()` liefert canonical + hreflang (de-CH, en, x-default=de) je Seite;
+  Sitemap mit beiden Sprachen; `/en/<deutscher Slug>` → 308 auf den englischen Pfad.
+- Admin bleibt einsprachig Deutsch (eigenes Root-Layout unter `src/app/(admin)`).

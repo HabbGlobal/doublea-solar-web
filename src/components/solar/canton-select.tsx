@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import {
   Select,
   SelectContent,
@@ -22,6 +24,7 @@ export function CantonSelect({
   id,
   invalid,
 }: CantonSelectProps) {
+  const t = useTranslations("calculator");
   return (
     <Select
       value={value}
@@ -32,7 +35,7 @@ export function CantonSelect({
         aria-invalid={invalid}
         className="neu-in h-12 w-full rounded-2xl border-0 bg-background px-4 text-sm focus-visible:border-0"
       >
-        <SelectValue placeholder="Kanton wählen" />
+        <SelectValue placeholder={t("cantonPlaceholder")} />
       </SelectTrigger>
       <SelectContent className="max-h-72">
         {cantons.map((c) => (

@@ -1,0 +1,248 @@
+{
+  "eyebrow": "Solar calculator",
+  "heading": "Initial assessment in 60 seconds",
+  "progressLabel": "Progress in the solar calculator",
+  "steps": {
+    "location": "Location & roof",
+    "consumption": "Consumption",
+    "contact": "Contact",
+    "result": "Result"
+  },
+  "buildingTypes": {
+    "einfamilienhaus": {
+      "label": "Single-family home",
+      "description": "Private, 1 household"
+    },
+    "mehrfamilienhaus": {
+      "label": "Apartment building",
+      "description": "Several units / ZEV"
+    },
+    "gewerbe": {
+      "label": "Commercial",
+      "description": "Office, industry, logistics"
+    },
+    "landwirtschaft": {
+      "label": "Agriculture",
+      "description": "Stable, barn, riding hall"
+    },
+    "sonstiges": {
+      "label": "Other",
+      "description": "Other property"
+    }
+  },
+  "batteryOptions": {
+    "ja": "Yes, please",
+    "nein": "No",
+    "unsicher": "Advice wanted"
+  },
+  "financingOptions": {
+    "ja": "Yes",
+    "nein": "No",
+    "unsicher": "Advice"
+  },
+  "toasts": {
+    "contactIncomplete": "Please fill in all your contact details.",
+    "serverFailed": "The server could not save the calculation – we are showing you the local assessment. We have not received your request — please contact us directly.",
+    "success": "Request sent — we will get back to you within one working day.",
+    "connectionFailed": "Connection problem – we are showing you the local assessment."
+  },
+  "oversize": {
+    "title": "Very large selection for a single-family home",
+    "text": "The selected roof areas add up to more than 25 kWp – that is more than typical for a single-family home. Please check whether all selected segments really belong to your property (Sonnendach sometimes groups neighbouring buildings or garages together)."
+  },
+  "manual": {
+    "eyebrow": "Manual entry",
+    "title": "Enter roof data yourself",
+    "text": "If the address is not registered in Sonnendach.ch or you already know the values, enter them here.",
+    "show": "Override values manually (rarely needed)",
+    "hide": "Hide manual values",
+    "note": "Note: while federal data is active, orientation, tilt and shading are not used for the calculation — the Sonnendach values are more accurate. These fields are for your overview only.",
+    "canton": "Canton",
+    "postalCode": "Postcode (optional)",
+    "postalCodePlaceholder": "2540"
+  },
+  "federal": {
+    "badge": "Federal data",
+    "activeFor": "Federal data active for {address}",
+    "usable": "We calculate with {area} m² of usable module area from Sonnendach.ch."
+  },
+  "buildingType": {
+    "legend": "Building type",
+    "description": "Choose the category that best fits your property."
+  },
+  "consumption": {
+    "label": "Annual electricity consumption (kWh)",
+    "description": "You will find this figure on your latest electricity bill. Typical: single-family home approx. 4’500 kWh, with electric boiler approx. 7’500 kWh; with heat pump and electric car 8’000–16’000 kWh (ElCom profiles)."
+  },
+  "loads": {
+    "legend": "Electrical loads",
+    "heatPump": "Heat pump installed",
+    "heatPumpDescription": "Increases the possible self-consumption and influences the system sizing.",
+    "ev": "Electric car",
+    "evDescription": "With an EV charger and PV surplus, self-consumption rises significantly."
+  },
+  "batteryLegend": "Battery storage",
+  "advanced": {
+    "show": "Advanced options",
+    "hide": "Hide advanced options",
+    "priceLabel": "Electricity price (Rp./kWh, total incl. VAT)",
+    "priceDescription": "Basic and metering fees of your grid operator remain fixed and cannot be avoided with PV.",
+    "feedInLabel": "Feed-in tariff (Rp./kWh)",
+    "feedInDescription": "Excluding guarantee-of-origin payments; many grid operators pay extra for GoO (approx. 1–2.5 Rp./kWh).",
+    "financingLegend": "Financing"
+  },
+  "contact": {
+    "eyebrow": "Last step",
+    "title": "Your contact details for the personal assessment",
+    "text": "We will e-mail you the personal assessment and get in touch within one working day to discuss the next steps. Your request is recorded in our system at the same time.",
+    "name": "Name *",
+    "namePlaceholder": "First and last name",
+    "email": "E-mail *",
+    "emailPlaceholder": "your.address@example.ch",
+    "phone": "Phone *",
+    "phonePlaceholder": "+41 …",
+    "addressFromStep": "Address from step 1",
+    "consent": "I agree to the <link>privacy policy</link>. *",
+    "consentDescription": "We use your data solely to process your request."
+  },
+  "quickStats": {
+    "system": "System",
+    "production": "Annual production",
+    "savings": "Savings per year"
+  },
+  "buttons": {
+    "back": "Back",
+    "next": "Next",
+    "submitting": "Sending …",
+    "submit": "Send request & assess"
+  },
+  "cantonPlaceholder": "Select canton",
+  "roof": {
+    "area": "Roof area (m²)",
+    "areaDescription": "Estimate the total roof area – we account for the usable share separately.",
+    "usable": "Usable share:",
+    "usableDescription": "Share excluding skylights, chimneys, dormers and clearance areas.",
+    "orientation": "Roof orientation",
+    "orientationPlaceholder": "Select",
+    "orientations": {
+      "sued": "South",
+      "suedost": "South-east",
+      "suedwest": "South-west",
+      "ost": "East",
+      "west": "West",
+      "flachdach": "Flat roof",
+      "gemischt": "Mixed"
+    },
+    "tilt": "Roof pitch",
+    "tilts": {
+      "t0_10": "0 – 10°",
+      "t10_25": "10 – 25°",
+      "t25_40": "25 – 40°",
+      "t40plus": "40° and more"
+    },
+    "shading": "Shading",
+    "shadings": {
+      "keine": {
+        "label": "None",
+        "description": "Unobstructed roof"
+      },
+      "leicht": {
+        "label": "Light",
+        "description": "Individual trees or dormers"
+      },
+      "mittel": {
+        "label": "Moderate",
+        "description": "Several sources of shading"
+      },
+      "stark": {
+        "label": "Heavy",
+        "description": "Large shadows throughout the day"
+      }
+    }
+  },
+  "address": {
+    "mapLoading": "Loading map …",
+    "label": "Address of your house (for precise federal data)",
+    "description": "With your address we retrieve the official Sonnendach.ch values from the Swiss Federal Office of Energy – roof area, orientation and irradiation per segment. You can skip this step at any time.",
+    "placeholder": "e.g. Oelirain 1A, 2540 Grenchen",
+    "searchFailed": "Search failed",
+    "sonnendachFailed": "Sonnendach lookup failed",
+    "cantonPrefix": "Canton {canton} · ",
+    "clickHint": "Click the map if a different building is meant",
+    "change": "Change address",
+    "loading": "Loading Sonnendach data from api3.geo.admin.ch …",
+    "noData": "No Sonnendach data is available for this address.",
+    "noDataText": "The SFOE Sonnendach.ch register does not cover every building (e.g. new builds or protected locations). Enter the values manually below.",
+    "badge": "Federal data",
+    "detected": "Roof detected · {quality} suitability",
+    "usableArea": "usable module area · approx.",
+    "modelYield": "model yield per year · data source: SFOE Sonnendach.ch",
+    "adjustSegments": "Adjust roof areas individually ({count} segments)",
+    "segment": "Segment {nr} ·",
+    "tiltSuffix": "° pitch ·",
+    "irradiationUnit": "kWh/m²/yr",
+    "yieldUnit": "kWh/yr",
+    "classes": {
+      "excellent": "Excellent",
+      "veryGood": "Very good",
+      "good": "Good",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "orientations": {
+      "flat": "Flat roof",
+      "s": "South",
+      "sw": "South-west",
+      "w": "West",
+      "nw": "North-west",
+      "n": "North",
+      "ne": "North-east",
+      "e": "East",
+      "se": "South-east"
+    }
+  },
+  "result": {
+    "eyebrow": "Your initial assessment",
+    "badge": "Federal data · sonnendach.ch",
+    "sizing": "{kwp} kWp on approx. {area} m² of usable roof area",
+    "paybackPrefix": "Indicative payback in",
+    "years": "{value} years",
+    "yearsRange": "{low} – {high} years",
+    "restart": "Start over",
+    "stats": {
+      "system": "Recommended system",
+      "systemHint": "on approx. {area} m² of roof area",
+      "production": "Annual production",
+      "productionHint": "Range {low} – {high}",
+      "selfConsumption": "Self-consumption share",
+      "selfConsumptionHint": "Share of solar production you use yourself — {kwh}",
+      "savings": "Annual savings",
+      "savingsHint": "Range {range}",
+      "investment": "Investment range",
+      "investmentWithBattery": "incl. battery storage approx. {kwh} kWh",
+      "investmentNoBattery": "without battery storage",
+      "co2": "CO₂ savings (net)*",
+      "co2Value": "{value} kg/year",
+      "co2Hint": "* See footnote in the notes below"
+    },
+    "cumulative": "Cumulative savings over 25 years",
+    "cumulativeText": "Linear projection based on the realistic annual savings. Without electricity price increases.",
+    "notes": "Notes on your situation",
+    "batteryEyebrow": "Battery recommendation",
+    "batteryRecommended": "Battery storage recommended",
+    "batteryNotPriority": "Battery storage not a priority right now",
+    "batteryOptional": "Battery storage optional",
+    "batterySize": "Indicative size:",
+    "batteryCheck": "We will assess the added value in the personal analysis.",
+    "receivedEyebrow": "Request received",
+    "receivedTitle": "We have received your request.",
+    "receivedText": "This assessment has just been sent to our team as well. We will review your details, clarify subsidy options and get in touch personally about the next steps.",
+    "howWeWork": "How we work"
+  },
+  "chart": {
+    "years": "Years",
+    "cumulative": "Cumulative savings",
+    "investment": "Investment",
+    "year": "Year {value}"
+  }
+}

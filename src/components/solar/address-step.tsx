@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import { Loader2, MapPin, Search } from "lucide-react";
 
 import type {
@@ -25,9 +26,10 @@ const RoofMap = dynamic(
 );
 
 function MapSkeleton() {
+  const t = useTranslations("calculator.address");
   return (
     <div className="neu-in flex h-72 w-full items-center justify-center rounded-2xl text-xs text-muted-foreground sm:h-80">
-      Karte wird geladen …
+      {t("mapLoading")}
     </div>
   );
 }
@@ -80,15 +82,17 @@ function classToColor(klasse: number): string {
   return "bg-secondary text-muted-foreground";
 }
 
-function classLabel(klasse: number): string {
-  if (klasse >= 4.5) return "Hervorragend";
-  if (klasse >= 3.5) return "Sehr gut";
-  if (klasse >= 2.5) return "Gut";
-  if (klasse >= 1.5) return "Mittel";
-  return "Gering";
+/** Übersetzungsschlüssel (calculator.address.classes.*) für die Eignungsklasse. */
+function classKey(klasse: number): "excellent" | "veryGood" | "good" | "medium" | "low" {
+  if (klasse >= 4.5) return "excellent";
+  if (klasse >= 3.5) return "veryGood";
+  if (klasse >= 2.5) return "good";
+  if (klasse >= 1.5) return "medium";
+  return "low";
 }
 
 export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
+  const t = useTranslations("calculator.address");
   const [query, setQuery] = useState(initialQuery);
   const debouncedQuery = useDebounced(query, 280);
 
@@ -120,7 +124,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
       })
       .catch((e) => {
         if (cancelled) return;
-        setError(e instanceof Error ? e.message : "Suche fehlgeschlagen");
+        setError(e instanceof Error ? e.message : t("searchFailed"));
       })
       .finally(() => {
         if (!cancelled) setSearching(false);
@@ -128,6 +132,8 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
     return () => {
       cancelled = true;
     };
+    // t bewusst nicht in Deps — stabile Übersetzungsfunktion, Effect bleibt wie vorher.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedQuery, selectedAddress]);
 
   // Sonnendach-Lookup nach Adress-Auswahl
@@ -163,7 +169,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
       })
       .catch((e) => {
         if (cancelled) return;
-        setError(e instanceof Error ? e.message : "Sonnendach-Abfrage fehlgeschlagen");
+        setError(e instanceof Error ? e.message : t("sonnendachFailed"));
       })
       .finally(() => {
         if (!cancelled) setLoadingRoofs(false);
@@ -171,6 +177,8 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
     return () => {
       cancelled = true;
     };
+    // t bewusst nicht in Deps — stabile Übersetzungsfunktion, Effect bleibt wie vorher.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAddress]);
 
   const selectedBuilding = useMemo(() => {
@@ -242,19 +250,13 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         <Field>
-          <FieldLabel htmlFor="addr-search">
-            Adresse Ihres Hauses (für präzise Bundesdaten)
-          </FieldLabel>
-          <FieldDescription>
-            Mit Adresse holen wir die offiziellen Sonnendach.ch-Werte vom Bundesamt
-            für Energie – Dachfläche, Ausrichtung und Einstrahlung pro Segment.
-            Sie können den Schritt jederzeit überspringen.
-          </FieldDescription>
+          <FieldLabel htmlFor="addr-search">{t("label")}</FieldLabel>
+          <FieldDescription>{t("description")}</FieldDescription>
           <div className="relative">
             <Input
               id="addr-search"
               autoComplete="off"
-              placeholder="z. B. Oelirain 1A, 2540 Grenchen"
+              placeholder={t("placeholder")}
               value={query}
               onChange={(e) => {
                 if (selectedAddress) clearAddress();
@@ -319,8 +321,9 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
                   {selectedAddress.label}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {selectedAddress.canton && `Kanton ${selectedAddress.canton} · `}
-                  Klick auf die Karte, falls ein anderes Gebäude gemeint ist
+                  {selectedAddress.canton &&
+                    t("cantonPrefix", { canton: selectedAddress.canton })}
+                  {t("clickHint")}
                 </p>
               </div>
             </div>
@@ -329,7 +332,7 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
               onClick={clearAddress}
               className="btn-ghost min-h-11 shrink-0 text-sm"
             >
-              Adresse ändern
+              {t("change")}
             </button>
           </div>
 
@@ -352,17 +355,14 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
           {loadingRoofs && (
             <div className="neu-in flex items-center gap-2 rounded-2xl px-5 py-4 text-sm text-muted-foreground">
               <Loader2 aria-hidden className="size-4 animate-spin" />
-              Lade Sonnendach-Daten von api3.geo.admin.ch …
+              {t("loading")}
             </div>
           )}
 
           {!loadingRoofs && roofs && roofs.empty && (
             <div className="neu-in rounded-2xl p-5 text-sm text-foreground">
-              <p className="font-medium">Für diese Adresse sind keine Sonnendach-Daten verfügbar.</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Das BFE-Sonnendach.ch-Register deckt nicht jedes Gebäude ab (z. B. Neubauten oder
-                geschützte Lagen). Tragen Sie die Werte unten manuell ein.
-              </p>
+              <p className="font-medium">{t("noData")}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{t("noDataText")}</p>
             </div>
           )}
 
@@ -371,28 +371,30 @@ export function AddressStep({ initialQuery = "", onSelect, onClear }: Props) {
               <div className="flex items-start gap-3">
                 <div className="flex-1">
                   <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#6E5510]">
-                    Bundesdaten
+                    {t("badge")}
                   </span>
                   <p className="mt-2 text-sm font-medium text-foreground">
-                    Dach erkannt · {classLabel(selectedAggregate.averageSuitabilityClass)} geeignet
+                    {t("detected", {
+                      quality: t(`classes.${classKey(selectedAggregate.averageSuitabilityClass)}`),
+                    })}
                   </p>
                   <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                     <span className="stat-mono text-foreground">
                       {selectedAggregate.usableAreaM2.toFixed(0)} m²
                     </span>{" "}
-                    nutzbare Modulfläche · ca.{" "}
+                    {t("usableArea")}{" "}
                     <span className="stat-mono text-foreground">
                       {Intl.NumberFormat("de-CH").format(selectedAggregate.totalElectricityYieldKwhYear)}{" "}
                       kWh
                     </span>{" "}
-                    Modellertrag pro Jahr · Datenquelle: BFE Sonnendach.ch
+                    {t("modelYield")}
                   </p>
                 </div>
               </div>
 
               <details className="mt-4 group">
                 <summary className="ring-focus inline-flex min-h-11 cursor-pointer select-none items-center rounded-md text-sm font-semibold text-foreground underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4 transition-colors hover:text-[color:var(--solar-gold-dark)]">
-                  Dachflächen einzeln anpassen ({selectedBuilding.segments.length} Segmente)
+                  {t("adjustSegments", { count: selectedBuilding.segments.length })}
                 </summary>
                 <ul className="mt-3 grid gap-2">
                   {selectedBuilding.segments.map((s) => {
@@ -426,17 +428,22 @@ function SegmentRow({
   checked: boolean;
   onToggle: () => void;
 }) {
-  function orientationLabel(deg: number, tilt: number): string {
-    if (tilt < 5) return "Flachdach";
+  const t = useTranslations("calculator.address");
+
+  function orientationKey(
+    deg: number,
+    tilt: number,
+  ): "flat" | "s" | "sw" | "w" | "nw" | "n" | "ne" | "e" | "se" {
+    if (tilt < 5) return "flat";
     const a = ((deg + 360) % 360);
-    if (a >= 337.5 || a < 22.5) return "Süd";
-    if (a < 67.5) return "Südwest";
-    if (a < 112.5) return "West";
-    if (a < 157.5) return "Nordwest";
-    if (a < 202.5) return "Nord";
-    if (a < 247.5) return "Nordost";
-    if (a < 292.5) return "Ost";
-    return "Südost";
+    if (a >= 337.5 || a < 22.5) return "s";
+    if (a < 67.5) return "sw";
+    if (a < 112.5) return "w";
+    if (a < 157.5) return "nw";
+    if (a < 202.5) return "n";
+    if (a < 247.5) return "ne";
+    if (a < 292.5) return "e";
+    return "se";
   }
 
   return (
@@ -456,17 +463,18 @@ function SegmentRow({
       />
       <div className="flex flex-1 flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="text-sm font-medium text-foreground">
-          Segment {segment.segmentNr} ·{" "}
+          {t("segment", { nr: String(segment.segmentNr) })}{" "}
           <span className="stat-mono">{segment.areaM2.toFixed(0)} m²</span>
         </span>
         <span className="text-xs text-muted-foreground">
-          {orientationLabel(segment.orientationDeg, segment.tiltDeg)} ·{" "}
-          {segment.tiltDeg}° Neigung ·{" "}
+          {t(`orientations.${orientationKey(segment.orientationDeg, segment.tiltDeg)}`)} ·{" "}
+          {segment.tiltDeg}
+          {t("tiltSuffix")}{" "}
           {Intl.NumberFormat("de-CH").format(segment.specificIrradiationKwhM2Year)}{" "}
-          kWh/m²/J
+          {t("irradiationUnit")}
         </span>
         <span className="stat-mono text-xs text-muted-foreground">
-          → {Intl.NumberFormat("de-CH").format(segment.electricityYieldKwhYear)} kWh/J
+          → {Intl.NumberFormat("de-CH").format(segment.electricityYieldKwhYear)} {t("yieldUnit")}
         </span>
       </div>
       <span
@@ -475,7 +483,7 @@ function SegmentRow({
           classToColor(segment.suitabilityClass),
         )}
       >
-        {classLabel(segment.suitabilityClass)}
+        {t(`classes.${classKey(segment.suitabilityClass)}`)}
       </span>
     </label>
   );

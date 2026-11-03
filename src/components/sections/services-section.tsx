@@ -1,56 +1,29 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { SectionTitle } from "@/components/site/section-head";
+import { getTranslations } from "next-intl/server";
 
-const services: {
-  id: string;
-  title: string;
-  description: string;
-}[] = [
-  {
-    id: "standortanalyse",
-    title: "Standortanalyse",
-    description:
-      "Dachfläche, Ausrichtung, Verschattung und Statik vor Ort geprüft.",
-  },
-  {
-    id: "planung",
-    title: "Planung & Auslegung",
-    description:
-      "Anlagenkonzept nach Verbrauchsprofil, Wärmepumpe und Elektromobilität.",
-  },
-  {
-    id: "foerderung",
-    title: "Förderung & Administration",
-    description:
-      "Pronovo-Einmalvergütung, kantonale Programme und Meldewesen: wir führen den Papierweg.",
-  },
-  {
-    id: "installation",
-    title: "Installation & Netzanschluss",
-    description:
-      "Montage, Elektroinstallation und Inbetriebnahme mit Sicherheitsnachweis (SiNa).",
-  },
-  {
-    id: "batterie",
-    title: "Speicher & Eigenverbrauch",
-    description:
-      "Batterie und Lastmanagement nach Ihrem Lastprofil dimensioniert.",
-  },
-  {
-    id: "monitoring",
-    title: "Monitoring & Wartung",
-    description:
-      "Ertragsüberwachung, Sichtprüfung, Reinigung und Wechselrichter-Service.",
-  },
-];
+import { SectionTitle } from "@/components/site/section-head";
+import { Link } from "@/i18n/navigation";
+
+/** Anker-Ziele unter /services — Reihenfolge = home.services.items. */
+const serviceIds = [
+  "standortanalyse",
+  "planung",
+  "foerderung",
+  "installation",
+  "batterie",
+  "monitoring",
+] as const;
 
 /**
  * Leistungen: sechs weich erhabene Karten im Dreier-Raster — Goldpunkt,
  * Titel, ein Satz. Jede Karte führt auf den passenden Abschnitt unter
  * /services.
  */
-export function ServicesSection() {
+export async function ServicesSection() {
+  const t = await getTranslations("home.services");
+  const items = t.raw("items") as { title: string; description: string }[];
+  const services = serviceIds.map((id, i) => ({ id, ...items[i] }));
+
   return (
     <section
       id="leistungen"
@@ -60,15 +33,15 @@ export function ServicesSection() {
       <div className="container-page">
         <SectionTitle
           id="leistungen-titel"
-          title="Leistungen"
-          lead="Eine Anlage, ein Verantwortlicher: von der Standortanalyse bis zum Betrieb."
+          title={t("title")}
+          lead={t("lead")}
         />
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
             <Link
               key={s.id}
-              href={`/services#${s.id}`}
+              href={{ pathname: "/services", hash: s.id }}
               className="neu ring-focus block p-6 transition-transform duration-150 hover:-translate-y-px sm:p-7"
             >
               <span className="gold-dot mb-4" aria-hidden="true" />
@@ -84,7 +57,7 @@ export function ServicesSection() {
 
         <div className="mt-10">
           <Link href="/services" className="btn-ghost min-h-11">
-            Alle Leistungen
+            {t("all")}
             <ArrowRight className="size-4" aria-hidden="true" />
           </Link>
         </div>

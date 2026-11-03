@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "title": "Pakete & Preise – Solaranlage Richtpreise Schweiz",
+    "description": "Transparente Richtpreise für Photovoltaik-Pakete: Einfamilienhaus, Komfort mit Speicher, Premium mit Wärmepumpen-Integration. Definitive Auslegung nach kostenloser Standortanalyse."
+  },
+  "intro": {
+    "eyebrow": "Pakete & Preise",
+    "title": "Transparente Richtpreise. Definitive Zahlen nach der Analyse.",
+    "lead": "Diese Pakete zeigen, was eine Photovoltaikanlage in der Schweiz realistisch kostet – die definitive Auslegung entsteht nach der Standortanalyse Ihres Dachs.",
+    "bullets": [
+      "Richtpreise inkl. Montage und Inbetriebnahme",
+      "Preise vor Abzug der Pronovo-Einmalvergütung"
+    ]
+  },
+  "packagesSection": "Pakete",
+  "badgeFeatured": "Meistgewählt",
+  "optionsLabel": "Optionen",
+  "guidePriceLabel": "Richtpreis",
+  "calculateQuote": "Angebot berechnen",
+  "price": {
+    "from": "ab CHF {amount}",
+    "upTo": "bis CHF {amount}",
+    "onRequest": "auf Anfrage"
+  },
+  "db": {
+    "powerLabel": "Leistung",
+    "targetFallback": "Paket"
+  },
+  "curated": {
+    "basis": {
+      "target": "Einfamilienhaus",
+      "name": "Basis 8.2 kWp",
+      "summary": "Der solide Einstieg für das typische Einfamilienhaus – montiert, angeschlossen, abgenommen.",
+      "stats": [
+        { "label": "Leistung", "value": "8.2 kWp" },
+        { "label": "Modulfläche (ca.)", "value": "~35 m²" },
+        { "label": "Jahresertrag (typ.)", "value": "7'500–8'500 kWh" },
+        { "label": "Speicher", "value": "nachrüstbar" }
+      ],
+      "includes": [
+        "Module und Wechselrichter",
+        "Montage und Netzanschluss",
+        "Pronovo-EIV-Antrag",
+        "Inbetriebnahme inkl. Sicherheitsnachweis",
+        "Monitoring"
+      ],
+      "options": [],
+      "price": "CHF 15'500–18'500"
+    },
+    "komfort": {
+      "target": "EFH mit Wärmepumpe oder E-Auto",
+      "name": "Komfort 10 kWp + Speicher",
+      "summary": "Mehr Unabhängigkeit dank Batteriespeicher: Solarstrom vom Dach auch am Abend nutzen.",
+      "stats": [
+        { "label": "Leistung", "value": "10 kWp" },
+        { "label": "Modulfläche (ca.)", "value": "~42 m²" },
+        { "label": "Jahresertrag (typ.)", "value": "9'000–10'500 kWh" },
+        { "label": "Speicher", "value": "8–10 kWh" }
+      ],
+      "includes": [
+        "Alles aus «Basis 8.2 kWp»",
+        "Batteriespeicher 8–10 kWh",
+        "Auslegung auf Eigenverbrauch optimiert"
+      ],
+      "options": [],
+      "price": "CHF 21'500–26'500"
+    },
+    "premium": {
+      "target": "Grössere EFH und kleine MFH",
+      "name": "Premium 15 kWp + Wärmepumpen-Integration",
+      "summary": "Für hohe Verbräuche: Photovoltaik, Wärmepumpe und Lastmanagement intelligent gekoppelt.",
+      "stats": [
+        { "label": "Leistung", "value": "15 kWp" },
+        { "label": "Modulfläche (ca.)", "value": "~63 m²" },
+        { "label": "Jahresertrag (typ.)", "value": "13'500–16'000 kWh" },
+        { "label": "Speicher (Option)", "value": "16 kWh" }
+      ],
+      "includes": [
+        "Alles aus «Basis 8.2 kWp»",
+        "Wärmepumpen-Integration und Energiemanagement inklusive",
+        "Lastmanagement und Eigenverbrauchsoptimierung",
+        "Speicher-Option 16 kWh"
+      ],
+      "options": [],
+      "price": "CHF 27'500–34'500"
+    }
+  },
+  "commercial": {
+    "eyebrow": "Gewerbe & Landwirtschaft",
+    "title": "Grosse Dächer verdienen eine individuelle Auslegung.",
+    "lead": "Hallen-, Scheunen- und Flachdächer ab 30 kWp planen wir projektspezifisch – Statik, Netzanschlussgesuch und Eigenverbrauchskonzept auf Ihren Betrieb abgestimmt.",
+    "sizeLabel": "Anlagengrösse",
+    "sizeValue": "ab 30 kWp",
+    "designLabel": "Auslegung",
+    "designValue": "individuell",
+    "priceLabel": "Richtpreis",
+    "priceValue": "auf Anfrage",
+    "cta": "Projekt besprechen"
+  },
+  "options": {
+    "title": "Sinnvoll ergänzen – nur dort, wo es sich rechnet.",
+    "items": [
+      {
+        "title": "Batteriespeicher",
+        "value": "ab CHF 350/kWh",
+        "note": "im Bündel mit einer PV-Installation; marktüblich CHF 500–750/kWh (BFE-Preisbeobachtung 2025)"
+      },
+      {
+        "title": "Wallbox",
+        "value": "ab CHF 1'950",
+        "note": "im Rahmen einer PV-Installation; Mehrkosten bei langen Kabelwegen"
+      },
+      {
+        "title": "Monitoring",
+        "value": "inklusive",
+        "note": "Online-Überwachung von Ertrag und Anlagenzustand"
+      },
+      {
+        "title": "Förderberatung",
+        "value": "inklusive",
+        "note": "Pronovo-EIV und kantonale Programme für Ihren Standort"
+      }
+    ]
+  },
+  "notes": {
+    "title": "Gut zu wissen",
+    "text": "Der effektive Preis hängt von Dacheindeckung, Gerüstbedarf, Zählerplatz und Anfahrt ab. Die Pronovo-Einmalvergütung beträgt aktuell CHF 360 pro kWp für angebaute Anlagen unter 30 kWp (integriert CHF 400/kWp, Stand EnFV 1.7.2026) — wir prüfen den Ansatz für Ihr Projekt und übernehmen den Antrag."
+  },
+  "ctaBand": {
+    "title": "Welches Paket passt zu Ihrem Dach?",
+    "description": "Berechnen Sie in wenigen Minuten eine erste Auslegung – oder senden Sie uns Ihre Eckdaten.",
+    "primaryLabel": "Solarpotenzial berechnen",
+    "secondaryLabel": "Beratung anfragen"
+  }
+}

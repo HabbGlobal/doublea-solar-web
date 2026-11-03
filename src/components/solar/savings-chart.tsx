@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Area,
   AreaChart,
@@ -25,6 +26,7 @@ export function SavingsChart({
   investment,
   years = 25,
 }: SavingsChartProps) {
+  const t = useTranslations("calculator.chart");
   const data = Array.from({ length: years + 1 }, (_, i) => ({
     year: i,
     cumulative: Math.round(annualSavings * i),
@@ -43,7 +45,7 @@ export function SavingsChart({
             axisLine={{ stroke: "var(--border)" }}
             tickLine={false}
             label={{
-              value: "Jahre",
+              value: t("years"),
               position: "insideBottomRight",
               offset: -2,
               fontSize: 11,
@@ -74,9 +76,9 @@ export function SavingsChart({
             labelStyle={{ color: "var(--muted-foreground)", fontWeight: 500 }}
             formatter={(value, name) => [
               `CHF ${new Intl.NumberFormat("de-CH").format(Number(value) || 0)}`,
-              name === "cumulative" ? "Kumulierte Ersparnis" : "Investition",
+              name === "cumulative" ? t("cumulative") : t("investment"),
             ]}
-            labelFormatter={(v) => `Jahr ${v}`}
+            labelFormatter={(v) => t("year", { value: String(v) })}
           />
           <Area
             type="monotone"

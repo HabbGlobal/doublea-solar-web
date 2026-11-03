@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "Solar calculator – your roof's photovoltaic potential in 60 seconds",
+    "description": "Free solar calculator: system size, production, self-consumption, costs and payback of your photovoltaic system – with real Swiss roof data, canton-specific and with no obligation."
+  },
+  "intro": {
+    "eyebrow": "Solar calculator",
+    "title": "How much solar potential is in your roof?",
+    "text": "Answer a few questions about your building, roof and consumption – the calculator delivers a well-founded initial assessment."
+  },
+  "calculatorLabel": "Solar calculator",
+  "cta": {
+    "eyebrow": "Next step",
+    "title": "Your assessment becomes a concrete quote.",
+    "description": "Send us your key details – we check subsidy options, load profile and profitability.",
+    "primaryLabel": "Request a quote",
+    "secondaryLabel": "How we work"
+  }
+}

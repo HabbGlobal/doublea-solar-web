@@ -1,14 +1,40 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import createIntlMiddleware from "next-intl/middleware";
+
+import { routing } from "@/i18n/routing";
+
+const intlMiddleware = createIntlMiddleware(routing);
 
 /**
- * Schützt /admin/* Routen — wer nicht eingeloggt ist, wird auf
- * /admin/login umgeleitet. Login-Seite selbst bleibt offen.
+ * 1. Öffentliche Seiten: Sprach-Routing (Deutsch ohne Präfix, Englisch
+ *    unter /en/… mit englischen Pfaden).
+ * 2. /admin/*: wer nicht eingeloggt ist, wird auf /admin/login umgeleitet.
+ *    Die Login-Seite selbst bleibt offen; Admin bleibt einsprachig.
  */
+/**
+ * Liefert für /en/<deutscher-slug> den englischen Pfad, sonst null.
+ * Verhindert doppelte Inhalte wie /en/pakete neben /en/packages.
+ */
+function canonicalEnglishPath(pathname: string): string | null {
+  if (!pathname.startsWith("/en/")) return null;
+  const rest = pathname.slice(3); // "/pakete"
+  const entry = (routing.pathnames as Record<string, string | { de: string; en: string }>)[rest];
+  if (!entry || typeof entry === "string") return null;
+  return entry.de === rest && entry.en !== rest ? `/en${entry.en}` : null;
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (!pathname.startsWith("/admin")) {
-    return NextResponse.next();
+    // Deutscher Slug unter /en/ (z.B. /en/pakete) → kanonischer englischer Pfad
+    const canonical = canonicalEnglishPath(pathname);
+    if (canonical) {
+      const url = request.nextUrl.clone();
+      url.pathname = canonical;
+      return NextResponse.redirect(url, 308);
+    }
+    return intlMiddleware(request);
   }
   // Login-Seite immer durchlassen
   if (pathname === "/admin/login") {
@@ -50,5 +76,6 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  // Alles ausser API, Next-Interna, Metadaten-Routen und Dateien mit Endung
+  matcher: ["/((?!api|_next|_vercel|icon$|apple-icon$|opengraph-image$|.*\\..*).*)"],
 };

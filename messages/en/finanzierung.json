@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "title": "Financing a Solar System – Subsidies, Costs & Payback in Switzerland",
+    "description": "Plan your photovoltaic system with an investment range, the Pronovo one-off subsidy (EIV), cantonal programmes, tax aspects and a conservative profitability calculation."
+  },
+  "intro": {
+    "eyebrow": "Financing & Profitability",
+    "title": "An investment that works for you.",
+    "lead": "A photovoltaic system costs once and then produces for decades – here are the figures we can back up."
+  },
+  "facts": {
+    "title": "Verified key figures.",
+    "lead": "Every figure with its source and date – so you can see exactly what we base our calculations on.",
+    "columns": {
+      "kennzahl": "Key figure",
+      "wert": "Value",
+      "quelle": "Source",
+      "stand": "As of"
+    },
+    "asOf": "as of {stand}",
+    "items": [
+      {
+        "kennzahl": "Federal one-off subsidy (EIV)",
+        "wert": "CHF 360/kWp for roof-mounted systems under 30 kWp with self-consumption (building-integrated CHF 400/kWp)",
+        "quelle": "EnFV Annex 2.1 (Fedlex)",
+        "stand": "1 July 2026"
+      },
+      {
+        "kennzahl": "Reference household electricity price 2026",
+        "wert": "27.7 Rp./kWh median (profile H4, excl. VAT); Grenchen region ≈ 29.6 Rp./kWh incl. VAT",
+        "quelle": "ElCom, electricity price overview",
+        "stand": "Tariff year 2026"
+      },
+      {
+        "kennzahl": "Feed-in tariff for surplus electricity",
+        "wert": "Since 1 January 2026 nationwide based on the BFE (SFOE) reference market price; minimum 6.0 Rp./kWh for systems under 30 kW",
+        "quelle": "Art. 15 EnG / BFE",
+        "stand": "Q2 2026"
+      },
+      {
+        "kennzahl": "Module performance warranty",
+        "wert": "30-year product and performance warranty (AIKO Neostar; degradation max. 0.35 %/year from year 2)",
+        "quelle": "Manufacturer datasheet",
+        "stand": "14 August 2026"
+      },
+      {
+        "kennzahl": "Guide price for a complete single-family home system",
+        "wert": "CHF 15'500–26'500 depending on size and battery storage",
+        "quelle": "Company guide value, incl. installation, before deduction of the one-off subsidy",
+        "stand": "14 August 2026"
+      }
+    ],
+    "note": "All figures are indicative; the rates in force at the time of commissioning apply. Sources: Energy Promotion Ordinance EnFV (Fedlex, as of 1 July 2026) · ElCom electricity price overview 2026 · Art. 15 EnG / BFE reference market price · manufacturer datasheet. Verified on 14 August 2026."
+  },
+  "funding": {
+    "title": "Subsidies lower the investment.",
+    "lead": "The federal government, the cantons and some municipalities support photovoltaics. Because the programmes change constantly, we check them for your location on the day.",
+    "items": [
+      {
+        "title": "Pronovo EIV",
+        "text": "The federal one-off subsidy (EIV) noticeably lowers the investment. We calculate it for your project at current rates and handle the application for you."
+      },
+      {
+        "title": "Cantonal & municipal programmes",
+        "text": "Some cantons, municipalities and energy utilities offer additional support – we check what applies at your location."
+      },
+      {
+        "title": "Tax deductions",
+        "text": "On existing buildings, photovoltaic investments are treated as maintenance costs and are deductible in practically all cantons today; the practice of your canton remains decisive (in the canton of Solothurn, for example, buildings under five years old are excluded). With the system change to the imputed rental value, the energy-saving deduction for direct federal tax will cease as of 1 January 2029."
+      }
+    ]
+  },
+  "paths": {
+    "title": "Two routes to your own system – both easy to plan.",
+    "lead": "Whether from your own funds or in instalments: which route fits is up to your household.",
+    "items": [
+      {
+        "title": "Self-financing",
+        "lead": "You invest once and benefit in full from the first day of operation.",
+        "points": [
+          "No interest or financing costs",
+          "Tax deduction in the year of payment, depending on cantonal practice",
+          "Every kilowatt-hour saved eases your bill from day one"
+        ]
+      },
+      {
+        "title": "Instalment financing via Swiss partners",
+        "lead": "On request, we put you in touch with Swiss financing partners.",
+        "points": [
+          "Monthly instalments instead of a one-off investment",
+          "Terms and credit checks are handled by the partner",
+          "We provide the technical documentation"
+        ]
+      }
+    ],
+    "disclaimer": "On request we refer you to Swiss financing partners, but we do not provide financial, investment or tax advice – terms are agreed solely by the partner."
+  },
+  "economics": {
+    "title": "Calculated over the whole life cycle.",
+    "lead": "The best return does not come from the biggest system, but from the one whose electricity you use yourself – over 25 to 30 years of operation.",
+    "items": [
+      "Self-consumption determines the return more than system size.",
+      "A heat pump and an electric car shift consumption onto your own roof.",
+      "The inverter is typically replaced after 10 to 15 years – we factor that in.",
+      "Modules are designed for 25 to 30 years of operation with defined degradation.",
+      "We calculate conservatively and quote ranges rather than guaranteed payback periods."
+    ],
+    "cta": "Questions about profitability? Talk to us."
+  },
+  "ctaBand": {
+    "title": "Financing that fits your household.",
+    "description": "Send us your key details – we will prepare a transparent investment range for you.",
+    "primaryLabel": "Request a quote",
+    "secondaryLabel": "Calculate solar potential"
+  }
+}

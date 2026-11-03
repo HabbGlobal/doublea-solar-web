@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "title": "About us – Swiss solar company from Grenchen",
+    "description": "DoubleA Solar Solutions is a Swiss solar company based in Grenchen SO – founded in 2025, active in Solothurn, Biel, Bern and across Switzerland. Solar technology, IT expertise and project coordination from a single source."
+  },
+  "intro": {
+    "eyebrow": "About us",
+    "title": "A Swiss solar company with clear standards.",
+    "text1": "{legalName} was founded in Grenchen in {founded} and works from here across all of Switzerland. What defines us is the combination of solar technology, IT expertise and project coordination.",
+    "text2": "We are a young company and say so openly. In return, you get short lines of communication and a way of working built on documentation rather than promises.",
+    "photoPending": "Photo coming soon"
+  },
+  "facts": [
+    { "value": "2025", "label": "Founded in Grenchen SO" },
+    { "value": "1", "label": "Dedicated contact person per project" },
+    { "value": "25+", "label": "Years of planning horizon per system" }
+  ],
+  "working": {
+    "title": "How we work. On every project.",
+    "principles": [
+      {
+        "title": "Dedicated contact person",
+        "text": "One person is responsible for the site visit, quote, construction management and handover."
+      },
+      {
+        "title": "No one-size-fits-all offers",
+        "text": "Every system design follows the roof layout, shading and consumption profile."
+      },
+      {
+        "title": "Transparent quotes",
+        "text": "Materials, installation, grid connection and ancillary costs are itemised separately."
+      },
+      {
+        "title": "Vetted Swiss partners",
+        "text": "Installation by vetted Swiss partner companies, coordinated and overseen by us."
+      }
+    ],
+    "allServices": "All services in detail"
+  },
+  "quality": {
+    "title": "Five commitments. In writing, not in spirit.",
+    "promises": [
+      "Documented site visit instead of remote diagnosis",
+      "Commissioning with safety certificate (SiNa)",
+      "Complete system documentation at handover",
+      "Online monitoring after handover",
+      "Binding response times in case of faults"
+    ]
+  },
+  "team": {
+    "label": "Team"
+  },
+  "cta": {
+    "title": "Let's get to know each other.",
+    "description": "A good solar project starts with an honest conversation.",
+    "primaryLabel": "Calculate solar potential",
+    "secondaryLabel": "Request a consultation"
+  }
+}

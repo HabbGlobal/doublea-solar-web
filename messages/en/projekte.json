@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "title": "Projects – Photovoltaic System Types & References in Switzerland",
+    "description": "Typical photovoltaic projects by DoubleA Solar Solutions: single-family home, apartment building with ZEV, commercial and agriculture – planned from Grenchen for all of Switzerland. References on request."
+  },
+  "intro": {
+    "eyebrow": "Projects",
+    "title": "From the family roof to the factory hall.",
+    "leadOne": "One system type shapes our work",
+    "leadMany": "{n} system types shape our work",
+    "leadTail": "each one comes with key figures and scope of services."
+  },
+  "numberWords": ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"],
+  "references": {
+    "title": "References",
+    "lead": "Approved projects with real key data – published with the customer's consent."
+  },
+  "types": {
+    "titleDb": "{n} {label}. One quality standard.",
+    "one": "system type",
+    "many": "system types",
+    "titleDefault": "Three building categories. One quality standard.",
+    "lead": "Typical configurations from our practice, not specific customer projects – all value ranges are indicative."
+  },
+  "fallback": [
+    {
+      "number": "01",
+      "title": "Single-family home",
+      "metricLabel": "Typical system size",
+      "metricValue": "8–12",
+      "metricUnit": "kWp",
+      "description": "Roof-mounted system with self-consumption optimisation – properly sized rather than maximally sold.",
+      "facts": [
+        { "label": "Typ. battery storage", "value": "5–10 kWh" },
+        { "label": "Installation time", "value": "2–3 days" }
+      ],
+      "deliverables": [
+        "Shading analysis, system design and yield forecast",
+        "Modules, inverter, optional battery storage and EV charger",
+        "Pronovo EIV application, commissioning and safety certificate (SiNa)"
+      ]
+    },
+    {
+      "number": "02",
+      "title": "Apartment building / ZEV",
+      "metricLabel": "Typical system size",
+      "metricValue": "15–60",
+      "metricUnit": "kWp",
+      "description": "Self-consumption community (ZEV) – metering concept and tenant electricity planned in from the start.",
+      "facts": [
+        { "label": "Typ. battery storage", "value": "10–30 kWh" },
+        { "label": "Billing", "value": "Tenant electricity" }
+      ],
+      "deliverables": [
+        "Metering concept and ZEV formation according to grid operator requirements",
+        "Billing solution for tenants (tenant electricity)",
+        "Coordination with the distribution grid operator and property management"
+      ]
+    },
+    {
+      "number": "03",
+      "title": "Commercial & Agriculture",
+      "metricLabel": "Typical system size",
+      "metricValue": "30–250",
+      "metricUnit": "kWp",
+      "description": "Large roof areas with high daytime consumption – designed around your load profile.",
+      "facts": [
+        { "label": "Typ. battery storage", "value": "20–60 kWh" },
+        { "label": "Self-consumption", "value": "high during the day" }
+      ],
+      "deliverables": [
+        "Load profile analysis and indicative profitability calculation",
+        "Assessment of structural load, roof covering and fire protection",
+        "Monitoring and maintenance concept for ongoing operation"
+      ]
+    }
+  ],
+  "tile": {
+    "deliverables": "Scope of services",
+    "discuss": "Discuss a similar project",
+    "altType": "System type: {title}",
+    "altReference": "Reference project: {title}",
+    "location": "Location",
+    "power": "Output",
+    "storage": "Battery storage"
+  },
+  "categories": {
+    "efh": "Single-family home",
+    "mfh_zev": "Apartment building / ZEV",
+    "gewerbe": "Commercial",
+    "landwirtschaft": "Agriculture",
+    "nachruestung": "Retrofit",
+    "erweiterung": "Extension"
+  },
+  "referencePanel": {
+    "eyebrow": "References",
+    "title": "We show real projects in person.",
+    "text": "We do not publish any projects without explicit approval. In a consultation we show you suitable reference properties with real key data.",
+    "cta": "Arrange a reference meeting"
+  },
+  "ctaBand": {
+    "title": "Which system type suits your building?",
+    "description": "Calculate your solar potential in a few minutes – or discuss your plans directly with us.",
+    "secondaryLabel": "Discuss your project"
+  }
+}

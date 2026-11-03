@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Solar consultation Grenchen, Solothurn & Bern – Contact",
+    "description": "Contact DoubleA Solar Solutions for a personal solar consultation, quote, solar calculator review or service request in Switzerland. Reply within one working day."
+  },
+  "intro": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your solar project.",
+    "text": "For urgent service matters, the quickest way to reach us is by phone."
+  },
+  "labels": {
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "openingHours": "Opening hours"
+  },
+  "address": {
+    "country": "Switzerland"
+  },
+  "openingHours": {
+    "weekdays": "Mon–Fri 08:00–18:00",
+    "saturday": "Saturday by appointment"
+  },
+  "form": {
+    "eyebrow": "Enquiry form",
+    "title": "How can we help?"
+  }
+}

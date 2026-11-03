@@ -1,0 +1,113 @@
+{
+  "convenienceNotice": "",
+  "impressum": {
+    "meta": {
+      "title": "Impressum",
+      "description": "Impressum von DoubleA Solar Solutions, Grenchen."
+    },
+    "eyebrow": "Rechtliches",
+    "title": "Impressum",
+    "updated": "Stand: August 2026",
+    "provider": {
+      "heading": "Anbieterin",
+      "country": "Schweiz"
+    },
+    "contact": {
+      "heading": "Kontakt",
+      "phoneLabel": "Telefon:",
+      "emailLabel": "E-Mail:"
+    },
+    "register": {
+      "heading": "Handelsregister",
+      "text": "Eingetragen im Handelsregister des Kantons {canton}. Die UID-Nummer wird auf Anfrage mitgeteilt und mit Veröffentlichung des Impressums ergänzt."
+    },
+    "responsible": {
+      "heading": "Verantwortlich für den Inhalt",
+      "text": "Geschäftsleitung {legalName}."
+    },
+    "sections": [
+      {
+        "heading": "Haftungsausschluss",
+        "paragraphs": [
+          "Die Inhalte dieser Website werden mit grösstmöglicher Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Die Nutzung dieser Website erfolgt auf eigenes Risiko."
+        ]
+      },
+      {
+        "heading": "Urheberrecht",
+        "paragraphs": [
+          "Sämtliche Inhalte dieser Website unterliegen dem schweizerischen Urheberrecht. Vervielfältigung und Wiedergabe – ganz oder teilweise – bedürfen der vorgängigen schriftlichen Zustimmung."
+        ]
+      }
+    ]
+  },
+  "datenschutz": {
+    "meta": {
+      "title": "Datenschutzerklärung",
+      "description": "Datenschutzerklärung von DoubleA Solar Solutions."
+    },
+    "eyebrow": "Rechtliches",
+    "title": "Datenschutz­erklärung",
+    "updated": "Stand: August 2026",
+    "controller": {
+      "heading": "Verantwortliche Stelle",
+      "emailLabel": "E-Mail:"
+    },
+    "sections": [
+      {
+        "heading": "Bearbeitete Personendaten",
+        "paragraphs": [
+          "Wir bearbeiten Personendaten, die Sie uns aktiv übermitteln, etwa über unsere Kontakt- und Anfrageformulare oder den Solarrechner. Dazu gehören insbesondere Name, E-Mail-Adresse, Telefonnummer, sowie technische und gebäudebezogene Angaben zu Ihrem Vorhaben.",
+          "Beim Aufruf dieser Website werden ausserdem technische Verbindungsdaten (z. B. IP-Adresse, Browsertyp, Aufrufzeitpunkt) verarbeitet, soweit dies für Betrieb und Sicherheit der Website erforderlich ist."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Bearbeitungszwecke",
+        "paragraphs": [],
+        "items": [
+          "Beantwortung Ihrer Anfragen und Erstellung von Offerten",
+          "Auswertung Ihres Solar-Potenzials zur Vorbereitung eines Angebots",
+          "Vertragsanbahnung, -abschluss und -abwicklung",
+          "Sicherstellung des stabilen Betriebs der Website",
+          "Erfüllung gesetzlicher Pflichten"
+        ]
+      },
+      {
+        "heading": "Datenweitergabe",
+        "paragraphs": [
+          "Eine Weitergabe an Dritte erfolgt nur, soweit dies zur Vertragserfüllung erforderlich ist (z. B. an Verteilnetzbetreiber, Pronovo AG bei Förderanträgen, Finanzierungs- oder Versicherungspartner). Im Übrigen geben wir Daten nur weiter, wenn wir gesetzlich dazu verpflichtet sind oder Sie eingewilligt haben."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Auftragsbearbeitung & Hosting",
+        "paragraphs": [
+          "Diese Website wird über Vercel betrieben. Daten aus Anfrageformularen und Solarberechnungen werden bei unserem Datenbank-Anbieter Supabase gespeichert. Beide Dienste werden vertraglich auf die Einhaltung angemessener technischer und organisatorischer Massnahmen verpflichtet."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Cookies & Analyse",
+        "paragraphs": [
+          "Wir verzichten auf Tracking-Cookies und externe Analyse-Tools, die ohne Ihre Einwilligung personenbezogene Daten verarbeiten. Sollten wir solche Werkzeuge zukünftig einsetzen, holen wir Ihre Einwilligung über ein Cookie-Banner ein."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Aufbewahrung",
+        "paragraphs": [
+          "Wir bewahren Personendaten so lange auf, wie es für die Bearbeitung Ihrer Anfrage und die Erfüllung gesetzlicher Pflichten erforderlich ist."
+        ],
+        "items": []
+      }
+    ],
+    "rights": {
+      "heading": "Ihre Rechte",
+      "text": "Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung oder Einschränkung der Bearbeitung Ihrer Personendaten sowie auf Widerspruch gegen die Bearbeitung. Schreiben Sie uns dazu an <link>{email}</link>."
+    },
+    "changes": {
+      "heading": "Änderungen",
+      "text": "Wir behalten uns vor, diese Datenschutzerklärung anzupassen. Es gilt jeweils die auf dieser Seite veröffentlichte Fassung."
+    }
+  }
+}

@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
+import { Link } from "@/i18n/navigation";
+import type { AppPathname } from "@/i18n/routing";
 import { siteConfig } from "@/lib/site-config";
 import { Logo } from "./logo";
 
@@ -16,10 +17,13 @@ type Props = {
   };
 };
 
+const OFFER_LINKS: AppPathname[] = ["/services", "/solarrechner", "/pakete", "/angebote"];
+const COMPANY_LINKS: AppPathname[] = ["/projekte", "/ueber-uns", "/kontakt", "/impressum", "/datenschutz"];
+
 /** Schlanker Footer: Logo, Kontakt, zwei Linkgruppen, eine Schlusszeile. */
 export function SiteFooter({ contact: dynamicContact }: Props = {}) {
   const year = new Date().getFullYear();
-  const pathname = usePathname();
+  const t = useTranslations("common");
   const contact = dynamicContact
     ? {
         phone: dynamicContact.phone,
@@ -29,13 +33,9 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
           street: dynamicContact.addressStreet,
           postalCode: dynamicContact.addressPostalCode,
           city: dynamicContact.addressCity,
-          country: siteConfig.contact.address.country,
         },
       }
     : siteConfig.contact;
-
-  // Im Admin-Bereich verstecken wir den Public-Footer.
-  if (pathname?.startsWith("/admin")) return null;
 
   return (
     <footer className="mt-20 pb-10 sm:mt-24">
@@ -44,18 +44,14 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
           <div className="lg:col-span-5">
             <Logo className="h-10" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Photovoltaik aus Grenchen für die ganze Schweiz.
+              {t("footer.claim")}
             </p>
             <address className="mt-6 space-y-1.5 text-sm not-italic">
               <p className="text-muted-foreground">
-                {contact.address.street}, {contact.address.postalCode}{" "}
-                {contact.address.city}
+                {contact.address.street}, {contact.address.postalCode} {contact.address.city}
               </p>
               <p>
-                <a
-                  href={contact.phoneHref}
-                  className="ring-focus stat-mono rounded-md text-foreground"
-                >
+                <a href={contact.phoneHref} className="ring-focus stat-mono rounded-md text-foreground">
                   {contact.phone}
                 </a>
               </p>
@@ -71,27 +67,8 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
           </div>
 
           <div className="grid grid-cols-2 gap-8 lg:col-span-7 lg:pl-10">
-            <FooterColumn
-              title="Angebot"
-              links={[
-                { href: "/services", label: "Leistungen" },
-                { href: "/solarrechner", label: "Solarrechner" },
-                { href: "/pakete", label: "Pakete & Preise" },
-                { href: "/angebote", label: "Angebot einholen" },
-              ]}
-            />
-            <FooterColumn
-              title="Unternehmen"
-              links={[
-                { href: "/projekte", label: "Projekte" },
-                { href: "/ueber-uns", label: "Über uns" },
-                { href: "/kontakt", label: "Kontakt" },
-                ...siteConfig.legalNav.map((item) => ({
-                  href: item.href,
-                  label: item.label,
-                })),
-              ]}
-            />
+            <FooterColumn title={t("footer.offer")} links={OFFER_LINKS} />
+            <FooterColumn title={t("footer.company")} links={COMPANY_LINKS} />
           </div>
         </div>
 
@@ -103,24 +80,19 @@ export function SiteFooter({ contact: dynamicContact }: Props = {}) {
   );
 }
 
-function FooterColumn({
-  title,
-  links,
-}: {
-  title: string;
-  links: { href: string; label: string }[];
-}) {
+function FooterColumn({ title, links }: { title: string; links: AppPathname[] }) {
+  const t = useTranslations("common.nav");
   return (
     <div>
       <h3 className="eyebrow">{title}</h3>
       <ul className="mt-4 space-y-2.5 text-sm">
-        {links.map((l) => (
-          <li key={l.href}>
+        {links.map((href) => (
+          <li key={href}>
             <Link
-              href={l.href}
+              href={href}
               className="ring-focus inline-flex min-h-6 items-center rounded-md text-foreground/80 transition-colors hover:text-foreground"
             >
-              {l.label}
+              {t(href)}
             </Link>
           </li>
         ))}

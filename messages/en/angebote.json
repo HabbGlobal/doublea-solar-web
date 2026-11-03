@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Free solar quote – Grenchen, Solothurn & Bern",
+    "description": "Request a free, no-obligation solar quote. We assess your photovoltaic project in Grenchen, Solothurn, Bern and the surrounding area, clarify subsidies and prepare a transparent quote."
+  },
+  "intro": {
+    "eyebrow": "Free quote",
+    "title": "Your project, assessed with no obligation.",
+    "text": "We assess your roof, clarify feasibility and subsidies, and prepare a clearly itemised quote. We only recommend what makes technical and financial sense."
+  },
+  "inclusions": {
+    "title": "Included in every quote",
+    "items": [
+      "Site analysis with shading and structural assessment",
+      "Sizing of modules, inverter and battery storage",
+      "Indicative profitability calculation with conservative assumptions",
+      "Check of the Pronovo one-off subsidy (EIV) and cantonal funding"
+    ]
+  },
+  "calculator": {
+    "text": "The solar calculator provides the basis for your quote.",
+    "link": "Go to the solar calculator"
+  },
+  "form": {
+    "title": "Request a quote",
+    "text": "Tell us briefly about your plans – we will get back to you personally."
+  }
+}

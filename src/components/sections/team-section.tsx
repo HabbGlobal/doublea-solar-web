@@ -1,8 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getLocale, getTranslations } from "next-intl/server";
 
 import { SectionTitle } from "@/components/site/section-head";
+import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
+import { localizeTeam } from "@/lib/data/i18n";
 import { getPublishedTeamMembers, teamImageUrl } from "@/lib/data/team";
 
 type TeamSectionProps = {
@@ -20,7 +23,10 @@ type TeamSectionProps = {
  * bewusst kein Platzhalter-Fake-Team.
  */
 export async function TeamSection({ variant = "full" }: TeamSectionProps) {
-  const members = await getPublishedTeamMembers();
+  const locale = (await getLocale()) as Locale;
+  const t = await getTranslations("home.team");
+  const tc = await getTranslations("common");
+  const members = await localizeTeam(await getPublishedTeamMembers(), locale);
   if (members.length === 0) {
     return null;
   }
@@ -36,12 +42,8 @@ export async function TeamSection({ variant = "full" }: TeamSectionProps) {
       <div className="container-page">
         <SectionTitle
           id="team-titel"
-          title={
-            variant === "home"
-              ? "Die Menschen hinter den Anlagen."
-              : "Unser Team"
-          }
-          lead="Persönlich erreichbar — vom Erstgespräch bis zur Abnahme."
+          title={variant === "home" ? t("titleHome") : t("titleFull")}
+          lead={t("lead")}
         />
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -63,7 +65,7 @@ export async function TeamSection({ variant = "full" }: TeamSectionProps) {
                   </div>
                 ) : (
                   <div className="neu-in flex aspect-[3/4] items-center justify-center">
-                    <span className="eyebrow">Foto folgt</span>
+                    <span className="eyebrow">{tc("photoPending")}</span>
                   </div>
                 )}
                 <figcaption className="mt-4 px-1">
@@ -82,7 +84,7 @@ export async function TeamSection({ variant = "full" }: TeamSectionProps) {
         {variant === "home" && (
           <div className="mt-10">
             <Link href="/ueber-uns" className="btn-ghost min-h-11">
-              Mehr über uns
+              {t("more")}
               <ArrowRight className="size-4" aria-hidden="true" />
             </Link>
           </div>

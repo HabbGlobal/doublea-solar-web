@@ -1,0 +1,87 @@
+{
+  "errors": {
+    "name": "Please enter your name.",
+    "email": "Please enter a valid email address.",
+    "phoneInvalid": "Invalid phone number.",
+    "phoneRequired": "A phone number is required for quote and consultation requests.",
+    "phoneRequiredLead": "A phone number is required.",
+    "street": "Please enter the street.",
+    "houseNumber": "No. missing.",
+    "postalCode": "Enter a valid postcode (4 digits).",
+    "city": "Please enter the town.",
+    "heatingType": "Please select your current heating type.",
+    "householdSize": "Please enter the number of people in your household.",
+    "consent": "Please agree to the privacy policy.",
+    "submitFailed": "Your request could not be sent.",
+    "generic": "Something went wrong."
+  },
+  "heatingTypes": {
+    "oel": "Oil heating",
+    "gas": "Gas heating",
+    "waermepumpe": "Heat pump",
+    "fernwaerme": "District heating",
+    "holz": "Wood / pellets",
+    "elektro": "Electric",
+    "andere": "Other"
+  },
+  "topics": {
+    "allgemein": "General enquiry",
+    "offerte": "Quote & consultation",
+    "solarrechner": "Solar calculator results",
+    "service": "Service & existing system",
+    "finanzierung": "Financing",
+    "gewerbe": "Commercial project"
+  },
+  "common": {
+    "name": "Name *",
+    "email": "Email *",
+    "phone": "Phone",
+    "phoneRequired": "Phone *",
+    "phoneOptional": "Phone (optional)",
+    "phonePlaceholder": "+41 …",
+    "optional": "(optional)",
+    "required": "*",
+    "sending": "Sending …",
+    "consent": "I agree to the <link>privacy policy</link>. *",
+    "consentHint": "We use your data solely to process your request.",
+    "honeypotLabel": "Website",
+    "toastSuccess": "Thank you – we will get back to you within one working day."
+  },
+  "address": {
+    "searchLabel": "Find address",
+    "searchDescription": "Start typing your address – we fill in street, no., postcode and town automatically (official Swiss address data).",
+    "searchPlaceholder": "e.g. Oelirain 1A, 2540 Grenchen",
+    "street": "Street *",
+    "houseNumber": "No. *",
+    "postalCode": "Postcode *",
+    "city": "Town *"
+  },
+  "contact": {
+    "topicLabel": "Subject",
+    "offerNotice": "For a well-founded quote or consultation we also need your phone number, heating type and household size — so we can get specific on the very first call.",
+    "heatingLabel": "Current heating type *",
+    "heatingDescription": "Helps us plan the heat pump and self-consumption realistically.",
+    "householdLabel": "People in household *",
+    "householdDescription": "E.g. 4 people — we derive your typical consumption from this.",
+    "householdPlaceholder": "4",
+    "messageLabel": "Your message",
+    "messagePlaceholder": "Tell us briefly what it is about – roof size, electricity consumption and wishes help us enormously.",
+    "submit": "Send message",
+    "successTitle": "Thank you for your message.",
+    "successText": "We will reply personally – within one working day.",
+    "successAgain": "Send another message"
+  },
+  "lead": {
+    "namePlaceholder": "First and last name",
+    "emailPlaceholder": "your.address@example.ch",
+    "heatingLabel": "Heating type *",
+    "heatingDescription": "Helps us plan the heat pump and self-consumption realistically.",
+    "messageLabel": "Your message (optional)",
+    "messagePlaceholder": "What should we know before we get in touch?",
+    "honeypotLabel": "Website (do not fill in)",
+    "submit": "Send request",
+    "successTitle": "Request received – thank you.",
+    "successText": "We will review your details and get back to you personally within one working day.",
+    "successAgain": "Send another request"
+  }
+}

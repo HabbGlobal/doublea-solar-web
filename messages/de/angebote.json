@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "title": "Kostenloses Solar-Angebot – Grenchen, Solothurn & Bern",
+    "description": "Fordern Sie ein kostenloses, unverbindliches Solar-Angebot an. Wir prüfen Ihr Photovoltaik-Projekt in Grenchen, Solothurn, Bern und Umgebung, klären Förderungen und erstellen eine transparente Offerte."
+  },
+  "intro": {
+    "eyebrow": "Kostenloses Angebot",
+    "title": "Ihr Projekt, unverbindlich geprüft.",
+    "text": "Wir prüfen Ihr Dach, klären Machbarkeit und Förderung und erstellen eine sauber aufgeschlüsselte Offerte. Wir empfehlen nur, was technisch und wirtschaftlich Sinn ergibt."
+  },
+  "inclusions": {
+    "title": "In jedem Angebot enthalten",
+    "items": [
+      "Standortanalyse mit Verschattungs- und Statikbewertung",
+      "Auslegung von Modulen, Wechselrichter und Speicher",
+      "Indikative Wirtschaftlichkeitsrechnung mit konservativen Annahmen",
+      "Prüfung von Pronovo-Einmalvergütung und kantonaler Förderung"
+    ]
+  },
+  "calculator": {
+    "text": "Der Solarrechner liefert die Grundlage für die Offerte.",
+    "link": "Zum Solarrechner"
+  },
+  "form": {
+    "title": "Angebot anfragen",
+    "text": "Erzählen Sie uns kurz von Ihrem Vorhaben – wir melden uns persönlich bei Ihnen."
+  }
+}

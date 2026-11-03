@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
@@ -18,29 +19,41 @@ import {
 } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
+import { Link } from "@/i18n/navigation";
 import {
   AddressFields,
   composeSwissAddress,
 } from "@/components/forms/address-fields";
 import {
-  contactFormSchema,
+  buildContactFormSchema,
+  contactTopics,
   heatingTypes,
-  heatingTypeLabels,
   type ContactFormInput,
   type HeatingType,
 } from "@/lib/validations/lead";
 
-const topics: { value: ContactFormInput["topic"]; label: string }[] = [
-  { value: "allgemein", label: "Allgemeine Anfrage" },
-  { value: "offerte", label: "Offerte & Beratung" },
-  { value: "solarrechner", label: "Solarrechner-Auswertung" },
-  { value: "service", label: "Service & Bestandsanlage" },
-  { value: "finanzierung", label: "Finanzierung" },
-  { value: "gewerbe", label: "Gewerbeprojekt" },
-];
-
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const t = useTranslations("forms");
+
+  // Validierungs-Schema mit übersetzten Meldungen (Regeln unverändert).
+  const schema = useMemo(
+    () =>
+      buildContactFormSchema({
+        name: t("errors.name"),
+        email: t("errors.email"),
+        phoneInvalid: t("errors.phoneInvalid"),
+        phoneRequired: t("errors.phoneRequired"),
+        street: t("errors.street"),
+        houseNumber: t("errors.houseNumber"),
+        postalCode: t("errors.postalCode"),
+        city: t("errors.city"),
+        heatingType: t("errors.heatingType"),
+        householdSize: t("errors.householdSize"),
+        consent: t("errors.consent"),
+      }),
+    [t],
+  );
 
   const {
     register,
@@ -50,7 +63,7 @@ export function ContactForm() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormInput>({
-    resolver: zodResolver(contactFormSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       name: "",
       email: "",
@@ -88,7 +101,7 @@ export function ContactForm() {
       });
       if (!res.ok) {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(data.error || "Anfrage konnte nicht gesendet werden.");
+        throw new Error(data.error || t("errors.submitFailed"));
       }
       setSubmitted(true);
       reset({
@@ -108,11 +121,9 @@ export function ContactForm() {
         source: "kontakt-seite",
         company_website: "",
       });
-      toast.success("Vielen Dank – wir melden uns innert eines Werktags.");
+      toast.success(t("common.toastSuccess"));
     } catch (e) {
-      toast.error(
-        e instanceof Error ? e.message : "Etwas ist schiefgelaufen.",
-      );
+      toast.error(e instanceof Error ? e.message : t("errors.generic"));
     }
   }
 
@@ -120,17 +131,17 @@ export function ContactForm() {
     return (
       <div className="neu-in rounded-2xl p-5">
         <p className="text-base font-semibold text-foreground">
-          Vielen Dank für Ihre Nachricht.
+          {t("contact.successTitle")}
         </p>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-          Wir melden uns persönlich – Antwort innert eines Werktags.
+          {t("contact.successText")}
         </p>
         <button
           type="button"
           onClick={() => setSubmitted(false)}
           className="btn-ghost mt-4 min-h-11 text-sm"
         >
-          Neue Nachricht senden
+          {t("contact.successAgain")}
         </button>
       </div>
     );
@@ -140,24 +151,24 @@ export function ContactForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
       <FieldGroup>
         <Field>
-          <FieldLabel>Anliegen</FieldLabel>
+          <FieldLabel>{t("contact.topicLabel")}</FieldLabel>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {topics.map((t) => (
+            {contactTopics.map((value) => (
               <button
-                key={t.value}
+                key={value}
                 type="button"
                 onClick={() =>
-                  setValue("topic", t.value, { shouldValidate: true })
+                  setValue("topic", value, { shouldValidate: true })
                 }
-                aria-pressed={topic === t.value}
+                aria-pressed={topic === value}
                 className={cn(
                   "ring-focus neu-sm flex min-h-12 items-center justify-center rounded-2xl px-3 py-2 text-center text-[13px] font-medium leading-tight transition-[box-shadow,color,transform] duration-150 sm:text-sm",
-                  topic === t.value
+                  topic === value
                     ? "shadow-[var(--neu-inset)] font-semibold text-[color:var(--solar-gold-dark)]"
                     : "text-foreground hover:-translate-y-px",
                 )}
               >
-                {t.label}
+                {t(`topics.${value}`)}
               </button>
             ))}
           </div>
@@ -166,16 +177,14 @@ export function ContactForm() {
         {requireOffer && (
           <div className="neu-in rounded-2xl p-5 text-sm">
             <p className="font-medium leading-relaxed text-foreground">
-              Für eine fundierte Offerte oder Beratung brauchen wir zusätzlich
-              Telefon, Heizart und Personen im Haushalt — so können wir gleich
-              beim ersten Anruf konkret werden.
+              {t("contact.offerNotice")}
             </p>
           </div>
         )}
 
         <div className="grid gap-4 sm:grid-cols-2">
           <Field>
-            <FieldLabel htmlFor="contact-name">Name *</FieldLabel>
+            <FieldLabel htmlFor="contact-name">{t("common.name")}</FieldLabel>
             <Input
               id="contact-name"
               autoComplete="name"
@@ -186,7 +195,7 @@ export function ContactForm() {
             <FieldError errors={errors.name ? [errors.name] : undefined} />
           </Field>
           <Field>
-            <FieldLabel htmlFor="contact-email">E-Mail *</FieldLabel>
+            <FieldLabel htmlFor="contact-email">{t("common.email")}</FieldLabel>
             <Input
               id="contact-email"
               type="email"
@@ -201,13 +210,13 @@ export function ContactForm() {
 
         <Field>
           <FieldLabel htmlFor="contact-phone">
-            Telefon {requireOffer ? "*" : "(optional)"}
+            {requireOffer ? t("common.phoneRequired") : t("common.phoneOptional")}
           </FieldLabel>
           <Input
             id="contact-phone"
             type="tel"
             autoComplete="tel"
-            placeholder="+41 …"
+            placeholder={t("common.phonePlaceholder")}
             aria-invalid={!!errors.phone}
             {...register("phone")}
             className="h-12 px-4"
@@ -232,10 +241,9 @@ export function ContactForm() {
           <>
             <div className="grid gap-4 md:grid-cols-[1.6fr_1fr]">
               <Field>
-                <FieldLabel>Aktuelle Heizart *</FieldLabel>
+                <FieldLabel>{t("contact.heatingLabel")}</FieldLabel>
                 <FieldDescription>
-                  Hilft uns, Wärmepumpe und Eigenverbrauch realistisch
-                  einzuplanen.
+                  {t("contact.heatingDescription")}
                 </FieldDescription>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {heatingTypes.map((h) => (
@@ -255,7 +263,7 @@ export function ContactForm() {
                           : "text-foreground hover:-translate-y-px",
                       )}
                     >
-                      {heatingTypeLabels[h as HeatingType]}
+                      {t(`heatingTypes.${h}`)}
                     </button>
                   ))}
                 </div>
@@ -268,10 +276,10 @@ export function ContactForm() {
 
               <Field>
                 <FieldLabel htmlFor="contact-household">
-                  Personen im Haushalt *
+                  {t("contact.householdLabel")}
                 </FieldLabel>
                 <FieldDescription>
-                  Z. B. 4 Personen — wir leiten daraus den typischen Verbrauch ab.
+                  {t("contact.householdDescription")}
                 </FieldDescription>
                 <Input
                   id="contact-household"
@@ -280,7 +288,7 @@ export function ContactForm() {
                   min={1}
                   max={30}
                   step={1}
-                  placeholder="4"
+                  placeholder={t("contact.householdPlaceholder")}
                   aria-invalid={!!errors.householdSize}
                   {...register("householdSize", { valueAsNumber: true })}
                   className="h-12 px-4"
@@ -297,12 +305,12 @@ export function ContactForm() {
 
         <Field>
           <FieldLabel htmlFor="contact-message">
-            Ihre Nachricht {requireOffer ? "(optional)" : ""}
+            {t("contact.messageLabel")} {requireOffer ? t("common.optional") : ""}
           </FieldLabel>
           <Textarea
             id="contact-message"
             rows={5}
-            placeholder="Erzählen Sie uns kurz, worum es geht – Dachgrösse, Strom­verbrauch, Wünsche helfen uns enorm."
+            placeholder={t("contact.messagePlaceholder")}
             aria-invalid={!!errors.message}
             {...register("message")}
             className="px-4 py-3"
@@ -311,7 +319,7 @@ export function ContactForm() {
         </Field>
 
         <div className="hidden" aria-hidden="true">
-          <label htmlFor="company_website_c">Website</label>
+          <label htmlFor="company_website_c">{t("common.honeypotLabel")}</label>
           <input
             id="company_website_c"
             type="text"
@@ -331,18 +339,18 @@ export function ContactForm() {
           />
           <FieldContent>
             <FieldLabel htmlFor="contact-consent">
-              Ich bin mit der{" "}
-              <a
-                href="/datenschutz"
-                className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
-              >
-                Datenschutzerklärung
-              </a>{" "}
-              einverstanden. *
+              {t.rich("common.consent", {
+                link: (chunks) => (
+                  <Link
+                    href="/datenschutz"
+                    className="ring-focus rounded-md underline decoration-[color:var(--solar-gold)] decoration-2 underline-offset-4"
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </FieldLabel>
-            <FieldDescription>
-              Wir nutzen Ihre Daten ausschliesslich zur Bearbeitung Ihrer Anfrage.
-            </FieldDescription>
+            <FieldDescription>{t("common.consentHint")}</FieldDescription>
             <FieldError errors={errors.consent ? [errors.consent] : undefined} />
           </FieldContent>
         </Field>
@@ -356,11 +364,11 @@ export function ContactForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="size-4 animate-spin" aria-hidden />
-            Wird gesendet …
+            {t("common.sending")}
           </>
         ) : (
           <>
-            Nachricht senden
+            {t("contact.submit")}
             <ArrowRight className="size-4" aria-hidden />
           </>
         )}

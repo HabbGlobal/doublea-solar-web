@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "Solarrechner – Photovoltaik-Potenzial Ihres Dachs in 60 Sek.",
+    "description": "Kostenloser Solarrechner: Anlagengrösse, Produktion, Eigenverbrauch, Kosten und Amortisation Ihrer Photovoltaikanlage – mit echten Schweizer Dachdaten, kantonsspezifisch und unverbindlich."
+  },
+  "intro": {
+    "eyebrow": "Solarrechner",
+    "title": "Wie viel Solarpotenzial steckt in Ihrem Dach?",
+    "text": "Beantworten Sie wenige Fragen zu Gebäude, Dach und Verbrauch – der Rechner liefert eine fundierte Erstauswertung."
+  },
+  "calculatorLabel": "Solarrechner",
+  "cta": {
+    "eyebrow": "Nächster Schritt",
+    "title": "Aus Ihrer Auswertung wird ein konkretes Angebot.",
+    "description": "Senden Sie uns Ihre Eckdaten – wir prüfen Förderoptionen, Lastprofil und Wirtschaftlichkeit.",
+    "primaryLabel": "Angebot anfragen",
+    "secondaryLabel": "Wie wir vorgehen"
+  }
+}

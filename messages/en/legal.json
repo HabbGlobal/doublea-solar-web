@@ -1,0 +1,113 @@
+{
+  "convenienceNotice": "This English version is provided for convenience. In case of discrepancies, the German version prevails.",
+  "impressum": {
+    "meta": {
+      "title": "Legal Notice",
+      "description": "Legal notice of DoubleA Solar Solutions, Grenchen."
+    },
+    "eyebrow": "Legal",
+    "title": "Legal Notice",
+    "updated": "Last updated: August 2026",
+    "provider": {
+      "heading": "Provider",
+      "country": "Switzerland"
+    },
+    "contact": {
+      "heading": "Contact",
+      "phoneLabel": "Phone:",
+      "emailLabel": "Email:"
+    },
+    "register": {
+      "heading": "Commercial Register",
+      "text": "Registered in the Commercial Register of the Canton of {canton}. The UID number will be provided on request and added upon publication of this legal notice."
+    },
+    "responsible": {
+      "heading": "Responsible for the content",
+      "text": "Management of {legalName}."
+    },
+    "sections": [
+      {
+        "heading": "Disclaimer",
+        "paragraphs": [
+          "The content of this website is prepared with the greatest possible care. However, we cannot guarantee the accuracy, completeness or currency of the content. Use of this website is at your own risk."
+        ]
+      },
+      {
+        "heading": "Copyright",
+        "paragraphs": [
+          "All content on this website is subject to Swiss copyright law. Reproduction and distribution – in whole or in part – require prior written consent."
+        ]
+      }
+    ]
+  },
+  "datenschutz": {
+    "meta": {
+      "title": "Privacy Policy",
+      "description": "Privacy policy of DoubleA Solar Solutions."
+    },
+    "eyebrow": "Legal",
+    "title": "Privacy Policy",
+    "updated": "Last updated: August 2026",
+    "controller": {
+      "heading": "Controller",
+      "emailLabel": "Email:"
+    },
+    "sections": [
+      {
+        "heading": "Personal data processed",
+        "paragraphs": [
+          "We process personal data that you actively provide to us, for example via our contact and enquiry forms or the solar calculator. This includes in particular your name, email address and telephone number, as well as technical and building-related details about your project.",
+          "When you visit this website, technical connection data (e.g. IP address, browser type, time of access) is also processed to the extent necessary for the operation and security of the website."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Purposes of processing",
+        "paragraphs": [],
+        "items": [
+          "Responding to your enquiries and preparing quotes",
+          "Assessing your solar potential in preparation for a quote",
+          "Initiating, concluding and performing contracts",
+          "Ensuring the stable operation of the website",
+          "Fulfilling legal obligations"
+        ]
+      },
+      {
+        "heading": "Disclosure of data",
+        "paragraphs": [
+          "Data is disclosed to third parties only where necessary for the performance of a contract (e.g. to distribution grid operators, Pronovo AG for subsidy applications, or financing and insurance partners). Otherwise, we disclose data only where we are legally obliged to do so or where you have given your consent."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Processors & hosting",
+        "paragraphs": [
+          "This website is hosted on Vercel. Data from enquiry forms and solar calculations is stored with our database provider Supabase. Both services are contractually bound to maintain appropriate technical and organisational measures."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Cookies & analytics",
+        "paragraphs": [
+          "We do not use tracking cookies or external analytics tools that process personal data without your consent. Should we use such tools in the future, we will obtain your consent via a cookie banner."
+        ],
+        "items": []
+      },
+      {
+        "heading": "Retention",
+        "paragraphs": [
+          "We retain personal data for as long as is necessary to handle your enquiry and to fulfil our legal obligations."
+        ],
+        "items": []
+      }
+    ],
+    "rights": {
+      "heading": "Your rights",
+      "text": "You have the right at any time to request access to, rectification, erasure or restriction of the processing of your personal data, and to object to the processing. To do so, please write to us at <link>{email}</link>."
+    },
+    "changes": {
+      "heading": "Changes",
+      "text": "We reserve the right to amend this privacy policy. The version published on this page applies at any given time."
+    }
+  }
+}

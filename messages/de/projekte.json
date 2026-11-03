@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "title": "Projekte – Photovoltaik-Anlagentypen & Referenzen Schweiz",
+    "description": "Typische Photovoltaik-Projekte von DoubleA Solar Solutions: Einfamilienhaus, Mehrfamilienhaus mit ZEV sowie Gewerbe und Landwirtschaft – geplant von Grenchen aus für die ganze Schweiz. Referenzen auf Anfrage."
+  },
+  "intro": {
+    "eyebrow": "Projekte",
+    "title": "Vom Familiendach bis zur Werkhalle.",
+    "leadOne": "Ein Anlagentyp prägt unsere Arbeit",
+    "leadMany": "{n} Anlagentypen prägen unsere Arbeit",
+    "leadTail": "zu jedem stehen hier Eckwerte und Leistungsumfang."
+  },
+  "numberWords": ["", "Ein", "Zwei", "Drei", "Vier", "Fünf", "Sechs", "Sieben", "Acht", "Neun", "Zehn", "Elf", "Zwölf"],
+  "references": {
+    "title": "Referenzen",
+    "lead": "Freigegebene Projekte mit realen Eckdaten – publiziert mit Zustimmung der Kundschaft."
+  },
+  "types": {
+    "titleDb": "{n} {label}. Ein Qualitätsstandard.",
+    "one": "Anlagentyp",
+    "many": "Anlagentypen",
+    "titleDefault": "Drei Gebäudekategorien. Ein Qualitätsstandard.",
+    "lead": "Typische Konstellationen aus unserer Praxis, keine konkreten Kundenprojekte – alle Wertspannen sind indikativ."
+  },
+  "fallback": [
+    {
+      "number": "01",
+      "title": "Einfamilienhaus",
+      "metricLabel": "Typische Anlagengrösse",
+      "metricValue": "8–12",
+      "metricUnit": "kWp",
+      "description": "Aufdachanlage mit Eigenverbrauchsoptimierung – sauber dimensioniert statt maximal verkauft.",
+      "facts": [
+        { "label": "Typ. Speicher", "value": "5–10 kWh" },
+        { "label": "Montagezeit", "value": "2–3 Tage" }
+      ],
+      "deliverables": [
+        "Verschattungsanalyse, Auslegung und Ertragsprognose",
+        "Module, Wechselrichter, optional Speicher und Wallbox",
+        "Pronovo-EIV-Antrag, Inbetriebnahme und Sicherheitsnachweis"
+      ]
+    },
+    {
+      "number": "02",
+      "title": "Mehrfamilienhaus / ZEV",
+      "metricLabel": "Typische Anlagengrösse",
+      "metricValue": "15–60",
+      "metricUnit": "kWp",
+      "description": "Zusammenschluss zum Eigenverbrauch – Messkonzept und Mieterstrom von Anfang an mitgeplant.",
+      "facts": [
+        { "label": "Typ. Speicher", "value": "10–30 kWh" },
+        { "label": "Abrechnung", "value": "Mieterstrom" }
+      ],
+      "deliverables": [
+        "Messkonzept und ZEV-Gründung nach Vorgaben des Netzbetreibers",
+        "Abrechnungslösung für Mietparteien (Mieterstrom)",
+        "Koordination mit Verteilnetzbetreiber und Verwaltung"
+      ]
+    },
+    {
+      "number": "03",
+      "title": "Gewerbe & Landwirtschaft",
+      "metricLabel": "Typische Anlagengrösse",
+      "metricValue": "30–250",
+      "metricUnit": "kWp",
+      "description": "Grosse Dachflächen mit hohem Tagesverbrauch – ausgelegt nach Ihrem Lastprofil.",
+      "facts": [
+        { "label": "Typ. Speicher", "value": "20–60 kWh" },
+        { "label": "Eigenverbrauch", "value": "tagsüber hoch" }
+      ],
+      "deliverables": [
+        "Lastganganalyse und indikative Wirtschaftlichkeitsrechnung",
+        "Prüfung von Statik, Dacheindeckung und Brandschutz",
+        "Monitoring und Wartungskonzept für den laufenden Betrieb"
+      ]
+    }
+  ],
+  "tile": {
+    "deliverables": "Leistungsumfang",
+    "discuss": "Ähnliches Projekt besprechen",
+    "altType": "Anlagentyp: {title}",
+    "altReference": "Referenzprojekt: {title}",
+    "location": "Standort",
+    "power": "Leistung",
+    "storage": "Speicher"
+  },
+  "categories": {
+    "efh": "Einfamilienhaus",
+    "mfh_zev": "Mehrfamilienhaus / ZEV",
+    "gewerbe": "Gewerbe",
+    "landwirtschaft": "Landwirtschaft",
+    "nachruestung": "Nachrüstung",
+    "erweiterung": "Erweiterung"
+  },
+  "referencePanel": {
+    "eyebrow": "Referenzen",
+    "title": "Echte Projekte zeigen wir persönlich.",
+    "text": "Wir publizieren keine Projekte ohne ausdrückliche Freigabe. Im Beratungsgespräch zeigen wir Ihnen passende Referenzobjekte mit realen Eckdaten.",
+    "cta": "Referenzgespräch vereinbaren"
+  },
+  "ctaBand": {
+    "title": "Welcher Anlagentyp passt zu Ihrem Gebäude?",
+    "description": "Berechnen Sie in wenigen Minuten Ihr Solarpotenzial – oder besprechen Sie Ihr Vorhaben direkt mit uns.",
+    "secondaryLabel": "Projekt besprechen"
+  }
+}

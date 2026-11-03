@@ -1,0 +1,248 @@
+{
+  "eyebrow": "Solarrechner",
+  "heading": "Erstauswertung in 60 Sekunden",
+  "progressLabel": "Fortschritt im Solarrechner",
+  "steps": {
+    "location": "Standort & Dach",
+    "consumption": "Verbrauch",
+    "contact": "Kontakt",
+    "result": "Ergebnis"
+  },
+  "buildingTypes": {
+    "einfamilienhaus": {
+      "label": "Einfamilienhaus",
+      "description": "Privat, 1 Haushalt"
+    },
+    "mehrfamilienhaus": {
+      "label": "Mehrfamilienhaus",
+      "description": "Mehrere Wohneinheiten / ZEV"
+    },
+    "gewerbe": {
+      "label": "Gewerbe",
+      "description": "Büro, Industrie, Logistik"
+    },
+    "landwirtschaft": {
+      "label": "Landwirtschaft",
+      "description": "Stall, Scheune, Reithalle"
+    },
+    "sonstiges": {
+      "label": "Sonstiges",
+      "description": "Anderes Objekt"
+    }
+  },
+  "batteryOptions": {
+    "ja": "Ja, gewünscht",
+    "nein": "Nein",
+    "unsicher": "Beratung erwünscht"
+  },
+  "financingOptions": {
+    "ja": "Ja",
+    "nein": "Nein",
+    "unsicher": "Beratung"
+  },
+  "toasts": {
+    "contactIncomplete": "Bitte füllen Sie Ihre Kontaktdaten vollständig aus.",
+    "serverFailed": "Server konnte die Berechnung nicht speichern – wir zeigen Ihnen die lokale Auswertung. Wir haben Ihre Anfrage nicht erhalten — bitte kontaktieren Sie uns direkt.",
+    "success": "Anfrage gesendet — wir melden uns innert eines Werktags.",
+    "connectionFailed": "Verbindung gestört – wir zeigen Ihnen die lokale Auswertung."
+  },
+  "oversize": {
+    "title": "Sehr grosse Auswahl für ein Einfamilienhaus",
+    "text": "Die ausgewählten Dachflächen ergeben über 25 kWp – das ist mehr als typisch für ein EFH. Bitte prüfen Sie, ob alle gewählten Segmente tatsächlich zu Ihrer Liegenschaft gehören (in Sonnendach werden manchmal benachbarte Gebäude oder Garagen mitgruppiert)."
+  },
+  "manual": {
+    "eyebrow": "Manuelle Eingabe",
+    "title": "Dachdaten selbst erfassen",
+    "text": "Wenn die Adresse nicht in Sonnendach.ch registriert ist oder Sie die Werte selbst kennen, tragen Sie sie hier ein.",
+    "show": "Werte manuell überschreiben (selten nötig)",
+    "hide": "Manuelle Werte ausblenden",
+    "note": "Hinweis: Bei aktiven Bundesdaten werden Ausrichtung, Neigung und Verschattung nicht für die Berechnung verwendet — die Sonnendach-Werte sind genauer. Die Felder sind nur für Ihre Übersicht.",
+    "canton": "Kanton",
+    "postalCode": "PLZ (optional)",
+    "postalCodePlaceholder": "2540"
+  },
+  "federal": {
+    "badge": "Bundesdaten",
+    "activeFor": "Bundesdaten aktiv für {address}",
+    "usable": "Wir rechnen mit {area} m² nutzbarer Modulfläche aus Sonnendach.ch."
+  },
+  "buildingType": {
+    "legend": "Gebäudetyp",
+    "description": "Wählen Sie die Kategorie, die am besten zu Ihrem Objekt passt."
+  },
+  "consumption": {
+    "label": "Jährlicher Stromverbrauch (kWh)",
+    "description": "Sie finden den Wert auf Ihrer letzten Stromrechnung. Typisch: EFH ca. 4’500 kWh, mit Elektroboiler ca. 7’500 kWh; mit Wärmepumpe und Elektroauto 8’000–16’000 kWh (ElCom-Profile)."
+  },
+  "loads": {
+    "legend": "Elektrische Lasten",
+    "heatPump": "Wärmepumpe vorhanden",
+    "heatPumpDescription": "Erhöht den möglichen Eigenverbrauch und beeinflusst die Auslegung.",
+    "ev": "Elektroauto vorhanden",
+    "evDescription": "Mit Wallbox und PV-Überschuss steigt der Eigenverbrauch deutlich."
+  },
+  "batteryLegend": "Batteriespeicher",
+  "advanced": {
+    "show": "Erweiterte Optionen",
+    "hide": "Erweiterte Optionen ausblenden",
+    "priceLabel": "Strompreis (Rp./kWh, Gesamtpreis inkl. MwSt)",
+    "priceDescription": "Grund- und Messgebühren Ihres Netzbetreibers bleiben fix und lassen sich mit PV nicht vermeiden.",
+    "feedInLabel": "Einspeisetarif (Rp./kWh)",
+    "feedInDescription": "Ohne Herkunftsnachweis-Vergütung; viele Netzbetreiber vergüten HKN zusätzlich (ca. 1–2.5 Rp./kWh).",
+    "financingLegend": "Finanzierung"
+  },
+  "contact": {
+    "eyebrow": "Letzter Schritt",
+    "title": "Ihre Kontaktdaten für die persönliche Auswertung",
+    "text": "Wir senden Ihnen die persönliche Auswertung an Ihre E-Mail und melden uns innert eines Werktags für die nächsten Schritte. Ihre Anfrage wird gleichzeitig in unserem System erfasst.",
+    "name": "Name *",
+    "namePlaceholder": "Vor- und Nachname",
+    "email": "E-Mail *",
+    "emailPlaceholder": "ihre.adresse@example.ch",
+    "phone": "Telefon *",
+    "phonePlaceholder": "+41 …",
+    "addressFromStep": "Adresse aus Schritt 1",
+    "consent": "Ich bin mit der <link>Datenschutzerklärung</link> einverstanden. *",
+    "consentDescription": "Wir nutzen Ihre Daten ausschliesslich zur Bearbeitung Ihrer Anfrage."
+  },
+  "quickStats": {
+    "system": "Anlage",
+    "production": "Jahresproduktion",
+    "savings": "Ersparnis pro Jahr"
+  },
+  "buttons": {
+    "back": "Zurück",
+    "next": "Weiter",
+    "submitting": "Wird gesendet …",
+    "submit": "Anfrage senden & auswerten"
+  },
+  "cantonPlaceholder": "Kanton wählen",
+  "roof": {
+    "area": "Dachfläche (m²)",
+    "areaDescription": "Schätzen Sie die gesamte Dachfläche – wir berücksichtigen nutzbare Anteile separat.",
+    "usable": "Nutzbarer Anteil:",
+    "usableDescription": "Anteil ohne Dachfenster, Kamine, Lukarnen, Abstandsflächen.",
+    "orientation": "Dachausrichtung",
+    "orientationPlaceholder": "Wählen",
+    "orientations": {
+      "sued": "Süd",
+      "suedost": "Südost",
+      "suedwest": "Südwest",
+      "ost": "Ost",
+      "west": "West",
+      "flachdach": "Flachdach",
+      "gemischt": "Gemischt"
+    },
+    "tilt": "Dachneigung",
+    "tilts": {
+      "t0_10": "0 – 10°",
+      "t10_25": "10 – 25°",
+      "t25_40": "25 – 40°",
+      "t40plus": "40° und mehr"
+    },
+    "shading": "Verschattung",
+    "shadings": {
+      "keine": {
+        "label": "Keine",
+        "description": "Freies Dach"
+      },
+      "leicht": {
+        "label": "Leicht",
+        "description": "Einzelne Bäume oder Gauben"
+      },
+      "mittel": {
+        "label": "Mittel",
+        "description": "Mehrere Verschattungsquellen"
+      },
+      "stark": {
+        "label": "Stark",
+        "description": "Grosse Schattenwürfe über den Tag"
+      }
+    }
+  },
+  "address": {
+    "mapLoading": "Karte wird geladen …",
+    "label": "Adresse Ihres Hauses (für präzise Bundesdaten)",
+    "description": "Mit Adresse holen wir die offiziellen Sonnendach.ch-Werte vom Bundesamt für Energie – Dachfläche, Ausrichtung und Einstrahlung pro Segment. Sie können den Schritt jederzeit überspringen.",
+    "placeholder": "z. B. Oelirain 1A, 2540 Grenchen",
+    "searchFailed": "Suche fehlgeschlagen",
+    "sonnendachFailed": "Sonnendach-Abfrage fehlgeschlagen",
+    "cantonPrefix": "Kanton {canton} · ",
+    "clickHint": "Klick auf die Karte, falls ein anderes Gebäude gemeint ist",
+    "change": "Adresse ändern",
+    "loading": "Lade Sonnendach-Daten von api3.geo.admin.ch …",
+    "noData": "Für diese Adresse sind keine Sonnendach-Daten verfügbar.",
+    "noDataText": "Das BFE-Sonnendach.ch-Register deckt nicht jedes Gebäude ab (z. B. Neubauten oder geschützte Lagen). Tragen Sie die Werte unten manuell ein.",
+    "badge": "Bundesdaten",
+    "detected": "Dach erkannt · {quality} geeignet",
+    "usableArea": "nutzbare Modulfläche · ca.",
+    "modelYield": "Modellertrag pro Jahr · Datenquelle: BFE Sonnendach.ch",
+    "adjustSegments": "Dachflächen einzeln anpassen ({count} Segmente)",
+    "segment": "Segment {nr} ·",
+    "tiltSuffix": "° Neigung ·",
+    "irradiationUnit": "kWh/m²/J",
+    "yieldUnit": "kWh/J",
+    "classes": {
+      "excellent": "Hervorragend",
+      "veryGood": "Sehr gut",
+      "good": "Gut",
+      "medium": "Mittel",
+      "low": "Gering"
+    },
+    "orientations": {
+      "flat": "Flachdach",
+      "s": "Süd",
+      "sw": "Südwest",
+      "w": "West",
+      "nw": "Nordwest",
+      "n": "Nord",
+      "ne": "Nordost",
+      "e": "Ost",
+      "se": "Südost"
+    }
+  },
+  "result": {
+    "eyebrow": "Ihre Erstauswertung",
+    "badge": "Bundesdaten · sonnendach.ch",
+    "sizing": "{kwp} kWp auf ca. {area} m² nutzbarer Dachfläche",
+    "paybackPrefix": "Amortisation indikativ in",
+    "years": "{value} Jahre",
+    "yearsRange": "{low} – {high} Jahre",
+    "restart": "Neu starten",
+    "stats": {
+      "system": "Empfohlene Anlage",
+      "systemHint": "auf ca. {area} m² Dachfläche",
+      "production": "Jahresproduktion",
+      "productionHint": "Spanne {low} – {high}",
+      "selfConsumption": "Eigenverbrauchsanteil",
+      "selfConsumptionHint": "Anteil der Solarproduktion, die Sie selbst nutzen — {kwh}",
+      "savings": "Jährliche Ersparnis",
+      "savingsHint": "Spanne {range}",
+      "investment": "Investitionsspanne",
+      "investmentWithBattery": "inkl. Speicher ca. {kwh} kWh",
+      "investmentNoBattery": "ohne Batteriespeicher",
+      "co2": "CO₂-Einsparung (netto)*",
+      "co2Value": "{value} kg/Jahr",
+      "co2Hint": "* Fussnote siehe Hinweise unten"
+    },
+    "cumulative": "Kumulierte Ersparnis über 25 Jahre",
+    "cumulativeText": "Lineare Hochrechnung auf Basis der realistischen Jahresersparnis. Ohne Strompreis-Anstieg.",
+    "notes": "Hinweise zu Ihrer Konstellation",
+    "batteryEyebrow": "Empfehlung Batterie",
+    "batteryRecommended": "Speicher empfohlen",
+    "batteryNotPriority": "Speicher aktuell nicht prioritär",
+    "batteryOptional": "Speicher optional",
+    "batterySize": "Indikative Grösse:",
+    "batteryCheck": "Wir prüfen den Mehrwert in der persönlichen Analyse.",
+    "receivedEyebrow": "Anfrage erhalten",
+    "receivedTitle": "Wir haben Ihre Anfrage erhalten.",
+    "receivedText": "Diese Auswertung ging soeben auch an unser Team. Wir prüfen Ihre Angaben, klären Förderoptionen und melden uns persönlich für die nächsten Schritte.",
+    "howWeWork": "Wie wir vorgehen"
+  },
+  "chart": {
+    "years": "Jahre",
+    "cumulative": "Kumulierte Ersparnis",
+    "investment": "Investition",
+    "year": "Jahr {value}"
+  }
+}

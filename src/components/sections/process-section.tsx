@@ -1,40 +1,18 @@
-import { SectionTitle } from "@/components/site/section-head";
+import { getTranslations } from "next-intl/server";
 
-const steps = [
-  {
-    nr: "1",
-    title: "Analyse",
-    description: "Bedarfsklärung, Dach- und Verbrauchsprüfung vor Ort.",
-  },
-  {
-    nr: "2",
-    title: "Offerte & Förderung",
-    description: "Auslegung mit Investitionsspanne; Förderantrag durch uns.",
-  },
-  {
-    nr: "3",
-    title: "Installation",
-    description:
-      "Montage durch geprüfte Schweizer Partnerbetriebe, von uns koordiniert.",
-  },
-  {
-    nr: "4",
-    title: "Anschluss & Abnahme",
-    description: "Netzanschluss, Sicherheitsnachweis und behördliche Abnahme.",
-  },
-  {
-    nr: "5",
-    title: "Betrieb",
-    description: "Monitoring, Wartungsfenster, Reaktion bei Auffälligkeiten.",
-  },
-];
+import { SectionTitle } from "@/components/site/section-head";
 
 /**
  * Ablauf: fünf Schritte auf der hellen Grundfläche. Die Zahl sitzt in
  * einem weich erhabenen Kreis; ab Desktop fünf Spalten, darunter zwei,
  * mobil eine (Zahl links, Text rechts).
  */
-export function ProcessSection() {
+export async function ProcessSection() {
+  const t = await getTranslations("home.process");
+  const steps = (t.raw("steps") as { title: string; description: string }[]).map(
+    (s, i) => ({ nr: String(i + 1), ...s }),
+  );
+
   return (
     <section
       id="prozess"
@@ -42,10 +20,7 @@ export function ProcessSection() {
       className="py-14 sm:py-20"
     >
       <div className="container-page">
-        <SectionTitle
-          id="prozess-titel"
-          title="Fünf Schritte, ein Verantwortlicher."
-        />
+        <SectionTitle id="prozess-titel" title={t("title")} />
 
         <ol className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-5 lg:gap-6">
           {steps.map((s) => (
@@ -61,7 +36,7 @@ export function ProcessSection() {
               </span>
               <div className="pt-2 lg:pt-1">
                 <h3 className="text-[17px] font-semibold leading-snug text-foreground">
-                  <span className="sr-only">Schritt {s.nr}: </span>
+                  <span className="sr-only">{t("stepLabel", { nr: s.nr })}</span>
                   {s.title}
                 </h3>
                 <p className="mt-1.5 text-[15px] leading-relaxed text-muted-foreground">
@@ -72,9 +47,7 @@ export function ProcessSection() {
           ))}
         </ol>
 
-        <p className="mt-10 text-sm text-muted-foreground">
-          Analyse bis Inbetriebnahme: typischerweise 8 bis 16 Wochen.
-        </p>
+        <p className="mt-10 text-sm text-muted-foreground">{t("note")}</p>
       </div>
     </section>
   );

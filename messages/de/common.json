@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "title": "Photovoltaik Grenchen & Solothurn — präzise geplant | DoubleA Solar",
+    "description": "Schweizer Photovoltaik-Fachbetrieb aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner, transparenten Offerten und langfristigem Monitoring.",
+    "keywords": ["Solaranlage Grenchen", "Photovoltaik Grenchen", "Solaranlage Solothurn", "Photovoltaik Solothurn", "Solaranlage Bern", "Photovoltaik Biel", "Solarteur Region Solothurn", "Solaranlage Kosten Schweiz", "Photovoltaik Offerte", "Solaranlage mit Speicher", "Photovoltaik Einfamilienhaus", "Solarrechner Schweiz", "Pronovo Förderung Photovoltaik", "PV Anlage installieren lassen", "Solarunternehmen Schweiz", "Wallbox Solar", "Wärmepumpe Photovoltaik", "ZEV Photovoltaik Mehrfamilienhaus", "Gewerbe Solaranlage", "Eigenverbrauch optimieren"],
+    "services": ["Standortanalyse & Verschattungsprüfung", "Planung und Auslegung der Photovoltaikanlage", "Installation & Netzanschluss", "Batteriespeicher & Eigenverbrauchsoptimierung", "Förderberatung Pronovo EIV", "Monitoring & Wartung"]
+  },
+  "skipLink": "Zum Inhalt springen",
+  "toHome": "Zur Startseite",
+  "mainNav": "Hauptnavigation",
+  "mobileNav": "Mobile Hauptnavigation",
+  "openMenu": "Menü öffnen",
+  "nav": {
+    "/": "Start",
+    "/services": "Leistungen",
+    "/solarrechner": "Solarrechner",
+    "/pakete": "Pakete & Preise",
+    "/finanzierung": "Finanzierung",
+    "/projekte": "Projekte",
+    "/ueber-uns": "Über uns",
+    "/kontakt": "Kontakt",
+    "/angebote": "Angebot einholen",
+    "/impressum": "Impressum",
+    "/datenschutz": "Datenschutz"
+  },
+  "cta": {
+    "primary": "Angebot einholen",
+    "secondary": "Solarpotenzial berechnen"
+  },
+  "ctaBand": {
+    "title": "Sprechen wir über Ihr Dach.",
+    "text": "Senden Sie uns Ihre Eckdaten oder rufen Sie an — wir antworten persönlich, nicht mit Textbausteinen."
+  },
+  "footer": {
+    "claim": "Photovoltaik aus Grenchen für die ganze Schweiz.",
+    "offer": "Angebot",
+    "company": "Unternehmen"
+  },
+  "notFound": {
+    "title": "Diese Seite gibt es nicht.",
+    "text": "Der Link ist veraltet oder die Adresse wurde falsch eingegeben.",
+    "cta": "Zur Startseite"
+  },
+  "directLine": "Direkter Draht:",
+  "readMore": "Mehr erfahren",
+  "photoPending": "Foto folgt"
+}

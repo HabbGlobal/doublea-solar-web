@@ -1,0 +1,133 @@
+{
+  "meta": {
+    "title": "Photovoltaik Grenchen & Solothurn — präzise geplant | DoubleA Solar",
+    "description": "Schweizer Photovoltaik-Fachbetrieb aus Grenchen: Photovoltaik, Batteriespeicher, Wallbox & Förderberatung in Solothurn, Bern und der ganzen Schweiz. Mit Solarrechner, transparenten Offerten und langfristigem Monitoring."
+  },
+  "services": {
+    "title": "Leistungen",
+    "lead": "Eine Anlage, ein Verantwortlicher: von der Standortanalyse bis zum Betrieb.",
+    "all": "Alle Leistungen",
+    "items": [
+      {
+        "title": "Standortanalyse",
+        "description": "Dachfläche, Ausrichtung, Verschattung und Statik vor Ort geprüft."
+      },
+      {
+        "title": "Planung & Auslegung",
+        "description": "Anlagenkonzept nach Verbrauchsprofil, Wärmepumpe und Elektromobilität."
+      },
+      {
+        "title": "Förderung & Administration",
+        "description": "Pronovo-Einmalvergütung, kantonale Programme und Meldewesen: wir führen den Papierweg."
+      },
+      {
+        "title": "Installation & Netzanschluss",
+        "description": "Montage, Elektroinstallation und Inbetriebnahme mit Sicherheitsnachweis (SiNa)."
+      },
+      {
+        "title": "Speicher & Eigenverbrauch",
+        "description": "Batterie und Lastmanagement nach Ihrem Lastprofil dimensioniert."
+      },
+      {
+        "title": "Monitoring & Wartung",
+        "description": "Ertragsüberwachung, Sichtprüfung, Reinigung und Wechselrichter-Service."
+      }
+    ]
+  },
+  "showcase": {
+    "title": "Vom Familiendach bis zur Werkhalle.",
+    "lead": "{intro} unsere Arbeit — jede Anlage wird individuell ausgelegt.",
+    "introByCount": {
+      "1": "Eine Gebäudekategorie prägt",
+      "2": "Zwei Gebäudekategorien prägen",
+      "3": "Drei Gebäudekategorien prägen",
+      "4": "Vier Gebäudekategorien prägen",
+      "5": "Fünf Gebäudekategorien prägen",
+      "6": "Sechs Gebäudekategorien prägen"
+    },
+    "introFallback": "{count} Gebäudekategorien prägen",
+    "dossiers": [
+      {
+        "title": "Einfamilienhaus",
+        "rows": [
+          { "label": "Leistung", "value": "8–12 kWp" },
+          { "label": "Speicher", "value": "5–16 kWh" }
+        ]
+      },
+      {
+        "title": "Mehrfamilienhaus / ZEV",
+        "rows": [
+          { "label": "Leistung", "value": "15–60 kWp" },
+          { "label": "Abrechnung", "value": "Mieterstrom" }
+        ]
+      },
+      {
+        "title": "Gewerbe & Landwirtschaft",
+        "rows": [
+          { "label": "Leistung", "value": "30–150 kWp" },
+          { "label": "Analyse", "value": "Lastgang" }
+        ]
+      }
+    ],
+    "typeAlt": "Photovoltaikanlage: {title}",
+    "referenceAlt": "Realisierte Photovoltaikanlage: {title}",
+    "storageUnit": "kWh Speicher",
+    "completed": "Ausgeführte Anlagen",
+    "noteWithReferences": "Publiziert mit Freigabe der Eigentümerschaft; die Eckwerte sind indikative Spannweiten.",
+    "noteWithoutReferences": "Kundenprojekte zeigen wir nur mit Freigabe; die Eckwerte oben sind indikative Spannweiten.",
+    "allProjects": "Alle Projekte ansehen",
+    "allTypes": "Alle Anlagentypen"
+  },
+  "process": {
+    "title": "Fünf Schritte, ein Verantwortlicher.",
+    "stepLabel": "Schritt {nr}: ",
+    "steps": [
+      {
+        "title": "Analyse",
+        "description": "Bedarfsklärung, Dach- und Verbrauchsprüfung vor Ort."
+      },
+      {
+        "title": "Offerte & Förderung",
+        "description": "Auslegung mit Investitionsspanne; Förderantrag durch uns."
+      },
+      {
+        "title": "Installation",
+        "description": "Montage durch geprüfte Schweizer Partnerbetriebe, von uns koordiniert."
+      },
+      {
+        "title": "Anschluss & Abnahme",
+        "description": "Netzanschluss, Sicherheitsnachweis und behördliche Abnahme."
+      },
+      {
+        "title": "Betrieb",
+        "description": "Monitoring, Wartungsfenster, Reaktion bei Auffälligkeiten."
+      }
+    ],
+    "note": "Analyse bis Inbetriebnahme: typischerweise 8 bis 16 Wochen."
+  },
+  "calcTeaser": {
+    "title": "Ihr Dach, berechnet auf Bundesdaten.",
+    "lead": "Der Rechner wertet die sonnendach.ch-Daten Ihres Gebäudes aus und liefert eine erste Auslegung. Dauer: rund drei Minuten.",
+    "example": "Beispiel · 8.2 kWp",
+    "rows": [
+      { "label": "Jahresertrag (typ.)", "value": "7'500–8'500 kWh" },
+      { "label": "Investition", "value": "CHF 15'500–18'500" },
+      { "label": "Einmalvergütung (EIV)", "value": "≈ CHF 2'952" }
+    ],
+    "note": "Richtwerte vor Standortanalyse"
+  },
+  "faq": {
+    "title": "Antworten auf die Fragen, die wirklich zählen.",
+    "questionMissing": "Ihre Frage ist nicht dabei? Schreiben Sie uns an"
+  },
+  "finalCta": {
+    "title": "Sprechen wir über Ihr Dach.",
+    "description": "Senden Sie uns Ihre Eckdaten oder rufen Sie an."
+  },
+  "team": {
+    "titleHome": "Die Menschen hinter den Anlagen.",
+    "titleFull": "Unser Team",
+    "lead": "Persönlich erreichbar — vom Erstgespräch bis zur Abnahme.",
+    "more": "Mehr über uns"
+  }
+}
